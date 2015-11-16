@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Modern Sweden Survive1y Controls</title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+
+</head>
+
+<body>
+<div style="width:100%;height:200px;background-image:url('library/header/swed.jpg');background-size:cover;"></div>
+<div class="container-fluid main-container"><div class="row"><div class="col-md-4"><a href="index.html"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div></div></div>
+
+<div class="container-fluid main-container">
+
+
+<div id="run-categorical-model-on-cluster" class="section level1">
+<h1>Run categorical model on cluster</h1>
+<p><code>bsub -a openmpi -q mpi -W 48:00 -n 20 -R span[hosts=1] mpirun.lsf  R --slave -f &quot;/usr/users/rarslan/updated_data/4_swed_survive1y_controls_subset.R&quot;</code> drew subset like <code>swed.2 = sample_level2(na.omit(swed.2[, list(survive1y, idParents, dependent_sibs_f5y, maternalage.factor,paternalloss, maternalloss, nr.siblings, birth.cohort, male, paternalage.mean, paternalage.factor, paternalage.diff)]),&quot;idParents&quot;,100000)</code></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;/usr/users/rarslan/updated_data/&quot;</span>)
+<span class="kw">library</span>(doMPI)
+cl &lt;-<span class="st"> </span><span class="kw">startMPIcluster</span>(<span class="dt">verbose=</span>T,<span class="dt">workdir=</span><span class="st">&quot;/usr/users/rarslan/updated_data/&quot;</span>)
+<span class="kw">registerDoMPI</span>(cl)
+Model =<span class="st"> </span><span class="kw">foreach</span>(<span class="dt">i=</span><span class="dv">1</span>:<span class="dv">6</span>,<span class="dt">.options.mpi =</span> <span class="kw">list</span>(<span class="dt">seed=</span><span class="dv">1337</span>) ) %dopar%<span class="st"> </span>{
+    <span class="kw">library</span>(MCMCglmm);<span class="kw">library</span>(data.table)
+    <span class="kw">setwd</span>(<span class="st">&quot;/usr/users/rarslan/updated_data/&quot;</span>)
+    <span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+    <span class="kw">load</span>(<span class="st">&quot;swed2_subset.rdata&quot;</span>)
+    
+    samples =<span class="st"> </span><span class="dv">2000</span>
+    thin =<span class="st"> </span><span class="dv">100</span>; burnin =<span class="st"> </span><span class="dv">100000</span>
+    nitt =<span class="st"> </span>samples *<span class="st"> </span>thin +<span class="st"> </span>burnin 
+    
+    prior &lt;-<span class="st"> </span><span class="kw">list</span>(
+        <span class="dt">R=</span><span class="kw">list</span>(<span class="dt">V=</span><span class="kw">diag</span>(<span class="dv">1</span>), <span class="dt">nu=</span><span class="fl">1.002</span>), 
+        <span class="dt">G=</span><span class="kw">list</span>(<span class="dt">G1=</span><span class="kw">list</span>(<span class="dt">V=</span><span class="kw">diag</span>(<span class="dv">1</span>), <span class="dt">nu=</span><span class="dv">1</span>, <span class="dt">alpha.mu=</span><span class="kw">c</span>(<span class="dv">0</span>), <span class="dt">alpha.V=</span><span class="kw">diag</span>(<span class="dv">1</span>)*<span class="dv">1000</span>))
+    )
+    
+    start &lt;-<span class="st"> </span><span class="kw">list</span>(
+        <span class="dt">liab=</span><span class="kw">c</span>(<span class="kw">rnorm</span>( <span class="kw">nrow</span>(swed<span class="fl">.2</span>) )), 
+        <span class="dt">R =</span> <span class="kw">list</span>(<span class="dt">R1 =</span> <span class="kw">rIW</span>(<span class="kw">diag</span>(<span class="dv">1</span>), <span class="dv">10</span>)),
+        <span class="dt">G =</span> <span class="kw">list</span>(<span class="dt">G1 =</span> <span class="kw">rIW</span>(<span class="kw">diag</span>(<span class="dv">1</span>), <span class="dv">10</span> ))
+    )
+    
+    ( <span class="dt">m1 =</span> <span class="kw">MCMCglmm</span>( survive1y ~<span class="st"> </span><span class="kw">center</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.factor,
+                                     <span class="dt">random=</span>~idParents,
+                                     <span class="dt">family=</span><span class="st">&quot;categorical&quot;</span>,
+                                     <span class="dt">start =</span> start,
+                                     <span class="dt">prior =</span> prior,
+                                     <span class="dt">data=</span>swed<span class="fl">.2</span>, 
+                                     <span class="dt">pr =</span> F, <span class="dt">saveX =</span> T, <span class="dt">saveZ =</span> T,
+                                     <span class="dt">nitt=</span>nitt,<span class="dt">thin=</span>thin,<span class="dt">burnin=</span>burnin)
+    )
+}
+
+<span class="kw">saveRDS</span>(Model,<span class="dt">file =</span> <span class="st">&quot;coefs/swed_survive1y_controls_subset.rds&quot;</span>)
+
+<span class="kw">closeCluster</span>(cl)
+<span class="kw">mpi.quit</span>()</code></pre>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

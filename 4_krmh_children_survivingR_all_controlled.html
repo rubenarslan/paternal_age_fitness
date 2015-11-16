@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title></title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="library/highlight/default.css"
+      type="text/css" />
+<script src="library/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+<div class="container-fluid main-container">
+
+
+
+
+<pre class="r"><code># bsub -a openmpi -q mpi -W 48:00 -n 20 -R span[hosts=1] -R np20 mpirun.lsf  R --slave -f &quot;/usr/users/rarslan/updated_data/4_krmh_children_survivingR_all_controlled.R&quot;
+setwd(&quot;/usr/users/rarslan/updated_data/&quot;)
+library(doMPI)
+cl &lt;- startMPIcluster(verbose=T,workdir=&quot;/usr/users/rarslan/updated_data/&quot;)
+registerDoMPI(cl)
+Children = foreach(i=1:clusterSize(cl),.options.mpi = list(seed=1337) ) %dopar% {
+    library(MCMCglmm);library(data.table)
+    setwd(&quot;/usr/users/rarslan/updated_data/&quot;)
+        source(&quot;0__helpers.R&quot;)
+    load(&quot;krmh.rdata&quot;)
+    rm(krmh)
+    krmh.1 = na.omit(krmh.1[, list(children.survivingR, maternalage.factor, paternalloss, maternalloss, nr.siblings, birth.cohort, male, paternalage.mean, paternalage.diff, idParents)])
+    
+    samples = 2000
+    thin = 100; burnin = 100000
+    nitt = samples * thin + burnin
+
+    prior &lt;- list(
+        R=list(V=diag(2), nu=1.002, fix=2), 
+        G=list(G1=list(V=diag(2), nu=1, alpha.mu=c(0,0), alpha.V=diag(2)*1000))
+    )
+    
+    start &lt;- list(
+        liab=c(rnorm( nrow(krmh.1)*2 )), 
+        R = list(R1 = rIW(diag(2), 10 , fix = 2)),
+        G = list(G1 = rIW(diag(2), 10 ))
+    )
+
+    ( m1 = MCMCglmm( children.survivingR ~ trait * (maternalage.factor + paternalloss + maternalloss + center(nr.siblings) + birth.cohort + male + paternalage.mean + paternalage.diff),
+                        rcov=~idh(trait):units,
+                        random=~idh(trait):idParents,
+                        family=&quot;hupoisson&quot;,
+                        start = start,
+                        prior = prior,
+                        data=krmh.1, 
+                        pr = F, saveX = F, saveZ = F,
+                        nitt=nitt,thin=thin,burnin=burnin)
+    )
+}
+
+saveRDS(Children,file = &quot;krmh_Children_survivingR_all.rds&quot;)
+
+closeCluster(cl)
+mpi.quit()</code></pre>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+
+</body>
+</html>

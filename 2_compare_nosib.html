@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Compare Nosib</title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div id="effect-comparison-without-sibling-comparison" class="section level1 tab-content">
+<h1>Effect comparison without sibling comparison</h1>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(knitr); <span class="kw">library</span>(MCMCglmm); <span class="kw">library</span>(formr);
+
+opts_chunk$<span class="kw">set</span>(<span class="dt">cache=</span>T,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">20</span>,<span class="dt">fig.height=</span><span class="fl">12.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
+
+<span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;krmh.rdata&quot;</span>); <span class="kw">load</span>(<span class="st">&#39;rpqa.rdata&#39;</span>); <span class="kw">load</span>(<span class="st">&#39;ddb.rdata&#39;</span>); <span class="kw">load</span>(<span class="st">&#39;swed1.rdata&#39;</span>)
+<span class="kw">rm</span>(krmh, rpqa, ddb, swed<span class="fl">.2</span>)</code></pre>
+</div>
+<div id="analysis-description" class="section level2">
+<h2>Analysis description</h2>
+<div id="model-description" class="section level3">
+<h3>Model description</h3>
+<p>All of the following models have the following in common:</p>
+<div id="multivariate-normal-prior" class="section level4">
+<h4>Multivariate normal prior</h4>
+<p>Using the R package <code>pscl</code> and its function zeroinfl, we fit a zero-inflated Poisson model to the data and then use this to predict the number of children at different paternal ages.</p>
+</div>
+<div id="main-predictor" class="section level4">
+<h4>Main predictor</h4>
+<p>The main predictor, paternal age, has been binned into meaningful bins. This way, we let the data speak and can see whether the shape of the relationship is consistent with a linear effect. To this end we plot a linear regression through the best estimates for each factor (inversely weighted by confidence interval width, i.e. certainty). Even if a nonlinear fit might be slightly better, our theory clearly predicts a linear fit, so we are satisfied it the data is consistent with a linear effect.</p>
+</div>
+<div id="covariates" class="section level4">
+<h4>Covariates</h4>
+<p>We control for nothing.</p>
+</div>
+</div>
+</div>
+<div id="krummhorn" class="section level2">
+<h2>Krummhörn</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pscl)
+krmh<span class="fl">.1</span> =<span class="st"> </span>krmh<span class="fl">.1</span>[byear&lt;<span class="st"> </span><span class="dv">1835</span>, ]
+krmh<span class="fl">.1</span>$paternalage.factor =<span class="st"> </span><span class="kw">human_readable_factor</span>(<span class="kw">as.character</span>(krmh<span class="fl">.1</span>$paternalage.factor))
+krmh<span class="fl">.1</span>[, nr.siblings :<span class="er">=</span><span class="st"> </span><span class="kw">center</span>(nr.siblings)]
+krmh<span class="fl">.1</span>[, dependent_sibs_f5y :<span class="er">=</span><span class="st"> </span><span class="kw">center</span>(dependent_sibs_f5y)]
+<span class="kw">summary</span>(krmh_Children.surviving5y &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(children.surviving5y ~<span class="st"> </span>dependent_sibs_f5y +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span>nr.siblings +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.factor, <span class="dt">data =</span> krmh<span class="fl">.1</span>))</code></pre>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = children.surviving5y ~ dependent_sibs_f5y + maternalage.factor + 
+##     paternalloss + maternalloss + nr.siblings + birth.cohort + male + 
+##     paternalage.factor, data = krmh.1)
+## 
+## Pearson residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.819 -0.607 -0.526  0.228  7.417 
+## 
+## Count model coefficients (poisson with log link):
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                1.31814    0.04644   28.38   &lt;2e-16 ***
+## dependent_sibs_f5y        -0.01633    0.01209   -1.35   0.1765    
+## maternalage.factor(14,20] -0.05470    0.10745   -0.51   0.6107    
+## maternalage.factor(35,50]  0.01020    0.02923    0.35   0.7271    
+## paternalloss               0.01516    0.04734    0.32   0.7488    
+## maternalloss              -0.02333    0.04824   -0.48   0.6287    
+## nr.siblings                0.00807    0.00539    1.50   0.1341    
+## birth.cohort(1773,1796]    0.01727    0.03109    0.56   0.5785    
+## birth.cohort(1796,1814]   -0.09634    0.03075   -3.13   0.0017 ** 
+## birth.cohort(1814,1830]   -0.49051    0.03472  -14.13   &lt;2e-16 ***
+## birth.cohort(1830,1850]   -0.39246    0.06804   -5.77    8e-09 ***
+## male                       0.04949    0.02121    2.33   0.0196 *  
+## paternalage.factor25-30    0.01366    0.04576    0.30   0.7654    
+## paternalage.factor30-35    0.03578    0.04555    0.79   0.4321    
+## paternalage.factor35-40   -0.02934    0.04864   -0.60   0.5463    
+## paternalage.factor40-45   -0.02945    0.05321   -0.55   0.5800    
+## paternalage.factor45-50    0.01389    0.06260    0.22   0.8244    
+## paternalage.factor50-55   -0.03070    0.08088   -0.38   0.7042    
+## paternalage.factor55-90   -0.20437    0.13896   -1.47   0.1414    
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                           Estimate Std. Error z value     Pr(&gt;|z|)    
+## (Intercept)                 0.6388     0.1036    6.17 0.0000000007 ***
+## dependent_sibs_f5y          0.0848     0.0254    3.33      0.00086 ***
+## maternalage.factor(14,20]   0.1000     0.2304    0.43      0.66428    
+## maternalage.factor(35,50]   0.1581     0.0621    2.55      0.01087 *  
+## paternalloss                0.3070     0.0993    3.09      0.00199 ** 
+## maternalloss                0.5662     0.0989    5.73 0.0000000103 ***
+## nr.siblings                 0.0248     0.0112    2.21      0.02712 *  
+## birth.cohort(1773,1796]    -0.2715     0.0730   -3.72      0.00020 ***
+## birth.cohort(1796,1814]    -0.3307     0.0706   -4.69 0.0000027724 ***
+## birth.cohort(1814,1830]    -0.1465     0.0712   -2.06      0.03978 *  
+## birth.cohort(1830,1850]     0.6142     0.1213    5.06 0.0000004161 ***
+## male                        0.2315     0.0461    5.02 0.0000005195 ***
+## paternalage.factor25-30    -0.0894     0.1008   -0.89      0.37499    
+## paternalage.factor30-35    -0.0235     0.1001   -0.23      0.81433    
+## paternalage.factor35-40     0.0241     0.1049    0.23      0.81844    
+## paternalage.factor40-45     0.0616     0.1149    0.54      0.59174    
+## paternalage.factor45-50     0.1041     0.1346    0.77      0.43926    
+## paternalage.factor50-55    -0.0172     0.1749   -0.10      0.92151    
+## paternalage.factor55-90     0.2594     0.2586    1.00      0.31569    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 47 
+## Log-likelihood: -1.18e+04 on 38 Df</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh_Children_all_zi =<span class="st"> </span><span class="kw">plot_factor_response</span>(krmh_Children.surviving5y)</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/zero_order-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="maternal-age-in-smaller-bins" class="section level3">
+<h3>Maternal age in smaller bins</h3>
+<pre class="sourceCode r"><code class="sourceCode r">krmh<span class="fl">.1</span>[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>((<span class="dv">10</span>*maternalage), <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>,<span class="dv">50</span>))]
+<span class="kw">summary</span>(krmh_Children.surviving5y_cont &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(children.surviving5y ~<span class="st"> </span>dependent_sibs_f5y +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span>nr.siblings +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.factor, <span class="dt">data =</span> krmh<span class="fl">.1</span>))</code></pre>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = children.surviving5y ~ dependent_sibs_f5y + maternalage.factor + 
+##     paternalloss + maternalloss + nr.siblings + birth.cohort + male + 
+##     paternalage.factor, data = krmh.1)
+## 
+## Pearson residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.833 -0.606 -0.525  0.231  7.250 
+## 
+## Count model coefficients (poisson with log link):
+##                           Estimate Std. Error z value     Pr(&gt;|z|)    
+## (Intercept)                1.26553    0.11569   10.94      &lt; 2e-16 ***
+## dependent_sibs_f5y        -0.00656    0.01266   -0.52       0.6044    
+## maternalage.factor(20,25]  0.07033    0.10946    0.64       0.5205    
+## maternalage.factor(25,30]  0.04036    0.10849    0.37       0.7099    
+## maternalage.factor(30,35]  0.04130    0.10957    0.38       0.7062    
+## maternalage.factor(35,40]  0.02089    0.11148    0.19       0.8514    
+## maternalage.factor(40,50]  0.17226    0.11618    1.48       0.1381    
+## paternalloss               0.01952    0.04734    0.41       0.6800    
+## maternalloss              -0.02833    0.04829   -0.59       0.5575    
+## nr.siblings                0.00463    0.00554    0.84       0.4036    
+## birth.cohort(1773,1796]    0.01836    0.03112    0.59       0.5553    
+## birth.cohort(1796,1814]   -0.09422    0.03079   -3.06       0.0022 ** 
+## birth.cohort(1814,1830]   -0.49126    0.03475  -14.14      &lt; 2e-16 ***
+## birth.cohort(1830,1850]   -0.39291    0.06827   -5.76 0.0000000087 ***
+## male                       0.05176    0.02123    2.44       0.0148 *  
+## paternalage.factor25-30    0.01485    0.04600    0.32       0.7468    
+## paternalage.factor30-35    0.04126    0.04651    0.89       0.3750    
+## paternalage.factor35-40   -0.02197    0.05025   -0.44       0.6620    
+## paternalage.factor40-45   -0.03320    0.05514   -0.60       0.5471    
+## paternalage.factor45-50    0.00500    0.06458    0.08       0.9383    
+## paternalage.factor50-55   -0.04979    0.08290   -0.60       0.5481    
+## paternalage.factor55-90   -0.22281    0.13995   -1.59       0.1114    
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                           Estimate Std. Error z value    Pr(&gt;|z|)    
+## (Intercept)                 0.7407     0.2417    3.06     0.00218 ** 
+## dependent_sibs_f5y          0.0936     0.0263    3.56     0.00037 ***
+## maternalage.factor(20,25]  -0.0571     0.2347   -0.24     0.80780    
+## maternalage.factor(25,30]  -0.1586     0.2329   -0.68     0.49586    
+## maternalage.factor(30,35]  -0.0759     0.2351   -0.32     0.74691    
+## maternalage.factor(35,40]   0.0278     0.2387    0.12     0.90739    
+## maternalage.factor(40,50]   0.1505     0.2498    0.60     0.54680    
+## paternalloss                0.3094     0.0994    3.11     0.00185 ** 
+## maternalloss                0.5644     0.0990    5.70 0.000000012 ***
+## nr.siblings                 0.0220     0.0114    1.93     0.05419 .  
+## birth.cohort(1773,1796]    -0.2718     0.0731   -3.72     0.00020 ***
+## birth.cohort(1796,1814]    -0.3329     0.0706   -4.71 0.000002458 ***
+## birth.cohort(1814,1830]    -0.1486     0.0713   -2.08     0.03728 *  
+## birth.cohort(1830,1850]     0.6109     0.1217    5.02 0.000000514 ***
+## male                        0.2335     0.0462    5.06 0.000000422 ***
+## paternalage.factor25-30    -0.0827     0.1014   -0.82     0.41506    
+## paternalage.factor30-35    -0.0174     0.1027   -0.17     0.86582    
+## paternalage.factor35-40     0.0264     0.1090    0.24     0.80885    
+## paternalage.factor40-45     0.0531     0.1194    0.44     0.65646    
+## paternalage.factor45-50     0.0920     0.1390    0.66     0.50791    
+## paternalage.factor50-55    -0.0398     0.1794   -0.22     0.82433    
+## paternalage.factor55-90     0.2380     0.2614    0.91     0.36260    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 53 
+## Log-likelihood: -1.17e+04 on 44 Df</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_factor_response</span>(krmh_Children.surviving5y_cont, <span class="st">&quot;maternalage.factor&quot;</span>, <span class="dt">bootstrap_replicates =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/unnamed-chunk-1-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_factor_response</span>(krmh_Children.surviving5y_cont, <span class="st">&quot;paternalage.factor&quot;</span>, <span class="dt">bootstrap_replicates =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/unnamed-chunk-1-2.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="quebec" class="section level2">
+<h2>Québec</h2>
+<pre class="sourceCode r"><code class="sourceCode r">rpqa<span class="fl">.1</span> =<span class="st"> </span>rpqa<span class="fl">.1</span>[byear&lt;=<span class="st"> </span><span class="dv">1740</span>, ]
+rpqa<span class="fl">.1</span>$paternalage.factor =<span class="st"> </span><span class="kw">human_readable_factor</span>(<span class="kw">as.character</span>(rpqa<span class="fl">.1</span>$paternalage.factor))
+rpqa<span class="fl">.1</span>[, nr.siblings :<span class="er">=</span><span class="st"> </span><span class="kw">center</span>(nr.siblings)]
+rpqa<span class="fl">.1</span>[, dependent_sibs_f5y :<span class="er">=</span><span class="st"> </span><span class="kw">center</span>(dependent_sibs_f5y)]
+<span class="kw">summary</span>(rpqa_Children.surviving5y &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(children.surviving5y ~<span class="st"> </span>dependent_sibs_f5y +<span class="st"> </span>urban +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span>nr.siblings +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.factor, <span class="dt">data =</span> rpqa<span class="fl">.1</span>))</code></pre>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = children.surviving5y ~ dependent_sibs_f5y + urban + 
+##     maternalage.factor + paternalloss + maternalloss + nr.siblings + 
+##     birth.cohort + male + paternalage.factor, data = rpqa.1)
+## 
+## Pearson residuals:
+##    Min     1Q Median     3Q    Max 
+## -1.204 -0.869 -0.579  0.809  6.796 
+## 
+## Count model coefficients (poisson with log link):
+##                            Estimate Std. Error z value   Pr(&gt;|z|)    
+## (Intercept)                1.952669   0.010675  182.93    &lt; 2e-16 ***
+## dependent_sibs_f5y         0.005938   0.002062    2.88    0.00398 ** 
+## urban                     -0.199981   0.006676  -29.96    &lt; 2e-16 ***
+## maternalage.factor(14,20]  0.006997   0.009775    0.72    0.47408    
+## maternalage.factor(35,50]  0.003429   0.006829    0.50    0.61560    
+## paternalloss              -0.029920   0.011009   -2.72    0.00657 ** 
+## maternalloss              -0.030514   0.011649   -2.62    0.00881 ** 
+## nr.siblings                0.001244   0.000787    1.58    0.11388    
+## birth.cohort(1706,1723]   -0.146585   0.006181  -23.72    &lt; 2e-16 ***
+## birth.cohort(1723,1734]   -0.155688   0.006419  -24.25    &lt; 2e-16 ***
+## birth.cohort(1734,1743]   -0.152089   0.007075  -21.50    &lt; 2e-16 ***
+## male                       0.092801   0.004646   19.98    &lt; 2e-16 ***
+## paternalage.factor25-30   -0.023743   0.010560   -2.25    0.02455 *  
+## paternalage.factor30-35   -0.047557   0.010656   -4.46 0.00000809 ***
+## paternalage.factor35-40   -0.055999   0.010971   -5.10 0.00000033 ***
+## paternalage.factor40-45   -0.064034   0.011662   -5.49 0.00000004 ***
+## paternalage.factor45-50   -0.045638   0.012816   -3.56    0.00037 ***
+## paternalage.factor50-55   -0.068014   0.015243   -4.46 0.00000813 ***
+## paternalage.factor55-90   -0.083960   0.017287   -4.86 0.00000119 ***
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                           Estimate Std. Error z value    Pr(&gt;|z|)    
+## (Intercept)               -0.63751    0.03970  -16.06     &lt; 2e-16 ***
+## dependent_sibs_f5y        -0.01347    0.00709   -1.90      0.0576 .  
+## urban                      0.76266    0.02014   37.88     &lt; 2e-16 ***
+## maternalage.factor(14,20]  0.02915    0.03598    0.81      0.4178    
+## maternalage.factor(35,50]  0.07256    0.02368    3.06      0.0022 ** 
+## paternalloss               0.18574    0.03703    5.02 0.000000527 ***
+## maternalloss               0.49816    0.03678   13.54     &lt; 2e-16 ***
+## nr.siblings                0.01603    0.00270    5.93 0.000000003 ***
+## birth.cohort(1706,1723]    0.11928    0.02283    5.22 0.000000174 ***
+## birth.cohort(1723,1734]    0.37827    0.02301   16.44     &lt; 2e-16 ***
+## birth.cohort(1734,1743]    0.28493    0.02552   11.16     &lt; 2e-16 ***
+## male                       0.30792    0.01655   18.60     &lt; 2e-16 ***
+## paternalage.factor25-30   -0.01750    0.03881   -0.45      0.6520    
+## paternalage.factor30-35    0.03995    0.03884    1.03      0.3037    
+## paternalage.factor35-40    0.06235    0.03985    1.56      0.1177    
+## paternalage.factor40-45    0.08010    0.04212    1.90      0.0572 .  
+## paternalage.factor45-50    0.05470    0.04621    1.18      0.2365    
+## paternalage.factor50-55    0.10109    0.05395    1.87      0.0610 .  
+## paternalage.factor55-90    0.02482    0.06084    0.41      0.6833    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 45 
+## Log-likelihood: -1.22e+05 on 38 Df</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">rpqa_Children_all_zi =<span class="st"> </span><span class="kw">plot_factor_response</span>(rpqa_Children.surviving5y)</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/rpqa_zi-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="maternal-age-in-smaller-bins-1" class="section level3">
+<h3>Maternal age in smaller bins</h3>
+<pre class="sourceCode r"><code class="sourceCode r">rpqa<span class="fl">.1</span>[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>((<span class="dv">10</span>*maternalage), <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>,<span class="dv">50</span>))]
+<span class="kw">summary</span>(rpqa_Children.surviving5y_cont &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(children.surviving5y ~<span class="st"> </span>urban +<span class="st"> </span>dependent_sibs_f5y +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span>nr.siblings +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.factor, <span class="dt">data =</span> rpqa<span class="fl">.1</span>))</code></pre>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = children.surviving5y ~ urban + dependent_sibs_f5y + 
+##     maternalage.factor + paternalloss + maternalloss + nr.siblings + 
+##     birth.cohort + male + paternalage.factor, data = rpqa.1)
+## 
+## Pearson residuals:
+##    Min     1Q Median     3Q    Max 
+## -1.212 -0.869 -0.579  0.809  6.807 
+## 
+## Count model coefficients (poisson with log link):
+##                            Estimate Std. Error z value    Pr(&gt;|z|)    
+## (Intercept)                1.962149   0.012411  158.10     &lt; 2e-16 ***
+## urban                     -0.199887   0.006678  -29.93     &lt; 2e-16 ***
+## dependent_sibs_f5y         0.006669   0.002129    3.13     0.00174 ** 
+## maternalage.factor(20,25] -0.011066   0.010185   -1.09     0.27726    
+## maternalage.factor(25,30] -0.003330   0.010669   -0.31     0.75495    
+## maternalage.factor(30,35] -0.006625   0.011373   -0.58     0.56024    
+## maternalage.factor(35,40] -0.010994   0.012270   -0.90     0.37023    
+## maternalage.factor(40,50]  0.019502   0.014259    1.37     0.17140    
+## paternalloss              -0.029547   0.011011   -2.68     0.00729 ** 
+## maternalloss              -0.030137   0.011651   -2.59     0.00969 ** 
+## nr.siblings                0.001151   0.000796    1.45     0.14832    
+## birth.cohort(1706,1723]   -0.147197   0.006203  -23.73     &lt; 2e-16 ***
+## birth.cohort(1723,1734]   -0.156517   0.006472  -24.18     &lt; 2e-16 ***
+## birth.cohort(1734,1743]   -0.153118   0.007131  -21.47     &lt; 2e-16 ***
+## male                       0.092818   0.004646   19.98     &lt; 2e-16 ***
+## paternalage.factor25-30   -0.024736   0.010571   -2.34     0.01929 *  
+## paternalage.factor30-35   -0.050095   0.010812   -4.63 0.000003600 ***
+## paternalage.factor35-40   -0.058394   0.011345   -5.15 0.000000264 ***
+## paternalage.factor40-45   -0.066727   0.012173   -5.48 0.000000042 ***
+## paternalage.factor45-50   -0.050447   0.013327   -3.79     0.00015 ***
+## paternalage.factor50-55   -0.074780   0.015741   -4.75 0.000002029 ***
+## paternalage.factor55-90   -0.091448   0.017764   -5.15 0.000000264 ***
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                           Estimate Std. Error z value     Pr(&gt;|z|)    
+## (Intercept)               -0.60159    0.04607  -13.06      &lt; 2e-16 ***
+## urban                      0.76149    0.02015   37.80      &lt; 2e-16 ***
+## dependent_sibs_f5y        -0.01573    0.00731   -2.15        0.031 *  
+## maternalage.factor(20,25] -0.04582    0.03756   -1.22        0.222    
+## maternalage.factor(25,30] -0.01297    0.03897   -0.33        0.739    
+## maternalage.factor(30,35] -0.01919    0.04120   -0.47        0.641    
+## maternalage.factor(35,40]  0.05570    0.04394    1.27        0.205    
+## maternalage.factor(40,50]  0.03325    0.05080    0.65        0.513    
+## paternalloss               0.18430    0.03704    4.98 0.0000006486 ***
+## maternalloss               0.49672    0.03680   13.50      &lt; 2e-16 ***
+## nr.siblings                0.01642    0.00273    6.02 0.0000000017 ***
+## birth.cohort(1706,1723]    0.11775    0.02289    5.14 0.0000002700 ***
+## birth.cohort(1723,1734]    0.37524    0.02318   16.19      &lt; 2e-16 ***
+## birth.cohort(1734,1743]    0.28171    0.02573   10.95      &lt; 2e-16 ***
+## male                       0.30800    0.01655   18.61      &lt; 2e-16 ***
+## paternalage.factor25-30   -0.02033    0.03887   -0.52        0.601    
+## paternalage.factor30-35    0.03231    0.03942    0.82        0.412    
+## paternalage.factor35-40    0.05094    0.04122    1.24        0.217    
+## paternalage.factor40-45    0.06769    0.04387    1.54        0.123    
+## paternalage.factor45-50    0.04399    0.04795    0.92        0.359    
+## paternalage.factor50-55    0.09125    0.05567    1.64        0.101    
+## paternalage.factor55-90    0.01531    0.06249    0.25        0.806    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 51 
+## Log-likelihood: -1.22e+05 on 44 Df</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_factor_response</span>(rpqa_Children.surviving5y_cont, <span class="st">&quot;maternalage.factor&quot;</span>, <span class="dt">bootstrap_replicates =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_factor_response</span>(rpqa_Children.surviving5y_cont, <span class="st">&quot;paternalage.factor&quot;</span>, <span class="dt">bootstrap_replicates =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/unnamed-chunk-2-2.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="historical-sweden" class="section level2">
+<h2>Historical Sweden</h2>
+<pre class="sourceCode r"><code class="sourceCode r">ddb<span class="fl">.1</span> =<span class="st"> </span>ddb<span class="fl">.1</span>[byear&lt;<span class="st"> </span><span class="dv">1850</span>, ]
+ddb<span class="fl">.1</span>$paternalage.factor =<span class="st"> </span><span class="kw">human_readable_factor</span>(<span class="kw">as.character</span>(ddb<span class="fl">.1</span>$paternalage.factor))
+ddb<span class="fl">.1</span>[, nr.siblings :<span class="er">=</span><span class="st"> </span><span class="kw">center</span>(nr.siblings)]
+ddb<span class="fl">.1</span>[, dependent_sibs_f5y :<span class="er">=</span><span class="st"> </span><span class="kw">center</span>(dependent_sibs_f5y)]
+<span class="kw">summary</span>(ddb_Children.surviving5y &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(children.surviving5y ~<span class="st"> </span>dependent_sibs_f5y +<span class="st"> </span>region +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span>nr.siblings +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.factor, <span class="dt">data =</span> ddb<span class="fl">.1</span>))</code></pre>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = children.surviving5y ~ dependent_sibs_f5y + region + 
+##     maternalage.factor + paternalloss + maternalloss + nr.siblings + 
+##     birth.cohort + male + paternalage.factor, data = ddb.1)
+## 
+## Pearson residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.897 -0.664 -0.323 -0.129 15.562 
+## 
+## Count model coefficients (poisson with log link):
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                1.52944    0.01424  107.41  &lt; 2e-16 ***
+## dependent_sibs_f5y         0.01668    0.00346    4.82  1.4e-06 ***
+## regionLinkopings          -0.24904    0.01155  -21.57  &lt; 2e-16 ***
+## regionNorra inlands       -0.01078    0.00851   -1.27  0.20518    
+## regionSundsvalls          -0.29182    0.00995  -29.32  &lt; 2e-16 ***
+## maternalage.factor(10,20]  0.07440    0.02757    2.70  0.00697 ** 
+## maternalage.factor(35,59]  0.02474    0.00860    2.88  0.00403 ** 
+## paternalloss              -0.00974    0.01425   -0.68  0.49441    
+## maternalloss              -0.04913    0.01595   -3.08  0.00207 ** 
+## nr.siblings                0.01035    0.00148    6.99  2.7e-12 ***
+## birth.cohort(1824,1845]   -0.02551    0.00738   -3.46  0.00054 ***
+## birth.cohort(1845,1860]   -0.04348    0.01226   -3.55  0.00039 ***
+## male                       0.01945    0.00670    2.90  0.00371 ** 
+## paternalage.factor25-30   -0.03208    0.01361   -2.36  0.01839 *  
+## paternalage.factor30-35   -0.01242    0.01352   -0.92  0.35843    
+## paternalage.factor35-40   -0.02528    0.01425   -1.77  0.07607 .  
+## paternalage.factor40-45   -0.02183    0.01579   -1.38  0.16699    
+## paternalage.factor45-50   -0.04327    0.01895   -2.28  0.02241 *  
+## paternalage.factor50-55   -0.06949    0.02539   -2.74  0.00619 ** 
+## paternalage.factor55-90   -0.03812    0.03194   -1.19  0.23271    
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                0.07595    0.03676    2.07    0.039 *  
+## dependent_sibs_f5y         0.04986    0.00871    5.73  1.0e-08 ***
+## regionLinkopings           1.29798    0.02621   49.52  &lt; 2e-16 ***
+## regionNorra inlands        0.00192    0.02393    0.08    0.936    
+## regionSundsvalls           0.22087    0.02478    8.91  &lt; 2e-16 ***
+## maternalage.factor(10,20]  0.12964    0.07154    1.81    0.070 .  
+## maternalage.factor(35,59]  0.12920    0.02130    6.07  1.3e-09 ***
+## paternalloss               0.87006    0.03191   27.26  &lt; 2e-16 ***
+## maternalloss               1.33778    0.03428   39.02  &lt; 2e-16 ***
+## nr.siblings                0.02634    0.00377    6.98  2.9e-12 ***
+## birth.cohort(1824,1845]    0.00245    0.01857    0.13    0.895    
+## birth.cohort(1845,1860]    0.20115    0.03023    6.65  2.9e-11 ***
+## male                       0.03643    0.01684    2.16    0.031 *  
+## paternalage.factor25-30   -0.04326    0.03413   -1.27    0.205    
+## paternalage.factor30-35   -0.05612    0.03406   -1.65    0.099 .  
+## paternalage.factor35-40   -0.07645    0.03581   -2.14    0.033 *  
+## paternalage.factor40-45   -0.01753    0.03967   -0.44    0.659    
+## paternalage.factor45-50    0.03148    0.04713    0.67    0.504    
+## paternalage.factor50-55    0.01948    0.06202    0.31    0.754    
+## paternalage.factor55-90    0.21111    0.07520    2.81    0.005 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 49 
+## Log-likelihood: -9.46e+04 on 40 Df</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">ddb_Children_all_zi =<span class="st"> </span><span class="kw">plot_factor_response</span>(ddb_Children.surviving5y)</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/ddb_zi-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="maternal-age-in-smaller-bins-2" class="section level3">
+<h3>Maternal age in smaller bins</h3>
+<pre class="sourceCode r"><code class="sourceCode r">ddb<span class="fl">.1</span>[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>((<span class="dv">10</span>*maternalage), <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>,<span class="dv">50</span>))]
+<span class="kw">summary</span>(ddb_Children.surviving5y_cont &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(children.surviving5y ~<span class="st"> </span>region +<span class="st"> </span>dependent_sibs_f5y +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span>nr.siblings +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.factor, <span class="dt">data =</span> ddb<span class="fl">.1</span>))</code></pre>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = children.surviving5y ~ region + dependent_sibs_f5y + 
+##     maternalage.factor + paternalloss + maternalloss + nr.siblings + 
+##     birth.cohort + male + paternalage.factor, data = ddb.1)
+## 
+## Pearson residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.900 -0.663 -0.323 -0.129 15.762 
+## 
+## Count model coefficients (poisson with log link):
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                1.60352    0.02968   54.02  &lt; 2e-16 ***
+## regionLinkopings          -0.24855    0.01156  -21.51  &lt; 2e-16 ***
+## regionNorra inlands       -0.01010    0.00851   -1.19  0.23548    
+## regionSundsvalls          -0.29093    0.00996  -29.21  &lt; 2e-16 ***
+## dependent_sibs_f5y         0.01768    0.00358    4.94  8.0e-07 ***
+## maternalage.factor(20,25] -0.06262    0.02839   -2.21  0.02742 *  
+## maternalage.factor(25,30] -0.09078    0.02808   -3.23  0.00122 ** 
+## maternalage.factor(30,35] -0.06550    0.02841   -2.31  0.02112 *  
+## maternalage.factor(35,40] -0.05281    0.02901   -1.82  0.06867 .  
+## maternalage.factor(40,50] -0.03871    0.03000   -1.29  0.19700    
+## paternalloss              -0.01053    0.01426   -0.74  0.46009    
+## maternalloss              -0.04725    0.01595   -2.96  0.00306 ** 
+## nr.siblings                0.01015    0.00152    6.68  2.3e-11 ***
+## birth.cohort(1824,1845]   -0.02545    0.00738   -3.45  0.00057 ***
+## birth.cohort(1845,1860]   -0.04370    0.01227   -3.56  0.00037 ***
+## male                       0.01937    0.00671    2.89  0.00387 ** 
+## paternalage.factor25-30   -0.03100    0.01367   -2.27  0.02334 *  
+## paternalage.factor30-35   -0.01211    0.01382   -0.88  0.38096    
+## paternalage.factor35-40   -0.02628    0.01477   -1.78  0.07519 .  
+## paternalage.factor40-45   -0.02438    0.01636   -1.49  0.13627    
+## paternalage.factor45-50   -0.04641    0.01959   -2.37  0.01787 *  
+## paternalage.factor50-55   -0.07077    0.02594   -2.73  0.00637 ** 
+## paternalage.factor55-90   -0.03727    0.03236   -1.15  0.24936    
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                            Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                0.209749   0.076723    2.73   0.0063 ** 
+## regionLinkopings           1.301691   0.026246   49.60  &lt; 2e-16 ***
+## regionNorra inlands        0.000892   0.023944    0.04   0.9703    
+## regionSundsvalls           0.223927   0.024813    9.02  &lt; 2e-16 ***
+## dependent_sibs_f5y         0.053419   0.008948    5.97  2.4e-09 ***
+## maternalage.factor(20,25] -0.142281   0.073700   -1.93   0.0535 .  
+## maternalage.factor(25,30] -0.134599   0.072750   -1.85   0.0643 .  
+## maternalage.factor(30,35] -0.117877   0.073484   -1.60   0.1087    
+## maternalage.factor(35,40] -0.026287   0.074718   -0.35   0.7250    
+## maternalage.factor(40,50]  0.062525   0.077215    0.81   0.4181    
+## paternalloss               0.872082   0.031946   27.30  &lt; 2e-16 ***
+## maternalloss               1.339223   0.034317   39.02  &lt; 2e-16 ***
+## nr.siblings                0.026139   0.003840    6.81  1.0e-11 ***
+## birth.cohort(1824,1845]    0.003664   0.018585    0.20   0.8437    
+## birth.cohort(1845,1860]    0.201689   0.030244    6.67  2.6e-11 ***
+## male                       0.036349   0.016851    2.16   0.0310 *  
+## paternalage.factor25-30   -0.046764   0.034303   -1.36   0.1728    
+## paternalage.factor30-35   -0.063960   0.034895   -1.83   0.0668 .  
+## paternalage.factor35-40   -0.085555   0.037186   -2.30   0.0214 *  
+## paternalage.factor40-45   -0.033305   0.041101   -0.81   0.4177    
+## paternalage.factor45-50    0.003125   0.048666    0.06   0.9488    
+## paternalage.factor50-55   -0.015088   0.063406   -0.24   0.8119    
+## paternalage.factor55-90    0.185330   0.076309    2.43   0.0152 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 54 
+## Log-likelihood: -9.45e+04 on 46 Df</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_factor_response</span>(ddb_Children.surviving5y_cont, <span class="st">&quot;maternalage.factor&quot;</span>, <span class="dt">bootstrap_replicates =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/unnamed-chunk-3-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_factor_response</span>(ddb_Children.surviving5y_cont, <span class="st">&quot;paternalage.factor&quot;</span>, <span class="dt">bootstrap_replicates =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/unnamed-chunk-3-2.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="modern-sweden" class="section level2">
+<h2>Modern Sweden</h2>
+<pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span> =<span class="st"> </span>swed<span class="fl">.1</span>[byear&lt;<span class="st"> </span><span class="dv">1958</span>, ]
+swed<span class="fl">.1</span>$paternalage.factor =<span class="st"> </span><span class="kw">human_readable_factor</span>(<span class="kw">as.character</span>(swed<span class="fl">.1</span>$paternalage.factor))
+swed<span class="fl">.1</span>[, nr.siblings :<span class="er">=</span><span class="st"> </span><span class="kw">center</span>(nr.siblings)]
+swed<span class="fl">.1</span>[, dependent_sibs_f5y :<span class="er">=</span><span class="st"> </span><span class="kw">center</span>(dependent_sibs_f5y)]
+<span class="kw">summary</span>(swed_Children &lt;-<span class="st"> </span><span class="kw">glm</span>(children ~<span class="st"> </span>dependent_sibs_f5y +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span>nr.siblings +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.factor, <span class="dt">data =</span> swed<span class="fl">.1</span>,<span class="dt">family =</span> <span class="st">&#39;quasipoisson&#39;</span>))</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = children ~ dependent_sibs_f5y + maternalage.factor + 
+##     paternalloss + maternalloss + nr.siblings + birth.cohort + 
+##     male + paternalage.factor, family = &quot;quasipoisson&quot;, data = swed.1)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -2.506  -0.702   0.099   0.658   6.781  
+## 
+## Coefficients:
+##                            Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                0.709757   0.002181  325.41  &lt; 2e-16 ***
+## dependent_sibs_f5y        -0.003100   0.000955   -3.25   0.0012 ** 
+## maternalage.factor(14,20]  0.048449   0.002416   20.06  &lt; 2e-16 ***
+## maternalage.factor(35,61] -0.013645   0.002261   -6.04  1.6e-09 ***
+## paternallossNA            -0.058880   0.001632  -36.08  &lt; 2e-16 ***
+## paternallossTRUE           0.071239   0.034889    2.04   0.0412 *  
+## maternallossNA            -0.020470   0.001391  -14.71  &lt; 2e-16 ***
+## maternallossTRUE          -0.107367   0.043619   -2.46   0.0138 *  
+## nr.siblings                0.036303   0.000587   61.81  &lt; 2e-16 ***
+## birth.cohort(1949,1951]   -0.000222   0.001876   -0.12   0.9060    
+## birth.cohort(1951,1954]    0.001886   0.001699    1.11   0.2671    
+## birth.cohort(1954,1957]    0.004950   0.001738    2.85   0.0044 ** 
+## male                      -0.056191   0.001247  -45.05  &lt; 2e-16 ***
+## paternalage.factor25-30   -0.033049   0.001979  -16.70  &lt; 2e-16 ***
+## paternalage.factor30-35   -0.060731   0.002120  -28.64  &lt; 2e-16 ***
+## paternalage.factor35-40   -0.079973   0.002453  -32.60  &lt; 2e-16 ***
+## paternalage.factor40-45   -0.096961   0.003125  -31.03  &lt; 2e-16 ***
+## paternalage.factor45-50   -0.101611   0.004368  -23.26  &lt; 2e-16 ***
+## paternalage.factor50-55   -0.102173   0.007239  -14.11  &lt; 2e-16 ***
+## paternalage.factor55-90   -0.092421   0.011623   -7.95  1.8e-15 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 0.8628)
+## 
+##     Null deviance: 1349890  on 1197861  degrees of freedom
+## Residual deviance: 1338202  on 1197842  degrees of freedom
+##   (9741 observations deleted due to missingness)
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed_Children_all_zi =<span class="st"> </span><span class="kw">plot_factor_response</span>(swed_Children)</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/swed_zi-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="maternal-age-in-smaller-bins-3" class="section level3">
+<h3>Maternal age in smaller bins</h3>
+<pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span>[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>((<span class="dv">10</span>*maternalage), <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>,<span class="dv">50</span>))]
+<span class="kw">summary</span>(swed_Children.surviving5y_cont &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(children.surviving5y ~<span class="st"> </span>dependent_sibs_f5y +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span>nr.siblings +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.factor, <span class="dt">data =</span> swed<span class="fl">.1</span>))</code></pre>
+<pre><code>## Warning in sqrt(diag(object$vcov)): NaNs produced</code></pre>
+<pre><code>## 
+## Call:
+## zeroinfl(formula = children.surviving5y ~ dependent_sibs_f5y + maternalage.factor + 
+##     paternalloss + maternalloss + nr.siblings + birth.cohort + male + 
+##     paternalage.factor, data = swed.1)
+## 
+## Pearson residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.6622 -0.6116  0.0982  0.6748 10.6265 
+## 
+## Count model coefficients (poisson with log link):
+##                            Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                0.704799   0.003158  223.16  &lt; 2e-16 ***
+## dependent_sibs_f5y         0.009800   0.001196    8.20  2.5e-16 ***
+## maternalage.factor(20,25] -0.029543   0.003055   -9.67  &lt; 2e-16 ***
+## maternalage.factor(25,30] -0.045742   0.003420  -13.37  &lt; 2e-16 ***
+## maternalage.factor(30,35] -0.054360   0.003897  -13.95  &lt; 2e-16 ***
+## maternalage.factor(35,40] -0.048484   0.004560  -10.63  &lt; 2e-16 ***
+## maternalage.factor(40,50] -0.043850   0.006183   -7.09  1.3e-12 ***
+## paternallossNA            -0.006930   0.002124   -3.26  0.00110 ** 
+## paternallossTRUE           0.003046   0.037836    0.08  0.93583    
+## maternallossNA            -0.000742   0.001801   -0.41  0.68057    
+## maternallossTRUE          -0.073344   0.056141   -1.31  0.19141    
+## nr.siblings                0.025838   0.000750   34.43  &lt; 2e-16 ***
+## birth.cohort(1949,1951]    0.012623   0.002330    5.42  6.1e-08 ***
+## birth.cohort(1951,1954]    0.022139   0.002137   10.36  &lt; 2e-16 ***
+## birth.cohort(1954,1957]    0.032612   0.002229   14.63  &lt; 2e-16 ***
+## male                       0.009654   0.001630    5.92  3.2e-09 ***
+## paternalage.factor25-30   -0.007581   0.002550   -2.97  0.00295 ** 
+## paternalage.factor30-35   -0.010698   0.002987   -3.58  0.00034 ***
+## paternalage.factor35-40   -0.012322   0.003545   -3.48  0.00051 ***
+## paternalage.factor40-45   -0.010023   0.004326   -2.32  0.02050 *  
+## paternalage.factor45-50   -0.001966   0.005863   -0.34  0.73741    
+## paternalage.factor50-55    0.003422   0.009375    0.36  0.71512    
+## paternalage.factor55-90    0.011040   0.014901    0.74  0.45877    
+## 
+## Zero-inflation model coefficients (binomial with logit link):
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)               -4.73448    0.03774 -125.43  &lt; 2e-16 ***
+## dependent_sibs_f5y         0.21189    0.01088   19.48  &lt; 2e-16 ***
+## maternalage.factor(20,25]  0.17766    0.03371    5.27  1.4e-07 ***
+## maternalage.factor(25,30]  0.29265    0.03660    8.00  1.3e-15 ***
+## maternalage.factor(30,35]  0.45132    0.03980   11.34  &lt; 2e-16 ***
+## maternalage.factor(35,40]  0.58053    0.04391   13.22  &lt; 2e-16 ***
+## maternalage.factor(40,50]  0.73363    0.05179   14.17  &lt; 2e-16 ***
+## paternallossNA             0.71649    0.01690   42.40  &lt; 2e-16 ***
+## paternallossTRUE          -8.44922         NA      NA       NA    
+## maternallossNA             0.36916    0.01663   22.19  &lt; 2e-16 ***
+## maternallossTRUE           0.59241    0.40610    1.46     0.14    
+## nr.siblings               -0.17148    0.00788  -21.77  &lt; 2e-16 ***
+## birth.cohort(1949,1951]    0.24346    0.02361   10.31  &lt; 2e-16 ***
+## birth.cohort(1951,1954]    0.35861    0.02123   16.89  &lt; 2e-16 ***
+## birth.cohort(1954,1957]    0.46606    0.02143   21.75  &lt; 2e-16 ***
+## male                       1.12232    0.01936   57.98  &lt; 2e-16 ***
+## paternalage.factor25-30    0.29412    0.02645   11.12  &lt; 2e-16 ***
+## paternalage.factor30-35    0.49104    0.03002   16.36  &lt; 2e-16 ***
+## paternalage.factor35-40    0.69041    0.03427   20.15  &lt; 2e-16 ***
+## paternalage.factor40-45    0.93744    0.03803   24.65  &lt; 2e-16 ***
+## paternalage.factor45-50    1.07055    0.04518   23.69  &lt; 2e-16 ***
+## paternalage.factor50-55    1.11154    0.06282   17.69  &lt; 2e-16 ***
+## paternalage.factor55-90    1.08061    0.09205   11.74  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+## 
+## Number of iterations in BFGS optimization: 64 
+## Log-likelihood: -1.93e+06 on 46 Df</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_factor_response</span>(swed_Children.surviving5y_cont, <span class="st">&quot;maternalage.factor&quot;</span>, <span class="dt">bootstrap_replicates =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/unnamed-chunk-4-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_factor_response</span>(swed_Children.surviving5y_cont, <span class="st">&quot;paternalage.factor&quot;</span>, <span class="dt">bootstrap_replicates =</span> <span class="dv">1</span>)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
+<p><img src="2_compare_nosib_files/figure-html/unnamed-chunk-4-2.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="comparison" class="section level2 active">
+<h2>Comparison</h2>
+<pre class="sourceCode r"><code class="sourceCode r">together =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span>ddb_Children_all_zi, 
+    <span class="st">&quot;Québec&quot;</span> =<span class="st"> </span>rpqa_Children_all_zi, 
+    <span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> </span>krmh_Children_all_zi,
+    <span class="st">&quot;Modern Sweden&quot;</span> =<span class="st"> </span>swed_Children_all_zi
+    )
+together$Population =<span class="st"> </span><span class="kw">factor</span>(together$Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;Modern Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
+
+tog_zizo =<span class="st"> </span><span class="kw">ggplot</span>(together,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> value, <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="dt">colour =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">scale =</span> <span class="st">&quot;width&quot;</span>)  +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Population),<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_sdl&quot;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>())+<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Population, <span class="dt">weight =</span> <span class="dv">1</span>/<span class="kw">sd</span>(value, <span class="dt">na.rm =</span> T),<span class="dt">group =</span> Population),<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> F, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Children of older fathers have lower evolutionary fitness&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Number of child&#39;s children who survive 5 years&quot;</span>)  +<span class="st"> </span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>analysis_theme +<span class="st"> </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))
+tog_zizo </code></pre>
+<p><img src="2_compare_nosib_files/figure-html/ziplot-1.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="wrap-up" class="section level1 accordion">
+<h1>Wrap up</h1>
+<div id="save-coefficients" class="section level4">
+<h4>Save coefficients</h4>
+<pre class="sourceCode r"><code class="sourceCode r">name =<span class="st"> &quot;comp_nosib&quot;</span>
+<span class="kw">save</span>(<span class="dt">list =</span> <span class="kw">lstype</span>(<span class="st">&#39;boot&#39;</span>),<span class="dt">file=</span><span class="kw">paste0</span>(<span class="st">&quot;coefs/&quot;</span>,name,<span class="st">&quot;_boot.rdata&quot;</span>))
+<span class="kw">save</span>(<span class="dt">list =</span> <span class="kw">lstype</span>(<span class="kw">c</span>(<span class="st">&quot;glm&quot;</span>,<span class="st">&quot;zeroinfl&quot;</span>)),<span class="dt">file=</span><span class="kw">paste0</span>(<span class="st">&quot;coefs/&quot;</span>,name,<span class="st">&quot;_models.rdata&quot;</span>))</code></pre>
+</div>
+<div id="session-info" class="section level4">
+<h4>Session Info</h4>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre>
+<pre><code>## R version 3.2.0 (2015-04-16)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X 10.10.3 (Yosemite)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] grid      graphics  grDevices utils     datasets  stats     methods  
+## [8] base     
+## 
+## other attached packages:
+##  [1] Hmisc_3.16-0     Formula_1.2-1    survival_2.38-1  boot_1.3-16     
+##  [5] pscl_1.4.9       lattice_0.20-31  MASS_7.3-40      MCMCglmm_2.22   
+##  [9] ape_3.3          coda_0.17-1      Matrix_1.2-1     stringi_0.5-2   
+## [13] dplyr_0.4.1      pander_0.5.2     knitr_1.10.5     rmarkdown_0.7   
+## [17] plyr_1.8.3       ggplot2_1.0.1    formr_0.2.2      data.table_1.9.5
+## [21] stringr_1.0.0    devtools_1.8.0  
+## 
+## loaded via a namespace (and not attached):
+##  [1] reshape2_1.4.1      splines_3.2.0       colorspace_1.2-6   
+##  [4] htmltools_0.2.6     chron_2.3-46        foreign_0.8-63     
+##  [7] DBI_0.3.1           RColorBrewer_1.1-2  munsell_0.4.2      
+## [10] gtable_0.1.2        codetools_0.2-11    evaluate_0.7       
+## [13] memoise_0.2.1       labeling_0.3        latticeExtra_0.6-26
+## [16] parallel_3.2.0      curl_0.9            proto_0.3-10       
+## [19] Rcpp_0.11.6         acepack_1.3-3.3     corpcor_1.6.7      
+## [22] scales_0.2.5        formatR_1.2         rversions_1.0.1    
+## [25] gridExtra_0.9.1     tensorA_0.36        digest_0.6.8       
+## [28] tools_3.2.0         magrittr_1.5        cluster_2.0.1      
+## [31] xml2_0.1.1          assertthat_0.1      cubature_1.1-2     
+## [34] rpart_4.1-9         nnet_7.3-9          nlme_3.1-120       
+## [37] git2r_0.10.1</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre>
+<pre><code>## [1] &quot;Wed Jul 22 13:09:37 2015&quot;</code></pre>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

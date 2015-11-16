@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Paternal Age and Offspring Fitness</title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-xs-3" style="border-top:solid #E2A674 20px">
+
+</div>
+<div class="col-xs-3 rpqa" style="border-top:solid #9F3B2B 20px">
+
+</div>
+<div class="col-xs-3 hist_sweden" style="border-top:solid #21523B 20px">
+
+</div>
+<div class="col-xs-3 mod_sweden" style="border-top:solid #8A846C 20px">
+
+</div>
+</div>
+<div id="paternal-age-effects-on-offspring-fitness-in-four-populations" class="section level1">
+<h1>Paternal age effects on offspring fitness <small>in four populations</small></h1>
+<div id="main-result-paternal-age-effect-in-a-sibling-comparison-design-controlling-for-average-paternal-age-maternal-age-number-of-siblings-other-dependent-siblings-birth-cohort-parental-loss-and-some-population-specifics." class="section level3">
+<h3>Main result <br><small>Paternal age effect in a <abbr title="i.e. random effects for each union/parents" data-toggle="tooltip">sibling comparison design</abbr>, controlling for <abbr title="i.e. averaged over siblings" data-toggle="tooltip">average paternal age</abbr>, <abbr title="in three categories: 14 to 20, 20 to 35, 35 and older" data-toggle="tooltip">maternal age</abbr>, <abbr title="Same for all siblings" data-toggle="tooltip">number of siblings</abbr>, <abbr title="Counting those who were also alive and dependent, i.e. they were younger than 5, and alive in the anchor's first five years of life. Can be understood as number of other mouths at the table." data-toggle="tooltip">other dependent siblings</abbr>, <abbr title="grouped into up to five categories by birth year" data-toggle="tooltip">birth cohort</abbr>, <abbr title="we modelled the loss of either the father or the mother in the first five years with two separate predictors" data-toggle="tooltip">parental loss</abbr> and <abbr title="we controlled for urban residence in Québec and for region in historical Sweden" data-toggle="tooltip">some population specifics</abbr>.</small></h3>
+<p>We find a consistent, <abbr title="approximately 0.2 surviving children less per 10 years of paternal age within families, all else held equal" data-toggle="tooltip">small</abbr> linear decrease in <abbr title="as indexed by the number of children who survive at least five years (in modern Sweden we simply use the number of children due to extremely low child mortality and missingness of survival information)" data-toggle="tooltip">lifetime reproductive success</abbr> in the children of older fathers. <a href="4_compare_all_bayes.html" title="see the details on the below graph and models behind it" data-toggle="tooltip">Find out more</a>.</p>
+<div class="row">
+<div class="col-md-12">
+<a href="4_compare_all_bayes.html"><img src="library/mcmc_comp_ctrl.png"><br></a>
+</div>
+</div>
+</div>
+<div id="comparison-of-descriptive-statistics" class="section level3">
+<h3>Comparison of descriptive statistics</h3>
+<p>Much reporting on increasing parental ages tends to focus on ages at <strong>first birth</strong> (dashed lines) and hence seems at times unduly alarmist. Parental ages at <strong>all births</strong> (solid lines) show an increase since 1970 too, but are still lower than in the four Swedish regions of our historical Swedish data (1737-1880). The biggest difference is in fact not the slight delay of age at first birth in modern Sweden, but the much earlier reproductive stoppage (ages at <strong>last birth</strong>, dotted lines).</p>
+<p>Hence, contrary to many people’s intutitions, in modern Sweden (1947-1959, gray) the average child was born to a younger parent than in our pre-industrial populations (1737-1880, green). This is mostly because people stopped having children earlier and to a lesser degree because people started having children ca. 1 year earlier. In contemporary Sweden (2010), the average parental age for both mothers and fathers is still lower than in our historical Swedish data.</p>
+<div class="row">
+<div class="col-md-12">
+<a href="1_compare_descriptives.html"> <img src="library/rep_timing_comp.png" alt="Age at first child slightly lower in modern Sweden"></a> </a>
+</div>
+</div>
+<p>In the below plot, we have compared all four populations ages at first and last births. The data for modern Sweden focuses on children born 1947 to 1959. Especially, mothers’ ages at last births stand out: In all historical datasets, it was still common for mothers to reproduce beyond the age of 40, reproductive stoppage for both men and women occurs much earlier in modern Sweden. <a href="1_compare_descriptives.html">Further descriptive comparisons on reproductive timing and other parameters</a>.</p>
+<div class="row">
+<div class="col-md-6">
+<a href="1_compare_descriptives.html"> <img src="library/age_at_1st_child.png" alt="Age at first child slightly lower in modern Sweden"></a>
+</div>
+<div class="col-md-6">
+<a href="1_compare_descriptives.html"> <img src="library/age_at_last_child.png" alt="Age at last child much lower in modern Sweden"></a>
+</div>
+</div>
+</div>
+<div id="the-details" class="section level3">
+<h3>The details</h3>
+<div class="row krmh">
+<div class="col-md-3" style="border:solid #E2A674;border-width:20px 0px">
+<p><strong><big>Krummhörn</big></strong><br> <img src="library/krmh.jpg" alt="Krmh"></p>
+<div class="row">
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Descriptive statistics for this population " data-toggle="tooltip" href=" 1_krmh_descriptives.html "> Descriptives </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with few covariates, paternal age fitted as a linear predictor " data-toggle="tooltip" href=" 2_krmh_main_effects.html "> Main Effects </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with few covariates, paternal age fitted as a nonlinear predictor " data-toggle="tooltip" href=" 2_krmh_nonlinear.html "> Nonlinear </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with extensive covariates, paternal age fitted as a linear predictor " data-toggle="tooltip" href=" 2_krmh_main_controls.html "> Main Controls </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with extensive covariates, paternal age fitted as a nonlinear predictor " data-toggle="tooltip" href=" 2_krmh_nonlinear_controls.html "> Nonlinear Controls </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Grandpaternal age effect models (where our data had sufficiently deep pedigrees) " data-toggle="tooltip" href=" 3_krmh_grandparents.html "> Grandparents </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Sensitivity analyses using further controls " data-toggle="tooltip" href=" 5_krmh_sensitivity.html "> Sensitivity </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Loading, merging, transforming, wrangling data, predictor calculation, etc. " data-toggle="tooltip" href=" 0_krmh_massage.html "> Data Wrangling </a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3 rpqa" style="border:solid #9F3B2B;border-width:20px 0px">
+<p><strong><big>Québec</big></strong><br> <img src="library/rpqa.jpg" alt="RPQA"></p>
+<div class="row">
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Descriptive statistics for this population " data-toggle="tooltip" href=" 1_rpqa_descriptives.html "> Descriptives </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with few covariates, paternal age fitted as a linear predictor " data-toggle="tooltip" href=" 2_rpqa_main_effects.html "> Main Effects </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with few covariates, paternal age fitted as a nonlinear predictor " data-toggle="tooltip" href=" 2_rpqa_nonlinear.html "> Nonlinear </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with extensive covariates, paternal age fitted as a linear predictor " data-toggle="tooltip" href=" 2_rpqa_main_controls.html "> Main Controls </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with extensive covariates, paternal age fitted as a nonlinear predictor " data-toggle="tooltip" href=" 2_rpqa_nonlinear_controls.html "> Nonlinear Controls </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Grandpaternal age effect models (where our data had sufficiently deep pedigrees) " data-toggle="tooltip" href=" 3_rpqa_grandparents.html "> Grandparents </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Sensitivity analyses using further controls " data-toggle="tooltip" href=" 5_rpqa_sensitivity.html "> Sensitivity </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Loading, merging, transforming, wrangling data, predictor calculation, etc. " data-toggle="tooltip" href=" 0_rpqa_massage.html "> Data Wrangling </a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3 hist_sweden" style="border:solid #21523B;border-width:20px 0px">
+<p><strong><big>Historical Sweden</big></strong><br> <img src="library/ddb.jpg" alt="DDB"></p>
+<div class="row">
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Descriptive statistics for this population " data-toggle="tooltip" href=" 1_ddb_descriptives.html "> Descriptives </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with few covariates, paternal age fitted as a linear predictor " data-toggle="tooltip" href=" 2_ddb_main_effects.html "> Main Effects </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with few covariates, paternal age fitted as a nonlinear predictor " data-toggle="tooltip" href=" 2_ddb_nonlinear.html "> Nonlinear </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with extensive covariates, paternal age fitted as a linear predictor " data-toggle="tooltip" href=" 2_ddb_main_controls.html "> Main Controls </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with extensive covariates, paternal age fitted as a nonlinear predictor " data-toggle="tooltip" href=" 2_ddb_nonlinear_controls.html "> Nonlinear Controls </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Grandpaternal age effect models (where our data had sufficiently deep pedigrees) " data-toggle="tooltip" href=" 3_ddb_grandparents.html "> Grandparents </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Sensitivity analyses using further controls " data-toggle="tooltip" href=" 5_ddb_sensitivity.html "> Sensitivity </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Loading, merging, transforming, wrangling data, predictor calculation, etc. " data-toggle="tooltip" href=" 0_ddb_massage.html "> Data Wrangling </a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3 mod_sweden" style="border:solid #8A846C;border-width:20px 0px">
+<p><strong><big>Modern Sweden</big></strong><br> <img src="library/swed.jpg" alt="SCB Örebro"></p>
+<div class="row">
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Descriptive statistics for this population " data-toggle="tooltip" href=" 1_swed_descriptives.html "> Descriptives </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with few covariates, paternal age fitted as a linear predictor " data-toggle="tooltip" href=" 2_swed_main_effects.html "> Main Effects </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with few covariates, paternal age fitted as a nonlinear predictor " data-toggle="tooltip" href=" 2_swed_nonlinear.html "> Nonlinear </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with extensive covariates, paternal age fitted as a linear predictor " data-toggle="tooltip" href=" 2_swed_main_controls.html "> Main Controls </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Main models with extensive covariates, paternal age fitted as a nonlinear predictor " data-toggle="tooltip" href=" 2_swed_nonlinear_controls.html "> Nonlinear Controls </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Grandpaternal age effect models (where our data had sufficiently deep pedigrees) " data-toggle="tooltip" href=" 3_swed_grandparents.html "> Grandparents </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Sensitivity analyses using further controls " data-toggle="tooltip" href=" 5_swed_sensitivity.html "> Sensitivity </a>
+</div>
+</div>
+<div class="col-md-12">
+<div class="well well-sm">
+<a title=" Loading, merging, transforming, wrangling data, predictor calculation, etc. " data-toggle="tooltip" href=" 0_swed_massage.html "> Data Wrangling </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="additional-files" class="section level3">
+<h3>Additional files</h3>
+<div id="direct-comparisons-of-selective-episodes-across-populations" class="section level4">
+<h4>Direct comparisons of selective episodes across populations</h4>
+<p><a href="4_compare_all_episodes_linear.html">Linear effects in direct comparison</a>, <a href="4_compare_all_episodes.html">nonlinear analyses with basic controls</a>, <a href="4_compare_all_episodes_ctrl.html">nonlinear analyses with extended controls</a>.</p>
+<div id="show-figure" class="section level6 accordion">
+<h6>Show figure</h6>
+<div class="row">
+<div class="col-md-12">
+<a href="4_compare_all_episodes_linear.html"> <img src="library/selective_episodes_comp.png" alt="Age at first child slightly lower in modern Sweden"></a> </a>
+</div>
+</div>
+</div>
+</div>
+<div id="simulations-further-supplementary-analyses" class="section level4">
+<h4>Simulations, further supplementary analyses</h4>
+<p><a href="5_simulate_effects.html">Simulation script to assess the role of smaller family sizes</a>.</p>
+</div>
+<div id="helpers" class="section level4">
+<h4>Helpers</h4>
+<p><a href="0__helpers.html" title="Helper functions used throughout these analyses" data-toggle="tooltip">Helper functions</a>, <a href="0__make.html" title="Script for generating this website" data-toggle="tooltip">Make file</a></p>
+</div>
+</div>
+<div id="authors" class="section level3">
+<h3>Authors</h3>
+<p>Corresponding author: <a href="mailto:ruben.arslan@gmail.com">Ruben C. Arslan</a>, Georg August University Göttingen<br />Kai P. Willführ, Emma M. Frans, Karin J. H. Verweij, Mikko Myrskylä, Catarina Almqvist Malmros, Brendan Zietsch &amp; Lars Penke</p>
+</div>
+<div id="acknowledgements" class="section level3">
+<h3>Acknowledgements</h3>
+<p>RCA thanks <a href="http://jarrod.bio.ed.ac.uk/jarrod.html">Jarrod Hadfield</a>, author of MCMCglmm, and <a href="http://ms.mcmaster.ca/~bolker/">Ben Bolker</a>, co-author of lme4, for their statistical packages and advice in using them. RCA thanks Holger Sennhenn-Reulen for statistical advice.</p>
+<div id="image-credits" class="section level4 accordion">
+<h4>Image credits</h4>
+<div id="kreuzkirche-pilsum-krummhorn" class="section level5">
+<h5>Kreuzkirche Pilsum, Krummhörn</h5>
+<p>
+<a href="https://commons.wikimedia.org/wiki/File:Pilsumer_Kirche_2010.jpg#/media/File:Pilsumer_Kirche_2010.jpg"><img src="library/krmh.jpg" alt="Pilsumer Kirche 2010.jpg" height="124" width="220"></a><br>„<a href="https://commons.wikimedia.org/wiki/File:Pilsumer_Kirche_2010.jpg#/media/File:Pilsumer_Kirche_2010.jpg">Pilsumer Kirche 2010</a>“ von <a href="//commons.wikimedia.org/wiki/User:Carschten" title="User:Carschten">kaʁstn</a> <a href="//commons.wikimedia.org/wiki/User_talk:Carschten" title="User talk:Carschten">Disk</a>/<a href="//commons.wikimedia.org/wiki/Category:User:Carschten" title="Category:User:Carschten">Cat</a> - <span class="int-own-work" lang="de">Eigenes Werk</span>. Lizenziert unter <a href="http://creativecommons.org/licenses/by-sa/3.0/de/deed.en" title="Creative Commons Attribution-Share Alike 3.0 de">CC BY-SA 3.0 de</a> über <a href="//commons.wikimedia.org/wiki/">Wikimedia Commons</a>.
+</p>
+</div>
+<div id="basilica-of-sainte-anne-de-beaupre-quebec" class="section level5">
+<h5>Basilica of Sainte-Anne-de-Beaupré, Québec</h5>
+<p>
+<a href="https://commons.wikimedia.org/wiki/File:Church_of_Sainte_Anne_de_Beaupre.jpg#/media/File:Church_of_Sainte_Anne_de_Beaupre.jpg"><img src="library/rpqa.jpg" alt="Church of Sainte Anne de Beaupre.jpg" height="145" width="187"></a><br>“<a href="https://commons.wikimedia.org/wiki/File:Church_of_Sainte_Anne_de_Beaupre.jpg#/media/File:Church_of_Sainte_Anne_de_Beaupre.jpg">Church of Sainte Anne de Beaupre</a>” by Detroit Publishing - <a rel="nofollow" class="external free" href="http://hdl.loc.gov/loc.pnp/ppmsca.18107">http://hdl.loc.gov/loc.pnp/ppmsca.18107</a>. Licensed under Public Domain via <a href="//commons.wikimedia.org/wiki/">Wikimedia Commons</a>.
+</p>
+</div>
+<div id="skelleftea-landsforsamlings-kyrka-sweden" class="section level5">
+<h5>Skellefteå landsförsamlings kyrka, Sweden</h5>
+<p>
+<a href="https://commons.wikimedia.org/wiki/File:Skelleftea_landskyrka_main_view.jpg#/media/File:Skelleftea_landskyrka_main_view.jpg"><img src="library/ddb.jpg" alt="Skellefteå landsförsamlings kyrka (2010)." height="145" width="194"></a><br>“<a href="https://commons.wikimedia.org/wiki/File:Skelleftea_landskyrka_main_view.jpg#/media/File:Skelleftea_landskyrka_main_view.jpg">Skelleftea landskyrka main view</a>” av <a href="//commons.wikimedia.org/wiki/User:Xauxa" title="User:Xauxa">Xauxa</a> Håkan Svensson - <span class="int-own-work" lang="sv">Eget arbete</span>. Licensierad under <a href="http://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC BY-SA 3.0</a> via <a href="//commons.wikimedia.org/wiki/">Wikimedia Commons</a>.
+</p>
+</div>
+<div id="statistics-sweden-statistiska-centralbyran-orebro-office-sweden" class="section level5">
+<h5>Statistics Sweden, Statistiska centralbyrån, Örebro Office, Sweden</h5>
+<p>
+<a href="https://commons.wikimedia.org/wiki/File:SCB_%C3%96rebro.JPG#/media/File:SCB_%C3%96rebro.JPG"><img src="library/swed.jpg" height="145" width="109"></a><br>“<a href="https://commons.wikimedia.org/wiki/File:SCB_%C3%96rebro.JPG#/media/File:SCB_%C3%96rebro.JPG">SCB Örebro</a>” by Edaen. Licensed under <a href="http://creativecommons.org/licenses/by/3.0" title="Creative Commons Attribution 3.0">CC BY 3.0</a> via <a href="//commons.wikimedia.org/wiki/">Wikimedia Commons</a>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Compare All Episodes Ctrl</title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2 col-xs-1" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 col-xs-1 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4 col-xs-8" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 col-xs-1 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 col-xs-1 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div id="compare-selective-episodes-across-populations" class="section level1 tab-content">
+<h1>Compare selective episodes across populations</h1>
+<p>We control for birth.cohort (birth years in five equally large bins), male sex and region. Additionally, we control for paternal and maternal loss (whether either parent died within 5 years of the birth), for maternal age (bins of 14-20, 20-35 and 35-50), and the total number of siblings (constant for all siblings).</p>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(knitr);
+
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">TRUE</span>,<span class="dt">message=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">20</span>,<span class="dt">fig.height=</span><span class="fl">12.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>,<span class="dt">cache.extra=</span><span class="kw">file.info</span>(<span class="st">&#39;rpqa.rdata&#39;</span>)[, <span class="st">&#39;mtime&#39;</span>], <span class="dt">cache =</span> F)
+
+<span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)</code></pre>
+</div>
+<div id="analysis-description" class="section level2">
+<h2>Analysis description</h2>
+<p>We load the coefficients estimated in the sibling comparisons with extensive controls for the Krummhörn, Québec, historical and modern Sweden and compare them.</p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh_coefs =<span class="st"> </span><span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/krmh_nonlinear_controls_coefs.rdata&quot;</span>); <span class="kw">environment</span>()})
+rpqa_coefs =<span class="st"> </span><span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/rpqa_nonlinear_controls_coefs.rdata&quot;</span>); <span class="kw">environment</span>()})
+ddb_coefs =<span class="st"> </span><span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/ddb_nonlinear_controls_coefs.rdata&quot;</span>); <span class="kw">environment</span>()})
+swed_coefs =<span class="st"> </span><span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/swed_nonlinear_controls_coefs.rdata&quot;</span>); <span class="kw">environment</span>()})
+krmh =<span class="st"> </span><span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/krmh_nonlinear_controls_boot.rdata&quot;</span>); <span class="kw">environment</span>()})
+rpqa =<span class="st"> </span><span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/rpqa_nonlinear_controls_boot.rdata&quot;</span>); <span class="kw">environment</span>()})
+ddb =<span class="st"> </span><span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/ddb_nonlinear_controls_boot.rdata&quot;</span>); <span class="kw">environment</span>()})
+swed =<span class="st"> </span><span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/swed_nonlinear_controls_boot.rdata&quot;</span>); <span class="kw">environment</span>()})</code></pre>
+</div>
+<div id="surviving-first-year" class="section level2">
+<h2>Surviving first year</h2>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> (krmh$Survive_infancy_boot), 
+    Qué<span class="dt">bec =</span> (rpqa$Survive_infancy_boot), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span>(ddb$Survive_infancy_boot)
+<span class="co"># , `Modern Sweden` = (swed$Survive_infancy_boot)</span>
+)
+<span class="kw">factor_boot_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Probability of surviving first year&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Survive first year&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/Survive1y-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="odds-ratios" class="section level3">
+<h3>odds ratios</h3>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> <span class="kw">mod_coefs_factor</span>(krmh_coefs$Survive_infancy_coefs), 
+    Qué<span class="dt">bec =</span> <span class="kw">mod_coefs_factor</span>(rpqa_coefs$Survive_infancy_coefs), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mod_coefs_factor</span>(ddb_coefs$Survive_infancy_coefs)
+<span class="co"># , `Modern Sweden` = mod_coefs_factor(swed_coefs$Survive_infancy_coefs)</span>
+)
+<span class="kw">factor_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Odds ratio&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Survive first year&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/Survive1y_coefs-1.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="surviving-to-15" class="section level2">
+<h2>Surviving to 15</h2>
+<pre class="sourceCode r"><code class="sourceCode r">SurviveR =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> (krmh$Survive_reproductive_boot), 
+    Qué<span class="dt">bec =</span> (rpqa$Survive_reproductive_boot),
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span>(ddb$Survive_reproductive_boot)
+)
+<span class="kw">factor_boot_plot</span>(SurviveR) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Probability of surviving to 15&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Survive to 15&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/SurviveR-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="odds-ratios-1" class="section level3">
+<h3>odds ratios</h3>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> <span class="kw">mod_coefs_factor</span>(krmh_coefs$Survive_reproductive_coefs), 
+    Qué<span class="dt">bec =</span> <span class="kw">mod_coefs_factor</span>(rpqa_coefs$Survive_reproductive_coefs), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mod_coefs_factor</span>(ddb_coefs$Survive_reproductive_coefs))
+<span class="kw">factor_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Odds ratio&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Survive to 15&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/SurviveR_coefs-1.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="ever-married" class="section level2">
+<h2>Ever married</h2>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> (krmh$Ever_married_boot), 
+    Qué<span class="dt">bec =</span> (rpqa$Ever_married_boot), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span>(ddb$Ever_married_boot)
+    <span class="co"># `Modern Sweden` = (swed$Ever_married_boot)</span>
+)
+<span class="kw">factor_boot_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Probablity of ever marrying&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Ever married&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/Ever_married-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="odds-ratios-2" class="section level3">
+<h3>odds ratios</h3>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> <span class="kw">mod_coefs_factor</span>(krmh_coefs$Ever_married_coefs), 
+    Qué<span class="dt">bec =</span> <span class="kw">mod_coefs_factor</span>(rpqa_coefs$Ever_married_coefs), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mod_coefs_factor</span>(ddb_coefs$Ever_married_coefs),
+    <span class="st">`</span><span class="dt">Modern Sweden</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mod_coefs_factor</span>(swed_coefs$Ever_married_coefs)
+)
+<span class="kw">factor_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Odds ratio&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Ever married&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/Ever_married_coefs-1.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="children" class="section level2">
+<h2>Children</h2>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> (krmh$Children_boot), 
+    Qué<span class="dt">bec =</span> (rpqa$Children_boot), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span>(ddb$Children_boot)
+    <span class="co"># `Modern Sweden` = (swed$Children_boot)</span>
+)
+<span class="kw">factor_boot_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Incidence rate ratio&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Children&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/Children-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="incidence-rate-ratios" class="section level3">
+<h3>incidence rate ratios</h3>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> <span class="kw">mod_coefs_factor</span>(krmh_coefs$Children_coefs), 
+    Qué<span class="dt">bec =</span> <span class="kw">mod_coefs_factor</span>(rpqa_coefs$Children_coefs), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mod_coefs_factor</span>(ddb_coefs$Children_coefs),
+    <span class="st">`</span><span class="dt">Modern Sweden</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mod_coefs_factor</span>(swed_coefs$Children_coefs)
+)
+<span class="kw">factor_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Incidence rate ratio&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Children&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/Children_coefs-1.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="any-surviving-children" class="section level2 active">
+<h2>Any surviving children</h2>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> (krmh$Any_surviving_children_boot), 
+    Qué<span class="dt">bec =</span> (rpqa$Any_surviving_children_boot), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span>(ddb$Any_surviving_children_boot)
+    <span class="co"># `Modern Sweden` = (swed$Any_children_boot)</span>
+)
+<span class="kw">factor_boot_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Probability of having any child that survives 15 years&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/Any_surviving_children-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div id="odds-ratios-3" class="section level3">
+<h3>odds ratios</h3>
+<pre class="sourceCode r"><code class="sourceCode r">coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
+    Krummhö<span class="dt">rn =</span> <span class="kw">mod_coefs_factor</span>(krmh_coefs$Any_surviving_children_coefs), 
+    Qué<span class="dt">bec =</span> <span class="kw">mod_coefs_factor</span>(rpqa_coefs$Any_surviving_children_coefs), 
+    <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mod_coefs_factor</span>(ddb_coefs$Any_surviving_children_coefs),
+    <span class="st">`</span><span class="dt">Modern Sweden</span><span class="st">`</span> =<span class="st"> </span><span class="kw">mod_coefs_factor</span>(swed_coefs$Any_children_coefs)
+)
+<span class="kw">factor_plot</span>(coefs) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Odds ratio&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
+<p><img src="4_compare_all_episodes_ctrl_files/figure-html/Any_surviving_children_coefs-1.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+</div>
+</div>
+<div id="wrap-up" class="section level1 accordion">
+<h1>Wrap up</h1>
+<div id="session-info" class="section level4">
+<h4>Session Info</h4>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre>
+<pre><code>## R version 3.1.3 (2015-03-09)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X 10.10.2 (Yosemite)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] grid      graphics  grDevices utils     datasets  stats     methods  
+## [8] base     
+## 
+## other attached packages:
+##  [1] Hmisc_3.15-0     Formula_1.2-1    survival_2.38-1  lattice_0.20-31 
+##  [5] stringi_0.4-1    dplyr_0.4.1      pander_0.5.2     knitr_1.9       
+##  [9] rmarkdown_0.5.1  plyr_1.8.1       ggplot2_1.0.1    formr_0.1.15    
+## [13] data.table_1.9.5 stringr_0.6.2    devtools_1.7.0  
+## 
+## loaded via a namespace (and not attached):
+##  [1] acepack_1.3-3.3     assertthat_0.1      chron_2.3-45       
+##  [4] cluster_2.0.1       colorspace_1.2-6    DBI_0.3.1          
+##  [7] digest_0.6.8        evaluate_0.6        foreign_0.8-63     
+## [10] formatR_1.1         gtable_0.1.2        htmltools_0.2.6    
+## [13] labeling_0.3        latticeExtra_0.6-26 magrittr_1.5       
+## [16] MASS_7.3-40         munsell_0.4.2       nnet_7.3-9         
+## [19] parallel_3.1.3      proto_0.3-10        RColorBrewer_1.1-2 
+## [22] Rcpp_0.11.5         reshape2_1.4.1      rpart_4.1-9        
+## [25] scales_0.2.4        splines_3.1.3       tools_3.1.3</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre>
+<pre><code>## [1] &quot;Thu Apr 30 14:08:40 2015&quot;</code></pre>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Krummhörn Data Wrangling</title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div style="width:100%;height:200px;background-image:url('library/header/krmh.jpg');background-size:cover;"></div>
+<div class="container-fluid main-container"><div class="row"><div class="col-md-4"><a href="index.html"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div></div></div>
+
+<div class="container-fluid main-container">
+
+
+<div id="krummhorn-data-wrangling" class="section level1 tab-content">
+<h1>Krummhörn Data wrangling</h1>
+<div id="description-of-data" class="section level3">
+<h3>description of data</h3>
+<p>The Krummhörn area in Eastern Frisia had around 15000 inhabitants in the early modern period. This population size was comparatively stable, because the settling of this relatively fertile marsh land concluded early.</p>
+<p>This dataset resulted from a continuous research effort that started at the Anthropolical Institute at the University of Göttingen, moved to the University College London and is now at the centre for philosophy and scientific basics at the University of Gießen. The focus of the investigation lies at the intersection of genetic and cultural reproduction.</p>
+<p>The data is based on the life histories contained in church registers. These were collected systematically and combined genealogically according to the method of family reconstitution. The main aim is the identification of persons and the reconstitution of their life histories. There are additional data on their social background, that could be gleaned from tax records and other social history sources.</p>
+<p>The dataset was constructed according to the purposes of the biological inquiry, which results in the following aspects: Families that are mobile are only found in the file at one place, independent of the number of church communities that have records on them The basic unit of analyses is the core family. Their cycle begins typically with a wedding and ends in death or the children’s weddings.</p>
+<p>The file is not final, it is continuously being corrected, amended and extended by including further church records.</p>
+</div>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(foreign); <span class="kw">library</span>(Hmisc); <span class="kw">library</span>(car); <span class="kw">library</span>(psych); <span class="kw">library</span>(QuantPsyc); <span class="kw">library</span>(formr); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(lubridate); <span class="kw">library</span>(stringr); <span class="kw">library</span>(reshape2); <span class="kw">library</span>(plyr);<span class="kw">library</span>(dplyr); <span class="kw">library</span>(knitr); <span class="kw">library</span>(data.table);
+opts_chunk$<span class="kw">set</span>(<span class="dt">cache=</span>T,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">12</span>,<span class="dt">fig.height=</span><span class="fl">7.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
+opts_knit$<span class="kw">set</span>(<span class="dt">self.contained=</span>F)
+<span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)</code></pre>
+</div>
+<div id="transforming-data" class="section level2">
+<h2>Transforming data</h2>
+<pre class="sourceCode r"><code class="sourceCode r">krmh.individuals =<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&quot;data/kh_24Nov2014/famkind3.dta&quot;</span>)
+krmh.unions =<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&quot;data/kh_24Nov2014/KHfam-4.dta&quot;</span>)
+krmh.individuals$idIndividu =<span class="st"> </span>krmh.individuals$idk
+krmh.unions$idPere =<span class="st"> </span>krmh.unions$idm_new
+krmh.unions$idMere =<span class="st"> </span>krmh.unions$idf_new
+krmh.individuals =<span class="st"> </span><span class="kw">merge</span>(krmh.individuals, krmh.unions[, <span class="kw">c</span>(<span class="st">&#39;doc&#39;</span>,<span class="st">&#39;idPere&#39;</span>,<span class="st">&#39;idMere&#39;</span>)], <span class="dt">by =</span> <span class="st">&quot;doc&quot;</span>, <span class="dt">all.x=</span>T)
+
+<span class="kw">table</span>(krmh.individuals$gebkk,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">E</th>
+<th align="center">G</th>
+<th align="center">T</th>
+<th align="center">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">66699</td>
+<td align="center">6158</td>
+<td align="center">2015</td>
+<td align="center">5936</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(krmh.individuals$famstatus,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="8%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">26563</td>
+<td align="center">24290</td>
+<td align="center">7503</td>
+<td align="center">9261</td>
+<td align="center">7255</td>
+<td align="center">5936</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">krmh.individuals =<span class="st"> </span><span class="kw">data.table</span>(krmh.individuals)
+krmh.unions =<span class="st"> </span><span class="kw">data.table</span>(krmh.unions)
+
+
+<span class="kw">miss_frac</span>(krmh.individuals)</code></pre>
+<p><em>0</em></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make male var.</span>
+<span class="kw">props</span>(~<span class="st"> </span>krmh.individuals$sex)</code></pre>
+<pre><code>## krmh.individuals$sex
+##       M       U       W 
+## 0.50975 0.01077 0.47948</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(krmh.individuals)</code></pre>
+<p><em>data.table</em> and <em>data.frame</em></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh.individuals[, male :<span class="er">=</span><span class="st"> </span><span class="kw">Recode</span>(sex,<span class="st">&quot;&#39;M&#39;=1;&#39;W&#39;=0;else=NA&quot;</span>)]
+<span class="kw">props</span>(~<span class="st"> </span>krmh.individuals$male)</code></pre>
+<pre><code>## krmh.individuals$male
+##       0       1    &lt;NA&gt; 
+## 0.47948 0.50975 0.01077</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># famstatus variables contains the following info</span>
+<span class="co"># verheiratet: 1 (if famnrk empty)</span>
+<span class="co"># ledig (aber ueber 15): 2 (wenn ueber 5 aber famnrk empty)</span>
+<span class="co"># verstorben unter 15: 3</span>
+<span class="co"># Totgeburt: 4</span>
+<span class="kw">qplot</span>(krmh.individuals$famstatus)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/krmh.individuals-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">props</span>(~<span class="st"> </span>krmh.individuals$famstatus)</code></pre>
+<pre><code>## krmh.individuals$famstatus
+##       0       1       2       3       4       5 
+## 0.32872 0.30059 0.09285 0.11460 0.08978 0.07346</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">props</span>(~<span class="st"> </span>krmh.individuals$gebkk)</code></pre>
+<pre><code>## krmh.individuals$gebkk
+##               E       G       T 
+## 0.82540 0.07621 0.02494 0.07346</code></pre>
+</div>
+<div id="unions" class="section level2">
+<h2>unions</h2>
+<pre class="sourceCode r"><code class="sourceCode r">##### Get it into the form we&#39;re used to
+<span class="kw">length</span>(<span class="kw">unique</span>(krmh.unions$doc)) <span class="co"># unique union identifier</span></code></pre>
+<pre><code>## [1] 35075</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">### parent IDs
+
+krmh.unions[, idParents :<span class="er">=</span><span class="st"> </span>doc]
+<span class="kw">miss_frac</span>(krmh.unions)</code></pre>
+<p><em>0</em></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">intersect</span>(krmh.unions$idPere, krmh.individuals$idIndividu))</code></pre>
+<pre><code>## [1] 12054</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">intersect</span>(krmh.unions$idMere, krmh.individuals$idIndividu))</code></pre>
+<pre><code>## [1] 13559</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">intersect</span>(krmh.unions$idMere, krmh.unions$idPere))</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">intersect</span>(krmh.unions$doc, krmh.individuals$doc))</code></pre>
+<pre><code>## [1] 28250</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh.u =<span class="st"> </span><span class="kw">as.data.frame</span>(krmh.unions)
+moms =<span class="st"> </span>krmh.u[!<span class="kw">is.na</span>(krmh.u$auswahl_id_f),<span class="kw">c</span>(<span class="st">&#39;idf_new&#39;</span>,<span class="kw">names</span>(krmh.u)[<span class="kw">names</span>(krmh.u) %ends_with%<span class="st"> &quot;_id_f&quot;</span>])]
+dads =<span class="st"> </span>krmh.u[!<span class="kw">is.na</span>(krmh.u$auswahl_id_m),<span class="kw">c</span>(<span class="st">&#39;idm_new&#39;</span>,<span class="kw">names</span>(krmh.u)[<span class="kw">names</span>(krmh.u) %ends_with%<span class="st"> &quot;_id_m&quot;</span>])]
+<span class="kw">names</span>(dads) =<span class="st"> </span><span class="kw">str_sub</span>(<span class="kw">names</span>(dads),<span class="dv">1</span>,-<span class="dv">6</span>)
+<span class="kw">names</span>(moms) =<span class="st"> </span><span class="kw">str_sub</span>(<span class="kw">names</span>(moms),<span class="dv">1</span>,-<span class="dv">6</span>)
+dads =<span class="st"> </span>dads[, <span class="kw">names</span>(moms)]
+spouses =<span class="st"> </span><span class="kw">data.table</span>(<span class="kw">rbind</span>(dads,moms))</code></pre>
+</div>
+<div id="join-files" class="section level2">
+<h2>join files</h2>
+<pre class="sourceCode r"><code class="sourceCode r">krmh.individuals[, ehemges :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">Recode</span>(ehemges,<span class="st">&quot;&#39; &#39;=1&quot;</span>))]
+krmh.unions[, ehemges :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">Recode</span>(ehemges,<span class="st">&quot;&#39; &#39;=1&quot;</span>))]
+krmh.individuals[, ehefges :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">Recode</span>(ehefges,<span class="st">&quot;&#39; &#39;=1&quot;</span>))]
+krmh.unions[, ehefges :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">Recode</span>(ehefges,<span class="st">&quot;&#39; &#39;=1&quot;</span>))]
+
+<span class="kw">qplot</span>(<span class="dt">data=</span><span class="kw">melt</span>(<span class="kw">numcolwise</span>(identity)(krmh.individuals)),value) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>variable,<span class="dt">scales=</span><span class="st">&#39;free&#39;</span>)</code></pre>
+<pre><code>## No id variables; using all as measure variables
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<pre><code>## Warning: position_stack requires constant width: output may be incorrect</code></pre>
+<pre><code>## Warning: position_stack requires constant width: output may be incorrect</code></pre>
+<pre><code>## Warning: position_stack requires constant width: output may be incorrect</code></pre>
+<pre><code>## Warning: position_stack requires constant width: output may be incorrect</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/krmh.joined-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># qplot(data=melt(catcolwise(identity)(krmh.individuals)),value) + facet_wrap(~ variable,scales=&#39;free&#39;)</span>
+spouses[,idIndividu:<span class="er">=</span>id]
+spouses$id=<span class="ot">NULL</span></code></pre>
+<pre><code>## Warning in alloc.col(x): Attempt to reduce allocation from 111 to 110
+## ignored. Can only increase allocation via shallow copy.</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">uniq_unions =</span> <span class="kw">setdiff</span>(<span class="kw">names</span>(spouses), <span class="kw">names</span>(krmh.individuals)))</code></pre>
+<p><em>Nbirths</em>, <em>NinfantD</em>, <em>NchildD</em>, <em>NadultD</em>, <em>ageFfirstbirth</em>, <em>ageFlastbirth</em>, <em>ageMfirstbirth</em>, <em>ageMlastbirth</em>, <em>ageHfirst</em>, <em>ageHlast</em> and <em>auswahl</em></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh =<span class="st"> </span><span class="kw">merge</span>(krmh.individuals, spouses[, <span class="kw">list</span>(idIndividu, Nbirths, NinfantD, NchildD, NadultD, ageFfirstbirth, ageFlastbirth, ageMfirstbirth, ageMlastbirth, ageHfirst, ageHlast)], <span class="dt">by =</span> <span class="st">&quot;idIndividu&quot;</span>, <span class="dt">all.x =</span>T)
+<span class="kw">table</span>(krmh$Nbirths)</code></pre>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">15</th>
+<th align="center">16</th>
+<th align="center">17</th>
+<th align="center">18</th>
+<th align="center">20</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">3248</td>
+<td align="center">2613</td>
+<td align="center">2512</td>
+<td align="center">2595</td>
+<td align="center">2535</td>
+<td align="center">2186</td>
+<td align="center">1695</td>
+<td align="center">1252</td>
+<td align="center">806</td>
+<td align="center">436</td>
+<td align="center">189</td>
+<td align="center">103</td>
+<td align="center">51</td>
+<td align="center">34</td>
+<td align="center">12</td>
+<td align="center">10</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">miss_frac</span>(krmh)</code></pre>
+<p><em>0</em></p>
+</div>
+<div id="count-kids" class="section level2">
+<h2>count kids</h2>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[,idParents :<span class="er">=</span><span class="st"> </span>doc]
+
+count_spouses =<span class="st"> </span>function(df, df2, what,  wt_var) {
+    df =<span class="st"> </span><span class="kw">data.frame</span>(df)
+    df2 =<span class="st"> </span><span class="kw">data.frame</span>(df2)
+    counted.husband =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> df2[,<span class="kw">c</span>(<span class="st">&#39;idPere&#39;</span>,wt_var)],<span class="dt">formula =</span> idPere ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> wt_var)
+    counted.wive =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> df2[,<span class="kw">c</span>(<span class="st">&#39;idMere&#39;</span>,wt_var)],<span class="dt">formula =</span> idMere ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> wt_var)
+    <span class="kw">names</span>(counted.husband) =<span class="st"> </span><span class="kw">names</span>(counted.wive) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idIndividu&#39;</span>,what)
+    counted =<span class="st"> </span><span class="kw">rbind</span>(counted.husband,counted.wive)
+    df =<span class="st"> </span><span class="kw">merge</span>(df,counted,<span class="dt">by=</span><span class="st">&#39;idIndividu&#39;</span>,<span class="dt">all.x=</span>T)
+    df[,what] =<span class="st"> </span><span class="kw">Recode</span>(df[,what],<span class="st">&#39;NA=0&#39;</span>)
+    <span class="kw">data.table</span>(df)
+}
+krmh$born =<span class="st"> </span><span class="dv">1</span>; krmh.unions$born =<span class="st"> </span><span class="dv">1</span>
+<span class="co"># spouses[spouses$idIndividu==1,]</span>
+<span class="co"># krmh.unions[idPere==2,]</span>
+<span class="co"># krmh.individuals[idIndividu==2,]</span>
+krmh =<span class="st"> </span><span class="kw">count_spouses</span>(krmh,krmh.unions, <span class="st">&#39;spouses&#39;</span>, <span class="st">&quot;born&quot;</span>)
+
+<span class="co"># qplot(krmh$spouses,ifelse(krmh$male==T, krmh$ehemges,krmh$ehefges), geom = &quot;jitter&quot;)</span>
+<span class="co"># xtabs(~ krmh$spouses + ifelse(krmh$male==T, krmh$ehemges,krmh$ehefges), exclude =NULL, na.action=na.pass)</span>
+
+krmh$survive1d =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageKtod_days &gt;<span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+krmh$survive1m =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageKtod_days &gt;<span class="st"> </span><span class="dv">28</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+krmh$dead1m =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageKtod_days &gt;<span class="st"> </span><span class="dv">28</span>, <span class="dv">0</span>, <span class="dv">1</span>)
+krmh$dead1y =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageK1 &gt;=<span class="st"> </span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)
+krmh$dead5y =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageK15 &gt;<span class="st"> </span><span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">1</span>)
+krmh$deadR =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageK15 &gt;=<span class="st"> </span><span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">1</span>)
+krmh$survive5y =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageK15 &gt;<span class="st"> </span><span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+krmh$survive1y =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageK1 &gt;=<span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+krmh$surviveR =<span class="st"> </span><span class="kw">ifelse</span>(krmh$ageK15 &gt;=<span class="st"> </span><span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+
+
+krmh$born =<span class="dv">1</span> 
+
+krmh[, not_stillborn :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(famstatus !=<span class="st"> </span><span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">0</span>)]
+krmh[, survive1d :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(famstatus !=<span class="st"> </span><span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">0</span>)] <span class="co"># small discrepancy of 7 with gebkk, but dead the first day, maybe not stillborn</span>
+<span class="co"># krmh[, survive1d := ifelse(gebkk!=&#39;Todgeburt&#39; | is.na(gebkk),1, 0) ] # age is always missing in these ~1600 cases</span>
+<span class="kw">props</span>(~<span class="st"> </span>krmh$survive1d)</code></pre>
+<pre><code>## krmh$survive1d
+##       0       1 
+## 0.08978 0.91022</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xtabs</span>(<span class="dt">data=</span>krmh, ~<span class="st"> </span>spouses +<span class="st"> </span>famstatus)</code></pre>
+<pre><code>##        famstatus
+## spouses     0     1     2     3     4     5
+##       0 26563     3  7503  9257  7255  4614
+##       1     0 21407     0     4     0  1092
+##       2     0  2613     0     0     0   198
+##       3     0   247     0     0     0    27
+##       4     0    19     0     0     0     5
+##       5     0     1     0     0     0     0</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">props</span>(~<span class="st"> </span>krmh$famstatus)</code></pre>
+<pre><code>## krmh$famstatus
+##       0       1       2       3       4       5 
+## 0.32872 0.30059 0.09285 0.11460 0.08978 0.07346</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[survive1d ==<span class="st"> </span><span class="dv">0</span>, age :<span class="er">=</span><span class="st"> </span><span class="dv">0</span> ] <span class="co"># i dont want age to be missing here</span>
+krmh[survive1d ==<span class="st"> </span><span class="dv">0</span>, age.days :<span class="er">=</span><span class="st"> </span><span class="dv">0</span> ] <span class="co"># i dont want age to be missing here</span>
+
+krmh[, ever_married :<span class="er">=</span><span class="st">  </span><span class="kw">ifelse</span>(famstatus==<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>) ] <span class="co"># famstatus does not map directly</span>
+<span class="kw">xtabs</span>(<span class="dt">data=</span>krmh, ~<span class="st"> </span>spouses +<span class="st"> </span>ever_married) <span class="co"># big discrepancy</span></code></pre>
+<pre><code>##        ever_married
+## spouses     0     1
+##       0 55192     3
+##       1  1096 21407
+##       2   198  2613
+##       3    27   247
+##       4     5    19
+##       5     0     1</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[, ever_married :<span class="er">=</span><span class="st">  </span><span class="kw">ifelse</span>(spouses&gt;<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>) ]
+
+<span class="kw">xtabs</span>(<span class="dt">data=</span>krmh, ~<span class="st"> </span>surviveR +<span class="st"> </span>ever_married)</code></pre>
+<pre><code>##         ever_married
+## surviveR     0     1
+##        0 15454     0
+##        1 14609 24798</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># krmh[ever_married == TRUE,surviveR := 1] # dead kids can&#39;t marry</span>
+
+<span class="kw">props</span>(~<span class="st"> </span>krmh$surviveR)</code></pre>
+<pre><code>## krmh$surviveR
+##      0      1   &lt;NA&gt; 
+## 0.1912 0.4877 0.3211</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data=</span>krmh, <span class="dt">x=</span> age) +<span class="st"> </span><span class="kw">facet_wrap</span> (~<span class="st"> </span>surviveR)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-1-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[,paternalage :<span class="er">=</span><span class="st"> </span>ageMgebK/<span class="dv">10</span>]
+krmh[paternalage &lt;<span class="st"> </span><span class="dv">1</span> ,paternalage :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+krmh[,maternalage :<span class="er">=</span><span class="st"> </span>ageFgebK/<span class="dv">10</span>]
+
+<span class="kw">qplot</span>(maternalage,paternalage,<span class="dt">data=</span>krmh,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.1</span>))</code></pre>
+<pre><code>## Warning: Removed 54034 rows containing missing values (geom_point).</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-1-2.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(krmh$maternalage,krmh$paternalage)</code></pre>
+<table>
+<caption>Pearson’s product-moment correlation: <code>krmh$maternalage</code> and <code>krmh$paternalage</code></caption>
+<colgroup>
+<col width="23%" />
+<col width="8%" />
+<col width="13%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Test statistic</th>
+<th align="center">df</th>
+<th align="center">P value</th>
+<th align="center">Alternative hypothesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">131.3</td>
+<td align="center">26772</td>
+<td align="center"><em>0</em> * * *</td>
+<td align="center">two.sided</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">krmh.unions =<span class="st"> </span>krmh.unions[<span class="kw">order</span>(krmh.unions$idPere,krmh.unions$dat4),]
+krmh.unions$marriage.order.Father =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(krmh.unions)), krmh.unions$idPere, <span class="dt">FUN =</span> seq_along)
+krmh.unions =<span class="st"> </span>krmh.unions[<span class="kw">order</span>(krmh.unions$idMere,krmh.unions$dat4),]
+krmh.unions$marriage.order.Mother =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(krmh.unions)), krmh.unions$idMere, <span class="dt">FUN =</span> seq_along)
+
+krmh =<span class="st"> </span><span class="kw">merge</span>(krmh, krmh.unions[,<span class="kw">list</span>(idParents,marriage.order.Mother,marriage.order.Father,dat4,dat8),],<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T)
+krmh$first.marriage =<span class="st"> </span>(krmh$marriage.order.Mother +<span class="st"> </span>krmh$marriage.order.Father) ==<span class="st"> </span><span class="dv">2</span>
+<span class="kw">table</span>(krmh$first.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="9%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+<th align="center">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">9867</td>
+<td align="center">70941</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(krmh.unions$marriage.order.Mother)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-1-3.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+<div id="known-families" class="section level2">
+<h2>Known families</h2>
+<p>We apply the following criteria to consider a family “known”, which means we can make some further assumptions. If we know the bride’s and groom’s end of marriage, that is we have upper bound death dates (todk8) for at least one spouse and a lower bound death date for the other spouse that exceeds this date, we know that this family spent its time in the Krummhörn. Thus we can conclude that children who have missing death dates did not die, they emigrated (otherwise we’d have dates because the family is on-the-record).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># we consider a family &quot;known&quot; if we know that one spouse survived the other and we have the marriage date. if we have missing death dates for such children, we can assume that they emigrated (thus made 15), we&#39;d know if they&#39;d died in the KH</span>
+krmh$known_family =<span class="st"> </span>krmh$ehebekannt
+<span class="kw">nrow</span>(krmh[<span class="kw">is.na</span>(survive1m) &amp;<span class="st"> </span>known_family, ])</code></pre>
+<pre><code>## [1] 18141</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(krmh[<span class="kw">is.na</span>(survive1y) &amp;<span class="st"> </span>known_family, ])</code></pre>
+<pre><code>## [1] 2137</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(krmh[<span class="kw">is.na</span>(surviveR) &amp;<span class="st"> </span>known_family, ])</code></pre>
+<pre><code>## [1] 2137</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[<span class="kw">is.na</span>(survive1m) &amp;<span class="st"> </span>known_family, survive1m :<span class="er">=</span><span class="st"> </span><span class="dv">1</span> ]
+krmh[<span class="kw">is.na</span>(survive1y) &amp;<span class="st"> </span>known_family, survive1y :<span class="er">=</span><span class="st"> </span><span class="dv">1</span> ]
+krmh[<span class="kw">is.na</span>(surviveR) &amp;<span class="st"> </span>known_family, surviveR :<span class="er">=</span><span class="st"> </span><span class="dv">1</span> ]
+<span class="kw">props</span>(~<span class="st"> </span>krmh$known_family)</code></pre>
+<pre><code>## krmh$known_family
+##     1  &lt;NA&gt; 
+## 0.408 0.592</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&quot;born&quot;</span>)
+<span class="kw">xtabs</span>(<span class="dt">data=</span>krmh, ~<span class="st"> </span>Nbirths +<span class="st"> </span>children,<span class="dt">na.action =</span> na.pass,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<pre><code>##        children
+## Nbirths     0     1     2     3     4     5     6     7     8     9    10
+##    1        0  3248     0     0     0     0     0     0     0     0     0
+##    2        0     0  2613     0     0     0     0     0     0     0     0
+##    3        0     0     0  2512     0     0     0     0     0     0     0
+##    4        0     0     0     0  2595     0     0     0     0     0     0
+##    5        0     0     0     0     0  2535     0     0     0     0     0
+##    6        0     0     0     0     0     0  2186     0     0     0     0
+##    7        0     0     0     0     0     0     0  1695     0     0     0
+##    8        0     0     0     0     0     0     0     0  1252     0     0
+##    9        0     0     0     0     0     0     0     0     0   806     0
+##    10       0     0     0     0     0     0     0     0     0     0   436
+##    11       0     0     0     0     0     0     0     0     0     0     0
+##    12       0     0     0     0     0     0     0     0     0     0     0
+##    13       0     0     0     0     0     0     0     0     0     0     0
+##    14       0     0     0     0     0     0     0     0     0     0     0
+##    15       0     0     0     0     0     0     0     0     0     0     0
+##    16       0     0     0     0     0     0     0     0     0     0     0
+##    17       0     0     0     0     0     0     0     0     0     0     0
+##    18       0     0     0     0     0     0     0     0     0     0     0
+##    20       0     0     0     0     0     0     0     0     0     0     0
+##    &lt;NA&gt; 60524     0     0     0     0     0     0     0     0     0     0
+##        children
+## Nbirths    11    12    13    14    15    16    17    18    20
+##    1        0     0     0     0     0     0     0     0     0
+##    2        0     0     0     0     0     0     0     0     0
+##    3        0     0     0     0     0     0     0     0     0
+##    4        0     0     0     0     0     0     0     0     0
+##    5        0     0     0     0     0     0     0     0     0
+##    6        0     0     0     0     0     0     0     0     0
+##    7        0     0     0     0     0     0     0     0     0
+##    8        0     0     0     0     0     0     0     0     0
+##    9        0     0     0     0     0     0     0     0     0
+##    10       0     0     0     0     0     0     0     0     0
+##    11     189     0     0     0     0     0     0     0     0
+##    12       0   103     0     0     0     0     0     0     0
+##    13       0     0    51     0     0     0     0     0     0
+##    14       0     0     0    34     0     0     0     0     0
+##    15       0     0     0     0    12     0     0     0     0
+##    16       0     0     0     0     0    10     0     0     0
+##    17       0     0     0     0     0     0     2     0     0
+##    18       0     0     0     0     0     0     0     4     0
+##    20       0     0     0     0     0     0     0     0     1
+##    &lt;NA&gt;     0     0     0     0     0     0     0     0     0</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$children.per.spouse =<span class="st"> </span>krmh$children/krmh$spouses
+krmh$children.per.spouse[<span class="kw">which</span>(krmh$spouses==<span class="dv">0</span>)] =<span class="st"> </span><span class="ot">NA</span>
+<span class="kw">qplot</span>(krmh$children.per.spouse)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(krmh$children)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-2-2.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># well we know that people who reproduced or married usually made 15</span>
+changeNAto1 =<span class="st"> </span>function(x) { <span class="kw">colwise</span>(function(x) { <span class="kw">ifelse</span>(<span class="kw">is.na</span>(x), <span class="dv">1</span>, x)})(x) }
+krmh[children&gt;<span class="dv">0</span> |<span class="st"> </span>spouses&gt;<span class="dv">0</span>, surviveR :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(surviveR), <span class="dv">1</span>, surviveR)]
+krmh[children&gt;<span class="dv">0</span> |<span class="st"> </span>spouses&gt;<span class="dv">0</span>, survive1d :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(survive1d), <span class="dv">1</span>, survive1d)]
+krmh[children&gt;<span class="dv">0</span> |<span class="st"> </span>spouses&gt;<span class="dv">0</span>, survive1y :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(survive1y), <span class="dv">1</span>, survive1y)]
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.surviving1d&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive1d&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.surviving1m&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive1m&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.surviving1y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive1y&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.surviving5y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive5y&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.survivingR&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;surviveR&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.dead1m&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;dead1m&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.dead1y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;dead1y&#39;</span>)
+<span class="kw">table</span>(krmh$children.dead1y==<span class="st"> </span>krmh$NinfantD)</code></pre>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">263</td>
+<td align="center">20021</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># xtabs(~ krmh$children.dead1y + krmh$NinfantD, exclude = NULL, na.action = na.pass)</span>
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.dead5y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;dead5y&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.deadR&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;deadR&#39;</span>)
+<span class="kw">table</span>(krmh$children.deadR -<span class="st"> </span>krmh$children.dead1y ==<span class="st"> </span>krmh$NchildD)</code></pre>
+<table>
+<colgroup>
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">20284</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xtabs</span>(~<span class="st"> </span><span class="kw">I</span>(krmh$children.deadR -<span class="st"> </span>krmh$children.dead1y) +<span class="st"> </span>krmh$NchildD, <span class="dt">exclude =</span> <span class="ot">NULL</span>, <span class="dt">na.action =</span> na.pass)</code></pre>
+<pre><code>##                                              krmh$NchildD
+## I(krmh$children.deadR - krmh$children.dead1y)     0     1     2     3
+##                                             0 12880     0     0     0
+##                                             1     0  5046     0     0
+##                                             2     0     0  1634     0
+##                                             3     0     0     0   536
+##                                             4     0     0     0     0
+##                                             5     0     0     0     0
+##                                             6     0     0     0     0
+##                                             7     0     0     0     0
+##                                              krmh$NchildD
+## I(krmh$children.deadR - krmh$children.dead1y)     4     5     6     7
+##                                             0     0     0     0     0
+##                                             1     0     0     0     0
+##                                             2     0     0     0     0
+##                                             3     0     0     0     0
+##                                             4   148     0     0     0
+##                                             5     0    33     0     0
+##                                             6     0     0     3     0
+##                                             7     0     0     0     4
+##                                              krmh$NchildD
+## I(krmh$children.deadR - krmh$children.dead1y)  &lt;NA&gt;
+##                                             0 60524
+##                                             1     0
+##                                             2     0
+##                                             3     0
+##                                             4     0
+##                                             5     0
+##                                             6     0
+##                                             7     0</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">changeNAto0 =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">is.na</span>(x), <span class="dv">0</span>, x) }
+krmh$children.unknown_fate =<span class="st"> </span>krmh$Nbirths -<span class="st"> </span>krmh$NchildD -<span class="st"> </span>krmh$NinfantD -<span class="st"> </span>krmh$NadultD
+<span class="kw">qplot</span>(krmh$children.unknown_fate)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-2-3.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(krmh$children.unknown_fate)</code></pre>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">16</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">10534</td>
+<td align="center">3768</td>
+<td align="center">2204</td>
+<td align="center">1471</td>
+<td align="center">1075</td>
+<td align="center">608</td>
+<td align="center">330</td>
+<td align="center">186</td>
+<td align="center">49</td>
+<td align="center">37</td>
+<td align="center">12</td>
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(krmh$NchildD)</code></pre>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="6%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">12880</td>
+<td align="center">5046</td>
+<td align="center">1634</td>
+<td align="center">536</td>
+<td align="center">148</td>
+<td align="center">33</td>
+<td align="center">3</td>
+<td align="center">4</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;children.spouses&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;spouses&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;grandchildren.per.spouse&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.per.spouse&#39;</span>)
+
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;grandchildren&#39;</span>,<span class="dt">wt_var=</span><span class="st">&#39;children&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;grandchildren.surviving1d&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.surviving1d&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;grandchildren.surviving1m&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.surviving1m&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;grandchildren.surviving1y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.surviving1y&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;grandchildren.survivingR&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.survivingR&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">count_and_merge</span>(krmh, <span class="st">&#39;grandchildren.dead1m&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.dead1m&#39;</span>)
+
+<span class="kw">props</span>(~<span class="st"> </span>krmh$spouses)</code></pre>
+<pre><code>## krmh$spouses
+##          0          1          2          3          4          5 
+## 0.68303881 0.27847490 0.03478616 0.00339075 0.00029700 0.00001238</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xtabs</span>(~<span class="st"> </span>(grandchildren&gt;<span class="dv">0</span>) +(children&gt;<span class="dv">0</span>) +<span class="st"> </span>(spouses&gt;<span class="dv">0</span>) +<span class="st"> </span>surviveR,<span class="dt">data=</span>krmh,<span class="dt">exclude=</span><span class="ot">NULL</span>, <span class="dt">na.action=</span> na.pass)</code></pre>
+<pre><code>## , , spouses &gt; 0 = FALSE, surviveR = 0
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0 FALSE  TRUE
+##             FALSE 15454     0
+##             TRUE      0     0
+## 
+## , , spouses &gt; 0 = TRUE, surviveR = 0
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0 FALSE  TRUE
+##             FALSE     0     0
+##             TRUE      0     0
+## 
+## , , spouses &gt; 0 = FALSE, surviveR = 1
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0 FALSE  TRUE
+##             FALSE 16423     0
+##             TRUE      0     0
+## 
+## , , spouses &gt; 0 = TRUE, surviveR = 1
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0 FALSE  TRUE
+##             FALSE  5329  9607
+##             TRUE      0 10677
+## 
+## , , spouses &gt; 0 = FALSE, surviveR = NA
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0 FALSE  TRUE
+##             FALSE 23318     0
+##             TRUE      0     0
+## 
+## , , spouses &gt; 0 = TRUE, surviveR = NA
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0 FALSE  TRUE
+##             FALSE     0     0
+##             TRUE      0     0</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(krmh$children)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-2-4.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[, age:<span class="er">=</span>ageKtod/<span class="dv">10</span>]
+<span class="kw">qplot</span>(krmh[<span class="kw">which</span>(krmh$age &gt;<span class="st"> </span><span class="fl">1.5</span>),]$children )</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-2-5.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(krmh$grandchildren)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-2-6.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(krmh[<span class="kw">which</span>(krmh$age &gt;<span class="st"> </span><span class="fl">1.5</span>),]$grandchildren )</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-2-7.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(krmh$spouses)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-2-8.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">miss_frac</span>(krmh)</code></pre>
+<p><em>0</em></p>
+</div>
+<div id="pre-calculate-some-predictors" class="section level2">
+<h2>pre-calculate some predictors</h2>
+<pre class="sourceCode r"><code class="sourceCode r">krmh =<span class="st"> </span>krmh[<span class="kw">order</span>(krmh$idPere,krmh$gebk4), ]
+krmh &lt;-<span class="st"> </span><span class="kw">transform</span>(krmh, <span class="dt">birthorder =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(krmh)), krmh$idPere, <span class="dt">FUN =</span> seq_along)) <span class="co"># old trick to get birth order, don&#39;t know what this does to those with missings for father though</span>
+krmh$birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(krmh$birthorder,krmh$idPere,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
+krmh$birthorder.diff =<span class="st"> </span>krmh$birthorder -<span class="st"> </span>krmh$birthorder.mean
+<span class="kw">qplot</span>(krmh$birthorder,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/add.some.indicators-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[, byear :<span class="er">=</span><span class="st"> </span><span class="kw">year</span>(gebk4)]
+
+<span class="kw">transform</span>(krmh[<span class="dv">1</span>:<span class="dv">40</span>,<span class="kw">list</span>(idParents,byear,birthorder,surviveR)], <span class="dt">min15.birthorder =</span> <span class="kw">ave</span>(surviveR, idParents, <span class="dt">FUN =</span>function(x) { x[<span class="kw">is.na</span>(x)] =<span class="st"> </span><span class="dv">0</span>
+<span class="kw">cumsum</span>(x)
+} )) <span class="co"># NAs propagate problematically...</span>
+krmh &lt;-<span class="st"> </span><span class="kw">transform</span>(krmh, <span class="dt">min15.birthorder =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span>function(x) { x[<span class="kw">is.na</span>(x)] =<span class="st"> </span><span class="dv">0</span>
+<span class="kw">cumsum</span>(x)
+} ))
+<span class="kw">xtabs</span>(<span class="dt">data=</span>krmh, ~<span class="kw">is.na</span>(birthorder) +<span class="st"> </span><span class="kw">is.na</span>(min15.birthorder))</code></pre>
+<pre><code>##                  is.na(min15.birthorder)
+## is.na(birthorder) FALSE
+##             FALSE 80808</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(krmh$min15.birthorder,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="4%" />
+<col width="4%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">23860</td>
+<td align="center">24070</td>
+<td align="center">12100</td>
+<td align="center">8144</td>
+<td align="center">5449</td>
+<td align="center">3359</td>
+<td align="center">1963</td>
+<td align="center">1031</td>
+<td align="center">486</td>
+<td align="center">198</td>
+<td align="center">77</td>
+<td align="center">40</td>
+<td align="center">17</td>
+<td align="center">13</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$min15.birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(krmh$min15.birthorder,krmh$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
+krmh$min15.birthorder.diff =<span class="st"> </span>krmh$min15.birthorder -<span class="st"> </span>krmh$min15.birthorder.mean
+
+krmh[, nr.siblings :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(born,doc,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } ) -<span class="st"> </span><span class="dv">1</span>] 
+<span class="kw">qplot</span>(krmh$nr.siblings,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/add.some.indicators-2.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$nr.dead.siblings1m =<span class="st"> </span><span class="kw">ave</span>(krmh$dead1m,krmh$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } ) -<span class="st"> </span>krmh$dead1m <span class="co"># don&#39;t count self! dont&#39;t control for outcome</span>
+<span class="kw">qplot</span>(krmh$nr.dead.siblings1m,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/add.some.indicators-3.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$infant.death.cluster =<span class="st"> </span>krmh$nr.dead.siblings1m/krmh$nr.siblings
+<span class="kw">qplot</span>(krmh$infant.death.cluster)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/add.some.indicators-4.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(krmh[<span class="kw">which</span>(krmh$nr.siblings&gt;<span class="dv">1</span>),]$infant.death.cluster)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/add.some.indicators-5.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">lag<span class="fl">.0</span> =<span class="st"> </span>function(x) {   
+    if(<span class="kw">length</span>(x)==<span class="dv">1</span>) <span class="dv">0</span>
+    else <span class="kw">c</span>(<span class="dv">0</span>,x[ <span class="dv">1</span>:(<span class="kw">length</span>(x)-<span class="dv">1</span>)]) 
+}
+inv.lag<span class="fl">.0</span> =<span class="st"> </span>function(x) {   
+    if(<span class="kw">length</span>(x)==<span class="dv">1</span>) <span class="dv">0</span>
+    else <span class="kw">c</span>(x[ <span class="dv">2</span>:<span class="kw">length</span>(x)],<span class="dv">0</span>) 
+}
+krmh =<span class="st"> </span><span class="kw">transform</span>(krmh, <span class="dt">older.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span> lag<span class="fl">.0</span>))
+krmh =<span class="st"> </span><span class="kw">transform</span>(krmh, <span class="dt">younger.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span> inv.lag<span class="fl">.0</span>))</code></pre>
+</div>
+<div id="get-grandparents" class="section level2">
+<h2>Get grandparents</h2>
+<pre class="sourceCode r"><code class="sourceCode r">grandparents =<span class="st"> </span>krmh[, <span class="kw">list</span>(idIndividu,idPere,idMere, paternalage, maternalage)]
+<span class="kw">names</span>(grandparents) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idMere&#39;</span>, <span class="st">&#39;idMaternalGrandfather&#39;</span>, <span class="st">&#39;idMaternalGrandmother&#39;</span>, <span class="st">&#39;maternal.grandpaternalage&#39;</span>,  <span class="st">&#39;maternal.grandmaternalage&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">merge</span>(krmh, grandparents, <span class="dt">by =</span> <span class="st">&quot;idMere&quot;</span>, <span class="dt">all.x =</span>T)
+<span class="kw">names</span>(grandparents) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idPere&#39;</span>, <span class="st">&#39;idPaternalGrandfather&#39;</span>, <span class="st">&#39;idPaternalGrandmother&#39;</span>, <span class="st">&#39;paternal.grandpaternalage&#39;</span>,  <span class="st">&#39;paternal.grandmaternalage&#39;</span>)
+krmh =<span class="st"> </span><span class="kw">merge</span>(krmh, grandparents, <span class="dt">by =</span> <span class="st">&quot;idPere&quot;</span>, <span class="dt">all.x =</span>T)</code></pre>
+<div id="cohorts-and-death-rates-as-moderators" class="section level3">
+<h3>Cohorts and death rates as moderators</h3>
+<p>epidemics: typhoid 1687 smallpox 1702-3, 1733</p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[,bdate.Father :<span class="er">=</span><span class="st"> </span>gebm4]
+krmh$father.birth.decade =<span class="st"> </span><span class="kw">round</span>(<span class="kw">year</span>(krmh$bdate.Father)/<span class="dv">10</span>)*<span class="dv">10</span>
+<span class="kw">table</span>(krmh$father.birth.decade,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<table>
+<colgroup>
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1540</th>
+<th align="center">1570</th>
+<th align="center">1580</th>
+<th align="center">1600</th>
+<th align="center">1610</th>
+<th align="center">1620</th>
+<th align="center">1630</th>
+<th align="center">1640</th>
+<th align="center">1650</th>
+<th align="center">1660</th>
+<th align="center">1670</th>
+<th align="center">1680</th>
+<th align="center">1690</th>
+<th align="center">1700</th>
+<th align="center">1710</th>
+<th align="center">1720</th>
+<th align="center">1730</th>
+<th align="center">1740</th>
+<th align="center">1750</th>
+<th align="center">1760</th>
+<th align="center">1770</th>
+<th align="center">1780</th>
+<th align="center">1790</th>
+<th align="center">1800</th>
+<th align="center">1810</th>
+<th align="center">1820</th>
+<th align="center">1830</th>
+<th align="center">1840</th>
+<th align="center">1850</th>
+<th align="center">1860</th>
+<th align="center">1870</th>
+<th align="center">1880</th>
+<th align="center">1890</th>
+<th align="center">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">22</td>
+<td align="center">77</td>
+<td align="center">112</td>
+<td align="center">95</td>
+<td align="center">166</td>
+<td align="center">329</td>
+<td align="center">310</td>
+<td align="center">634</td>
+<td align="center">1632</td>
+<td align="center">1889</td>
+<td align="center">2962</td>
+<td align="center">2557</td>
+<td align="center">4105</td>
+<td align="center">2723</td>
+<td align="center">3799</td>
+<td align="center">3341</td>
+<td align="center">3592</td>
+<td align="center">3310</td>
+<td align="center">4702</td>
+<td align="center">3428</td>
+<td align="center">4764</td>
+<td align="center">3253</td>
+<td align="center">2605</td>
+<td align="center">821</td>
+<td align="center">640</td>
+<td align="center">528</td>
+<td align="center">209</td>
+<td align="center">2</td>
+<td align="center">28192</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rule: at least 1500 obs per group, then smallest decade range possible</span>
+krmh$paternal.cohort =<span class="st"> </span>krmh$father.birth.decade
+
+krmh$birth.decade =<span class="st"> </span><span class="kw">round</span>(<span class="kw">year</span>(krmh$bdate)/<span class="dv">10</span>)*<span class="dv">10</span>
+<span class="kw">table</span>(krmh$birth.decade,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<table>
+<colgroup>
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1540</th>
+<th align="center">1570</th>
+<th align="center">1580</th>
+<th align="center">1600</th>
+<th align="center">1610</th>
+<th align="center">1620</th>
+<th align="center">1630</th>
+<th align="center">1640</th>
+<th align="center">1650</th>
+<th align="center">1660</th>
+<th align="center">1670</th>
+<th align="center">1680</th>
+<th align="center">1690</th>
+<th align="center">1700</th>
+<th align="center">1710</th>
+<th align="center">1720</th>
+<th align="center">1730</th>
+<th align="center">1740</th>
+<th align="center">1750</th>
+<th align="center">1760</th>
+<th align="center">1770</th>
+<th align="center">1780</th>
+<th align="center">1790</th>
+<th align="center">1800</th>
+<th align="center">1810</th>
+<th align="center">1820</th>
+<th align="center">1830</th>
+<th align="center">1840</th>
+<th align="center">1850</th>
+<th align="center">1860</th>
+<th align="center">1870</th>
+<th align="center">1880</th>
+<th align="center">1890</th>
+<th align="center">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">22</td>
+<td align="center">77</td>
+<td align="center">112</td>
+<td align="center">95</td>
+<td align="center">166</td>
+<td align="center">329</td>
+<td align="center">310</td>
+<td align="center">634</td>
+<td align="center">1632</td>
+<td align="center">1889</td>
+<td align="center">2962</td>
+<td align="center">2557</td>
+<td align="center">4105</td>
+<td align="center">2723</td>
+<td align="center">3799</td>
+<td align="center">3341</td>
+<td align="center">3592</td>
+<td align="center">3310</td>
+<td align="center">4702</td>
+<td align="center">3428</td>
+<td align="center">4764</td>
+<td align="center">3253</td>
+<td align="center">2605</td>
+<td align="center">821</td>
+<td align="center">640</td>
+<td align="center">528</td>
+<td align="center">209</td>
+<td align="center">2</td>
+<td align="center">28192</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$own.cohort =<span class="st"> </span>krmh$birth.decade
+
+births =<span class="st"> </span><span class="kw">na.omit</span>( <span class="kw">ddply</span>(krmh, .(byear), summarise, <span class="dt">births =</span> <span class="kw">length</span>(idIndividu)) )
+
+krmh[, ddate :<span class="er">=</span><span class="st"> </span>todk4]
+krmh$death.decade =<span class="st"> </span><span class="kw">round</span>(<span class="kw">year</span>(krmh$ddate)/<span class="dv">10</span>)*<span class="dv">10</span>
+krmh$dyear =<span class="st"> </span><span class="kw">year</span>(krmh$ddate)
+deaths =<span class="st"> </span><span class="kw">na.omit</span>( <span class="kw">ddply</span>(krmh, .(dyear), summarise, <span class="dt">deaths =</span> <span class="kw">length</span>(idIndividu)) )
+<span class="kw">qplot</span>(dyear, deaths, <span class="dt">data=</span> deaths,<span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Deaths&quot;</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Death year&quot;</span>)</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-4-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">birthdeaths =<span class="st"> </span><span class="kw">merge</span>(births,deaths,<span class="dt">by.x=</span><span class="st">&quot;byear&quot;</span>,<span class="dt">by.y=</span><span class="st">&quot;dyear&quot;</span>,<span class="dt">all=</span>T)
+birthdeaths$deaths.per.birth =<span class="st"> </span>birthdeaths$deaths /<span class="st"> </span>birthdeaths$births
+<span class="kw">qplot</span>(byear, deaths.per.birth, <span class="dt">data=</span> birthdeaths,<span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Number of deaths per birth&quot;</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</code></pre>
+<pre><code>## Warning: Removed 64 rows containing missing values (geom_path).</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-4-2.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh =<span class="st"> </span><span class="kw">merge</span>(krmh, birthdeaths, <span class="dt">by=</span><span class="st">&quot;byear&quot;</span>, <span class="dt">all.x=</span>T)
+
+<span class="kw">library</span>(zoo)
+infant.mortality =<span class="st"> </span><span class="kw">na.omit</span>( <span class="kw">ddply</span>(krmh, .(byear), summarise, 
+                                                <span class="dt">infant.mortality =</span> <span class="kw">sum</span>(!survive1y, <span class="dt">na.rm=</span>T) /<span class="st"> </span><span class="kw">length</span>(idIndividu) *<span class="st"> </span><span class="dv">1000</span>, 
+                                                <span class="dt">neonatal.deaths =</span> <span class="kw">sum</span>(!survive1m, <span class="dt">na.rm=</span>T) /<span class="st"> </span><span class="kw">length</span>(idIndividu) *<span class="st"> </span><span class="dv">1000</span>, 
+                                                <span class="dt">perinatal.deaths =</span> <span class="kw">sum</span>(!survive1d, <span class="dt">na.rm=</span>T)  /<span class="st"> </span><span class="kw">length</span>(idIndividu) *<span class="st"> </span><span class="dv">1000</span>, 
+                                                <span class="dt">postneonatal.deaths =</span> <span class="kw">sum</span>(survive1m &amp;<span class="st"> </span>!survive1y, <span class="dt">na.rm=</span>T)  /<span class="st"> </span><span class="kw">length</span>(idIndividu) *<span class="st"> </span><span class="dv">1000</span>
+))
+infant.mortality$infant.mortality =<span class="st"> </span><span class="kw">rollmean</span>(infant.mortality$infant.mortality, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">na.pad =</span> T)
+infant.mortality$neonatal.deaths =<span class="st"> </span><span class="kw">rollmean</span>(infant.mortality$neonatal.deaths, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">na.pad =</span> T)
+infant.mortality$perinatal.deaths =<span class="st"> </span><span class="kw">rollmean</span>(infant.mortality$perinatal.deaths, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">na.pad =</span> T)
+infant.mortality$postneonatal.deaths =<span class="st"> </span><span class="kw">rollmean</span>(infant.mortality$postneonatal.deaths, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">na.pad =</span> T)
+<span class="kw">qplot</span>(<span class="dt">data=</span><span class="kw">melt</span>(infant.mortality,<span class="dt">id.vars=</span><span class="st">&#39;byear&#39;</span>), byear, value, <span class="dt">geom=</span><span class="st">&#39;line&#39;</span>) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>variable)</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-4-3.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh =<span class="st"> </span><span class="kw">merge</span>(krmh, infant.mortality, <span class="dt">by=</span><span class="st">&quot;byear&quot;</span>, <span class="dt">all.x=</span>T)</code></pre>
+</div>
+</div>
+<div id="make-pedigree-calculate-inbreeding" class="section level2">
+<h2>Make pedigree, calculate inbreeding</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># pedigree = krmh[, list(idIndividu, idMere, idPere)]</span>
+<span class="co"># setnames(pedigree, c(&quot;idIndividu&quot;, &quot;idMere&quot;, &quot;idPere&quot;), c(&quot;animal&quot;, &quot;dam&quot;, &quot;sire&quot;))</span>
+<span class="co"># pedigree_ordered = pedigree::orderPed(pedigree)</span>
+<span class="co"># </span>
+<span class="co"># krmh = krmh[! idIndividu %in% pedigree[ which(pedigree_ordered == -1), animal],]</span>
+<span class="co"># library(pedigreemm)</span>
+<span class="co"># pedigree = editPed(sire = krmh$idPere, dam = krmh$idMere, label = krmh$idIndividu)</span>
+<span class="co"># names(pedigree) = c(&quot;animal&quot;,&quot;sire&quot;,&quot;dam&quot;)</span>
+<span class="co"># krmh_pedigree = pedigree[,c(&quot;animal&quot;,&quot;dam&quot;, &quot;sire&quot;)]</span>
+<span class="co"># krmh_pedigree$inbreeding = pedigree::calcInbreeding(krmh_pedigree)</span>
+<span class="co"># qplot(krmh_pedigree$inbreeding)+xlim(c(0.001,0.3))</span>
+<span class="co"># table(round(krmh_pedigree$inbreeding,2))</span>
+<span class="co"># krmh$animal = as.character(krmh$idIndividu)</span>
+<span class="co"># krmh_pedigree$animal = as.character(krmh_pedigree$animal)</span>
+<span class="co"># krmh = merge(krmh, krmh_pedigree[,c(&#39;animal&#39;,&#39;inbreeding&#39;)], by = &#39;animal&#39;)</span></code></pre>
+</div>
+<div id="high-level-predictors" class="section level2">
+<h2>high-level predictors</h2>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$born =<span class="st"> </span><span class="ot">NULL</span> <span class="co"># was just an aid</span></code></pre>
+<pre><code>## Warning in alloc.col(x): Attempt to reduce allocation from 314 to 313
+## ignored. Can only increase allocation via shallow copy.</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+krmh =<span class="st"> </span><span class="kw">data.table</span>(krmh)
+krmh[, bdate :<span class="er">=</span><span class="st"> </span>gebk4]
+krmh[, ddate.Mother :<span class="er">=</span><span class="st"> </span>todf4]
+krmh[, ddate.Father :<span class="er">=</span><span class="st"> </span>todm4]</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$byear.years =<span class="st"> </span><span class="kw">year</span>(krmh$bdate)
+krmh$dyear.years =<span class="st"> </span><span class="kw">year</span>(krmh$ddate)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># krmh[, mother_survived_1y := (bdate + dyears(1)) &lt; ddate.Mother ]</span>
+<span class="co"># krmh[, mother_survived_5y := (bdate + dyears(5)) &lt; ddate.Mother ]</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh =<span class="st"> </span>krmh %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(idParents) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">younger_sibs_ad_5y =</span> <span class="kw">younger_sibs_alive_and_dependent</span>(<span class="dt">survive5y=</span>survive5y, <span class="dt">byear=</span>byear.years, <span class="dt">dyear=</span>dyear.years) ,
+        <span class="dt">older_sibs_ad_5y =</span> <span class="kw">older_sibs_alive_and_dependent</span>(<span class="dt">survive5y=</span>survive5y, <span class="dt">byear=</span>byear.years, <span class="dt">dyear=</span>dyear.years),
+        <span class="dt">dependent_sibs_f5y =</span> <span class="kw">dependent_sibs_f5y</span>(<span class="dt">survive1y=</span>survive1y, <span class="dt">byear=</span>byear, <span class="dt">dyear=</span>dyear)
+    ) %&gt;%<span class="st"> </span><span class="kw">data.table</span>()</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">miss_frac</span>(krmh)</code></pre>
+<p><em>0</em></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$ddate =<span class="st"> </span><span class="kw">as.Date</span>(krmh$ddate)
+krmh$ddate.Mother =<span class="st"> </span><span class="kw">as.Date</span>(krmh$ddate.Mother)
+krmh$ddate.Father =<span class="st"> </span><span class="kw">as.Date</span>(krmh$ddate.Father)
+krmh$bdate =<span class="st"> </span><span class="kw">as.Date</span>(krmh$bdate)
+krmh$bdate.Mother =<span class="st"> </span>krmh$gebf4
+krmh$bdate.Mother =<span class="st"> </span><span class="kw">as.Date</span>(krmh$bdate.Mother)
+krmh$bdate.Father =<span class="st"> </span><span class="kw">as.Date</span>(krmh$bdate.Father)
+krmh$paternal_alive =<span class="st"> </span><span class="kw">as.numeric</span>(krmh$ddate.Father-krmh$bdate)/<span class="dv">365</span>
+<span class="kw">qplot</span>(krmh$paternal_alive)</code></pre>
+<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
+<p><img src="0_krmh_massage_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">krmh$paternalloss =<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">as.POSIXct</span>(krmh$bdate) +<span class="st"> </span><span class="kw">dyears</span>(<span class="dv">5</span>) &gt;<span class="st"> </span><span class="kw">as.POSIXct</span>(krmh$ddate.Father),<span class="dv">1</span>,<span class="dv">0</span>)
+krmh$paternalloss_by_35 =<span class="st"> </span><span class="kw">as.POSIXct</span>(krmh$bdate) +<span class="st"> </span><span class="kw">dyears</span>(<span class="dv">35</span>) &gt;<span class="st"> </span><span class="kw">as.POSIXct</span>(krmh$ddate.Father)
+krmh$maternalloss =<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">as.POSIXct</span>(krmh$bdate) +<span class="st"> </span><span class="kw">dyears</span>(<span class="dv">5</span>) &gt;<span class="st"> </span><span class="kw">as.POSIXct</span>(krmh$ddate.Mother),<span class="dv">1</span>,<span class="dv">0</span>)
+krmh$maternalloss_by_35 =<span class="st"> </span><span class="kw">as.POSIXct</span>(krmh$bdate) +<span class="st"> </span><span class="kw">dyears</span>(<span class="dv">35</span>) &gt;<span class="st"> </span><span class="kw">as.POSIXct</span>(krmh$ddate.Mother)
+krmh$parentalloss_might_be_disease =<span class="st"> </span><span class="ot">FALSE</span>
+krmh[<span class="kw">as.POSIXct</span>(bdate) +<span class="st"> </span><span class="kw">ddays</span>(<span class="dv">30</span>) &gt;<span class="st"> </span><span class="kw">as.POSIXct</span>(ddate.Father),]$parentalloss_might_be_disease =<span class="st"> </span><span class="ot">TRUE</span>
+krmh[<span class="kw">as.POSIXct</span>(bdate) +<span class="st"> </span><span class="kw">ddays</span>(<span class="dv">30</span>) &gt;<span class="st"> </span><span class="kw">as.POSIXct</span>(ddate.Mother),]$parentalloss_might_be_disease =<span class="st"> </span><span class="ot">TRUE</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh =<span class="st"> </span><span class="kw">data.table</span>(krmh)
+krmh$landownership =<span class="st"> </span><span class="kw">Recode</span>(krmh$grasen,<span class="st">&quot;0:1=&#39;0 landless&#39;;1:25=&#39;1-25 grasen&#39;;25:140=&#39;25-140 grasen&#39;;140:hi=&#39;140+ grasen&#39;&quot;</span>)
+krmh$landless =<span class="st"> </span><span class="kw">Recode</span>(krmh$grasen,<span class="st">&quot;0:1=T;1:hi=F&quot;</span>)
+<span class="kw">props</span>(~<span class="st"> </span>krmh$landownership)</code></pre>
+<pre><code>## krmh$landownership
+##    0 landless   1-25 grasen   140+ grasen 25-140 grasen          &lt;NA&gt; 
+##       0.14782       0.06791       0.01771       0.06346       0.70310</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">props</span>(~<span class="st"> </span>krmh$landless)</code></pre>
+<pre><code>## krmh$landless
+##      0      1   &lt;NA&gt; 
+## 0.1491 0.1478 0.7031</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[, ageK5 :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(age &gt;<span class="st"> </span><span class="dv">5</span>, <span class="dv">5</span>, age)]
+krmh[krmh$dat8_fam1&lt;<span class="st"> </span>krmh$bdate, dat8_fam1:<span class="er">=</span><span class="ot">NA</span>]
+krmh[, paternalloss_m :<span class="er">=</span><span class="st"> </span>(<span class="kw">ifelse</span>(bdate +<span class="st"> </span><span class="kw">days</span>(<span class="kw">ifelse</span>(<span class="kw">is.na</span>(ageK5), <span class="dv">5</span>, <span class="kw">round</span>(ageK5*<span class="dv">365</span>))) &lt;=<span class="st"> </span>ddate.Father,
+                                                                    <span class="kw">ifelse</span>(<span class="kw">is.na</span>(dat8_fam1) |<span class="st"> </span>ddate.Father &lt;<span class="st"> </span>dat8_fam1, <span class="st">&#39;dead_b_m&#39;</span>, <span class="st">&#39;dead_a_m&#39;</span>), <span class="st">&#39;dead_5y&#39;</span>))]
+krmh[, maternalloss_m :<span class="er">=</span><span class="st"> </span>(<span class="kw">ifelse</span>(bdate +<span class="st"> </span><span class="kw">days</span>(<span class="kw">ifelse</span>(<span class="kw">is.na</span>(ageK5), <span class="dv">5</span>, <span class="kw">round</span>(ageK5*<span class="dv">365</span>))) &lt;=<span class="st"> </span>ddate.Mother,
+                                                                    <span class="kw">ifelse</span>(<span class="kw">is.na</span>(dat8_fam1) |<span class="st"> </span>ddate.Mother &lt;<span class="st"> </span>dat8_fam1, <span class="st">&#39;dead_b_m&#39;</span>, <span class="st">&#39;dead_a_m&#39;</span>), <span class="st">&#39;dead_5y&#39;</span>))]
+krmh[, paternalloss_k1 :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(bdate +<span class="st"> </span><span class="kw">days</span>(<span class="kw">ifelse</span>(<span class="kw">is.na</span>(ageK1), <span class="dv">1</span>, <span class="kw">round</span>(ageK1*<span class="dv">365</span>))) &lt;=<span class="st"> </span>ddate.Father,
+                                                                    <span class="dv">1</span>,<span class="dv">0</span>)]
+krmh[, maternalloss_k1 :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(
+    bdate +<span class="st"> </span><span class="kw">days</span>(<span class="kw">ifelse</span>(<span class="kw">is.na</span>(ageK1), <span class="co"># if the birth date is larger </span>
+            <span class="kw">ifelse</span>(<span class="kw">is.na</span>(survive1y),<span class="dv">1</span>,<span class="dv">365</span>), <span class="kw">round</span>(ageK1*<span class="dv">365</span>))) &lt;=<span class="st"> </span>ddate.Mother,
+                                                                    <span class="dv">1</span>,<span class="dv">0</span>)]</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[, mother_child_die_within_7d :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">abs</span>(ddate -<span class="st"> </span>ddate.Mother) &lt;=<span class="st"> </span><span class="dv">7</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
+krmh[<span class="kw">is.na</span>(mother_child_die_within_7d), mother_child_die_within_7d :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(nr.siblings &gt;<span class="st"> </span>birthorder, <span class="dv">0</span>, <span class="ot">NA</span>)]
+krmh[<span class="kw">is.na</span>(mother_child_die_within_7d), mother_child_die_within_7d :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(survive1y==<span class="dv">1</span>, <span class="dv">0</span>, <span class="ot">NA</span>)]
+<span class="kw">crosstabs</span>(krmh$mother_child_die_within_7d)</code></pre>
+<pre><code>## krmh$mother_child_die_within_7d
+##     0     1  &lt;NA&gt; 
+## 65159   625 15024</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[, maternalloss_k1 :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>( ageK1 &lt;<span class="st"> </span><span class="dv">1</span>, 
+            <span class="kw">ifelse</span>(ddate.Mother &lt;<span class="st"> </span>ddate,
+            <span class="kw">ifelse</span>( mother_child_die_within_7d, 
+                    <span class="st">&quot;disease_double_death&quot;</span>, <span class="st">&quot;mother_died_before_child&quot;</span>),
+                    <span class="st">&quot;no_early_maternal_loss&quot;</span>),
+                    <span class="kw">ifelse</span>(<span class="kw">as.POSIXct</span>(ddate.Mother) &lt;<span class="st"> </span><span class="kw">as.POSIXct</span>(bdate) +<span class="st"> </span><span class="kw">dyears</span>(<span class="dv">1</span>), 
+                        <span class="st">&quot;mother_died_before_child&quot;</span>, <span class="st">&quot;no_early_maternal_loss&quot;</span>)
+        )]</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(krmh$maternalloss_k1)</code></pre>
+<pre><code>## krmh$maternalloss_k1
+##     disease_double_death mother_died_before_child   no_early_maternal_loss 
+##                       42                      839                    38671 
+##                     &lt;NA&gt; 
+##                    41256</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[, early_maternalloss :<span class="er">=</span><span class="st"> </span>maternalloss_k1 !=<span class="st"> &quot;no_early_maternal_loss&quot;</span> ]
+krmh[, maternalloss_k1 :<span class="er">=</span><span class="st"> </span><span class="kw">relevel</span>(<span class="kw">factor</span>(maternalloss_k1), <span class="dt">ref =</span> <span class="st">&quot;no_early_maternal_loss&quot;</span>)]
+
+<span class="kw">crosstabs</span>(~krmh$paternalloss_m)</code></pre>
+<pre><code>## krmh$paternalloss_m
+##  dead_5y dead_a_m dead_b_m     &lt;NA&gt; 
+##      813     7715    38987    33293</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~krmh$maternalloss_m)</code></pre>
+<pre><code>## krmh$maternalloss_m
+##  dead_5y dead_a_m dead_b_m     &lt;NA&gt; 
+##      702     9396    37027    33683</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~krmh$maternalloss_m +<span class="st"> </span>krmh$paternalloss_m)</code></pre>
+<pre><code>##                    krmh$paternalloss_m
+## krmh$maternalloss_m dead_5y dead_a_m dead_b_m  &lt;NA&gt;
+##            dead_5y       31      105      399   167
+##            dead_a_m     162     4845     3502   887
+##            dead_b_m     426     2084    28917  5600
+##            &lt;NA&gt;         194      681     6169 26639</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">min_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">min</span>(x, <span class="dt">na.rm=</span>T) ) }
+max_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">max</span>(x, <span class="dt">na.rm=</span>T) ) }
+krmh[, paternalage_at_1st_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(paternalage, idPere, <span class="dt">FUN =</span> min_na)]
+krmh[, paternalage_at_last_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(paternalage, idPere, <span class="dt">FUN =</span> max_na)]
+krmh[, maternalage_at_1st_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(maternalage, idMere, <span class="dt">FUN =</span> min_na)]
+krmh[, maternalage_at_last_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(maternalage, idMere, <span class="dt">FUN =</span> max_na)]
+fathers =<span class="st"> </span>krmh[!<span class="kw">duplicated</span>(idPere), <span class="kw">list</span>(idPere, paternalage_at_1st_sib, paternalage_at_last_sib)]
+<span class="kw">names</span>(fathers) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idIndividu&quot;</span>,<span class="st">&quot;age_at_1st_child&quot;</span>, <span class="st">&quot;age_at_last_child&quot;</span>)
+mothers =<span class="st"> </span>krmh[!<span class="kw">duplicated</span>(idMere), <span class="kw">list</span>(idMere, maternalage_at_1st_sib, maternalage_at_last_sib)]
+<span class="kw">names</span>(mothers) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idIndividu&quot;</span>,<span class="st">&quot;age_at_1st_child&quot;</span>, <span class="st">&quot;age_at_last_child&quot;</span>)
+parents =<span class="st"> </span><span class="kw">rbind</span>(fathers, mothers)
+krmh =<span class="st"> </span><span class="kw">merge</span>(krmh, parents, <span class="dt">by =</span> <span class="st">&quot;idIndividu&quot;</span>, <span class="dt">all.x =</span> T)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">recenter_all =<span class="st"> </span>function(x) { <span class="kw">recenter.pat</span>( <span class="kw">recenter.pat</span>( x, <span class="dt">among_who=</span><span class="st">&quot;idParents&quot;</span>), <span class="dt">what =</span> <span class="st">&quot;maternalage&quot;</span>, <span class="dt">among_who =</span> <span class="st">&quot;idParents&quot;</span>) }
+
+(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(krmh$byear, <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>),<span class="dt">na.rm=</span>T))</code></pre>
+<p><em>1572</em>, <em>1744</em>, <em>1782</em>, <em>1818</em>, <em>1849</em> and <em>1932</em></p>
+<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
+krmh[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(byear,<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
+<span class="kw">props</span>(~<span class="st"> </span>krmh$birth.cohort)</code></pre>
+<pre><code>## krmh$birth.cohort
+## (1571,1744] (1744,1782] (1782,1818] (1818,1849] (1849,1932] 
+##      0.2024      0.2016      0.2016      0.1982      0.1962</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">krmh[fall %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;P&quot;</span>,<span class="st">&quot;C&quot;</span>) &amp;<span class="st"> </span>ehem==<span class="st">&quot; &quot;</span>, ehem :<span class="er">=</span><span class="st"> &quot;1&quot;</span>]
+
+krmh =<span class="st"> </span><span class="kw">recenter_all</span>(krmh)
+krmh[, any_surviving_children :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(children.survivingR &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
+krmh[, children.wddate :<span class="er">=</span><span class="st"> </span>children.dead1y +<span class="st"> </span>children.surviving1y] 
+krmh =<span class="st"> </span>krmh[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>((<span class="dv">10</span>*maternalage), <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">14</span>, <span class="dv">20</span>, <span class="dv">35</span>, <span class="dv">50</span>))]
+krmh$maternalage.factor =<span class="st"> </span><span class="kw">relevel</span>(krmh$maternalage.factor, <span class="dt">ref =</span> <span class="st">&quot;(20,35]&quot;</span>)
+krmh.with.paternalage =<span class="st"> </span><span class="kw">subset</span>(krmh, <span class="dt">subset =</span> !<span class="kw">is.na</span>(paternalage) )
+krmh.fm =<span class="st"> </span><span class="kw">subset</span>(krmh.with.paternalage, <span class="dt">subset =</span> ehebekannt==<span class="ot">TRUE</span>) <span class="co"># krmh.fm contains only those were we know how the marriage ended</span>
+
+krmh<span class="fl">.1</span> =<span class="st"> </span>krmh.fm[geburtsjahrK&gt;=<span class="dv">1720</span> &amp;<span class="st"> </span>geburtsjahrK&lt;=<span class="dv">1850</span>, ]
+
+(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(krmh<span class="fl">.1</span>$byear, <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>)))</code></pre>
+<p><em>1720</em>, <em>1773</em>, <em>1796</em>, <em>1814</em>, <em>1830</em> and <em>1850</em></p>
+<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
+krmh<span class="fl">.1</span>[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(byear,<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
+<span class="kw">props</span>(~<span class="st"> </span>krmh<span class="fl">.1</span>$birth.cohort)</code></pre>
+<pre><code>## krmh.1$birth.cohort
+## (1719,1773] (1773,1796] (1796,1814] (1814,1830] (1830,1850] 
+##      0.2067      0.1967      0.2044      0.2011      0.1911</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save(krmh,file=&quot;krmh.rdata&quot;)</span>
+<span class="kw">save</span>(krmh,krmh<span class="fl">.1</span>,<span class="dt">file=</span><span class="st">&quot;krmh.rdata&quot;</span>)
+<span class="co"># save(krmh,krmh.1,krmh_pedigree,file=&quot;krmh.rdata&quot;)</span></code></pre>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

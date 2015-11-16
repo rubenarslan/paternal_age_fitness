@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Compare Descriptives</title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div id="comparison-of-descriptives-across-populations" class="section level1 tab-content">
+<h1>Comparison of descriptives across populations</h1>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(car); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(lubridate); <span class="kw">library</span>(stringr); <span class="kw">library</span>(reshape2); <span class="kw">library</span>(data.table); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(knitr); <span class="kw">library</span>(formr); <span class="kw">library</span>(pander)
+
+<span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+opts_chunk$<span class="kw">set</span>(<span class="dt">render =</span> pander_handler,<span class="dt">warning=</span>F,<span class="dt">cache=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="st">&#39;png&#39;</span>,<span class="dt">fig.width=</span><span class="dv">12</span>,<span class="dt">fig.height=</span><span class="fl">7.5</span>)
+<span class="kw">load</span>(<span class="st">&quot;rpqa.rdata&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;ddb.rdata&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;krmh.rdata&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;swed1.rdata&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;swed.rdata&quot;</span>)
+demo_mod_swed =<span class="st"> </span><span class="kw">aggDemoTrends</span>(swed)
+demo_old_swed =<span class="st"> </span><span class="kw">aggDemoTrends</span>(ddb<span class="fl">.1</span>) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="st">&quot;Historical Sweden&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">melt</span>(<span class="dt">id=</span><span class="kw">c</span>(<span class="st">&quot;Population&quot;</span>,<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;Parent&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population,Parent,variable) %&gt;%
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean</span>(value,<span class="dt">na.rm=</span>T))
+<span class="kw">rm</span>(rpqa,ddb, krmh,swed<span class="fl">.2</span>,swed)
+desc_theme =<span class="st"> </span><span class="kw">theme_minimal</span>(<span class="dt">base_size =</span> <span class="dv">24</span>)
+<span class="kw">update_geom_defaults</span>(<span class="st">&quot;bar&quot;</span>,   <span class="kw">list</span>(<span class="dt">fill =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">alpha =</span> <span class="dv">1</span>/<span class="dv">2</span>))
+
+mymin =<span class="st"> </span><span class="kw">theme_minimal</span>(<span class="dt">base_size =</span> <span class="dv">20</span>) +<span class="kw">theme</span>(<span class="dt">panel.grid.major.y =</span><span class="kw">element_blank</span>(),<span class="dt">panel.grid.major.x =</span> <span class="kw">element_line</span>(<span class="dt">colour=</span><span class="st">&quot;#eeeeee&quot;</span>))
+
+rpqa<span class="fl">.1</span>$Population =<span class="st"> &quot;Québec&quot;</span>
+ddb<span class="fl">.1</span>$Population =<span class="st"> &quot;Historical Sweden&quot;</span>
+krmh<span class="fl">.1</span>$Population =<span class="st"> &quot;Krummhörn&quot;</span>
+swed<span class="fl">.1</span>$Population =<span class="st"> &quot;Modern Sweden&quot;</span>
+all =<span class="st"> </span><span class="kw">rbind</span>(
+    rpqa<span class="fl">.1</span>[, <span class="kw">list</span>(paternalage, maternalage, age_at_1st_child, age_at_last_child, children, children.surviving5y, male, Population, survive1y,surviveR, ever_married)],
+    ddb<span class="fl">.1</span>[, <span class="kw">list</span>(paternalage, maternalage, age_at_1st_child, age_at_last_child, children, children.surviving5y, male, Population, survive1y,surviveR, ever_married)],
+    krmh<span class="fl">.1</span>[, <span class="kw">list</span>(paternalage, maternalage, age_at_1st_child, age_at_last_child, children, children.surviving5y, male, Population, survive1y,surviveR, ever_married)],
+    swed<span class="fl">.1</span>[, <span class="kw">list</span>(paternalage, maternalage, age_at_1st_child, age_at_last_child, children, children.surviving5y, male, Population, survive1y,surviveR, ever_married)]
+)
+<span class="kw">rm</span>(rpqa<span class="fl">.1</span>,ddb<span class="fl">.1</span>, krmh<span class="fl">.1</span>,swed<span class="fl">.1</span>)
+all =<span class="st"> </span><span class="kw">data.table</span>(all)
+
+all[, paternalage :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>paternalage]
+all[, maternalage :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>maternalage]
+all[, age_at_1st_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_1st_child]
+all[, age_at_last_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_last_child]
+
+mean_sd =<span class="st"> </span>function(x) { <span class="kw">paste0</span>(<span class="kw">round</span>(<span class="kw">mean</span>(x, <span class="dt">na.rm=</span>T),<span class="dv">2</span>), <span class="st">&quot; (&quot;</span>,<span class="kw">round</span>(<span class="kw">sd</span>(x,<span class="dt">na.rm=</span>T),<span class="dv">2</span>),<span class="st">&quot;)&quot;</span>) }
+mean_sd_bin =<span class="st"> </span>function(x) { 
+    m=<span class="st"> </span><span class="kw">mean</span>(x, <span class="dt">na.rm=</span>T)
+    <span class="kw">sprintf</span>(<span class="st">&quot;%.3f (%.3f)&quot;</span>,m,m*(<span class="dv">1</span>-m))
+}
+nodot =<span class="st"> </span>function(x) { 
+    <span class="kw">names</span>(x) =<span class="st"> </span>stringr::<span class="kw">str_replace_all</span>(<span class="kw">names</span>(x),stringr::<span class="kw">fixed</span>(<span class="st">&quot;.&quot;</span>),<span class="st">&quot; &quot;</span>)
+    x
+}
+all[, sex :<span class="er">=</span><span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(male==<span class="dv">1</span>,<span class="st">&quot;male&quot;</span>,<span class="st">&quot;female&quot;</span>))]
+all[, reproductive_timespan :<span class="er">=</span><span class="st"> </span>age_at_last_child -<span class="st"> </span>age_at_1st_child]
+all =<span class="st"> </span>all[!<span class="kw">is.na</span>(sex), ]
+all =<span class="st"> </span><span class="kw">data.frame</span>(all)</code></pre>
+</div>
+<div id="reproductive-timing" class="section level2">
+<h2>Reproductive timing</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(grid)
+demo_mod_swed$Population =<span class="st"> &quot;Modern Sweden&quot;</span>
+demo_mod_swed$lty =<span class="st"> </span><span class="kw">factor</span>(<span class="st">&quot;all&quot;</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;first&quot;</span>,<span class="st">&quot;all&quot;</span>,<span class="st">&quot;last&quot;</span>))
+
+rep_timing_comp =<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> demo_mod_swed) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span> Year, <span class="dt">y =</span> first, <span class="dt">colour =</span> Population, <span class="dt">linetype =</span> <span class="st">&quot;first&quot;</span>), <span class="dt">colour =</span> <span class="st">&quot;#8A846C&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> all, <span class="dt">colour =</span> Population, <span class="dt">linetype =</span> <span class="st">&quot;all&quot;</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span> Year, <span class="dt">y =</span> last, <span class="dt">colour =</span> Population,<span class="dt">linetype =</span> <span class="st">&quot;last&quot;</span>), <span class="dt">colour =</span> <span class="st">&quot;#8A846C&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="kw">aes</span>(<span class="dt">yintercept =</span> value, <span class="dt">colour =</span> Population,<span class="dt">linetype =</span> variable), <span class="dt">data =</span> demo_old_swed, <span class="dt">size =</span> <span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">1980</span> +<span class="st"> </span><span class="kw">ifelse</span>(variable ==<span class="st"> &quot;all&quot;</span>, <span class="dv">0</span>, <span class="kw">ifelse</span>(variable ==<span class="st"> &quot;first&quot;</span>, -<span class="dv">33</span>, <span class="dv">0</span>)), 
+                                <span class="dt">y =</span> value +<span class="st"> </span><span class="fl">0.3</span>, <span class="dt">colour =</span> Population, 
+                                <span class="dt">label =</span> <span class="kw">paste</span>(variable,<span class="st">&quot;births in Sweden 1737-1880&quot;</span>)), <span class="dt">data =</span> demo_old_swed) +<span class="st"> </span>
+<span class="st">    </span>pop_colour +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_linetype_manual</span>(<span class="st">&quot;Birth&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="st">&quot;last&quot;</span>, <span class="st">&quot;all&quot;</span>,<span class="st">&quot;first&quot;</span>), <span class="dt">values =</span> <span class="kw">c</span>( <span class="st">&quot;solid&quot;</span>,<span class="st">&quot;dashed&quot;</span>, <span class="st">&quot;dotted&quot;</span>)) +
+<span class="st">        </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> all +<span class="st"> </span><span class="fl">0.3</span>, 
+                                    <span class="dt">label =</span> <span class="kw">ifelse</span>(Year &gt;<span class="st"> </span><span class="dv">1670</span> &amp;<span class="st"> </span>Year %%<span class="st"> </span><span class="dv">15</span> ==<span class="st"> </span><span class="dv">0</span>, <span class="kw">round</span>(all), <span class="ot">NA</span>))) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Parent,<span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>) +
+<span class="st">    </span>desc_theme +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Parental age at birth&quot;</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">23</span>,<span class="dv">40</span>)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+  <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), 
+  <span class="dt">legend.box =</span> <span class="st">&quot;horizontal&quot;</span>,
+  <span class="dt">panel.margin =</span> <span class="kw">unit</span>(<span class="dv">2</span>, <span class="st">&quot;lines&quot;</span>))
+rep_timing_comp</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-1-1.png" /></p>
+</div>
+<div id="age-at-first-child" class="section level2">
+<h2>Age at first child</h2>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(age_at_1st_child)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="18%" />
+<col width="22%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">25.44 (4.67)</td>
+<td align="center">26.58 (4.44)</td>
+<td align="center">25.02 (5.09)</td>
+<td align="center">23.5 (4.73)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">28.13 (5.18)</td>
+<td align="center">29.29 (5.36)</td>
+<td align="center">28.07 (5.6)</td>
+<td align="center">27.92 (5.29)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">age_at_1st_child =</span> <span class="kw">ifelse</span>(Population ==<span class="st"> &quot;Modern Sweden&quot;</span>, age_at_1st_child +<span class="st"> </span><span class="kw">runif</span>(<span class="kw">n</span>())-<span class="fl">0.5</span>, age_at_1st_child)) -&gt;<span class="st"> </span>all <span class="co"># want smooth density even though we only have ages at year granularity</span>
+
+<span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> age_at_1st_child, <span class="dt">group =</span> <span class="kw">interaction</span>(Population,sex))) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Age at first child&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> sex), <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-2-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> age_at_1st_child, <span class="dt">fill =</span> Population)) +
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Density&quot;</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Age at first child&quot;</span>) +
+<span class="st">    </span><span class="kw">facet_grid</span>( sex ~<span class="st"> </span>. )+
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">colour =</span> <span class="ot">NA</span>)+
+<span class="st">    </span>mymin +<span class="st">  </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) -&gt;
+<span class="st">    </span>gg_age_at_1st_child
+gg_age_at_1st_child</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-2-2.png" /></p>
+</div>
+<div id="age-at-last-child" class="section level2">
+<h2>Age at last child</h2>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(age_at_last_child)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="18%" />
+<col width="22%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">34.58 (7.3)</td>
+<td align="center">35.95 (6.34)</td>
+<td align="center">30.34 (5.41)</td>
+<td align="center">37.59 (6.71)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">37.52 (8.29)</td>
+<td align="center">39.6 (7.5)</td>
+<td align="center">33.57 (6.14)</td>
+<td align="center">44.19 (8.59)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">age_at_last_child =</span> <span class="kw">ifelse</span>(Population ==<span class="st"> &quot;Modern Sweden&quot;</span>, age_at_last_child +<span class="st"> </span><span class="kw">runif</span>(<span class="kw">n</span>())-<span class="fl">0.5</span>, age_at_last_child)) -&gt;<span class="st"> </span>all <span class="co"># want smooth density even though we only have ages at year granularity</span>
+
+<span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> age_at_last_child, <span class="dt">group =</span> <span class="kw">interaction</span>(Population,sex))) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Age at last child&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> sex), <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-3-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> age_at_last_child, <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Density&quot;</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Age at last child&quot;</span>) +
+<span class="st">    </span><span class="kw">facet_grid</span>( sex ~<span class="st"> </span>. )+
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">colour =</span> <span class="ot">NA</span>)+
+<span class="st">    </span>mymin +<span class="st"> </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) -&gt;
+<span class="st">    </span>gg_age_at_last_child
+gg_age_at_last_child</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-3-2.png" /></p>
+</div>
+<div id="reproductive-timespan" class="section level2">
+<h2>Reproductive timespan</h2>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(reproductive_timespan)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="18%" />
+<col width="22%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">9.14 (7.04)</td>
+<td align="center">9.37 (6.61)</td>
+<td align="center">5.32 (4.74)</td>
+<td align="center">14.09 (7.44)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">9.39 (7.4)</td>
+<td align="center">10.32 (6.98)</td>
+<td align="center">5.5 (5.4)</td>
+<td align="center">16.26 (8.38)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">reproductive_timespan =</span> <span class="kw">ifelse</span>(Population ==<span class="st"> &quot;Modern Sweden&quot;</span>, reproductive_timespan +<span class="st"> </span><span class="kw">runif</span>(<span class="kw">n</span>())-<span class="fl">0.5</span>, reproductive_timespan)) -&gt;<span class="st"> </span>all <span class="co"># want smooth density even though we only have ages at year granularity</span>
+all %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">reproductive_timespan =</span> <span class="kw">ifelse</span>(reproductive_timespan&lt;<span class="dv">0</span>,<span class="dv">0</span>,reproductive_timespan)) -&gt;<span class="st"> </span>all
+
+<span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> reproductive_timespan, <span class="dt">group =</span> <span class="kw">interaction</span>(Population,sex))) +
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Reproductive timespan&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> sex),<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-4-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> reproductive_timespan, <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Density&quot;</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Reproductive timespan&quot;</span>) +
+<span class="st">    </span><span class="kw">facet_grid</span>( sex ~<span class="st"> </span>. )+
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">colour =</span> <span class="ot">NA</span>)+
+<span class="st">    </span>mymin +<span class="st"> </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-4-2.png" /></p>
+</div>
+<div id="paternal-age" class="section level2">
+<h2>Paternal age</h2>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(paternalage)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> . ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="27%" />
+<col width="18%" />
+<col width="22%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">.</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">.</td>
+<td align="center">34.37 (7.69)</td>
+<td align="center">35.23 (7.56)</td>
+<td align="center">31.84 (7.05)</td>
+<td align="center">36.28 (8.48)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">paternalage =</span> <span class="kw">ifelse</span>(Population ==<span class="st"> &quot;Modern Sweden&quot;</span>, paternalage +<span class="st"> </span><span class="kw">runif</span>(<span class="kw">n</span>())-<span class="fl">0.5</span>, paternalage)) -&gt;<span class="st"> </span>all <span class="co"># want smooth density even though we only have ages at year granularity</span>
+
+<span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> paternalage)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Paternal age&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_violin</span>() +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="fl">0.4</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="fl">0.4</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-5-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> paternalage), <span class="dt">data =</span> all) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Population, <span class="dt">scale =</span> <span class="st">&quot;free_y&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-5-2.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> paternalage, <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Density&quot;</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">colour =</span> <span class="ot">NA</span>)+
+<span class="st">    </span>mymin +<span class="st"> </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-5-3.png" /></p>
+</div>
+<div id="maternal-age" class="section level2">
+<h2>Maternal age</h2>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(maternalage)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> . ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="27%" />
+<col width="18%" />
+<col width="22%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">.</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">.</td>
+<td align="center">31.54 (6.32)</td>
+<td align="center">31.53 (5.88)</td>
+<td align="center">28.34 (6.11)</td>
+<td align="center">29.58 (6.66)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">maternalage =</span> <span class="kw">ifelse</span>(Population ==<span class="st"> &quot;Modern Sweden&quot;</span>, maternalage +<span class="st"> </span><span class="kw">runif</span>(<span class="kw">n</span>())-<span class="fl">0.5</span>, maternalage)) -&gt;<span class="st"> </span>all <span class="co"># want smooth density even though we only have ages at year granularity</span>
+
+<span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> maternalage)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Maternal age&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_violin</span>() +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="fl">0.4</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="fl">0.4</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-6-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> maternalage), <span class="dt">data =</span> all) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Maternal age&quot;</span>) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Population, <span class="dt">scale =</span> <span class="st">&quot;free_y&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-6-2.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> maternalage, <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Density&quot;</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Maternal age&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">colour =</span> <span class="ot">NA</span>)+
+<span class="st">    </span>mymin +<span class="st"> </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-6-3.png" /></p>
+</div>
+<div id="number-of-children" class="section level2">
+<h2>Number of children</h2>
+<div id="only-those-who-married" class="section level3">
+<h3>only those who married</h3>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(ever_married ==<span class="st"> </span><span class="dv">1</span>) %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(children)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="16%" />
+<col width="22%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">3.6 (3.17)</td>
+<td align="center">3.66 (2.89)</td>
+<td align="center">2.15 (1.11)</td>
+<td align="center">7.71 (4.57)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">4.04 (3.22)</td>
+<td align="center">4.08 (2.95)</td>
+<td align="center">2.17 (1.18)</td>
+<td align="center">8.75 (4.92)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(ever_married ==<span class="st"> </span><span class="dv">1</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> children, <span class="dt">group =</span> <span class="kw">interaction</span>(Population,sex))) +
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> sex),<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-7-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(ever_married ==<span class="st"> </span><span class="dv">1</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> children, <span class="dt">y =</span> ..density.., <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="dv">1</span>),<span class="dt">binwidth=</span><span class="fl">1.1</span>) +
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">25</span>,<span class="dt">by=</span><span class="dv">2</span>)) +
+<span class="st">    </span>mymin +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-7-2.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(ever_married ==<span class="st"> </span><span class="dv">1</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> children)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Population, <span class="dt">scale =</span> <span class="st">&quot;free_y&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-7-3.png" /></p>
+</div>
+<div id="only-those-who-had-children-at-all" class="section level3">
+<h3>only those who had children at all</h3>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(children &gt;<span class="st"> </span><span class="dv">0</span>) %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(children)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="16%" />
+<col width="22%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">4.53 (2.9)</td>
+<td align="center">4.41 (2.6)</td>
+<td align="center">2.29 (0.95)</td>
+<td align="center">8.28 (4.2)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">4.68 (3)</td>
+<td align="center">4.76 (2.63)</td>
+<td align="center">2.33 (1.01)</td>
+<td align="center">9.24 (4.57)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(children &gt;<span class="st"> </span><span class="dv">0</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> children, <span class="dt">group =</span> <span class="kw">interaction</span>(Population,sex))) +
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> sex),<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-8-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(children &gt;<span class="st"> </span><span class="dv">0</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> children, <span class="dt">y =</span> ..density.., <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="dv">1</span>),<span class="dt">binwidth=</span><span class="fl">1.1</span>) +
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">25</span>,<span class="dt">by=</span><span class="dv">2</span>)) +
+<span class="st">    </span>mymin +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-8-2.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(children &gt;<span class="st"> </span><span class="dv">0</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> children)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Population, <span class="dt">scale =</span> <span class="st">&quot;free_y&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-8-3.png" /></p>
+</div>
+<div id="all-included-including-those-who-died-in-childhood" class="section level3">
+<h3>all included, including those who died in childhood</h3>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(children)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="16%" />
+<col width="22%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">1.04 (2.36)</td>
+<td align="center">1.78 (2.72)</td>
+<td align="center">1.91 (1.22)</td>
+<td align="center">4.46 (5.15)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">0.96 (2.32)</td>
+<td align="center">1.62 (2.73)</td>
+<td align="center">1.79 (1.32)</td>
+<td align="center">4.25 (5.55)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> children, <span class="dt">group =</span> <span class="kw">interaction</span>(Population,sex))) +
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> sex),<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-9-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> children, <span class="dt">y =</span> ..density.., <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="dv">1</span>),<span class="dt">binwidth=</span><span class="fl">1.1</span>) +
+<span class="st">    </span>mymin +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-9-2.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> children), <span class="dt">data =</span> all) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Population, <span class="dt">scale =</span> <span class="st">&quot;free_y&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-9-3.png" /></p>
+</div>
+</div>
+<div id="number-of-children-who-live-5-years" class="section level2">
+<h2>Number of children who live 5 years</h2>
+<div id="only-those-who-had-children-at-all-1" class="section level3">
+<h3>only those who had children at all</h3>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(children &gt;<span class="st"> </span><span class="dv">0</span>) %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(children.surviving5y)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="16%" />
+<col width="22%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">3.03 (2.58)</td>
+<td align="center">2.46 (2.31)</td>
+<td align="center">2.28 (0.93)</td>
+<td align="center">5.63 (3.29)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">3.17 (2.61)</td>
+<td align="center">2.69 (2.36)</td>
+<td align="center">2.29 (1)</td>
+<td align="center">6.3 (3.44)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(children &gt;<span class="st"> </span><span class="dv">0</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> children.surviving5y, <span class="dt">group =</span> <span class="kw">interaction</span>(Population,sex))) +
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> sex),<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-10-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(children &gt;<span class="st"> </span><span class="dv">0</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> children.surviving5y, <span class="dt">y =</span> ..density.., <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">position =</span> <span class="kw">position_dodge</span>(),<span class="dt">binwidth=</span><span class="dv">1</span>) +
+<span class="st">    </span>mymin +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-10-2.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(children &gt;<span class="st"> </span><span class="dv">0</span>) %&gt;%
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> children.surviving5y)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Population, <span class="dt">scale =</span> <span class="st">&quot;free_y&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-10-3.png" /></p>
+</div>
+<div id="all-included-including-those-who-died-in-childhood-1" class="section level3">
+<h3>all included, including those who died in childhood</h3>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd</span>(children.surviving5y)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="16%" />
+<col width="22%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">0.7 (1.78)</td>
+<td align="center">0.99 (1.9)</td>
+<td align="center">1.89 (1.21)</td>
+<td align="center">3.03 (3.7)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">0.65 (1.74)</td>
+<td align="center">0.92 (1.88)</td>
+<td align="center">1.76 (1.3)</td>
+<td align="center">2.9 (3.91)</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Population, <span class="dt">y =</span> children.surviving5y, <span class="dt">group =</span> <span class="kw">interaction</span>(Population,sex))) +
+<span class="st">    </span><span class="kw">coord_flip</span>()+
+<span class="st">    </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> sex),<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&quot;mean_cl_boot&quot;</span>,<span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="dv">1</span>)) +
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-11-1.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(all, <span class="kw">aes</span>(<span class="dt">x =</span> children.surviving5y, <span class="dt">y =</span> ..density.., <span class="dt">fill =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="dv">1</span>),<span class="dt">binwidth=</span><span class="fl">1.1</span>) +
+<span class="st">    </span>mymin +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-11-2.png" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> children.surviving5y), <span class="dt">data =</span> all) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="fl">1.1</span>) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Population, <span class="dt">scale =</span> <span class="st">&quot;free_y&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>mymin</code></pre>
+<p><img src="1_compare_descriptives_files/figure-html/unnamed-chunk-11-3.png" /></p>
+</div>
+</div>
+<div id="child-mortality" class="section level2">
+<h2>Child mortality</h2>
+<p>number of children surviving their first year</p>
+<pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">message=</span>F,<span class="dt">warning=</span>F)
+<span class="kw">load</span>(<span class="st">&quot;swed1.rdata&quot;</span>)
+swed<span class="fl">.2</span>$Population =<span class="st"> &quot;Modern Sweden&quot;</span>
+all =<span class="st"> </span><span class="kw">data.table</span>(all)
+all =<span class="st"> </span><span class="kw">rbind</span>(
+    all[Population !=<span class="st"> &quot;Modern Sweden&quot;</span>, <span class="kw">list</span>(paternalage, maternalage, age_at_1st_child, age_at_last_child, children, children.surviving5y, male, Population, survive1y,surviveR)],
+    swed<span class="fl">.2</span>[byear &lt;<span class="st"> </span><span class="dv">1990</span>, <span class="kw">list</span>(paternalage, maternalage, age_at_1st_child, age_at_last_child, children, children.surviving5y, male, Population, survive1y,surviveR)]
+)
+all =<span class="st"> </span><span class="kw">setDF</span>(all)
+all$sex =<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(all$male==<span class="dv">1</span>,<span class="st">&quot;male&quot;</span>,<span class="st">&quot;female&quot;</span>))
+all$reproductive_timespan =<span class="st"> </span>all$age_at_last_child  -<span class="st"> </span>all$age_at_1st_child
+all$<span class="st">`</span><span class="dt">Birth outcome</span><span class="st">`</span> =<span class="st"> </span><span class="dv">1</span>+all$survive1y+all$surviveR
+all =<span class="st"> </span>all[!<span class="kw">is.na</span>(all$sex), ]
+<span class="kw">rm</span>(swed<span class="fl">.1</span>,swed<span class="fl">.2</span>)
+
+<span class="kw">library</span>(formr)
+in_100 =<span class="st"> </span>function(x) {
+    x =<span class="st"> </span><span class="kw">na.omit</span>(x)
+    prop =<span class="st"> </span><span class="kw">round</span>(<span class="kw">mean</span>(x) *<span class="st"> </span><span class="dv">100</span>)
+    <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;lived to 1 year&quot;</span>, prop), <span class="kw">rep</span>(<span class="st">&quot;died&quot;</span>, <span class="dv">100</span>-prop))
+}
+counts_unit =<span class="st"> </span>function(x, <span class="dt">unit =</span> <span class="dv">1000</span>) {
+    x =<span class="st"> </span><span class="kw">na.omit</span>(x)
+    bigger_units =<span class="st"> </span><span class="kw">round</span>(<span class="kw">table</span>(x)/unit)
+    bins =<span class="st"> </span><span class="kw">paste</span>(unit,<span class="kw">names</span>(bigger_units))
+    <span class="kw">factor</span>(<span class="kw">rep</span>(bins,bigger_units), <span class="dt">levels =</span> bins)
+}
+qwaffle =<span class="st"> </span>function(Pop, <span class="dt">unit =</span> <span class="dv">1000</span>) {
+    all %&gt;%<span class="st"> </span>
+<span class="st">        </span><span class="kw">filter</span>(Population ==<span class="st"> </span>Pop) %&gt;%<span class="st"> </span>
+<span class="st">        </span>.[, <span class="st">&quot;Birth outcome&quot;</span>] %&gt;%
+<span class="st">        </span><span class="kw">counts_unit</span>(., unit) %&gt;%<span class="st"> </span>
+<span class="st">        </span><span class="kw">qplot_waffle_tile</span>() +<span class="st"> </span>
+<span class="st">            </span><span class="kw">theme</span>(<span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">30</span>)) +<span class="st"> </span>
+<span class="st">            </span><span class="kw">scale_fill_manual</span>(<span class="kw">paste</span>(unit, <span class="st">&quot;births&quot;</span>),<span class="dt">breaks=</span><span class="dv">1</span>:<span class="dv">3</span>,<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;births who lived up to 1y&quot;</span>,<span class="st">&quot;births who lived 1y-15y&quot;</span>,<span class="st">&quot;births who lived 15y+&quot;</span>), <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;darkred&quot;</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;gray90&quot;</span>)) +<span class="st"> </span>
+<span class="st">            </span><span class="kw">ggtitle</span>(Pop)
+}
+all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">value =</span> <span class="kw">mean_sd_bin</span>(survive1y)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="19%" />
+<col width="22%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">0.880 (0.105)</td>
+<td align="center">0.889 (0.099)</td>
+<td align="center">0.995 (0.005)</td>
+<td align="center">0.810 (0.154)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">0.859 (0.121)</td>
+<td align="center">0.871 (0.113)</td>
+<td align="center">0.993 (0.007)</td>
+<td align="center">0.768 (0.178)</td>
+</tr>
+</tbody>
+</table>
+<p>number of children surviving to 15</p>
+<pre class="sourceCode r"><code class="sourceCode r">all %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(Population, sex) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">surviveR =</span> <span class="kw">mean_sd_bin</span>(surviveR)) %&gt;%
+<span class="st">    </span><span class="kw">dcast</span>(<span class="dt">formula =</span> sex ~<span class="st"> </span>Population)</code></pre>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="19%" />
+<col width="22%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sex</th>
+<th align="center">Historical Sweden</th>
+<th align="center">Krummhörn</th>
+<th align="center">Modern Sweden</th>
+<th align="center">Québec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">female</td>
+<td align="center">0.724 (0.200)</td>
+<td align="center">0.740 (0.192)</td>
+<td align="center">0.992 (0.008)</td>
+<td align="center">0.700 (0.210)</td>
+</tr>
+<tr class="even">
+<td align="center">male</td>
+<td align="center">0.688 (0.215)</td>
+<td align="center">0.727 (0.198)</td>
+<td align="center">0.990 (0.010)</td>
+<td align="center">0.657 (0.225)</td>
+</tr>
+</tbody>
+</table>
+<div class="row">
+<div class="col-md-6">
+<img src="1_compare_descriptives_files/figure-html/unnamed-chunk-14-1.png" />
+</div>
+<div class="col-md-6">
+<img src="1_compare_descriptives_files/figure-html/unnamed-chunk-15-1.png" />
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+<img src="1_compare_descriptives_files/figure-html/unnamed-chunk-16-1.png" />
+</div>
+<div class="col-md-6">
+<img src="1_compare_descriptives_files/figure-html/unnamed-chunk-17-1.png" />
+</div>
+</div>
+</div>
+</div>
+<div id="wrap-up" class="section level1 accordion">
+<h1>Wrap up</h1>
+<div id="session-info" class="section level4">
+<h4>Session Info</h4>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre>
+<p><strong>R version 3.2.0 (2015-04-16)</strong></p>
+<p><strong>Platform:</strong> x86_64-apple-darwin13.4.0 (64-bit)</p>
+<p><strong>locale:</strong> en_US.UTF-8||en_US.UTF-8||en_US.UTF-8||C||en_US.UTF-8||en_US.UTF-8</p>
+<p><strong>attached base packages:</strong> <em>grid</em>, <em>parallel</em>, <em>graphics</em>, <em>grDevices</em>, <em>utils</em>, <em>datasets</em>, <em>stats</em>, <em>methods</em> and <em>base</em></p>
+<p><strong>other attached packages:</strong> <em>reshape2(v.1.4.1)</em>, <em>lubridate(v.1.3.3)</em>, <em>car(v.2.0-25)</em>, <em>Hmisc(v.3.16-0)</em>, <em>Formula(v.1.2-1)</em>, <em>survival(v.2.38-1)</em>, <em>lattice(v.0.20-31)</em>, <em>doMC(v.1.3.3)</em>, <em>iterators(v.1.0.7)</em>, <em>foreach(v.1.4.2)</em>, <em>boot(v.1.3-16)</em>, <em>MCMCglmm(v.2.22)</em>, <em>ape(v.3.3)</em>, <em>coda(v.0.17-1)</em>, <em>Matrix(v.1.2-1)</em>, <em>stringi(v.0.5-2)</em>, <em>dplyr(v.0.4.1)</em>, <em>pander(v.0.5.2)</em>, <em>knitr(v.1.10.5)</em>, <em>rmarkdown(v.0.7)</em>, <em>plyr(v.1.8.3)</em>, <em>ggplot2(v.1.0.1)</em>, <em>formr(v.0.2.9)</em>, <em>data.table(v.1.9.5)</em>, <em>stringr(v.1.0.0)</em> and <em>devtools(v.1.8.0)</em></p>
+<p><strong>loaded via a namespace (and not attached):</strong> <em>Rcpp(v.0.11.6)</em>, <em>corpcor(v.1.6.7)</em>, <em>assertthat(v.0.1)</em>, <em>digest(v.0.6.8)</em>, <em>chron(v.2.3-46)</em>, <em>acepack(v.1.3-3.3)</em>, <em>evaluate(v.0.7)</em>, <em>lazyeval(v.0.1.10)</em>, <em>curl(v.0.9)</em>, <em>cubature(v.1.1-2)</em>, <em>minqa(v.1.2.4)</em>, <em>SparseM(v.1.6)</em>, <em>nloptr(v.1.0.4)</em>, <em>rpart(v.4.1-9)</em>, <em>proto(v.0.3-10)</em>, <em>labeling(v.0.3)</em>, <em>splines(v.3.2.0)</em>, <em>lme4(v.1.1-7)</em>, <em>foreign(v.0.8-63)</em>, <em>munsell(v.0.4.2)</em>, <em>compiler(v.3.2.0)</em>, <em>rversions(v.1.0.1)</em>, <em>mgcv(v.1.8-6)</em>, <em>htmltools(v.0.2.6)</em>, <em>nnet(v.7.3-9)</em>, <em>tensorA(v.0.36)</em>, <em>gridExtra(v.0.9.1)</em>, <em>codetools(v.0.2-11)</em>, <em>MASS(v.7.3-40)</em>, <em>nlme(v.3.1-120)</em>, <em>gtable(v.0.1.2)</em>, <em>DBI(v.0.3.1)</em>, <em>git2r(v.0.10.1)</em>, <em>magrittr(v.1.5)</em>, <em>formatR(v.1.2)</em>, <em>scales(v.0.2.5)</em>, <em>latticeExtra(v.0.6-26)</em>, <em>xml2(v.0.1.1)</em>, <em>RColorBrewer(v.1.1-2)</em>, <em>tools(v.3.2.0)</em>, <em>pbkrtest(v.0.4-2)</em>, <em>colorspace(v.1.2-6)</em>, <em>cluster(v.2.0.1)</em>, <em>memoise(v.0.2.1)</em> and <em>quantreg(v.5.11)</em></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre>
+<p>Thu Oct 22 14:28:15 2015</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

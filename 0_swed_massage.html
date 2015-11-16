@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Modern Sweden Data Wrangling</title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div style="width:100%;height:200px;background-image:url('library/header/swed.jpg');background-size:cover;"></div>
+<div class="container-fluid main-container"><div class="row"><div class="col-md-4"><a href="index.html"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div></div></div>
+
+<div class="container-fluid main-container">
+
+
+<div id="swedish-contemporary-data-paternal-age---fitness" class="section level1">
+<h1>Swedish contemporary data Paternal age -&gt; Fitness</h1>
+<div id="the-swedish-multi-generation-register" class="section level3">
+<h3>The Swedish Multi-Generation Register</h3>
+<p>The Swedish Multi-Generation Register was established in 1960 and includes index persons born since 1932 that were alive in 1960. The register also includes the parents of the index persons. The parents are included in the register even if they were not born after 1932 or alive in 1960. The coverage of parents of individuals born in Sweden is approximately 98 % for fathers and 100 % for mothers around 1960 (see graph below).</p>
+</div>
+<div id="left-truncation" class="section level3">
+<h3>Left truncation</h3>
+<p>Left truncation refers to data that is retrospectively limited resulting in exclusion of study subjects. The truncation is dependent on birth strata. Still, matching cases and controls on birth year does not automatically take care of problems due to left truncation. In these studies, the data might be truncated regarding parental ages. Individuals born before the initiation of the Multi-Generation Register in 1932 are excluded due to left truncation of parental age data. However, the Multi-Generation Register includes parental information of individuals born since 1932 and ages of their parents are not extensively subjected to left truncation. In order to collate a sample consisting of 3 generations, parents have to be born after 1932. As a result, older parents are more likely to be excluded than younger parents. These problems may be addressed with several approaches in sensitivity analyses</p>
+</div>
+<div id="left-censoring" class="section level3">
+<h3>Left censoring</h3>
+<p>When an event occurs before the individual comes under observation, this is called left censoring. Studies on paternal age and number of offspring might be subjected to left censoring regarding number of children because children born before 1932 are censored. Different sensitivity analyses can be used to examine potential problems with left censoring.</p>
+<div id="difference-between-left-truncation-and-left-censoring" class="section level4">
+<h4>Difference between left truncation and left censoring</h4>
+<ul>
+<li>If a man has all his children before 1932 he will be excluded due to left truncation.</li>
+<li>If a man has some children before 1932 and others after 1932 this man will be included as well as children born after 1932 who were alive in 1960. However, the children born before 1932 will be excluded due to left censoring.</li>
+</ul>
+</div>
+</div>
+<div id="right-censoring" class="section level3">
+<h3>Right censoring</h3>
+<p>When an event occurs after the observation time end-point, this is called right censoring. Studies on paternal age in association to fertility might be subjected to left censoring regarding number of children because all children born after December 31 st 2009 are censored. However, problems with censoring can be adjusted for by using Cox regression or conditional logistic regression.</p>
+</div>
+<div id="other-issues" class="section level3">
+<h3>Other issues</h3>
+<ul>
+<li>Lopnrs are unique for each individual. However, an individual can occur several times, either as fathers, grandfathers or children.</li>
+<li>Some observations consist of two generations. Others have complete data for three generations.</li>
+<li>Educational level classification: 1. Elementary school,&lt; 9 y 2. Compulsory school, 9 y 3. Upper secondary, &lt; 3 y 4. Upper secondary, 3 y 5. Postsecondary, &lt; 3 y 6. University graduate, ≥ 3 y 7. University postgraduate (PhD)</li>
+<li>Lopnr=id number (mor=mother, far=father, mormor=maternal grandmother, morfar=maternal grandfather, farmor= paternal grandmother, farfar= paternal grandfather )</li>
+<li>Kon = sex</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bsub -q fat -W 48:00 -n 1 Rscript -e &quot;setwd(&#39;/usr/users/rarslan/updated_data/&#39;); filebase = &#39;0_swed_massage&#39;; knitr::knit(input = paste0(filebase,&#39;.Rmd&#39;), output = paste0(filebase,&#39;.md&#39;));cat(readLines(paste0(filebase,&#39;.md&#39;)), sep = &#39;\n&#39;)&quot;</span>
+<span class="kw">library</span>(Hmisc); <span class="kw">library</span>(car); <span class="kw">library</span>(psych); <span class="kw">library</span>(QuantPsyc); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(lubridate); <span class="kw">library</span>(stringr); <span class="kw">library</span>(zoo); <span class="kw">library</span>(reshape2); <span class="kw">library</span>(plyr); <span class="kw">library</span>(knitr); <span class="kw">library</span>(data.table); <span class="kw">library</span>(formr); <span class="kw">library</span>(haven); <span class="kw">library</span>(dplyr)
+opts_chunk$<span class="kw">set</span>(<span class="dt">cache=</span>T,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">12</span>,<span class="dt">fig.height=</span><span class="fl">7.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
+<span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)</code></pre>
+</div>
+<div id="calculating-mating-success" class="section level3">
+<h3>Calculating mating success</h3>
+<p>Info about marriage is called CIVIL. You can be listed as G (married), OG (never married), S (divorced) or Ä (widow/widower). There is also a variable called CIVILANTAR which describes how many years you have had the same CIVIL. This info is updated annually and we have information from 1990-2009.</p>
+<p>I have created a file where I just extracted all data about individual marriage status (including all women and men). We actually have info dating back to 1960 for another data source called FOB (folkbokföringsregistret). This data was collected in 1960, 1970, 1975, 1980, 1985 and 1990. FOB does not include CIVILANTAR (number of years with the same CIVIL status).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># system.time({</span>
+<span class="co"># swed_civil60_85 = read_sas(&quot;~/Downloads/civil_1960_1985.sas7bdat&quot;)</span>
+<span class="co"># swed_civil60_85 = data.table(swed_civil60_85)</span>
+<span class="co"># })</span>
+<span class="co"># system.time({</span>
+<span class="co"># swed_civil90_09 = read_sas(&quot;~/Downloads/civil_1990_2009.sas7bdat&quot;)</span>
+<span class="co"># swed_civil90_09 = data.table(swed_civil90_09)</span>
+<span class="co"># })</span>
+<span class="co"># setkey(swed_civil60_85, LOPNR, year)</span>
+<span class="co"># setkey(swed_civil90_09, LOPNR, year)</span>
+<span class="co"># </span>
+<span class="co"># # swed_civil60_85 = head(swed_civil60_85, 1e5)</span>
+<span class="co"># # swed_civil90_09 = head(swed_civil90_09, 1e5)</span>
+<span class="co"># </span>
+<span class="co"># swed_civil = rbind(swed_civil60_85,swed_civil90_09)</span>
+<span class="co"># setkey(swed_civil, LOPNR, year) # sort by person, then year</span>
+<span class="co"># save(swed_civil,file=&quot;data/swed_civil.rdata&quot;)</span>
+<span class="co"># rm(swed_civil60_85, swed_civil90_09) # free memory</span>
+
+<span class="kw">load</span>(<span class="st">&quot;data/swed_civil.rdata&quot;</span>)
+
+<span class="co"># tail(swed_civil, 100)</span>
+<span class="co"># swed_civil[LOPNR == 9862, ]</span>
+<span class="co"># swed_civil[LOPNR == 7, ]</span>
+<span class="co"># swed_civil[LOPNR==8602, ]</span>
+
+<span class="kw">crosstabs</span>(swed_civil$kod)</code></pre>
+<pre><code>## swed_civil$kod
+##       0G        Ä       EP        G       OG       RP        S       SP 
+##        1 13243746     1177 81992711 69182406    38685 19884023     7090</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># buggy patterns: some people go back to being &quot;never married&quot;. This is logically impossible and and seems to be due to some data error where unmarried people are catalogued as divorced in the early years</span>
+swed_civil[, kod_fixed :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(kod==<span class="st">&quot;OG&quot;</span>,<span class="st">&quot;OG&quot;</span>,<span class="ot">NA_character_</span>)] <span class="co"># we set up a variable with only the OG codes, everything else is missing</span>
+swed_civil[, kod_fixed :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(kod_fixed, LOPNR, <span class="dt">FUN =</span> function(kod_fixed) { <span class="kw">na.locf</span>(kod_fixed, <span class="dt">na.rm=</span>F, <span class="dt">fromLast =</span> T) })] <span class="co"># we carry the OGs backward, so that everybody is always unmarried until the most recent time they were counted as unmarried (implicitly assuming that recent data is more reliable)</span>
+swed_civil[<span class="kw">is.na</span>(kod_fixed), kod_fixed :<span class="er">=</span><span class="st"> </span>kod] <span class="co"># for all years that weren&#39;t followed by a &quot;never married status&quot;, we take the old codes</span>
+
+
+swed_civil[, status_end :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>] <span class="co"># find the points in the time series where the civil status changes</span>
+swed_civil[, status_end :<span class="er">=</span><span class="st"> </span><span class="kw">lead</span>(kod_fixed) !=<span class="st"> </span>kod_fixed] <span class="co"># whenever the code changes, obviously (divorces, spousal death, marriages)</span>
+swed_civil[, status_end :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">c</span>(!<span class="kw">is.na</span>(<span class="kw">diff</span>(CIVILANTAR)) &amp;<span class="st"> </span><span class="kw">diff</span>(CIVILANTAR) &lt;<span class="st"> </span><span class="kw">diff</span>(year), F), <span class="ot">TRUE</span>, status_end)] <span class="co"># whenever the number of years with the same status changes (could be divorced and remarried within less than the year difference). Should theoretically encompass all the above cases, but we don&#39;t trust this.</span>
+swed_civil[, status_end :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">lead</span>(LOPNR) ==<span class="st"> </span>LOPNR, status_end, T)] <span class="co"># whenever the person changes, that is a status end too, it&#39;s basically their &quot;last seen as&quot;</span>
+swed_civil[<span class="kw">nrow</span>(swed_civil), status_end :<span class="er">=</span><span class="st"> </span><span class="ot">TRUE</span>] <span class="co"># last row</span>
+
+
+<span class="co"># now we try to count marriages with all available information</span>
+swed_civil[, marriage_count :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(kod_fixed ==<span class="st"> &quot;G&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)] <span class="co"># if you marry, you gain one, OG = constant (for the sake of comparability and because legislation related to this is rather recent, we also treat registered partnerships as 0s)</span>
+#####################
+### special cases ###
+#####################
+<span class="co"># first row for each person: if someone starts out as widow(er)/divorcee, then count as 1</span>
+swed_civil[!<span class="kw">duplicated</span>(LOPNR) &amp;<span class="st"> </span>kod_fixed %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;S&quot;</span>,<span class="st">&quot;Ä&quot;</span>), marriage_count :<span class="er">=</span><span class="st"> </span><span class="dv">1</span>]
+<span class="co"># if someone goes from being OG straight to being divorced or widowed (esp in the early data, when assessments is five-yearly)</span>
+swed_civil[, marriage_count :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(
+    <span class="kw">ave</span>(kod_fixed, LOPNR, <span class="dt">FUN =</span> function(kod_fixed) { !<span class="kw">is.na</span>(<span class="kw">lag</span>(kod_fixed)) &amp;<span class="st"> </span><span class="kw">lag</span>(kod_fixed) ==<span class="st">&quot;OG&quot;</span> &amp;<span class="st"> </span>kod_fixed %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;S&quot;</span>,<span class="st">&quot;Ä&quot;</span>) }),
+    <span class="dv">1</span>, <span class="co"># is S/Ä right after OG? count as 1, not -1</span>
+    marriage_count)] <span class="co"># other wise keep value</span>
+
+<span class="co"># now we count &quot;cumulative&quot; spouses (number of spouses had in whole life in given year)</span>
+swed_civil[, cumul_spouses :<span class="er">=</span><span class="st"> </span><span class="ot">NA_real_</span>]
+swed_civil[status_end ==<span class="st"> </span><span class="ot">TRUE</span>, cumul_spouses :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(marriage_count,LOPNR, <span class="dt">FUN =</span> cumsum)] ## we only use the times when the status ends
+<span class="kw">crosstabs</span>(swed_civil[<span class="kw">lead</span>(LOPNR) !=<span class="st"> </span>LOPNR, cumul_spouses]) <span class="co"># personal maxima</span></code></pre>
+<pre><code>## swed_civil[lead(LOPNR) != LOPNR, cumul_spouses]
+##       0       1       2       3       4       5       6       7       8 
+## 4462254 6944642 1107224  108534    7255     486      58       6       4 
+##       9 
+##       1</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed_civil_s =<span class="st"> </span>swed_civil %&gt;%
+<span class="kw">rename</span>(<span class="dt">idIndividu =</span> LOPNR) %&gt;%<span class="st"> </span><span class="co"># now make one row per person</span>
+<span class="st">    </span><span class="kw">group_by</span>(idIndividu) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(
+        <span class="dt">marriage_codes =</span> <span class="kw">paste</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(kod_fixed)), <span class="dt">collapse=</span><span class="st">&quot;,&quot;</span>), 
+        <span class="dt">ever_married_narrow =</span> <span class="kw">ifelse</span>(<span class="kw">any</span>(kod_fixed ==<span class="st"> &#39;G&#39;</span>), <span class="dv">1</span>, <span class="dv">0</span>), <span class="co"># this is the simplest (fewest errors?) way to determine if someone was ever married</span>
+        <span class="dt">ever_married =</span> <span class="kw">ifelse</span>(<span class="kw">any</span>(kod_fixed %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;G&#39;</span>,<span class="st">&#39;S&#39;</span>,<span class="st">&#39;Ä&#39;</span>)), <span class="dv">1</span>, <span class="dv">0</span>), <span class="co"># this is the inclusive way to determine if someone was ever married, includes people for whom we only know they were divorced. only slight discrepancy with the above after error correction</span>
+        <span class="dt">years_married =</span> <span class="kw">sum</span>(CIVILANTAR[ kod_fixed ==<span class="st"> &quot;G&quot;</span> &amp;<span class="st"> </span>status_end ==<span class="st"> </span>T]), <span class="co"># for years married we take a more conservative approach and don&#39;t put so much effort into reconstructing unobserved marriages</span>
+        <span class="dt">spouses =</span> <span class="kw">max</span>(cumul_spouses,<span class="dt">na.rm=</span>T), <span class="co"># for each person we take lifetime number of spouses</span>
+        <span class="dt">times_divorced =</span> <span class="kw">sum</span>(kod_fixed ==<span class="st"> &quot;S&quot;</span> &amp;<span class="st"> </span>status_end ==<span class="st"> </span>T), <span class="co"># count S</span>
+        <span class="dt">year_of_first_marriage =</span> <span class="kw">ifelse</span>(<span class="kw">any</span>(marriage_count ==<span class="st"> </span><span class="dv">1</span>), <span class="kw">min</span>(year[marriage_count ==<span class="st"> </span><span class="dv">1</span>], <span class="dt">na.rm=</span>T), <span class="ot">NA_real_</span>), <span class="co"># won&#39;t work for everyone, we&#39;re not using years_married to count back</span>
+        <span class="dt">times_widowed =</span> <span class="kw">sum</span>(kod_fixed ==<span class="st"> &quot;Ä&quot;</span> &amp;<span class="st"> </span>status_end ==<span class="st"> </span>T), <span class="co"># count Ä</span>
+        <span class="dt">years_unmarried =</span> <span class="kw">sum</span>(CIVILANTAR[ kod_fixed ==<span class="st"> &quot;OG&quot;</span> &amp;<span class="st"> </span>status_end ==<span class="st"> </span>T])
+) %&gt;%<span class="st"> </span><span class="kw">data.table</span>()
+<span class="co"># qplot(years_married, data=swed_civil_s)</span>
+<span class="co"># qplot(years_married, data=swed_civil_s) + xlim(1,NA)</span>
+<span class="co"># qplot(ever_married, data=swed_civil_s)</span>
+<span class="co"># qplot(years_married,years_unmarried, geom = &#39;jitter&#39;, data=swed_civil_s)</span>
+<span class="kw">rm</span>(swed_civil) <span class="co"># free memory</span>
+
+<span class="kw">crosstabs</span>(~<span class="st"> </span>years_married +<span class="st"> </span>ever_married, <span class="dt">data=</span>swed_civil_s)</code></pre>
+<pre><code>##              ever_married
+## years_married       0       1
+##          0    4044284  931033
+##          1          0  124615
+##          2          0  126998
+##          3          0  124607
+##          4          0  119152
+##          5          0  113206
+##          6          0  103153
+##          7          0   98574
+##          8          0   92754
+##          9          0   95272
+##          10         0   85548
+##          11         0   78329
+##          12         0   76730
+##          13         0   76345
+##          14         0   74645
+##          15         0   74236
+##          16         0   73153
+##          17         0   75402
+##          18         0   72494
+##          19         0   75613
+##          20         0  146811
+##          21         0   71191
+##          22         0   66565
+##          23         0   62447
+##          24         0   62338
+##          25         0   60659
+##          26         0   58970
+##          27         0   58562
+##          28         0   58223
+##          29         0   59036
+##          30         0   58535
+##          31         0   57761
+##          32         0   59905
+##          33         0   64158
+##          34         0   66150
+##          35         0   67932
+##          36         0   62780
+##          37         0   63975
+##          38         0   66159
+##          39         0   71019
+##          40         0   76885
+##          41         0   81136
+##          42         0   86306
+##          43         0   89134
+##          44         0   89034
+##          45         0   87608
+##          46         0   83593
+##          47         0   84392
+##          48         0   83845
+##          49         0   82298
+##          50         0   80882
+##          51         0   80379
+##          52         0   78960
+##          53         0   75088
+##          54         0   73158
+##          55         0   68787
+##          56         0   63761
+##          57         0   57827
+##          58         0   52369
+##          59         0   45741
+##          60         0   39196
+##          61         0   33060
+##          62         0   27362
+##          63         0   21284
+##          64         0   16323
+##          65         0   11383
+##          66         0    7973
+##          67         0    5362
+##          68         0    3403
+##          69         0    2165
+##          70         0    1262
+##          71         0     772
+##          72         0     425
+##          73         0     242
+##          74         0     156
+##          75         0      76
+##          76         0      72
+##          77         0      51
+##          78         0      25
+##          79         0      32
+##          80         0      15
+##          81         0       8
+##          82         0      18
+##          83         0       7
+##          84         0      11
+##          85         0      11
+##          86         0       8
+##          87         0       7
+##          88         0       5
+##          89         0       2
+##          90         0       6
+##          91         0       2
+##          92         0       7
+##          93         0       3
+##          94         0       3
+##          95         0       5
+##          96         0       4
+##          97         0       6
+##          98         0       3
+##          99         0       4
+##          100        0       3
+##          101        0       1
+##          102        0       1
+##          103        0       2
+##          104        0       4
+##          105        0       4
+##          106        0       3
+##          107        0       8
+##          108        0       1
+##          109        0       2
+##          112        0       3
+##          113        0       1
+##          114        0       2
+##          115        0       1
+##          116        0       2
+##          117        0       1
+##          119        0       3
+##          120        0       2
+##          121        0       2
+##          122        0       2
+##          123        0       2
+##          128        0       1
+##          &lt;NA&gt;       0 2859153</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>years_married +<span class="st"> </span>spouses, <span class="dt">data=</span>swed_civil_s)</code></pre>
+<pre><code>##              spouses
+## years_married       0       1       2       3       4       5       6
+##          0    4462254  511697    1328      37       1       0       0
+##          1          0  121773    2737      99       6       0       0
+##          2          0  122576    4238     169      14       1       0
+##          3          0  118532    5775     279      18       2       0
+##          4          0  111640    7059     406      44       1       2
+##          5          0  104733    7934     493      42       4       0
+##          6          0   94095    8400     604      50       2       2
+##          7          0   89120    8698     674      71      10       1
+##          8          0   83234    8734     702      73       9       2
+##          9          0   85814    8618     760      71       8       0
+##          10         0   75543    9146     774      75       8       2
+##          11         0   69042    8466     731      79      10       1
+##          12         0   67362    8523     775      60       9       1
+##          13         0   67446    8163     669      56       8       2
+##          14         0   65780    8162     641      56       4       2
+##          15         0   65717    7860     604      47       8       0
+##          16         0   64911    7597     584      51       6       4
+##          17         0   67471    7367     530      31       2       1
+##          18         0   64749    7193     514      36       2       0
+##          19         0   67908    7243     422      38       1       1
+##          20         0  138316    8044     416      34       0       1
+##          21         0   63546    7230     395      17       3       0
+##          22         0   58721    7450     371      22       0       1
+##          23         0   54541    7483     406      16       1       0
+##          24         0   53448    8462     402      24       2       0
+##          25         0   51262    8936     435      22       3       0
+##          26         0   49134    9369     450      17       0       0
+##          27         0   48666    9417     451      26       2       0
+##          28         0   47830    9837     530      26       0       0
+##          29         0   47737   10717     559      22       0       1
+##          30         0   46902   11047     565      21       0       0
+##          31         0   46771   10352     612      26       0       0
+##          32         0   49413    9811     654      27       0       0
+##          33         0   54023    9413     696      25       1       0
+##          34         0   55026   10375     722      26       1       0
+##          35         0   56866   10291     749      23       3       0
+##          36         0   52225    9658     877      20       0       0
+##          37         0   53569    9527     860      19       0       0
+##          38         0   56069    9205     860      23       2       0
+##          39         0   28793   41485     726      15       0       0
+##          40         0   26328   49888     661       8       0       0
+##          41         0   28443   52180     505       8       0       0
+##          42         0   31047   54821     427      11       0       0
+##          43         0   33427   55365     339       3       0       0
+##          44         0   36188   52603     243       0       0       0
+##          45         0   38940   48504     163       1       0       0
+##          46         0   40889   42613      88       2       1       0
+##          47         0   44364   39980      48       0       0       0
+##          48         0   47262   36576       7       0       0       0
+##          49         0   76196    6096       6       0       0       0
+##          50         0   80656     221       5       0       0       0
+##          51         0   80207     168       4       0       0       0
+##          52         0   78799     160       0       1       0       0
+##          53         0   74956     128       3       1       0       0
+##          54         0   73038     118       2       0       0       0
+##          55         0   68679     105       3       0       0       0
+##          56         0   63694      63       4       0       0       0
+##          57         0   57757      68       2       0       0       0
+##          58         0   52296      70       3       0       0       0
+##          59         0   45689      50       2       0       0       0
+##          60         0   39150      44       2       0       0       0
+##          61         0   33022      38       0       0       0       0
+##          62         0   27336      26       0       0       0       0
+##          63         0   21250      31       3       0       0       0
+##          64         0   16292      29       2       0       0       0
+##          65         0   11368      14       1       0       0       0
+##          66         0    7958      10       5       0       0       0
+##          67         0    5346      15       1       0       0       0
+##          68         0    3389      12       2       0       0       0
+##          69         0    2149      15       1       0       0       0
+##          70         0    1249      10       3       0       0       0
+##          71         0     762       9       1       0       0       0
+##          72         0     415      10       0       0       0       0
+##          73         0     236       3       3       0       0       0
+##          74         0     144      10       2       0       0       0
+##          75         0      68       8       0       0       0       0
+##          76         0      65       7       0       0       0       0
+##          77         0      42       7       2       0       0       0
+##          78         0      20       4       1       0       0       0
+##          79         0      26       4       2       0       0       0
+##          80         0      12       2       1       0       0       0
+##          81         0       5       2       1       0       0       0
+##          82         0       6      11       1       0       0       0
+##          83         0       6       1       0       0       0       0
+##          84         0       3       8       0       0       0       0
+##          85         0       2       7       2       0       0       0
+##          86         0       4       4       0       0       0       0
+##          87         0       1       6       0       0       0       0
+##          88         0       0       2       3       0       0       0
+##          89         0       2       0       0       0       0       0
+##          90         0       3       3       0       0       0       0
+##          91         0       0       2       0       0       0       0
+##          92         0       2       5       0       0       0       0
+##          93         0       0       3       0       0       0       0
+##          94         0       0       3       0       0       0       0
+##          95         0       0       5       0       0       0       0
+##          96         0       0       4       0       0       0       0
+##          97         0       0       6       0       0       0       0
+##          98         0       0       3       0       0       0       0
+##          99         0       0       4       0       0       0       0
+##          100        0       0       3       0       0       0       0
+##          101        0       0       1       0       0       0       0
+##          102        0       0       1       0       0       0       0
+##          103        0       0       2       0       0       0       0
+##          104        0       0       4       0       0       0       0
+##          105        0       0       4       0       0       0       0
+##          106        0       0       3       0       0       0       0
+##          107        0       0       8       0       0       0       0
+##          108        0       0       1       0       0       0       0
+##          109        0       0       2       0       0       0       0
+##          112        0       0       3       0       0       0       0
+##          113        0       0       1       0       0       0       0
+##          114        0       0       2       0       0       0       0
+##          115        0       0       1       0       0       0       0
+##          116        0       0       2       0       0       0       0
+##          117        0       0       1       0       0       0       0
+##          119        0       0       2       0       0       1       0
+##          120        0       0       2       0       0       0       0
+##          121        0       0       2       0       0       0       0
+##          122        0       0       2       0       0       0       0
+##          123        0       0       2       0       0       0       0
+##          128        0       0       1       0       0       0       0
+##          &lt;NA&gt;       0 2463454  305660   83777    5850     371      34
+##              spouses
+## years_married       7       8       9
+##          0          0       0       0
+##          1          0       0       0
+##          2          0       0       0
+##          3          1       0       0
+##          4          0       0       0
+##          5          0       0       0
+##          6          0       0       0
+##          7          0       0       0
+##          8          0       0       0
+##          9          0       1       0
+##          10         0       0       0
+##          11         0       0       0
+##          12         0       0       0
+##          13         0       1       0
+##          14         0       0       0
+##          15         0       0       0
+##          16         0       0       0
+##          17         0       0       0
+##          18         0       0       0
+##          19         0       0       0
+##          20         0       0       0
+##          21         0       0       0
+##          22         0       0       0
+##          23         0       0       0
+##          24         0       0       0
+##          25         1       0       0
+##          26         0       0       0
+##          27         0       0       0
+##          28         0       0       0
+##          29         0       0       0
+##          30         0       0       0
+##          31         0       0       0
+##          32         0       0       0
+##          33         0       0       0
+##          34         0       0       0
+##          35         0       0       0
+##          36         0       0       0
+##          37         0       0       0
+##          38         0       0       0
+##          39         0       0       0
+##          40         0       0       0
+##          41         0       0       0
+##          42         0       0       0
+##          43         0       0       0
+##          44         0       0       0
+##          45         0       0       0
+##          46         0       0       0
+##          47         0       0       0
+##          48         0       0       0
+##          49         0       0       0
+##          50         0       0       0
+##          51         0       0       0
+##          52         0       0       0
+##          53         0       0       0
+##          54         0       0       0
+##          55         0       0       0
+##          56         0       0       0
+##          57         0       0       0
+##          58         0       0       0
+##          59         0       0       0
+##          60         0       0       0
+##          61         0       0       0
+##          62         0       0       0
+##          63         0       0       0
+##          64         0       0       0
+##          65         0       0       0
+##          66         0       0       0
+##          67         0       0       0
+##          68         0       0       0
+##          69         0       0       0
+##          70         0       0       0
+##          71         0       0       0
+##          72         0       0       0
+##          73         0       0       0
+##          74         0       0       0
+##          75         0       0       0
+##          76         0       0       0
+##          77         0       0       0
+##          78         0       0       0
+##          79         0       0       0
+##          80         0       0       0
+##          81         0       0       0
+##          82         0       0       0
+##          83         0       0       0
+##          84         0       0       0
+##          85         0       0       0
+##          86         0       0       0
+##          87         0       0       0
+##          88         0       0       0
+##          89         0       0       0
+##          90         0       0       0
+##          91         0       0       0
+##          92         0       0       0
+##          93         0       0       0
+##          94         0       0       0
+##          95         0       0       0
+##          96         0       0       0
+##          97         0       0       0
+##          98         0       0       0
+##          99         0       0       0
+##          100        0       0       0
+##          101        0       0       0
+##          102        0       0       0
+##          103        0       0       0
+##          104        0       0       0
+##          105        0       0       0
+##          106        0       0       0
+##          107        0       0       0
+##          108        0       0       0
+##          109        0       0       0
+##          112        0       0       0
+##          113        0       0       0
+##          114        0       0       0
+##          115        0       0       0
+##          116        0       0       0
+##          117        0       0       0
+##          119        0       0       0
+##          120        0       0       0
+##          121        0       0       0
+##          122        0       0       0
+##          123        0       0       0
+##          128        0       0       0
+##          &lt;NA&gt;       4       2       1</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>spouses +<span class="st"> </span>ever_married, <span class="dt">data=</span>swed_civil_s)</code></pre>
+<pre><code>##        ever_married
+## spouses       0       1
+##       0 4044284  417970
+##       1       0 6944643
+##       2       0 1107224
+##       3       0  108534
+##       4       0    7255
+##       5       0     486
+##       6       0      58
+##       7       0       6
+##       8       0       4
+##       9       0       1</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">props</span>(~<span class="st"> </span>ever_married, swed_civil_s)</code></pre>
+<pre><code>## ever_married
+##      0      1 
+## 0.3202 0.6798</code></pre>
+</div>
+<div id="transforming-data" class="section level3">
+<h3>Transforming data</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># swed = read.csv(&quot;/Volumes/Elements/swed.csv&quot;)</span>
+<span class="co"># save(swed, file = &quot;data/swed2.rdata&quot;)</span>
+<span class="kw">load</span>(<span class="dt">file=</span><span class="st">&quot;data/swed2.rdata&quot;</span>)
+<span class="co"># load(file=&quot;data/swed.rdata&quot;)</span>
+<span class="co"># char_vars = sapply(swed,is.character) | sapply(swed, is.factor)</span>
+<span class="co"># swed[,char_vars] = plyr::colwise(function(x) { </span>
+<span class="co">#                   type.convert(as.character(x),as.is=TRUE)</span>
+<span class="co">#               })(swed[,char_vars])</span>
+<span class="kw">names</span>(swed) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idIndividu&quot;</span>, <span class="st">&quot;idPere&quot;</span>, <span class="st">&quot;idMere&quot;</span>, <span class="st">&quot;idPaternalGrandfather&quot;</span>, <span class="st">&quot;idPaternalGrandmother&quot;</span>, <span class="st">&quot;idMaternalGrandfather&quot;</span>, <span class="st">&quot;idMaternalGrandmother&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;education&quot;</span>, <span class="st">&quot;education_Father&quot;</span>, <span class="st">&quot;education_Mother&quot;</span>, <span class="st">&quot;education.MaternalGrandmother&quot;</span>, <span class="st">&quot;education.MaternalGrandfather&quot;</span>, <span class="st">&quot;education.PaternalGrandfather&quot;</span>, <span class="st">&quot;education.PaternalGrandmother&quot;</span>, <span class="st">&quot;byear&quot;</span>, <span class="st">&quot;byear.Father&quot;</span>, <span class="st">&quot;byear.Mother&quot;</span>, <span class="st">&quot;byear.PaternalGrandfather&quot;</span>, <span class="st">&quot;byear.MaternalGrandfather&quot;</span>, <span class="st">&quot;byear.PaternalGrandmother&quot;</span>, <span class="st">&quot;byear.MaternalGrandmother&quot;</span>, <span class="st">&quot;dyear&quot;</span>, <span class="st">&quot;dyear.Father&quot;</span>, <span class="st">&quot;dyear.Mother&quot;</span>, <span class="st">&quot;dyear.PaternalGrandfather&quot;</span>, <span class="st">&quot;dyear.MaternalGrandfather&quot;</span>, <span class="st">&quot;dyear.PaternalGrandmother&quot;</span>, <span class="st">&quot;dyear.MaternalGrandmother&quot;</span>)
+swed =<span class="st"> </span><span class="kw">as.data.table</span>(swed)
+<span class="co"># swed = head(swed, 1e6)</span>
+dupes =<span class="st"> </span>swed$idIndividu[<span class="kw">duplicated</span>(swed$idIndividu)]
+<span class="co"># swed[LOPNR %in% dupes, ]</span>
+swed =<span class="st"> </span>swed[!<span class="kw">duplicated</span>(swed$idIndividu),]
+
+swed =<span class="st"> </span><span class="kw">merge</span>(swed, swed_civil_s, <span class="dt">by =</span> <span class="st">&quot;idIndividu&quot;</span>, <span class="dt">all.x =</span> T)
+<span class="kw">rm</span>(swed_civil_s)
+
+swed[, age_at_first_marriage :<span class="er">=</span><span class="st"> </span>year_of_first_marriage -<span class="st"> </span>byear]
+<span class="co"># qplot( year_of_first_marriage-byear, years_unmarried,data=swed, geom = &#39;jitter&#39;, alpha = I(0.3)) + facet_wrap(~ byear)</span>
+<span class="co"># qplot(byear, times_divorced, data = swed, stat = &#39;summary&#39;, fun.data = &#39;mean_sdl&#39;)</span>
+<span class="co"># qplot(byear, times_widowed, data = swed, stat = &#39;summary&#39;, fun.data = &#39;mean_sdl&#39;)</span>
+<span class="co"># qplot(byear, times_divorced, data = swed, stat = &#39;summary&#39;, fun.data = &#39;mean_sdl&#39;)</span>
+
+<span class="kw">sort</span>(<span class="kw">props</span>(~<span class="st"> </span>swed$marriage_codes))</code></pre>
+<pre><code>## swed$marriage_codes
+## Ä,EP,G,OG,RP,S    Ä,EP,G,RP,S      Ä,EP,OG,S       Ä,G,RP,S        Ä,OG,RP 
+##   0.0000001219   0.0000001219   0.0000001219   0.0000001219   0.0000001219 
+##        EP,G,OG           EP,S        OG,S,SP   Ä,G,OG,RP,SP   EP,G,OG,RP,S 
+##   0.0000001219   0.0000001219   0.0000001219   0.0000002438   0.0000002438 
+##  EP,G,OG,RP,SP      EP,G,OG,S    EP,OG,RP,SP             RP     Ä,EP,OG,RP 
+##   0.0000002438   0.0000002438   0.0000002438   0.0000002438   0.0000003658 
+##      Ä,G,OG,RP   Ä,EP,G,OG,RP      EP,G,RP,S           RP,S        Ä,EP,OG 
+##   0.0000004877   0.0000007315   0.0000008535   0.0000008535   0.0000009754 
+##     OG,RP,S,SP      G,OG,S,SP        G,OG,SP          EP,OG      G,RP,S,SP 
+##   0.0000010973   0.0000012192   0.0000017069   0.0000018288   0.0000023165 
+##          OG,SP        OG,RP,S     EP,G,OG,RP       EP,OG,RP         G,RP,S 
+##   0.0000025604   0.0000026823   0.0000051207   0.0000052426   0.0000099976 
+##         Ä,OG,S   G,OG,RP,S,SP              Ä     G,OG,RP,SP      G,OG,RP,S 
+##   0.0000114607   0.0000140210   0.0000249940   0.0000357231   0.0000421850 
+##       OG,RP,SP        G,OG,RP            Ä,S          OG,RP           Ä,OG 
+##   0.0000742505   0.0001196054   0.0001264331   0.0003138271   0.0004022205 
+##       Ä,G,OG,S              S         Ä,G,OG           OG,S            Ä,G 
+##   0.0005115845   0.0041961880   0.0048039690   0.0051143823   0.0056993639 
+##          Ä,G,S              G         G,OG,S            G,S           G,OG 
+##   0.0083147118   0.0169503222   0.0714054237   0.0861023842   0.2035388336 
+##           &lt;NA&gt;             OG 
+##   0.2175860720   0.3745715662</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">props</span>(~<span class="st"> </span>swed$ever_married))</code></pre>
+<pre><code>## swed$ever_married
+##   &lt;NA&gt;      0      1 
+## 0.2176 0.3750 0.4074</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">props</span>(~<span class="st"> </span>swed[swed$byear &lt;<span class="st"> </span><span class="dv">1960</span>,]$ever_married))</code></pre>
+<pre><code>## swed[swed$byear &lt; 1960, ]$ever_married
+##     &lt;NA&gt;        0        1 
+## 0.009808 0.180113 0.810079</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed[<span class="kw">is.na</span>(ever_married), ever_married :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>] <span class="co"># have verified that those missing from the civil file did not get far</span>
+
+
+<span class="kw">miss_frac</span>(swed)</code></pre>
+<p><em>0</em></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make male var.</span>
+<span class="kw">crosstabs</span>(swed$sex)</code></pre>
+<pre><code>## swed$sex
+##       1       2 
+## 4206572 3995396</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed[, male :<span class="er">=</span><span class="st"> </span><span class="kw">Recode</span>(sex,<span class="st">&quot;&#39;1&#39;=1;&#39;2&#39;=0;else=NA&quot;</span>)]
+swed$sex =<span class="st"> </span><span class="ot">NULL</span></code></pre>
+<pre><code>## Warning in alloc.col(x): Attempt to reduce allocation from 104 to 103
+## ignored. Can only increase allocation via shallow copy.</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># crosstabs(swed$dyear)</span>
+swed[, age :<span class="er">=</span><span class="st"> </span>dyear-byear ]
+<span class="co"># qplot(swed$age)</span>
+<span class="co"># library(mgcv)</span>
+<span class="co"># qplot(data=swed,dyear,ifelse(age &lt; 1, 0, 1)) + geom_smooth()</span>
+<span class="co"># qplot(data=swed,dyear,age) + geom_smooth()</span>
+
+<span class="co"># we believe that those who don&#39;t have a death date by 2009 and who were born after 1962, were alive by 2009. this probably incorrectly treats some out-migrants.</span>
+swed[byear&gt;=<span class="dv">1962</span> &amp;<span class="st"> </span><span class="kw">is.na</span>(dyear) &amp;<span class="st"> </span>byear &lt;<span class="st"> </span><span class="dv">2009</span>, age_at_least :<span class="er">=</span><span class="st"> </span><span class="kw">as.integer</span>(<span class="dv">2009</span>)-byear]
+swed[!<span class="kw">is.na</span>(age), age_at_least :<span class="er">=</span><span class="st"> </span>age]
+swed[age &lt;<span class="st"> </span><span class="dv">0</span>, age :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+
+swed[, survive1y :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(age_at_least &lt;=<span class="st"> </span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>) ] <span class="co"># we are conservative in our survival estimation and would estimate 1;11 years as dead in the first year in the worst case (because we only have birth years, not months) </span>
+swed[, survive5y :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(age_at_least &lt;=<span class="st"> </span><span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">1</span>) ]
+swed[,surviveR :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(age_at_least &lt;=<span class="st"> </span><span class="dv">15</span>, <span class="dv">0</span>, <span class="dv">1</span>)]
+
+<span class="kw">crosstabs</span>(~<span class="st"> </span>survive1y +<span class="st"> </span>byear, <span class="dt">data =</span> swed)</code></pre>
+<pre><code>##          byear
+## survive1y   1932   1933   1934   1935   1936   1937   1938   1939   1940
+##      0         0      0      0      0      0      0      0      0      0
+##      1      7741  13121  14622  14447  14020  13313  12895  12809  11585
+##      &lt;NA&gt;  19311  36165  44551  49456  54761  57923  62556  66790  68187
+##          byear
+## survive1y   1941   1942   1943   1944   1945   1946   1947   1948   1949
+##      0         0      0      0      0      0      1      4      4      3
+##      1     11739  12449  13055  12974  11955  11066  10013   9076   8061
+##      &lt;NA&gt;  73866  87560  97828 106179 108817 110600 109889 109842 106781
+##          byear
+## survive1y   1950   1951   1952   1953   1954   1955   1956   1957   1958
+##      0         1      2      1      6      3      2      3      5      2
+##      1      7394   6539   6050   5656   5185   5067   4755   4360   4011
+##      &lt;NA&gt; 102753  99036 100723 101876  98548 101314 102850 102763 101746
+##          byear
+## survive1y   1959   1960   1961   1962   1963   1964   1965   1966   1967
+##      0         4    158   1399   1372   1385   1431   1324   1263   1268
+##      1      3662   3546   3515 110197 116267 126024 126374 126463 125090
+##      &lt;NA&gt; 102396 100194 103991      0      0      0      0      0      0
+##          byear
+## survive1y   1968   1969   1970   1971   1972   1973   1974   1975   1976
+##      0      1219    980    984   1004    929    826    856    700    666
+##      1    117406 111587 113380 117419 116096 114157 114944 108898 103430
+##      &lt;NA&gt;      0      0      0      0      0      0      0      0      0
+##          byear
+## survive1y   1977   1978   1979   1980   1981   1982   1983   1984   1985
+##      0       610    578    594    569    538    523    575    568    577
+##      1    101411  98826 102194 103602 100940 100500  99680 102345 106941
+##      &lt;NA&gt;      0      0      0      0      0      0      0      0      0
+##          byear
+## survive1y   1986   1987   1988   1989   1990   1991   1992   1993   1994
+##      0       525    572    565    585    649    627    560    483    434
+##      1    110470 113027 120897 124457 132234 131360 129139 123121 118274
+##      &lt;NA&gt;      0      0      0      0      0      0      0      0      0
+##          byear
+## survive1y   1995   1996   1997   1998   1999   2000   2001   2002   2003
+##      0       377    337    296    271    265    283    306    275    296
+##      1    109307 101234  96507  95279  94383  96533  96688 100907 103633
+##      &lt;NA&gt;      0      0      0      0      0      0      0      0      0
+##          byear
+## survive1y   2004   2005   2006   2007   2008   2009
+##      0       284    253    272    243 109526    256
+##      1    105393 105367 109071 109358     23      0
+##      &lt;NA&gt;      0      0      0      0      0 105725</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bugs probably due to re-assigned personnummer</span>
+<span class="kw">nrow</span>(swed[!<span class="kw">is.na</span>(education) &amp;<span class="st"> </span>survive1y ==<span class="st"> </span><span class="dv">0</span>,])</code></pre>
+<pre><code>## [1] 37</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed[!<span class="kw">is.na</span>(education) &amp;<span class="st"> </span>survive1y ==<span class="st"> </span><span class="dv">0</span>, survive1y :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[!<span class="kw">is.na</span>(education) &amp;<span class="st"> </span>survive1y ==<span class="st"> </span><span class="dv">0</span>, age_at_least :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[!<span class="kw">is.na</span>(education) &amp;<span class="st"> </span>survive5y ==<span class="st"> </span><span class="dv">0</span>, survive5y :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[!<span class="kw">is.na</span>(education) &amp;<span class="st"> </span>survive5y ==<span class="st"> </span><span class="dv">0</span>, age_at_least :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+<span class="kw">nrow</span>(swed[education &gt;<span class="st"> </span><span class="dv">2</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>,])</code></pre>
+<pre><code>## [1] 35</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed[education &gt;<span class="st"> </span><span class="dv">2</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>, surviveR :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[education &gt;<span class="st"> </span><span class="dv">2</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>, age_at_least :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+
+swed[, paternalage :<span class="er">=</span><span class="st"> </span>byear -<span class="st"> </span>byear.Father]
+
+swed[, idParents :<span class="er">=</span><span class="st"> </span><span class="kw">str_c</span>(idMere,<span class="st">&quot;_&quot;</span>,idPere)]
+
+swed[, maternalage :<span class="er">=</span><span class="st"> </span>byear -<span class="st"> </span>byear.Mother]
+
+<span class="co"># qplot(maternalage,paternalage,data=swed,geom=&quot;jitter&quot;,alpha=I(0.1))</span>
+<span class="kw">cor.test</span>(swed$maternalage,swed$paternalage)</code></pre>
+<table>
+<caption>Pearson’s product-moment correlation: <code>swed$maternalage</code> and <code>swed$paternalage</code></caption>
+<colgroup>
+<col width="23%" />
+<col width="11%" />
+<col width="13%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Test statistic</th>
+<th align="center">df</th>
+<th align="center">P value</th>
+<th align="center">Alternative hypothesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">3106</td>
+<td align="center">8122608</td>
+<td align="center"><em>0</em> * * *</td>
+<td align="center">two.sided</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">swed$born =<span class="st"> </span><span class="dv">1</span></code></pre>
+</div>
+<div id="calculating-reproductive-success" class="section level3">
+<h3>Calculating reproductive success</h3>
+<pre class="sourceCode r"><code class="sourceCode r">swed =<span class="st"> </span>swed[<span class="kw">order</span>(idParents,byear), ]
+swed[ , first_child_with_this_partner :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>( !<span class="kw">duplicated</span>(idParents), <span class="dv">1</span>, <span class="dv">0</span>)  ]
+swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;fertile_unions&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&quot;first_child_with_this_partner&quot;</span>)
+<span class="kw">crosstabs</span>(~<span class="st"> </span>fertile_unions +<span class="st"> </span>spouses, <span class="dt">data =</span> swed)</code></pre>
+<pre><code>##               spouses
+## fertile_unions       0       1       2       3       4       5       6
+##             0  2209545  272534   51323    5550     354      20       3
+##             1   805330 1921754  654037   53047    2579     108      11
+##             2   102066  169644   94434   25770    2137     161       8
+##             3    10449   15598   10361    4058     583      62      12
+##             4     1143    1661    1317     611     128      18       4
+##             5      149     247     177     104      28       4       2
+##             6       27      38      54      20       4       1       1
+##             7       10       4      14       5       2       1       1
+##             8        2       2       3       1       0       0       0
+##             9        0       1       0       0       0       0       0
+##             10       0       0       1       0       0       0       0
+##             11       0       1       0       0       0       0       0
+##               spouses
+## fertile_unions       7       8       9    &lt;NA&gt;
+##             0        0       0       0 1784027
+##             1        2       1       0     594
+##             2        1       0       0      12
+##             3        1       2       0       0
+##             4        1       0       0       1
+##             5        1       0       1       0
+##             6        0       0       0       0
+##             7        0       0       0       0
+##             8        0       0       0       0
+##             9        0       0       0       0
+##             10       0       0       0       0
+##             11       0       0       0       0</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;children&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&quot;born&quot;</span>)
+swed$children.per.spouse =<span class="st"> </span>swed$children/swed$spouses
+swed$children.per.spouse[<span class="kw">which</span>(swed$spouses==<span class="dv">0</span>)] =<span class="st"> </span><span class="ot">NA</span>
+<span class="co"># qplot(swed$children.per.spouse)</span>
+<span class="co"># qplot(swed$children)</span>
+<span class="co"># qplot(swed$spouses)</span>
+
+changeNAto1 =<span class="st"> </span>function(x) { <span class="kw">colwise</span>(function(x) { <span class="kw">ifelse</span>(<span class="kw">is.na</span>(x), <span class="dv">1</span>, x)})(x) }
+
+<span class="co"># bugs probably owing to re-assigment of personnummer</span>
+<span class="kw">nrow</span>(swed[children&gt;<span class="dv">0</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>,])</code></pre>
+<pre><code>## [1] 25</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed[children&gt;<span class="dv">0</span> &amp;<span class="st"> </span>survive1y ==<span class="st"> </span><span class="dv">0</span>, survive1y :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[children&gt;<span class="dv">0</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>, surviveR :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[children&gt;<span class="dv">0</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>, age_at_least :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+<span class="kw">nrow</span>(swed[spouses &gt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>,])</code></pre>
+<pre><code>## [1] 3690</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed[spouses &gt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>survive1y ==<span class="st"> </span><span class="dv">0</span>, survive1y :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[spouses &gt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>, survive5y :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[spouses &gt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>, surviveR :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+swed[spouses &gt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">0</span>, age_at_least :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
+
+swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;children.surviving1y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive1y&#39;</span>)
+swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;children.surviving5y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive5y&#39;</span>)
+swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;children.survivingR&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;surviveR&#39;</span>)
+
+<span class="co"># swed = count_and_merge(swed, &#39;children.spouses&#39;, wt_var = &#39;spouses&#39;)</span>
+<span class="co"># swed = count_and_merge(swed, &#39;grandchildren.per.spouse&#39;, wt_var = &#39;children.per.spouse&#39;)</span>
+
+swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;grandchildren&#39;</span>,<span class="dt">wt_var=</span><span class="st">&#39;children&#39;</span>)
+swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;grandchildren.surviving1y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.surviving1y&#39;</span>)
+swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;grandchildren.survivingR&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.survivingR&#39;</span>)
+
+swed[, dead1y :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(age_at_least &gt;=<span class="st"> </span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)]
+swed =<span class="st"> </span><span class="kw">count_and_merge</span>(swed, <span class="st">&#39;children.dead1y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;dead1y&#39;</span>)
+
+swed[, children.wddate :<span class="er">=</span><span class="st"> </span>children.dead1y +<span class="st"> </span>children.surviving1y] 
+
+<span class="kw">xtabs</span>(~<span class="st"> </span>(grandchildren&gt;<span class="dv">0</span>) +(children&gt;<span class="dv">0</span>) +<span class="st"> </span>surviveR,<span class="dt">data=</span>swed,<span class="dt">exclude=</span><span class="ot">NULL</span>, <span class="dt">na.action=</span> na.pass)</code></pre>
+<pre><code>## , , surviveR = 0
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0   FALSE    TRUE
+##             FALSE 1594483       0
+##             TRUE        0       0
+## 
+## , , surviveR = 1
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0   FALSE    TRUE
+##             FALSE 2160586 1563637
+##             TRUE        0  184535
+## 
+## , , surviveR = NA
+## 
+##                  children &gt; 0
+## grandchildren &gt; 0   FALSE    TRUE
+##             FALSE  568287  828315
+##             TRUE        0 1302125</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># qplot(swed$children)</span>
+<span class="co"># qplot(swed[which(swed$age &gt; 15),]$children )</span>
+<span class="co"># qplot(swed$grandchildren)</span>
+<span class="co"># qplot(swed[which(swed$age &gt; 15),]$grandchildren )</span>
+<span class="co"># qplot(swed$spouses)</span></code></pre>
+<p>pre-calculate some predictors</p>
+<pre class="sourceCode r"><code class="sourceCode r">swed =<span class="st"> </span>swed[<span class="kw">order</span>(idParents,byear), ]
+swed &lt;-<span class="st"> </span><span class="kw">transform</span>(swed, <span class="dt">birthorder =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(swed)), swed$idParents, <span class="dt">FUN =</span> seq_along)) <span class="co"># old trick to get birth order, don&#39;t know what this does to those with missings for father though</span>
+<span class="co"># qplot(swed$birthorder,binwidth=1)</span>
+
+swed &lt;-<span class="st"> </span><span class="kw">transform</span>(swed, <span class="dt">min15.birthorder =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span>function(x) { x[<span class="kw">is.na</span>(x)] =<span class="st"> </span><span class="dv">0</span>
+<span class="kw">cumsum</span>(x)
+} ))
+<span class="kw">xtabs</span>(<span class="dt">data=</span>swed, ~<span class="kw">is.na</span>(birthorder) +<span class="st"> </span><span class="kw">is.na</span>(min15.birthorder))</code></pre>
+<pre><code>##                  is.na(min15.birthorder)
+## is.na(birthorder)   FALSE
+##             FALSE 8201968</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(swed$min15.birthorder,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">15</th>
+<th align="center">16</th>
+<th align="center">17</th>
+<th align="center">18</th>
+<th align="center">NA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">3709277</td>
+<td align="center">2463803</td>
+<td align="center">1370459</td>
+<td align="center">474328</td>
+<td align="center">128488</td>
+<td align="center">36357</td>
+<td align="center">11935</td>
+<td align="center">4291</td>
+<td align="center">1748</td>
+<td align="center">692</td>
+<td align="center">319</td>
+<td align="center">145</td>
+<td align="center">59</td>
+<td align="center">33</td>
+<td align="center">18</td>
+<td align="center">10</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">swed[, nr.siblings :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(born,idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } ) -<span class="st"> </span><span class="dv">1</span>] 
+<span class="co"># qplot(swed$nr.siblings,binwidth=1)</span></code></pre>
+<p>count dependent sibs</p>
+<pre class="sourceCode r"><code class="sourceCode r">swed =<span class="st"> </span>swed %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(idParents) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">dependent_sibs_f5y =</span> <span class="kw">dependent_sibs_f5y</span>(<span class="dt">survive1y=</span>survive1y, <span class="dt">byear=</span>byear, <span class="dt">dyear=</span>dyear)
+    ) %&gt;%<span class="st"> </span><span class="kw">data.table</span>()</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">swed[, paternalage :<span class="er">=</span><span class="st"> </span>paternalage/<span class="dv">10</span>]
+swed[, maternalage :<span class="er">=</span><span class="st"> </span>maternalage/<span class="dv">10</span>]
+swed =<span class="st"> </span><span class="kw">recenter.pat</span>(<span class="kw">recenter.pat</span>(swed), <span class="dt">what =</span> <span class="st">&quot;maternalage&quot;</span>)
+
+min_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">min</span>(x,<span class="dt">na.rm=</span>T) ) }
+max_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">max</span>(x,<span class="dt">na.rm=</span>T) ) }
+swed =<span class="st"> </span>swed[<span class="kw">order</span>(idPere),]
+swed[, paternalage_at_1st_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(paternalage, idPere, <span class="dt">FUN =</span> min_na)]
+swed[, paternalage_at_last_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(paternalage, idPere, <span class="dt">FUN =</span> max_na)]
+swed =<span class="st"> </span>swed[<span class="kw">order</span>(idMere),]
+swed[, maternalage_at_1st_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(maternalage, idMere, <span class="dt">FUN =</span> min_na)]
+swed[, maternalage_at_last_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(maternalage, idMere, <span class="dt">FUN =</span> max_na)]
+fathers =<span class="st"> </span>swed[!<span class="kw">duplicated</span>(idPere), <span class="kw">list</span>(idPere, paternalage_at_1st_sib, paternalage_at_last_sib)]
+<span class="kw">names</span>(fathers) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idIndividu&quot;</span>,<span class="st">&quot;age_at_1st_child&quot;</span>, <span class="st">&quot;age_at_last_child&quot;</span>)
+mothers =<span class="st"> </span>swed[!<span class="kw">duplicated</span>(idMere), <span class="kw">list</span>(idMere, maternalage_at_1st_sib, maternalage_at_last_sib)]
+<span class="kw">names</span>(mothers) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idIndividu&quot;</span>,<span class="st">&quot;age_at_1st_child&quot;</span>, <span class="st">&quot;age_at_last_child&quot;</span>)
+parents =<span class="st"> </span><span class="kw">rbind</span>(fathers, mothers)
+swed =<span class="st"> </span><span class="kw">merge</span>(swed, parents, <span class="dt">by =</span> <span class="st">&quot;idIndividu&quot;</span>, <span class="dt">all.x =</span> T)
+<span class="kw">rm</span>(parents,fathers,mothers)
+
+(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(swed$byear, <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>)))</code></pre>
+<p><em>1932</em>, <em>1950</em>, <em>1965</em>, <em>1979</em>, <em>1994</em> and <em>2009</em></p>
+<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
+swed[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(byear,<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
+
+<span class="co"># missingness_patterns(swed[, list(byear, dyear.Mother)])</span>
+matloss =<span class="st"> </span>swed[, byear +<span class="st"> </span><span class="dv">5</span> &gt;<span class="st"> </span>dyear.Mother]
+swed[, maternalloss :<span class="er">=</span><span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(<span class="kw">is.na</span>(matloss),<span class="st">&quot;NA&quot;</span>,matloss))]
+patloss =<span class="st"> </span>swed[, byear +<span class="st"> </span><span class="dv">5</span> &gt;<span class="st"> </span>dyear.Father]
+swed[, paternalloss :<span class="er">=</span><span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(<span class="kw">is.na</span>(patloss),<span class="st">&quot;NA&quot;</span>,patloss))]
+
+swed[, nr.siblings :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(born,idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } ) -<span class="dv">1</span>] <span class="co"># dont count self</span>
+
+<span class="kw">table</span>(swed$paternalloss)</code></pre>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">NA</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2796144</td>
+<td align="center">5380461</td>
+<td align="center">25363</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">swed[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>((maternalage*<span class="dv">10</span>), <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">14</span>, <span class="dv">20</span>, <span class="dv">35</span>, <span class="dv">61</span>))]
+swed[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">relevel</span>(maternalage.factor, <span class="dt">ref =</span> <span class="st">&quot;(20,35]&quot;</span>)]
+swed[, ever_married :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(spouses&gt;<span class="dv">0</span>, <span class="dv">1</span>,<span class="dv">0</span>)]
+swed[, any_surviving_children :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(children.survivingR &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
+
+
+swed[ , first_sib_byear :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>( byear, idParents, <span class="dt">FUN =</span> function(x)<span class="kw">min</span>(x,<span class="dt">na.rm=</span>T))  ]
+swed[ , last_sib_byear :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>( byear, idParents, <span class="dt">FUN =</span> function(x)<span class="kw">max</span>(x,<span class="dt">na.rm=</span>T))  ]
+swed[, birth_span :<span class="er">=</span><span class="st"> </span>last_sib_byear -<span class="st"> </span>first_sib_byear]
+<span class="kw">hist</span>(swed$birth_span,<span class="dt">breaks =</span> <span class="dv">0</span>:<span class="dv">35</span>)</code></pre>
+<p><img src="0_swed_massage_files/figure-html/unnamed-chunk-3-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">swed.mp =<span class="st"> </span>swed[!<span class="kw">is.na</span>(paternalage), ]
+swed<span class="fl">.1</span> =<span class="st"> </span>swed.mp[byear &gt;=<span class="st"> </span><span class="dv">1962-15</span>  &amp;<span class="st"> </span>byear &lt;=<span class="st"> </span><span class="dv">2009-50</span>, ]
+
+swed<span class="fl">.2</span> =<span class="st"> </span>swed.mp[byear &gt;=<span class="st"> </span><span class="dv">1969</span>  &amp;<span class="st"> </span>byear &lt;<span class="st"> </span><span class="dv">2000</span>, ]
+(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(swed<span class="fl">.1</span>$byear, <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>)))</code></pre>
+<p><em>1947</em>, <em>1949</em>, <em>1951</em>, <em>1954</em>, <em>1957</em> and <em>1959</em></p>
+<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
+swed<span class="fl">.1</span>[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(byear,<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
+(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(swed<span class="fl">.2</span>$byear, <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>)))</code></pre>
+<p><em>1969</em>, <em>1974</em>, <em>1981</em>, <em>1988</em>, <em>1993</em> and <em>1999</em></p>
+<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
+swed<span class="fl">.2</span>[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(byear,<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
+
+<span class="kw">save</span>(swed,<span class="dt">file=</span><span class="st">&quot;swed.rdata&quot;</span>)
+<span class="kw">save</span>(swed<span class="fl">.1</span>,swed<span class="fl">.2</span>, <span class="dt">file=</span><span class="st">&quot;swed1.rdata&quot;</span>)</code></pre>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

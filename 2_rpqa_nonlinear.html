@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Québec Nonlinear</title>
+
+<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div style="width:100%;height:200px;background-image:url('library/header/rpqa.jpg');background-size:cover;"></div>
+<div class="container-fluid main-container"><div class="row"><div class="col-md-4"><a href="index.html"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div></div></div>
+
+<div class="container-fluid main-container">
+
+
+<div id="quebec-main-effects-nonlinear" class="section level1 tab-content">
+<h1>Québec main effects, nonlinear</h1>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(knitr); <span class="kw">library</span>(lme4);   <span class="kw">library</span>(QuantPsyc); <span class="kw">library</span>(blme)
+
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">TRUE</span>, <span class="dt">cache=</span><span class="ot">TRUE</span>,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">20</span>,<span class="dt">fig.height=</span><span class="fl">12.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>,<span class="dt">cache.extra=</span><span class="kw">file.info</span>(<span class="st">&#39;rpqa.rdata&#39;</span>)[, <span class="st">&#39;mtime&#39;</span>])
+
+<span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;rpqa.rdata&quot;</span>)</code></pre>
+</div>
+<div id="analysis-description" class="section level2">
+<h2>Analysis description</h2>
+<div id="data-subset" class="section level3">
+<h3>Data subset</h3>
+<p>The <code>rpqa.1</code> dataset contains only those participants where paternal age is known and the birthdate is between 1630 and 1750.</p>
+</div>
+<div id="model-description" class="section level3">
+<h3>Model description</h3>
+<p>All of the following models have the following in common:</p>
+<div id="multivariate-normal-prior" class="section level4">
+<h4>Multivariate normal prior</h4>
+<p>Using the R package <code>blme</code> which provides a thin Bayesian wrapper around <code>lme4</code>, we define a weak multivariate normal prior on the fixed effects. Especially in models where we have many covariates and the outcome has little variability (e.g. child mortality in modern Sweden), this helps us to combat complete separation and the Hauck-Donner effect. In the absence of these conditions, the extremely weak prior (SD = 9) leads to results that are identical or very similar to the standard <code>lme4</code> models.</p>
+</div>
+<div id="optimizer-settings" class="section level4">
+<h4>Optimizer settings</h4>
+<p>Bobyqa is fairly robust to convergence failures. In addition to using Bobyqa, we center some variables that otherwise lead to large eigenvalues.</p>
+<pre class="sourceCode r"><code class="sourceCode r">control_defaults =<span class="st"> </span><span class="kw">glmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</code></pre>
+</div>
+<div id="main-predictor" class="section level4">
+<h4>Main predictor</h4>
+<p>The main predictor, paternal age, has been binned into meaningful bins. This way, we let the data speak and can see whether the shape of the relationship is consistent with a linear effect. To this end we plot a linear regression through the best estimates for each factor (inversely weighted by confidence interval width, i.e. certainty). Even if a nonlinear fit might be slightly better, our theory clearly predicts a linear fit, so we are satisfied it the data is consistent with a linear effect.</p>
+<pre class="sourceCode r"><code class="sourceCode r">formr::<span class="kw">crosstabs</span>(rpqa<span class="fl">.1</span>$paternalage.factor)</code></pre>
+<pre><code>## rpqa.1$paternalage.factor
+##  [0,25] (25,30] (30,35] (35,40] (40,45] (45,50] (50,55] (55,90] 
+##    6748   20914   24900   21798   15871    9504    4529    2835</code></pre>
+</div>
+</div>
+<div id="model-description-1" class="section level3">
+<h3>Model description</h3>
+<p>All of the following models have the following in common:</p>
+<div id="covariates" class="section level4">
+<h4>Covariates</h4>
+<p>As in our main models, we control for birth.cohort (birth years in five equally large bins), male sex. Additionally, we control for paternal and maternal loss (whether either parent died within 5 years of the birth), for maternal age (bins of 14-20, 20-35 and 35-50), the number of siblings.</p>
+</div>
+<div id="model-stratification" class="section level4">
+<h4>Model stratification</h4>
+<p>We added random intercepts for each family (father-mother dyad). We then controlled for the average paternal age in the family. Hence, the paternal age effects in the plot are split into those between families and those within families or between siblings. The relevant effect for our hypothesized mechanism, de novo mutations, is paternal age between siblings.</p>
+</div>
+<div id="episodes-of-selection" class="section level4">
+<h4>Episodes of selection</h4>
+<p>Here, episodes of selection refers to survival, mating success, reproductive success. To steer clear of sacrificial pseudo-replication, we make sure that each effect cannot be explained by the episode of selection preceding it. At its simplest, we check for effect on survival to reproduction only among those who lived to their first birthday. In later models, we look for an effect on number of children only among those who married and control their number of spouses.</p>
+</div>
+</div>
+</div>
+<div id="survival-to-first-year" class="section level2">
+<h2>Survival to first year</h2>
+<pre class="sourceCode r"><code class="sourceCode r">Survive_infancy &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+    survive1y ~<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>urban +<span class="st">  </span>paternalage.mean +<span class="st"> </span>paternalage.factor +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
+    <span class="dt">data=</span> rpqa<span class="fl">.1</span>,
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults, 
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )
+<span class="kw">summary</span>(Survive_infancy)</code></pre>
+<pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
+## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
+## Prior dev  : 59.37
+## 
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [bglmerMod]
+##  Family: binomial  ( logit )
+## Formula: survive1y ~ birth.cohort + male + urban + paternalage.mean +  
+##     paternalage.factor + (1 | idParents)
+##    Data: rpqa.1
+## Control: control_defaults
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    93561    93713   -46765    93529    96026 
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -4.316  0.270  0.384  0.497  1.771 
+## 
+## Random effects:
+##  Groups    Name        Variance Std.Dev.
+##  idParents (Intercept) 0.559    0.748   
+## Number of obs: 96042, groups:  idParents, 17030
+## 
+## Fixed effects:
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                 2.4853     0.0451    55.1  &lt; 2e-16 ***
+## birth.cohort(1706,1723]    -0.1970     0.0333    -5.9  3.3e-09 ***
+## birth.cohort(1723,1734]    -0.5506     0.0331   -16.6  &lt; 2e-16 ***
+## birth.cohort(1734,1743]    -0.6400     0.0329   -19.5  &lt; 2e-16 ***
+## birth.cohort(1743,1750]    -1.0500     0.0324   -32.4  &lt; 2e-16 ***
+## male                       -0.2917     0.0173   -16.9  &lt; 2e-16 ***
+## urban                      -0.8387     0.0235   -35.7  &lt; 2e-16 ***
+## paternalage.mean            0.2762     0.0230    12.0  &lt; 2e-16 ***
+## paternalage.factor(25,30]   0.0141     0.0400     0.4   0.7249    
+## paternalage.factor(30,35]  -0.0457     0.0407    -1.1   0.2617    
+## paternalage.factor(35,40]  -0.1334     0.0427    -3.1   0.0018 ** 
+## paternalage.factor(40,45]  -0.2872     0.0461    -6.2  4.6e-10 ***
+## paternalage.factor(45,50]  -0.4393     0.0522    -8.4  &lt; 2e-16 ***
+## paternalage.factor(50,55]  -0.6184     0.0641    -9.7  &lt; 2e-16 ***
+## paternalage.factor(55,90]  -0.6232     0.0823    -7.6  3.8e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) b.(170 b.(172 b.(173 b.(174 male   urban  ptrnl. p.(25,
+## b.(1706,172 -0.405                                                        
+## b.(1723,173 -0.444  0.591                                                 
+## b.(1734,174 -0.434  0.566  0.656                                          
+## b.(1743,175 -0.433  0.566  0.634  0.684                                   
+## male        -0.213 -0.002  0.003  0.005  0.007                            
+## urban       -0.198  0.053  0.084  0.113  0.133  0.025                     
+## paternlg.mn  0.210  0.037  0.077  0.115  0.143 -0.005  0.004              
+## ptr.(25,30] -0.689  0.001 -0.005 -0.016 -0.022  0.003 -0.001 -0.149       
+## ptr.(30,35] -0.714  0.003 -0.007 -0.030 -0.038  0.004 -0.009 -0.267  0.772
+## ptr.(35,40] -0.703 -0.005 -0.004 -0.040 -0.061  0.003 -0.012 -0.354  0.749
+## ptr.(40,45] -0.676 -0.012 -0.005 -0.050 -0.075  0.005 -0.007 -0.422  0.709
+## ptr.(45,50] -0.625 -0.016 -0.014 -0.053 -0.078  0.009 -0.006 -0.482  0.642
+## ptr.(50,55] -0.539 -0.011 -0.019 -0.046 -0.069  0.008 -0.008 -0.509  0.539
+## ptr.(55,90] -0.454 -0.016 -0.030 -0.054 -0.066  0.004 -0.011 -0.557  0.442
+##             p.(30, p.(35, p.(40, p.(45, p.(50,
+## b.(1706,172                                   
+## b.(1723,173                                   
+## b.(1734,174                                   
+## b.(1743,175                                   
+## male                                          
+## urban                                         
+## paternlg.mn                                   
+## ptr.(25,30]                                   
+## ptr.(30,35]                                   
+## ptr.(35,40]  0.798                            
+## ptr.(40,45]  0.765  0.782                     
+## ptr.(45,50]  0.703  0.728  0.734              
+## ptr.(50,55]  0.602  0.633  0.645  0.641       
+## ptr.(55,90]  0.509  0.545  0.565  0.571  0.553</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Survive_infancy_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Survive_infancy)
+<span class="kw">plot_fortified_mer</span>(Survive_infancy_coefs, <span class="st">&quot;Surviving infancy / first year&quot;</span>)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Survive_1y-1.png" title="plot of chunk Survive_1y" alt="plot of chunk Survive_1y" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">Survive_infancy_boot =<span class="st"> </span><span class="kw">plot_factor_response</span>(Survive_infancy)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Survive_1y-2.png" title="plot of chunk Survive_1y" alt="plot of chunk Survive_1y" width="1440px" height="900px" /></p>
+</div>
+<div id="survival-to-reproductive-age" class="section level2">
+<h2>Survival to reproductive age</h2>
+<pre class="sourceCode r"><code class="sourceCode r">Survive_reproductive &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+    surviveR ~<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>urban +<span class="st">  </span>paternalage.mean +<span class="st"> </span>paternalage.factor +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
+    <span class="dt">data=</span> rpqa<span class="fl">.1</span>, <span class="dt">subset =</span> survive1y ==<span class="st"> </span><span class="ot">TRUE</span>,
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults, 
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )
+<span class="kw">summary</span>(Survive_reproductive)</code></pre>
+<pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
+## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
+## Prior dev  : 59.58
+## 
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [bglmerMod]
+##  Family: binomial  ( logit )
+## Formula: 
+## surviveR ~ birth.cohort + male + urban + paternalage.mean + paternalage.factor +  
+##     (1 | idParents)
+##    Data: rpqa.1
+## Control: control_defaults
+##  Subset: survive1y == TRUE
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    59364    59512   -29666    59332    75767 
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -4.013  0.272  0.329  0.396  1.054 
+## 
+## Random effects:
+##  Groups    Name        Variance Std.Dev.
+##  idParents (Intercept) 0.419    0.647   
+## Number of obs: 75783, groups:  idParents, 16062
+## 
+## Fixed effects:
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                 2.7002     0.0567    47.6  &lt; 2e-16 ***
+## birth.cohort(1706,1723]    -0.2436     0.0394    -6.2  6.6e-10 ***
+## birth.cohort(1723,1734]    -0.5877     0.0388   -15.1  &lt; 2e-16 ***
+## birth.cohort(1734,1743]    -0.3686     0.0401    -9.2  &lt; 2e-16 ***
+## birth.cohort(1743,1750]    -0.8433     0.0391   -21.6  &lt; 2e-16 ***
+## male                       -0.0966     0.0225    -4.3  1.7e-05 ***
+## urban                      -0.8348     0.0282   -29.6  &lt; 2e-16 ***
+## paternalage.mean            0.1258     0.0284     4.4  9.2e-06 ***
+## paternalage.factor(25,30]   0.0085     0.0523     0.2  0.87100    
+## paternalage.factor(30,35]  -0.0692     0.0529    -1.3  0.19069    
+## paternalage.factor(35,40]  -0.1792     0.0553    -3.2  0.00119 ** 
+## paternalage.factor(40,45]  -0.1563     0.0602    -2.6  0.00949 ** 
+## paternalage.factor(45,50]  -0.2044     0.0685    -3.0  0.00284 ** 
+## paternalage.factor(50,55]  -0.2899     0.0848    -3.4  0.00062 ***
+## paternalage.factor(55,90]  -0.3613     0.1051    -3.4  0.00058 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) b.(170 b.(172 b.(173 b.(174 male   urban  ptrnl. p.(25,
+## b.(1706,172 -0.371                                                        
+## b.(1723,173 -0.408  0.567                                                 
+## b.(1734,174 -0.382  0.533  0.595                                          
+## b.(1743,175 -0.393  0.544  0.592  0.603                                   
+## male        -0.207 -0.001  0.003  0.006  0.003                            
+## urban       -0.198  0.062  0.097  0.120  0.149  0.036                     
+## paternlg.mn  0.228  0.038  0.077  0.107  0.127  0.001  0.002              
+## ptr.(25,30] -0.719 -0.003 -0.005 -0.014 -0.016  0.005  0.003 -0.153       
+## ptr.(30,35] -0.749 -0.001 -0.003 -0.024 -0.024  0.007 -0.002 -0.274  0.776
+## ptr.(35,40] -0.742 -0.010 -0.001 -0.032 -0.041  0.004 -0.005 -0.365  0.757
+## ptr.(40,45] -0.706 -0.017 -0.002 -0.038 -0.049  0.003 -0.003 -0.434  0.710
+## ptr.(45,50] -0.651 -0.018 -0.010 -0.039 -0.050  0.008 -0.006 -0.494  0.641
+## ptr.(50,55] -0.560 -0.012 -0.014 -0.031 -0.041  0.010 -0.008 -0.518  0.536
+## ptr.(55,90] -0.489 -0.020 -0.026 -0.042 -0.047  0.001 -0.009 -0.586  0.457
+##             p.(30, p.(35, p.(40, p.(45, p.(50,
+## b.(1706,172                                   
+## b.(1723,173                                   
+## b.(1734,174                                   
+## b.(1743,175                                   
+## male                                          
+## urban                                         
+## paternlg.mn                                   
+## ptr.(25,30]                                   
+## ptr.(30,35]                                   
+## ptr.(35,40]  0.804                            
+## ptr.(40,45]  0.765  0.782                     
+## ptr.(45,50]  0.703  0.729  0.724              
+## ptr.(50,55]  0.600  0.631  0.636  0.626       
+## ptr.(55,90]  0.528  0.568  0.583  0.586  0.555</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Survive_reproductive_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Survive_reproductive)
+<span class="kw">plot_fortified_mer</span>(Survive_reproductive_coefs, <span class="st">&quot;Surviving to reproductive age / 15 years&quot;</span>)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Survive_reproductive-1.png" title="plot of chunk Survive_reproductive" alt="plot of chunk Survive_reproductive" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">Survive_reproductive_boot =<span class="st"> </span><span class="kw">plot_factor_response</span>(Survive_reproductive)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Survive_reproductive-2.png" title="plot of chunk Survive_reproductive" alt="plot of chunk Survive_reproductive" width="1440px" height="900px" /></p>
+</div>
+<div id="ever-married" class="section level2">
+<h2>Ever married</h2>
+<pre class="sourceCode r"><code class="sourceCode r">Ever_married &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+    ever_married ~<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>urban +<span class="st">  </span>paternalage.mean +<span class="st"> </span>paternalage.factor +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
+    <span class="dt">data=</span> rpqa<span class="fl">.1</span>, <span class="dt">subset =</span> surviveR ==<span class="st"> </span>T,
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults, 
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )
+<span class="kw">summary</span>(Ever_married)</code></pre>
+<pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
+## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
+## Prior dev  : 58.97
+## 
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [bglmerMod]
+##  Family: binomial  ( logit )
+## Formula: ever_married ~ birth.cohort + male + urban + paternalage.mean +  
+##     paternalage.factor + (1 | idParents)
+##    Data: rpqa.1
+## Control: control_defaults
+##  Subset: surviveR == T
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    50649    50795   -25309    50617    65175 
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -3.887  0.277  0.328  0.385  1.001 
+## 
+## Random effects:
+##  Groups    Name        Variance Std.Dev.
+##  idParents (Intercept) 0.524    0.724   
+## Number of obs: 65191, groups:  idParents, 15422
+## 
+## Fixed effects:
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                 2.4170     0.0631    38.3  &lt; 2e-16 ***
+## birth.cohort(1706,1723]    -0.0105     0.0387    -0.3  0.78627    
+## birth.cohort(1723,1734]    -0.0474     0.0404    -1.2  0.23994    
+## birth.cohort(1734,1743]     0.0516     0.0407     1.3  0.20459    
+## birth.cohort(1743,1750]     0.3864     0.0463     8.4  &lt; 2e-16 ***
+## male                       -0.3631     0.0248   -14.6  &lt; 2e-16 ***
+## urban                      -0.4592     0.0332   -13.8  &lt; 2e-16 ***
+## paternalage.mean           -0.0264     0.0310    -0.9  0.39386    
+## paternalage.factor(25,30]  -0.0747     0.0611    -1.2  0.22138    
+## paternalage.factor(30,35]  -0.1921     0.0612    -3.1  0.00169 ** 
+## paternalage.factor(35,40]  -0.2286     0.0637    -3.6  0.00033 ***
+## paternalage.factor(40,45]  -0.1905     0.0685    -2.8  0.00543 ** 
+## paternalage.factor(45,50]  -0.2124     0.0767    -2.8  0.00563 ** 
+## paternalage.factor(50,55]  -0.1288     0.0946    -1.4  0.17371    
+## paternalage.factor(55,90]  -0.0511     0.1165    -0.4  0.66127    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) b.(170 b.(172 b.(173 b.(174 male   urban  ptrnl. p.(25,
+## b.(1706,172 -0.304                                                        
+## b.(1723,173 -0.323  0.509                                                 
+## b.(1734,174 -0.305  0.485  0.529                                          
+## b.(1743,175 -0.265  0.423  0.445  0.472                                   
+## male        -0.219 -0.003  0.001  0.003 -0.006                            
+## urban       -0.177  0.077  0.102  0.124  0.122  0.045                     
+## paternlg.mn  0.201  0.057  0.092  0.127  0.126  0.002  0.005              
+## ptr.(25,30] -0.770 -0.003 -0.004 -0.011 -0.012  0.001  0.005 -0.142       
+## ptr.(30,35] -0.799 -0.004 -0.002 -0.026 -0.024  0.004  0.000 -0.254  0.799
+## ptr.(35,40] -0.788 -0.014 -0.003 -0.035 -0.041  0.005  0.000 -0.336  0.780
+## ptr.(40,45] -0.753 -0.023 -0.006 -0.043 -0.049 -0.001 -0.003 -0.406  0.739
+## ptr.(45,50] -0.698 -0.026 -0.017 -0.046 -0.050  0.005 -0.006 -0.469  0.675
+## ptr.(50,55] -0.594 -0.023 -0.024 -0.039 -0.044  0.008 -0.005 -0.494  0.563
+## ptr.(55,90] -0.513 -0.030 -0.032 -0.054 -0.050  0.001 -0.009 -0.559  0.479
+##             p.(30, p.(35, p.(40, p.(45, p.(50,
+## b.(1706,172                                   
+## b.(1723,173                                   
+## b.(1734,174                                   
+## b.(1743,175                                   
+## male                                          
+## urban                                         
+## paternlg.mn                                   
+## ptr.(25,30]                                   
+## ptr.(30,35]                                   
+## ptr.(35,40]  0.825                            
+## ptr.(40,45]  0.792  0.803                     
+## ptr.(45,50]  0.734  0.753  0.751              
+## ptr.(50,55]  0.623  0.648  0.655  0.646       
+## ptr.(55,90]  0.544  0.577  0.593  0.598  0.562</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Ever_married_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Ever_married)
+<span class="kw">plot_fortified_mer</span>(Ever_married_coefs, <span class="st">&quot;Odds of ever marrying&quot;</span>)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Ever_married-1.png" title="plot of chunk Ever_married" alt="plot of chunk Ever_married" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">Ever_married_boot =<span class="st"> </span><span class="kw">plot_factor_response</span>(Ever_married)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Ever_married-2.png" title="plot of chunk Ever_married" alt="plot of chunk Ever_married" width="1440px" height="900px" /></p>
+</div>
+<div id="number-of-children" class="section level2">
+<h2>Number of children</h2>
+<pre class="sourceCode r"><code class="sourceCode r">Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+    children ~<span class="st"> </span><span class="kw">center</span>(spouses)*male +<span class="st"> </span>urban +<span class="st">  </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.factor +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
+    <span class="dt">data=</span> rpqa<span class="fl">.1</span>, <span class="dt">subset =</span> spouses &gt;<span class="st"> </span><span class="dv">0</span>,
+<span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults, 
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )
+<span class="kw">summary</span>(Children)</code></pre>
+<pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
+## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
+## Prior dev  : 68.69
+## 
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [bglmerMod]
+##  Family: poisson  ( log )
+## Formula: 
+## children ~ center(spouses) * male + urban + birth.cohort + paternalage.mean +  
+##     paternalage.factor + (1 | idParents)
+##    Data: rpqa.1
+## Control: control_defaults
+##  Subset: spouses &gt; 0
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   371478   371639  -185721   371442    56344 
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -3.753 -1.062  0.082  0.963  6.572 
+## 
+## Random effects:
+##  Groups    Name        Variance Std.Dev.
+##  idParents (Intercept) 0.0993   0.315   
+## Number of obs: 56362, groups:  idParents, 14996
+## 
+## Fixed effects:
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                2.03398    0.00931   218.4  &lt; 2e-16 ***
+## center(spouses)            0.03882    0.00536     7.2  4.6e-13 ***
+## male                       0.00180    0.00515     0.3  0.72711    
+## urban                     -0.08180    0.00659   -12.4  &lt; 2e-16 ***
+## birth.cohort(1706,1723]   -0.04666    0.00648    -7.2  6.0e-13 ***
+## birth.cohort(1723,1734]   -0.04736    0.00735    -6.4  1.2e-10 ***
+## birth.cohort(1734,1743]   -0.02764    0.00763    -3.6  0.00029 ***
+## birth.cohort(1743,1750]   -0.02258    0.00813    -2.8  0.00550 ** 
+## paternalage.mean           0.00678    0.00561     1.2  0.22707    
+## paternalage.factor(25,30] -0.00837    0.00756    -1.1  0.26800    
+## paternalage.factor(30,35] -0.03607    0.00781    -4.6  3.9e-06 ***
+## paternalage.factor(35,40] -0.03564    0.00822    -4.3  1.5e-05 ***
+## paternalage.factor(40,45] -0.05635    0.00889    -6.3  2.3e-10 ***
+## paternalage.factor(45,50] -0.04200    0.01002    -4.2  2.8e-05 ***
+## paternalage.factor(50,55] -0.05582    0.01233    -4.5  6.0e-06 ***
+## paternalage.factor(55,90] -0.04744    0.01555    -3.1  0.00229 ** 
+## center(spouses):male       0.18531    0.00670    27.7  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) cntr() male   urban  b.(170 b.(172 b.(173 b.(174 ptrnl.
+## centr(spss) -0.322                                                        
+## male        -0.286  0.559                                                 
+## urban       -0.179 -0.003  0.009                                          
+## b.(1706,172 -0.392  0.008  0.004  0.049                                   
+## b.(1723,173 -0.431  0.000  0.002  0.076  0.635                            
+## b.(1734,174 -0.423  0.011  0.004  0.092  0.565  0.715                     
+## b.(1743,175 -0.388  0.023  0.005  0.100  0.516  0.632  0.735              
+## paternlg.mn  0.057  0.002  0.000 -0.002  0.093  0.150  0.202  0.235       
+## ptr.(25,30] -0.628  0.006  0.002  0.001 -0.006 -0.022 -0.035 -0.054 -0.129
+## ptr.(30,35] -0.628  0.005 -0.003 -0.003 -0.019 -0.037 -0.077 -0.108 -0.221
+## ptr.(35,40] -0.598  0.007 -0.002 -0.004 -0.040 -0.058 -0.113 -0.162 -0.289
+## ptr.(40,45] -0.552  0.002 -0.004 -0.004 -0.056 -0.077 -0.145 -0.197 -0.341
+## ptr.(45,50] -0.495  0.005  0.003 -0.003 -0.067 -0.101 -0.165 -0.213 -0.384
+## ptr.(50,55] -0.405 -0.002  0.000 -0.007 -0.070 -0.109 -0.158 -0.200 -0.398
+## ptr.(55,90] -0.327  0.002  0.000 -0.005 -0.083 -0.120 -0.163 -0.193 -0.437
+## cntr(spss):  0.256 -0.796 -0.769  0.004 -0.010 -0.002 -0.005 -0.012  0.002
+##             p.(25, p.(30, p.(35, p.(40, p.(45, p.(50, p.(55,
+## centr(spss)                                                 
+## male                                                        
+## urban                                                       
+## b.(1706,172                                                 
+## b.(1723,173                                                 
+## b.(1734,174                                                 
+## b.(1743,175                                                 
+## paternlg.mn                                                 
+## ptr.(25,30]                                                 
+## ptr.(30,35]  0.790                                          
+## ptr.(35,40]  0.761  0.813                                   
+## ptr.(40,45]  0.716  0.772  0.792                            
+## ptr.(45,50]  0.646  0.705  0.732  0.737                     
+## ptr.(50,55]  0.534  0.591  0.620  0.633  0.633              
+## ptr.(55,90]  0.437  0.491  0.521  0.539  0.552  0.545       
+## cntr(spss): -0.005 -0.001 -0.002  0.000 -0.004  0.001 -0.002</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children)
+<span class="kw">plot_fortified_mer</span>(Children_coefs, <span class="st">&quot;Nr. Children (of those who had at least one spouse)&quot;</span>)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Children-1.png" title="plot of chunk Children" alt="plot of chunk Children" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">Children_boot =<span class="st"> </span><span class="kw">plot_factor_response</span>(Children)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Children-2.png" title="plot of chunk Children" alt="plot of chunk Children" width="1440px" height="900px" /></p>
+</div>
+<div id="number-of-children-who-survive-at-least-1-year" class="section level2">
+<h2>Number of children who survive at least 1 year</h2>
+<pre class="sourceCode r"><code class="sourceCode r">Children.surviving1y &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+    children.surviving1y ~<span class="st">  </span><span class="kw">center</span>(children) +<span class="st"> </span>male +<span class="st"> </span>urban +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.factor +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
+    <span class="dt">data=</span> rpqa<span class="fl">.1</span>, <span class="dt">subset =</span> children &gt;<span class="st"> </span><span class="dv">0</span>,
+    <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults, 
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )
+<span class="kw">summary</span>(Children.surviving1y)</code></pre>
+<pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
+## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
+## Prior dev  : 55.49
+## 
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [bglmerMod]
+##  Family: poisson  ( log )
+## Formula: 
+## children.surviving1y ~ center(children) + male + urban + paternalage.mean +  
+##     paternalage.factor + (1 | idParents)
+##    Data: rpqa.1
+## Control: control_defaults
+##  Subset: children &gt; 0
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   227946   228061  -113960   227920    52911 
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -5.473 -0.562  0.112  0.599  1.868 
+## 
+## Random effects:
+##  Groups    Name        Variance Std.Dev.
+##  idParents (Intercept) 0.00314  0.056   
+## Number of obs: 52924, groups:  idParents, 14744
+## 
+## Fixed effects:
+##                            Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                1.367426   0.007602   179.9  &lt; 2e-16 ***
+## center(children)           0.103838   0.000388   267.6  &lt; 2e-16 ***
+## male                      -0.010410   0.003459    -3.0  0.00262 ** 
+## urban                     -0.135189   0.005149   -26.3  &lt; 2e-16 ***
+## paternalage.mean           0.017849   0.004106     4.3  1.4e-05 ***
+## paternalage.factor(25,30] -0.012158   0.007685    -1.6  0.11365    
+## paternalage.factor(30,35] -0.019539   0.007805    -2.5  0.01231 *  
+## paternalage.factor(35,40] -0.019964   0.008211    -2.4  0.01504 *  
+## paternalage.factor(40,45] -0.027118   0.008927    -3.0  0.00238 ** 
+## paternalage.factor(45,50] -0.033658   0.010205    -3.3  0.00097 ***
+## paternalage.factor(50,55] -0.038375   0.012760    -3.0  0.00264 ** 
+## paternalage.factor(55,90] -0.041027   0.015666    -2.6  0.00882 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) cntr() male   urban  ptrnl. p.(25, p.(30, p.(35, p.(40,
+## cntr(chldr) -0.304                                                        
+## male        -0.174 -0.152                                                 
+## urban       -0.109  0.022  0.027                                          
+## paternlg.mn  0.297  0.003  0.004 -0.017                                   
+## ptr.(25,30] -0.793  0.001 -0.004  0.008 -0.156                            
+## ptr.(30,35] -0.821  0.009 -0.004  0.004 -0.276  0.771                     
+## ptr.(35,40] -0.813  0.013 -0.009  0.005 -0.364  0.749  0.785              
+## ptr.(40,45] -0.778  0.012 -0.008  0.003 -0.436  0.704  0.750  0.760       
+## ptr.(45,50] -0.716  0.009 -0.003  0.005 -0.498  0.634  0.688  0.707  0.703
+## ptr.(50,55] -0.609  0.007 -0.002  0.000 -0.520  0.526  0.584  0.610  0.616
+## ptr.(55,90] -0.549  0.009 -0.002  0.003 -0.594  0.455  0.522  0.558  0.574
+##             p.(45, p.(50,
+## cntr(chldr)              
+## male                     
+## urban                    
+## paternlg.mn              
+## ptr.(25,30]              
+## ptr.(30,35]              
+## ptr.(35,40]              
+## ptr.(40,45]              
+## ptr.(45,50]              
+## ptr.(50,55]  0.602       
+## ptr.(55,90]  0.574  0.537</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Children.surviving1y_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children.surviving1y)
+<span class="kw">plot_fortified_mer</span>(Children.surviving1y_coefs, <span class="st">&quot;Nr. Children who survive first year (of those who survived infancy)&quot;</span>)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/children.s1y-1.png" title="plot of chunk children.s1y" alt="plot of chunk children.s1y" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">Children.surviving1y_boot =<span class="st"> </span><span class="kw">plot_factor_response</span>(Children.surviving1y)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/children.s1y-2.png" title="plot of chunk children.s1y" alt="plot of chunk children.s1y" width="1440px" height="900px" /></p>
+</div>
+<div id="number-of-grandchildren" class="section level2">
+<h2>Number of grandchildren</h2>
+<pre class="sourceCode r"><code class="sourceCode r">Grandchildren.per.Child &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+    grandchildren ~<span class="st"> </span><span class="kw">center</span>(children) +<span class="st"> </span>male +paternalage.mean +<span class="st"> </span>paternalage.factor +<span class="st"> </span>urban +<span class="st"> </span>(<span class="dv">1</span>|idParents) +<span class="st"> </span>(<span class="dv">1</span>|idIndividu), 
+    <span class="dt">data=</span> rpqa<span class="fl">.1</span>, <span class="dt">subset =</span> children &gt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>byear &lt;=<span class="st"> </span><span class="dv">1700</span>, 
+    <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults, 
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )
+<span class="kw">summary</span>(Grandchildren.per.Child)</code></pre>
+<pre><code>## Cov prior  : idIndividu ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
+##            : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
+## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
+## Prior dev  : 51.29
+## 
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [bglmerMod]
+##  Family: poisson  ( log )
+## Formula: grandchildren ~ center(children) + male + paternalage.mean +  
+##     paternalage.factor + urban + (1 | idParents) + (1 | idIndividu)
+##    Data: rpqa.1
+## Control: control_defaults
+##  Subset: children &gt; 0 &amp; byear &lt;= 1700
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    82528    82627   -41250    82500     9101 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.1680 -0.1335  0.0375  0.1344  0.6087 
+## 
+## Random effects:
+##  Groups     Name        Variance Std.Dev.
+##  idIndividu (Intercept) 0.522    0.722   
+##  idParents  (Intercept) 0.105    0.325   
+## Number of obs: 9115, groups:  idIndividu, 9115; idParents, 2950
+## 
+## Fixed effects:
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                2.60577    0.04154    62.7  &lt; 2e-16 ***
+## center(children)           0.17265    0.00206    83.7  &lt; 2e-16 ***
+## male                      -0.02332    0.01704    -1.4  0.17123    
+## paternalage.mean           0.05384    0.02081     2.6  0.00969 ** 
+## paternalage.factor(25,30] -0.03328    0.04262    -0.8  0.43491    
+## paternalage.factor(30,35] -0.07758    0.04346    -1.8  0.07426 .  
+## paternalage.factor(35,40] -0.08057    0.04520    -1.8  0.07467 .  
+## paternalage.factor(40,45] -0.12372    0.04809    -2.6  0.01009 *  
+## paternalage.factor(45,50] -0.22073    0.05227    -4.2  2.4e-05 ***
+## paternalage.factor(50,55] -0.20531    0.06029    -3.4  0.00066 ***
+## paternalage.factor(55,90] -0.32107    0.07369    -4.4  1.3e-05 ***
+## urban                     -0.24777    0.02174   -11.4  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) cntr() male   ptrnl. p.(25, p.(30, p.(35, p.(40, p.(45,
+## cntr(chldr) -0.251                                                        
+## male        -0.163 -0.090                                                 
+## paternlg.mn  0.221 -0.009  0.010                                          
+## ptr.(25,30] -0.815  0.029 -0.006 -0.139                                   
+## ptr.(30,35] -0.845  0.035 -0.009 -0.261  0.788                            
+## ptr.(35,40] -0.838  0.024 -0.011 -0.349  0.769  0.824                     
+## ptr.(40,45] -0.812  0.023 -0.004 -0.412  0.733  0.794  0.817              
+## ptr.(45,50] -0.768  0.011 -0.006 -0.469  0.687  0.753  0.781  0.785       
+## ptr.(50,55] -0.682  0.017 -0.014 -0.482  0.605  0.672  0.703  0.711  0.712
+## ptr.(55,90] -0.589  0.018 -0.019 -0.524  0.512  0.580  0.617  0.631  0.639
+## urban       -0.152  0.027  0.015  0.006  0.001 -0.013  0.001  0.010  0.018
+##             p.(50, p.(55,
+## cntr(chldr)              
+## male                     
+## paternlg.mn              
+## ptr.(25,30]              
+## ptr.(30,35]              
+## ptr.(35,40]              
+## ptr.(40,45]              
+## ptr.(45,50]              
+## ptr.(50,55]              
+## ptr.(55,90]  0.609       
+## urban        0.010  0.021</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Grandchildren.per.Child_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Grandchildren.per.Child)
+<span class="kw">plot_fortified_mer</span>(Grandchildren.per.Child_coefs, <span class="st">&quot;Nr. of grandchildren per child&quot;</span>)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/GrandchildrenPerChild-1.png" title="plot of chunk GrandchildrenPerChild" alt="plot of chunk GrandchildrenPerChild" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">Grandchildren.per.Child_boot =<span class="st"> </span><span class="kw">plot_factor_response</span>(Grandchildren.per.Child)</code></pre>
+<pre><code>## Warning in bootMer(fit, mypred, nsim = 100, verbose = T, parallel =
+## &quot;multicore&quot;, : some bootstrap runs failed (100/100)</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;value&#39; not found</code></pre>
+</div>
+<div id="any-surviving-children" class="section level2">
+<h2>Any surviving children</h2>
+<pre class="sourceCode r"><code class="sourceCode r">Any_surviving_children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+    any_surviving_children ~<span class="st">  </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>urban +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.factor +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
+    <span class="dt">data=</span> rpqa<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1740</span>,
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults, 
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )
+<span class="kw">summary</span>(Any_surviving_children)</code></pre>
+<pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
+## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
+## Prior dev  : 56.25
+## 
+## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [bglmerMod]
+##  Family: binomial  ( logit )
+## Formula: 
+## any_surviving_children ~ birth.cohort + male + urban + paternalage.mean +  
+##     paternalage.factor + (1 | idParents)
+##    Data: rpqa.1
+## Control: control_defaults
+##  Subset: byear &lt; 1740
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   100741   100879   -50355   100711    75415 
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -1.989 -0.915 -0.475  0.884  2.351 
+## 
+## Random effects:
+##  Groups    Name        Variance Std.Dev.
+##  idParents (Intercept) 0.291    0.54    
+## Number of obs: 75430, groups:  idParents, 12536
+## 
+## Fixed effects:
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                 0.6472     0.0373    17.4  &lt; 2e-16 ***
+## birth.cohort(1706,1723]    -0.1142     0.0226    -5.1  4.3e-07 ***
+## birth.cohort(1723,1734]    -0.3826     0.0233   -16.4  &lt; 2e-16 ***
+## birth.cohort(1734,1743]    -0.2825     0.0269   -10.5  &lt; 2e-16 ***
+## male                       -0.3341     0.0154   -21.7  &lt; 2e-16 ***
+## urban                      -0.8072     0.0212   -38.0  &lt; 2e-16 ***
+## paternalage.mean            0.1485     0.0196     7.6  4.1e-14 ***
+## paternalage.factor(25,30]  -0.0143     0.0363    -0.4   0.6945    
+## paternalage.factor(30,35]  -0.0980     0.0369    -2.7   0.0078 ** 
+## paternalage.factor(35,40]  -0.1561     0.0387    -4.0  5.6e-05 ***
+## paternalage.factor(40,45]  -0.2393     0.0418    -5.7  1.0e-08 ***
+## paternalage.factor(45,50]  -0.2677     0.0469    -5.7  1.2e-08 ***
+## paternalage.factor(50,55]  -0.3989     0.0566    -7.1  1.8e-12 ***
+## paternalage.factor(55,90]  -0.3653     0.0693    -5.3  1.3e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) b.(170 b.(172 b.(173 male   urban  ptrnl. p.(25, p.(30,
+## b.(1706,172 -0.308                                                        
+## b.(1723,173 -0.324  0.543                                                 
+## b.(1734,174 -0.254  0.448  0.520                                          
+## male        -0.215  0.001  0.006  0.008                                   
+## urban       -0.167  0.061  0.094  0.098  0.022                            
+## paternlg.mn  0.218  0.055  0.116  0.130 -0.001  0.008                     
+## ptr.(25,30] -0.764  0.001 -0.008 -0.027 -0.002  0.001 -0.149              
+## ptr.(30,35] -0.788 -0.002 -0.015 -0.047 -0.003 -0.008 -0.263  0.783       
+## ptr.(35,40] -0.776 -0.013 -0.018 -0.062 -0.001 -0.011 -0.350  0.759  0.804
+## ptr.(40,45] -0.743 -0.022 -0.026 -0.070  0.000 -0.005 -0.418  0.718  0.770
+## ptr.(45,50] -0.684 -0.028 -0.043 -0.073  0.002 -0.008 -0.474  0.654  0.712
+## ptr.(50,55] -0.596 -0.025 -0.046 -0.067  0.002 -0.006 -0.504  0.558  0.618
+## ptr.(55,90] -0.520 -0.032 -0.061 -0.079 -0.001 -0.012 -0.574  0.479  0.545
+##             p.(35, p.(40, p.(45, p.(50,
+## b.(1706,172                            
+## b.(1723,173                            
+## b.(1734,174                            
+## male                                   
+## urban                                  
+## paternlg.mn                            
+## ptr.(25,30]                            
+## ptr.(30,35]                            
+## ptr.(35,40]                            
+## ptr.(40,45]  0.785                     
+## ptr.(45,50]  0.734  0.735              
+## ptr.(50,55]  0.646  0.655  0.648       
+## ptr.(55,90]  0.581  0.599  0.603  0.583</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Any_surviving_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_surviving_children)
+<span class="kw">plot_fortified_mer</span>(Any_surviving_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Any_surviving_children-1.png" title="plot of chunk Any_surviving_children" alt="plot of chunk Any_surviving_children" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">Any_surviving_children_boot =<span class="st"> </span><span class="kw">plot_factor_response</span>(Any_surviving_children)</code></pre>
+<p><img src="2_rpqa_nonlinear/figure/Any_surviving_children-2.png" title="plot of chunk Any_surviving_children" alt="plot of chunk Any_surviving_children" width="1440px" height="900px" /></p>
+</div>
+</div>
+<div id="wrap-up" class="section level1 accordion">
+<h1>Wrap up</h1>
+<div id="save-coefficients" class="section level4">
+<h4>Save coefficients</h4>
+<pre class="sourceCode r"><code class="sourceCode r">name =<span class="st"> &quot;rpqa_nonlinear&quot;</span>
+<span class="kw">save</span>(<span class="dt">list =</span> <span class="kw">lstype</span>(<span class="st">&#39;confint.merMod&#39;</span>),<span class="dt">file=</span><span class="kw">paste0</span>(<span class="st">&quot;coefs/&quot;</span>,name,<span class="st">&quot;_coefs.rdata&quot;</span>))
+<span class="kw">save</span>(<span class="dt">list =</span> <span class="kw">lstype</span>(<span class="st">&#39;boot&#39;</span>),<span class="dt">file=</span><span class="kw">paste0</span>(<span class="st">&quot;coefs/&quot;</span>,name,<span class="st">&quot;_boot.rdata&quot;</span>))
+<span class="kw">save</span>(<span class="dt">list =</span> <span class="kw">lstype</span>(),<span class="dt">file=</span><span class="kw">paste0</span>(<span class="st">&quot;coefs/&quot;</span>,name,<span class="st">&quot;_models.rdata&quot;</span>))</code></pre>
+</div>
+<div id="session-info" class="section level4">
+<h4>Session Info</h4>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre>
+<pre><code>## R version 3.1.0 (2014-04-10)
+## Platform: x86_64-redhat-linux-gnu (64-bit)
+## 
+## locale:
+##  [1] LC_CTYPE=C           LC_NUMERIC=C         LC_TIME=en_US       
+##  [4] LC_COLLATE=en_US     LC_MONETARY=en_US    LC_MESSAGES=en_US   
+##  [7] LC_PAPER=en_US       LC_NAME=C            LC_ADDRESS=C        
+## [10] LC_TELEPHONE=C       LC_MEASUREMENT=en_US LC_IDENTIFICATION=C 
+## 
+## attached base packages:
+## [1] splines   grid      methods   stats     graphics  grDevices utils    
+## [8] datasets  base     
+## 
+## other attached packages:
+##  [1] Hmisc_3.14-6     Formula_1.2-0    survival_2.37-7  MCMCglmm_2.22   
+##  [5] ape_3.2          coda_0.16-1      lattice_0.20-29  dplyr_0.4.1     
+##  [9] stringr_0.6.2    pander_0.5.1     blme_1.0-2       QuantPsyc_1.5   
+## [13] MASS_7.3-37      boot_1.3-14      lme4_1.1-7       Rcpp_0.11.4     
+## [17] Matrix_1.1-5     ggplot2_1.0.0    data.table_1.9.5 knitr_1.9       
+## 
+## loaded via a namespace (and not attached):
+##  [1] acepack_1.3-3.3      assertthat_0.1       car_2.0-24          
+##  [4] chron_2.3-45         cluster_2.0.1        codetools_0.2-10    
+##  [7] colorspace_1.2-4     corpcor_1.6.7        cubature_1.1-2      
+## [10] DBI_0.3.1            digest_0.6.8         evaluate_0.5.5      
+## [13] foreign_0.8-62       formatR_1.0          formr_0.1.11        
+## [16] formula.tools_1.3.4  gtable_0.1.2         labeling_0.3        
+## [19] latticeExtra_0.6-26  magrittr_1.5         mgcv_1.8-4          
+## [22] minqa_1.2.4          munsell_0.4.2        nlme_3.1-119        
+## [25] nloptr_1.0.4         nnet_7.3-8           operator.tools_1.3.0
+## [28] parallel_3.1.0       pbkrtest_0.4-2       plyr_1.8.1          
+## [31] proto_0.3-10         quantreg_5.11        RColorBrewer_1.1-2  
+## [34] reshape2_1.4.1       rpart_4.1-8          scales_0.2.4        
+## [37] SparseM_1.6          tensorA_0.36         tools_3.1.0</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre>
+<pre><code>## [1] &quot;Mon Jun  1 01:17:55 2015&quot;</code></pre>
+<script src="library/auto_tab_first_section.js"></script>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>
