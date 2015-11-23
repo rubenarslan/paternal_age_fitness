@@ -107,8 +107,8 @@ alignment.integer =<span class="st"> </span>function (...) <span class="st">&#39
 alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39;right&#39;</span>
 <span class="kw">panderOptions</span>(<span class="st">&quot;table.split.table&quot;</span>, <span class="ot">Inf</span>)</code></pre>
 </div>
-<div id="two-simple-functions-to-compute-ofcoefficients-of-variation" class="section level4">
-<h4>two simple functions to compute ofcoefficients of variation</h4>
+<div id="two-simple-functions-to-compute-coefficients-of-variation" class="section level4">
+<h4>two simple functions to compute coefficients of variation</h4>
 <div id="binary-vars" class="section level5">
 <h5>binary vars</h5>
 <pre class="sourceCode r"><code class="sourceCode r">cva_bin =<span class="st"> </span>function(x) {  
@@ -668,7 +668,7 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
 <div id="plot-predictions-on-the-responsedata-scale-linear-predictor" class="section level2">
 <h2>plot predictions on the response/data scale (linear predictor)</h2>
 <p>to this end we bootstrap predictions for lme4 models<br />and pscl::zeroinfl models<br />and use the new MCMCglmm to draw from the posterior</p>
-<pre class="sourceCode r"><code class="sourceCode r">compute_and_plot_linear_response =<span class="st"> </span>function(fit, mcmcglmm_data, <span class="dt">ncpus =</span> parallel::<span class="kw">detectCores</span>(), <span class="dt">bootstrap_replicates =</span> <span class="dv">100</span>)
+<pre class="sourceCode r"><code class="sourceCode r">compute_and_plot_linear_response =<span class="st"> </span>function(fit, mcmcglmm_data, <span class="dt">ncpus =</span> parallel::<span class="kw">detectCores</span>(), <span class="dt">bootstrap_replicates =</span> <span class="dv">100</span>, <span class="dt">factor_base =</span> <span class="st">&#39;paternalage.diff&#39;</span>)
 {
     modelname =<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(fit))
     
@@ -682,7 +682,6 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
         olddata$trait =<span class="st"> </span><span class="ot">NA</span>
         olddata =<span class="st"> </span><span class="kw">model.frame</span>(lookie$Fixed$formula,olddata,<span class="dt">na.action =</span> na.pass)
         olddata$trait =<span class="st"> </span><span class="ot">NULL</span>
-        factor_base =<span class="st"> &quot;paternalage.diff&quot;</span>
         pred =<span class="st"> </span><span class="kw">unique</span>(<span class="kw">round</span>(olddata[,factor_base,<span class="dt">drop=</span>F],<span class="dv">2</span>))
         pred =<span class="st"> </span>pred[pred[, factor_base] %in%<span class="st"> </span><span class="kw">c</span>(-<span class="dv">1</span>,-<span class="fl">0.75</span>, -<span class="fl">0.5</span>, -<span class="fl">0.25</span>, <span class="dv">0</span>,<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="fl">0.75</span>, <span class="dv">1</span>), , drop =<span class="st"> </span>F]
         
@@ -693,6 +692,10 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
         newdata[,outcome][<span class="dv">1</span>] =<span class="st"> </span><span class="dv">0</span>
     } else {
         newdata[, outcome] =<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="kw">nrow</span>(newdata)))
+    }
+    if(<span class="kw">length</span>(lookie$Random$nfl) &gt;<span class="st"> </span><span class="dv">2</span>) {
+        newdata$idMaternalGrandparents =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">nrow</span>(newdata), <span class="dv">2</span>)
+        newdata$idPaternalGrandparents =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">nrow</span>(newdata), <span class="dv">2</span>)
     }
     <span class="co"># newdata= newdata[sample(nrow(newdata),size=100,replace=T),]</span>
     
@@ -705,9 +708,13 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
     mstrapped =<span class="st"> </span><span class="kw">foreach</span>(<span class="dt">i =</span> <span class="dv">1</span>:<span class="kw">length</span>(fit), <span class="dt">.combine=</span>rbind) %dopar%<span class="st"> </span>{
         <span class="kw">predict.MCMCglmm2</span>(fit[[i]], <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>, <span class="dt">newdata =</span> newdata)
     }
-    <span class="kw">dimnames</span>(mstrapped) =<span class="st"> </span><span class="kw">list</span>(<span class="dt">sample =</span> <span class="dv">1</span>:<span class="kw">nrow</span>(mstrapped),<span class="dt">predictor =</span> newdata[, factor_base])
+    newdata$row =<span class="st"> </span><span class="dv">1</span>:<span class="kw">nrow</span>(newdata)
+    <span class="kw">dim</span>(mstrapped)
+    <span class="kw">dimnames</span>(mstrapped) =<span class="st"> </span><span class="kw">list</span>(<span class="dt">sample =</span> <span class="dv">1</span>:<span class="kw">nrow</span>(mstrapped),<span class="dt">row =</span> newdata$row)
     mstrapped =<span class="st"> </span><span class="kw">melt</span>(mstrapped)
-    <span class="kw">names</span>(mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;variable&quot;</span>,factor_base,<span class="st">&quot;value&quot;</span>)
+    <span class="kw">names</span>(mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;variable&quot;</span>,<span class="st">&quot;row&quot;</span>,<span class="st">&quot;value&quot;</span>)
+    mstrapped =<span class="st"> </span><span class="kw">merge</span>(mstrapped, newdata, <span class="dt">by =</span> <span class="st">&quot;row&quot;</span>)
+    mstrapped$what =<span class="st"> </span>mstrapped$row &gt;<span class="st"> </span><span class="dv">9</span>
 
     <span class="kw">class</span>(<span class="dt">x =</span> mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;boot&quot;</span>,<span class="kw">class</span>(<span class="dt">x =</span> mstrapped))
     <span class="kw">print</span>(  <span class="kw">ggplot</span>(mstrapped,  <span class="kw">aes_string</span>(<span class="dt">x =</span> factor_base, <span class="dt">y =</span> <span class="st">&quot;value&quot;</span>)) +<span class="st"> </span>
@@ -715,10 +722,10 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
 <span class="st">                    </span><span class="kw">ggtitle</span>(modelname) +<span class="st"> </span><span class="kw">scale_y_continuous</span>(outcome) +<span class="st"> </span>
 <span class="st">                    </span>analysis_theme
     )
-    diff_of_5_years =<span class="st"> </span>mstrapped[mstrapped$paternalage.diff==<span class="dv">0</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped$paternalage.diff==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
-    diff_of_10_years =<span class="st"> </span>mstrapped[mstrapped$paternalage.diff==<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped$paternalage.diff==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
-    diff_of_15_years =<span class="st"> </span>mstrapped[mstrapped$paternalage.diff==<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped$paternalage.diff==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
-    diff_of_20_years =<span class="st"> </span>mstrapped[mstrapped$paternalage.diff==<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped$paternalage.diff==-<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>]
+    diff_of_5_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==<span class="dv">0</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
+    diff_of_10_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
+    diff_of_15_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
+    diff_of_20_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==-<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>]
     dat =<span class="st"> </span><span class="kw">melt</span>(<span class="kw">cbind</span>(diff_of_5_years,diff_of_10_years, diff_of_15_years, diff_of_20_years))
     mean.n &lt;-<span class="st"> </span>function(x){
         <span class="kw">return</span>(<span class="kw">c</span>(<span class="dt">y =</span> <span class="kw">mean</span>(x), <span class="dt">label =</span> <span class="kw">round</span>(<span class="kw">mean</span>(x),<span class="dv">2</span>))) 
@@ -733,10 +740,19 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
 <span class="st">            </span><span class="kw">ylab</span>(<span class="st">&quot;Expected difference in number of surviving children&quot;</span>) +<span class="st"> </span>
 <span class="st">            </span><span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> mean.n, <span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">fun.y =</span> mean, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">hjust =</span> <span class="fl">1.2</span>)
     )
+    quotient_10_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base]==<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]/<span class="st"> </span>mstrapped[mstrapped[, factor_base]==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
+    
     <span class="kw">class</span>(<span class="dt">x =</span> diff_of_10_years) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mcmc&quot;</span>,diff_of_10_years)
-    mean =<span class="st"> </span><span class="kw">mean</span>(diff_of_10_years)
-    confi =<span class="st"> </span><span class="kw">HPDinterval</span>(diff_of_10_years)
-    <span class="kw">data.frame</span>(<span class="dt">mean =</span> <span class="kw">round</span>(mean,<span class="dv">3</span>), <span class="dt">lower =</span> <span class="kw">round</span>(confi[<span class="dv">1</span>],<span class="dv">3</span>), <span class="dt">upper =</span> <span class="kw">round</span>(confi[<span class="dv">2</span>],<span class="dv">3</span>))
+    <span class="kw">class</span>(<span class="dt">x =</span> quotient_10_years) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mcmc&quot;</span>,quotient_10_years)
+    mean_diff =<span class="st"> </span><span class="kw">mean</span>(diff_of_10_years)
+    mean_quot =<span class="st"> </span><span class="kw">mean</span>(quotient_10_years)
+    confi_diff =<span class="st"> </span><span class="kw">HPDinterval</span>(diff_of_10_years)
+    confi_quot =<span class="st"> </span><span class="kw">HPDinterval</span>(quotient_10_years)
+    <span class="kw">data.frame</span>(<span class="st">&quot; &quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;difference (father 10 years older)&quot;</span>, <span class="st">&quot;quotient (father 10 years older)&quot;</span>), 
+                         <span class="dt">mean =</span> <span class="kw">c</span>(<span class="kw">round</span>(mean_diff,<span class="dv">2</span>),<span class="kw">round</span>(mean_quot,<span class="dv">2</span>)),
+                         <span class="dt">lower =</span> <span class="kw">c</span>(<span class="kw">round</span>(confi_diff[<span class="dv">1</span>],<span class="dv">2</span>), <span class="kw">round</span>(confi_quot[<span class="dv">1</span>],<span class="dv">2</span>)),
+                         <span class="dt">upper =</span> <span class="kw">c</span>(<span class="kw">round</span>(confi_diff[<span class="dv">2</span>],<span class="dv">2</span>), <span class="kw">round</span>(confi_quot[<span class="dv">2</span>],<span class="dv">2</span>))
+    )
 }</code></pre>
 <div id="plot-non-bootstrapped-predictions" class="section level5">
 <h5>plot non-bootstrapped predictions</h5>
@@ -1370,7 +1386,7 @@ aggDemoTrends =<span class="st"> </span>function(df) {
 colour_values =<span class="st"> </span><span class="kw">c</span>(
     <span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> &quot;#E2A674&quot;</span>,
     <span class="st">&quot;Québec&quot;</span> =<span class="st"> &quot;#9F3B2B&quot;</span>,
-    <span class="st">&quot;Modern Sweden&quot;</span> =<span class="st"> &quot;#8A846C&quot;</span>,
+    <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st"> &quot;#8A846C&quot;</span>,
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> &quot;#21523B&quot;</span>
 )
 pop_colour =<span class="st"> </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> colour_values)

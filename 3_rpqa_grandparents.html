@@ -778,6 +778,567 @@ rpqa<span class="fl">.1</span>[, birth.cohort :<span class="er">=</span><span cl
 <span class="kw">plot_fortified_mer</span>(Any_surviving_children_gploss_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
 <p><img src="3_rpqa_grandparents_files/figure-html/Any_surviving_children_gploss-1.png" title="" alt="" width="1440px" height="900px" /></p>
 </div>
+<div id="children-surviving-first-5-years-extended-controls" class="section level2">
+<h2>children surviving first 5 years, extended controls</h2>
+<pre class="sourceCode r"><code class="sourceCode r">Any_surviving_children_gploss &lt;-<span class="st"> </span><span class="kw">glmer</span>(
+    children.surviving5y &gt;<span class="st"> </span><span class="dv">0</span> ~<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">scale</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>urban +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>maternal.grandpaternalage.diff +<span class="st"> </span>maternal.grandpaternalage.mean +<span class="st"> </span>paternal.grandpaternalage.diff +<span class="st"> </span>paternal.grandpaternalage.mean +<span class="st"> </span>maternalgrandfatherloss +<span class="st"> </span>paternalgrandfatherloss +<span class="st"> </span>maternalgrandmotherloss +<span class="st"> </span>paternalgrandmotherloss +<span class="st"> </span>(<span class="dv">1</span>|idParents) +<span class="st">  </span>(<span class="dv">1</span>|idPaternalGrandparents) +<span class="st"> </span>(<span class="dv">1</span>|idMaternalGrandparents), 
+    <span class="dt">data=</span> rpqa<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;=<span class="st"> </span><span class="dv">1740</span>,
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )
+<span class="kw">summary</span>(Any_surviving_children_gploss)</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: 
+## children.surviving5y &gt; 0 ~ scale(dependent_sibs_f5y) + maternalage.factor +  
+##     paternalloss + maternalloss + scale(nr.siblings) + birth.cohort +  
+##     male + urban + paternalage.mean + paternalage.diff + maternal.grandpaternalage.diff +  
+##     maternal.grandpaternalage.mean + paternal.grandpaternalage.diff +  
+##     paternal.grandpaternalage.mean + maternalgrandfatherloss +  
+##     paternalgrandfatherloss + maternalgrandmotherloss + paternalgrandmotherloss +  
+##     (1 | idParents) + (1 | idPaternalGrandparents) + (1 | idMaternalGrandparents)
+##    Data: rpqa.1
+## Control: control_defaults
+##  Subset: byear &lt;= 1740
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    55736    55987   -27839    55678    41522 
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -1.929 -0.941  0.595  0.883  2.463 
+## 
+## Random effects:
+##  Groups                 Name        Variance Std.Dev.
+##  idParents              (Intercept) 0.1046   0.323   
+##  idMaternalGrandparents (Intercept) 0.0892   0.299   
+##  idPaternalGrandparents (Intercept) 0.0604   0.246   
+## Number of obs: 41551, groups:  
+## idParents, 6664; idMaternalGrandparents, 3549; idPaternalGrandparents, 3312
+## 
+## Fixed effects:
+##                                Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                     0.46387    0.05681    8.17  3.2e-16 ***
+## scale(dependent_sibs_f5y)      -0.03579    0.01388   -2.58   0.0099 ** 
+## maternalage.factor(14,20]      -0.06622    0.04837   -1.37   0.1710    
+## maternalage.factor(35,50]      -0.09333    0.03801   -2.46   0.0141 *  
+## paternalloss                   -0.12009    0.05201   -2.31   0.0210 *  
+## maternalloss                   -0.49384    0.04915  -10.05  &lt; 2e-16 ***
+## scale(nr.siblings)             -0.02640    0.01526   -1.73   0.0837 .  
+## birth.cohort(1703,1722]         0.05673    0.04143    1.37   0.1709    
+## birth.cohort(1722,1734]        -0.23179    0.04362   -5.31  1.1e-07 ***
+## birth.cohort(1734,1743]        -0.12939    0.04651   -2.78   0.0054 ** 
+## male                           -0.28304    0.02099  -13.48  &lt; 2e-16 ***
+## urban                          -0.73919    0.03460  -21.37  &lt; 2e-16 ***
+## paternalage.mean               -0.03786    0.02365   -1.60   0.1094    
+## paternalage.diff               -0.06978    0.03020   -2.31   0.0208 *  
+## maternal.grandpaternalage.diff -0.06084    0.02615   -2.33   0.0200 *  
+## maternal.grandpaternalage.mean  0.00769    0.01843    0.42   0.6765    
+## paternal.grandpaternalage.diff -0.07925    0.02660   -2.98   0.0029 ** 
+## paternal.grandpaternalage.mean  0.02039    0.01826    1.12   0.2641    
+## maternalgrandfatherlossTRUE    -0.00686    0.02932   -0.23   0.8150    
+## maternalgrandfatherlossNA       0.07200    0.04295    1.68   0.0937 .  
+## paternalgrandfatherlossTRUE    -0.04290    0.03212   -1.34   0.1817    
+## paternalgrandfatherlossNA       0.07607    0.04389    1.73   0.0831 .  
+## maternalgrandmotherlossTRUE    -0.02365    0.02804   -0.84   0.3991    
+## maternalgrandmotherlossNA       0.02310    0.04432    0.52   0.6022    
+## paternalgrandmotherlossTRUE    -0.05471    0.02811   -1.95   0.0516 .  
+## paternalgrandmotherlossNA      -0.00151    0.04193   -0.04   0.9714    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre><code>## 
+## Correlation matrix not shown by default, as p = 26 &gt; 20.
+## Use print(x, correlation=TRUE)  or
+##   vcov(x)     if you need it</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">Any_surviving_children_gploss_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_surviving_children_gploss)
+<span class="kw">plot_fortified_mer</span>(Any_surviving_children_gploss_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
+<p><img src="3_rpqa_grandparents_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" width="1440px" height="900px" /></p>
+</div>
+<div id="mcmcglmm" class="section level2">
+<h2>MCMCglmm</h2>
+<p>Link to <a href="4_rpqa_all_children_surviving5y_linear_grandparents.html">analysis script</a>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">loadRDS</span>(<span class="st">&quot;coefs/rpqa_Children_surviving5y_all_linear_grandparents.rds&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;rpqa_grandparents.rdata&quot;</span>)
+y10_diff_rpqa =<span class="st"> </span><span class="kw">compute_and_plot_linear_response</span>(rpqa_Children_surviving5y_all_linear_grandparents, <span class="dt">mcmcglmm_data =</span> rpqa<span class="fl">.1</span>)</code></pre>
+<p><img src="3_rpqa_grandparents_files/figure-html/unnamed-chunk-3-1.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/unnamed-chunk-3-2.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(y10_diff_rpqa)</code></pre>
+<table>
+<colgroup>
+<col width="38%" />
+<col width="9%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">X.</th>
+<th align="center">mean</th>
+<th align="center">lower</th>
+<th align="center">upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">difference (father 10 years older)</td>
+<td align="center">-0.38</td>
+<td align="center">-0.46</td>
+<td align="center">-0.31</td>
+</tr>
+<tr class="even">
+<td align="center">quotient (father 10 years older)</td>
+<td align="center">0.9</td>
+<td align="center">0.88</td>
+<td align="center">0.92</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">y10_diff_rpqa =<span class="st"> </span><span class="kw">compute_and_plot_linear_response</span>(rpqa_Children_surviving5y_all_linear_grandparents, <span class="dt">mcmcglmm_data =</span> rpqa<span class="fl">.1</span>, <span class="dt">factor_base =</span> <span class="st">&quot;maternal.grandpaternalage.diff&quot;</span>)</code></pre>
+<p><img src="3_rpqa_grandparents_files/figure-html/unnamed-chunk-3-3.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/unnamed-chunk-3-4.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(y10_diff_rpqa)</code></pre>
+<table>
+<colgroup>
+<col width="38%" />
+<col width="9%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">X.</th>
+<th align="center">mean</th>
+<th align="center">lower</th>
+<th align="center">upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">difference (father 10 years older)</td>
+<td align="center">-0.15</td>
+<td align="center">-0.25</td>
+<td align="center">-0.06</td>
+</tr>
+<tr class="even">
+<td align="center">quotient (father 10 years older)</td>
+<td align="center">0.96</td>
+<td align="center">0.94</td>
+<td align="center">0.98</td>
+</tr>
+</tbody>
+</table>
+<pre class="sourceCode r"><code class="sourceCode r">y10_diff_rpqa =<span class="st"> </span><span class="kw">compute_and_plot_linear_response</span>(rpqa_Children_surviving5y_all_linear_grandparents, <span class="dt">mcmcglmm_data =</span> rpqa<span class="fl">.1</span>, <span class="dt">factor_base =</span> <span class="st">&quot;paternal.grandpaternalage.diff&quot;</span>)</code></pre>
+<p><img src="3_rpqa_grandparents_files/figure-html/unnamed-chunk-3-5.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/unnamed-chunk-3-6.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(y10_diff_rpqa)</code></pre>
+<table>
+<colgroup>
+<col width="38%" />
+<col width="9%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">X.</th>
+<th align="center">mean</th>
+<th align="center">lower</th>
+<th align="center">upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">difference (father 10 years older)</td>
+<td align="center">-0.26</td>
+<td align="center">-0.35</td>
+<td align="center">-0.16</td>
+</tr>
+<tr class="even">
+<td align="center">quotient (father 10 years older)</td>
+<td align="center">0.93</td>
+<td align="center">0.91</td>
+<td align="center">0.96</td>
+</tr>
+</tbody>
+</table>
+<div id="diagnostics" class="section level4 accordion">
+<h4>Diagnostics</h4>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">post_process_mcmcglmm</span>( rpqa_Children_surviving5y_all_linear_grandparents )</code></pre>
+<pre><code>## Potential scale reduction factors:
+## 
+##                                                             Point est.
+## traitchildren.surviving5y                                            1
+## traitza_children.surviving5y                                         1
+## birth.cohort(1703,1722]                                              1
+## birth.cohort(1722,1734]                                              1
+## birth.cohort(1734,1743]                                              1
+## male                                                                 1
+## urban                                                                1
+## paternalage.mean                                                     1
+## paternalage.diff                                                     1
+## maternal.grandpaternalage.diff                                       1
+## maternal.grandpaternalage.mean                                       1
+## paternal.grandpaternalage.diff                                       1
+## paternal.grandpaternalage.mean                                       1
+## traitza_children.surviving5y:birth.cohort(1703,1722]                 1
+## traitza_children.surviving5y:birth.cohort(1722,1734]                 1
+## traitza_children.surviving5y:birth.cohort(1734,1743]                 1
+## traitza_children.surviving5y:male                                    1
+## traitza_children.surviving5y:urban                                   1
+## traitza_children.surviving5y:paternalage.mean                        1
+## traitza_children.surviving5y:paternalage.diff                        1
+## traitza_children.surviving5y:maternal.grandpaternalage.diff          1
+## traitza_children.surviving5y:maternal.grandpaternalage.mean          1
+## traitza_children.surviving5y:paternal.grandpaternalage.diff          1
+## traitza_children.surviving5y:paternal.grandpaternalage.mean          1
+##                                                             Upper C.I.
+## traitchildren.surviving5y                                            1
+## traitza_children.surviving5y                                         1
+## birth.cohort(1703,1722]                                              1
+## birth.cohort(1722,1734]                                              1
+## birth.cohort(1734,1743]                                              1
+## male                                                                 1
+## urban                                                                1
+## paternalage.mean                                                     1
+## paternalage.diff                                                     1
+## maternal.grandpaternalage.diff                                       1
+## maternal.grandpaternalage.mean                                       1
+## paternal.grandpaternalage.diff                                       1
+## paternal.grandpaternalage.mean                                       1
+## traitza_children.surviving5y:birth.cohort(1703,1722]                 1
+## traitza_children.surviving5y:birth.cohort(1722,1734]                 1
+## traitza_children.surviving5y:birth.cohort(1734,1743]                 1
+## traitza_children.surviving5y:male                                    1
+## traitza_children.surviving5y:urban                                   1
+## traitza_children.surviving5y:paternalage.mean                        1
+## traitza_children.surviving5y:paternalage.diff                        1
+## traitza_children.surviving5y:maternal.grandpaternalage.diff          1
+## traitza_children.surviving5y:maternal.grandpaternalage.mean          1
+## traitza_children.surviving5y:paternal.grandpaternalage.diff          1
+## traitza_children.surviving5y:paternal.grandpaternalage.mean          1
+## 
+## Multivariate psrf
+## 
+## 1
+## Potential scale reduction factors:
+## 
+##                                                     Point est. Upper C.I.
+## traitchildren.surviving5y.idParents                          1          1
+## traitza_children.surviving5y.idParents                       1          1
+## traitchildren.surviving5y.idMaternalGrandparents             1          1
+## traitza_children.surviving5y.idMaternalGrandparents          1          1
+## traitchildren.surviving5y.idPaternalGrandparents             1          1
+## traitza_children.surviving5y.idPaternalGrandparents          1          1
+## traitchildren.surviving5y.units                              1          1
+## 
+## Multivariate psrf
+## 
+## 1</code></pre>
+<p><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre><code>## NULL
+## 
+## Iterations = 10001:109901
+## Thinning interval = 100 
+## Number of chains = 15 
+## Sample size per chain = 1000 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##                                                                  Mean
+## traitchildren.surviving5y                                    1.798809
+## traitza_children.surviving5y                                -0.139460
+## birth.cohort(1703,1722]                                     -0.103104
+## birth.cohort(1722,1734]                                     -0.126147
+## birth.cohort(1734,1743]                                     -0.116942
+## male                                                         0.105157
+## urban                                                       -0.243207
+## paternalage.mean                                            -0.031064
+## paternalage.diff                                            -0.036815
+## maternal.grandpaternalage.diff                              -0.012916
+## maternal.grandpaternalage.mean                              -0.003713
+## paternal.grandpaternalage.diff                              -0.030325
+## paternal.grandpaternalage.mean                               0.000629
+## traitza_children.surviving5y:birth.cohort(1703,1722]         0.161939
+## traitza_children.surviving5y:birth.cohort(1722,1734]        -0.093584
+## traitza_children.surviving5y:birth.cohort(1734,1743]        -0.008237
+## traitza_children.surviving5y:male                           -0.371729
+## traitza_children.surviving5y:urban                          -0.473455
+## traitza_children.surviving5y:paternalage.mean                0.001100
+## traitza_children.surviving5y:paternalage.diff               -0.118821
+## traitza_children.surviving5y:maternal.grandpaternalage.diff -0.051334
+## traitza_children.surviving5y:maternal.grandpaternalage.mean  0.008934
+## traitza_children.surviving5y:paternal.grandpaternalage.diff -0.059976
+## traitza_children.surviving5y:paternal.grandpaternalage.mean  0.010788
+##                                                                  SD
+## traitchildren.surviving5y                                   0.01406
+## traitza_children.surviving5y                                0.03953
+## birth.cohort(1703,1722]                                     0.01372
+## birth.cohort(1722,1734]                                     0.01461
+## birth.cohort(1734,1743]                                     0.01544
+## male                                                        0.00750
+## urban                                                       0.01399
+## paternalage.mean                                            0.00781
+## paternalage.diff                                            0.00696
+## maternal.grandpaternalage.diff                              0.00861
+## maternal.grandpaternalage.mean                              0.00634
+## paternal.grandpaternalage.diff                              0.00874
+## paternal.grandpaternalage.mean                              0.00632
+## traitza_children.surviving5y:birth.cohort(1703,1722]        0.04064
+## traitza_children.surviving5y:birth.cohort(1722,1734]        0.04286
+## traitza_children.surviving5y:birth.cohort(1734,1743]        0.04590
+## traitza_children.surviving5y:male                           0.02134
+## traitza_children.surviving5y:urban                          0.03625
+## traitza_children.surviving5y:paternalage.mean               0.02207
+## traitza_children.surviving5y:paternalage.diff               0.01985
+## traitza_children.surviving5y:maternal.grandpaternalage.diff 0.02496
+## traitza_children.surviving5y:maternal.grandpaternalage.mean 0.01859
+## traitza_children.surviving5y:paternal.grandpaternalage.diff 0.02522
+## traitza_children.surviving5y:paternal.grandpaternalage.mean 0.01840
+##                                                              Naive SE
+## traitchildren.surviving5y                                   0.0001148
+## traitza_children.surviving5y                                0.0003228
+## birth.cohort(1703,1722]                                     0.0001120
+## birth.cohort(1722,1734]                                     0.0001193
+## birth.cohort(1734,1743]                                     0.0001261
+## male                                                        0.0000612
+## urban                                                       0.0001143
+## paternalage.mean                                            0.0000638
+## paternalage.diff                                            0.0000568
+## maternal.grandpaternalage.diff                              0.0000703
+## maternal.grandpaternalage.mean                              0.0000518
+## paternal.grandpaternalage.diff                              0.0000714
+## paternal.grandpaternalage.mean                              0.0000516
+## traitza_children.surviving5y:birth.cohort(1703,1722]        0.0003319
+## traitza_children.surviving5y:birth.cohort(1722,1734]        0.0003499
+## traitza_children.surviving5y:birth.cohort(1734,1743]        0.0003748
+## traitza_children.surviving5y:male                           0.0001742
+## traitza_children.surviving5y:urban                          0.0002960
+## traitza_children.surviving5y:paternalage.mean               0.0001802
+## traitza_children.surviving5y:paternalage.diff               0.0001621
+## traitza_children.surviving5y:maternal.grandpaternalage.diff 0.0002038
+## traitza_children.surviving5y:maternal.grandpaternalage.mean 0.0001518
+## traitza_children.surviving5y:paternal.grandpaternalage.diff 0.0002059
+## traitza_children.surviving5y:paternal.grandpaternalage.mean 0.0001503
+##                                                             Time-series SE
+## traitchildren.surviving5y                                        0.0001156
+## traitza_children.surviving5y                                     0.0003196
+## birth.cohort(1703,1722]                                          0.0001120
+## birth.cohort(1722,1734]                                          0.0001190
+## birth.cohort(1734,1743]                                          0.0001261
+## male                                                             0.0000621
+## urban                                                            0.0001199
+## paternalage.mean                                                 0.0000638
+## paternalage.diff                                                 0.0000576
+## maternal.grandpaternalage.diff                                   0.0000717
+## maternal.grandpaternalage.mean                                   0.0000525
+## paternal.grandpaternalage.diff                                   0.0000715
+## paternal.grandpaternalage.mean                                   0.0000506
+## traitza_children.surviving5y:birth.cohort(1703,1722]             0.0003328
+## traitza_children.surviving5y:birth.cohort(1722,1734]             0.0003454
+## traitza_children.surviving5y:birth.cohort(1734,1743]             0.0003721
+## traitza_children.surviving5y:male                                0.0001743
+## traitza_children.surviving5y:urban                               0.0002995
+## traitza_children.surviving5y:paternalage.mean                    0.0001778
+## traitza_children.surviving5y:paternalage.diff                    0.0001589
+## traitza_children.surviving5y:maternal.grandpaternalage.diff      0.0002074
+## traitza_children.surviving5y:maternal.grandpaternalage.mean      0.0001511
+## traitza_children.surviving5y:paternal.grandpaternalage.diff      0.0002078
+## traitza_children.surviving5y:paternal.grandpaternalage.mean      0.0001495
+## 
+## 2. Quantiles for each variable:
+## 
+##                                                                2.5%
+## traitchildren.surviving5y                                    1.7716
+## traitza_children.surviving5y                                -0.2174
+## birth.cohort(1703,1722]                                     -0.1302
+## birth.cohort(1722,1734]                                     -0.1550
+## birth.cohort(1734,1743]                                     -0.1476
+## male                                                         0.0907
+## urban                                                       -0.2706
+## paternalage.mean                                            -0.0461
+## paternalage.diff                                            -0.0505
+## maternal.grandpaternalage.diff                              -0.0299
+## maternal.grandpaternalage.mean                              -0.0160
+## paternal.grandpaternalage.diff                              -0.0474
+## paternal.grandpaternalage.mean                              -0.0117
+## traitza_children.surviving5y:birth.cohort(1703,1722]         0.0816
+## traitza_children.surviving5y:birth.cohort(1722,1734]        -0.1778
+## traitza_children.surviving5y:birth.cohort(1734,1743]        -0.0986
+## traitza_children.surviving5y:male                           -0.4136
+## traitza_children.surviving5y:urban                          -0.5451
+## traitza_children.surviving5y:paternalage.mean               -0.0421
+## traitza_children.surviving5y:paternalage.diff               -0.1582
+## traitza_children.surviving5y:maternal.grandpaternalage.diff -0.1000
+## traitza_children.surviving5y:maternal.grandpaternalage.mean -0.0271
+## traitza_children.surviving5y:paternal.grandpaternalage.diff -0.1092
+## traitza_children.surviving5y:paternal.grandpaternalage.mean -0.0253
+##                                                                  25%
+## traitchildren.surviving5y                                    1.78937
+## traitza_children.surviving5y                                -0.16592
+## birth.cohort(1703,1722]                                     -0.11241
+## birth.cohort(1722,1734]                                     -0.13603
+## birth.cohort(1734,1743]                                     -0.12726
+## male                                                         0.10010
+## urban                                                       -0.25262
+## paternalage.mean                                            -0.03634
+## paternalage.diff                                            -0.04151
+## maternal.grandpaternalage.diff                              -0.01869
+## maternal.grandpaternalage.mean                              -0.00802
+## paternal.grandpaternalage.diff                              -0.03616
+## paternal.grandpaternalage.mean                              -0.00365
+## traitza_children.surviving5y:birth.cohort(1703,1722]         0.13485
+## traitza_children.surviving5y:birth.cohort(1722,1734]        -0.12283
+## traitza_children.surviving5y:birth.cohort(1734,1743]        -0.03905
+## traitza_children.surviving5y:male                           -0.38612
+## traitza_children.surviving5y:urban                          -0.49799
+## traitza_children.surviving5y:paternalage.mean               -0.01383
+## traitza_children.surviving5y:paternalage.diff               -0.13207
+## traitza_children.surviving5y:maternal.grandpaternalage.diff -0.06809
+## traitza_children.surviving5y:maternal.grandpaternalage.mean -0.00388
+## traitza_children.surviving5y:paternal.grandpaternalage.diff -0.07689
+## traitza_children.surviving5y:paternal.grandpaternalage.mean -0.00163
+##                                                                   50%
+## traitchildren.surviving5y                                    1.798833
+## traitza_children.surviving5y                                -0.139546
+## birth.cohort(1703,1722]                                     -0.103055
+## birth.cohort(1722,1734]                                     -0.126218
+## birth.cohort(1734,1743]                                     -0.116868
+## male                                                         0.105103
+## urban                                                       -0.243368
+## paternalage.mean                                            -0.031141
+## paternalage.diff                                            -0.036743
+## maternal.grandpaternalage.diff                              -0.012908
+## maternal.grandpaternalage.mean                              -0.003727
+## paternal.grandpaternalage.diff                              -0.030364
+## paternal.grandpaternalage.mean                               0.000635
+## traitza_children.surviving5y:birth.cohort(1703,1722]         0.162221
+## traitza_children.surviving5y:birth.cohort(1722,1734]        -0.093309
+## traitza_children.surviving5y:birth.cohort(1734,1743]        -0.008469
+## traitza_children.surviving5y:male                           -0.371688
+## traitza_children.surviving5y:urban                          -0.473449
+## traitza_children.surviving5y:paternalage.mean                0.000969
+## traitza_children.surviving5y:paternalage.diff               -0.118787
+## traitza_children.surviving5y:maternal.grandpaternalage.diff -0.051414
+## traitza_children.surviving5y:maternal.grandpaternalage.mean  0.008991
+## traitza_children.surviving5y:paternal.grandpaternalage.diff -0.060119
+## traitza_children.surviving5y:paternal.grandpaternalage.mean  0.010994
+##                                                                   75%
+## traitchildren.surviving5y                                    1.808181
+## traitza_children.surviving5y                                -0.113133
+## birth.cohort(1703,1722]                                     -0.093772
+## birth.cohort(1722,1734]                                     -0.116289
+## birth.cohort(1734,1743]                                     -0.106508
+## male                                                         0.110238
+## urban                                                       -0.233788
+## paternalage.mean                                            -0.025805
+## paternalage.diff                                            -0.032116
+## maternal.grandpaternalage.diff                              -0.007086
+## maternal.grandpaternalage.mean                               0.000554
+## paternal.grandpaternalage.diff                              -0.024420
+## paternal.grandpaternalage.mean                               0.004845
+## traitza_children.surviving5y:birth.cohort(1703,1722]         0.189345
+## traitza_children.surviving5y:birth.cohort(1722,1734]        -0.064644
+## traitza_children.surviving5y:birth.cohort(1734,1743]         0.022853
+## traitza_children.surviving5y:male                           -0.357238
+## traitza_children.surviving5y:urban                          -0.449221
+## traitza_children.surviving5y:paternalage.mean                0.016092
+## traitza_children.surviving5y:paternalage.diff               -0.105390
+## traitza_children.surviving5y:maternal.grandpaternalage.diff -0.034644
+## traitza_children.surviving5y:maternal.grandpaternalage.mean  0.021530
+## traitza_children.surviving5y:paternal.grandpaternalage.diff -0.042819
+## traitza_children.surviving5y:paternal.grandpaternalage.mean  0.023158
+##                                                                97.5%
+## traitchildren.surviving5y                                    1.82640
+## traitza_children.surviving5y                                -0.06233
+## birth.cohort(1703,1722]                                     -0.07669
+## birth.cohort(1722,1734]                                     -0.09774
+## birth.cohort(1734,1743]                                     -0.08664
+## male                                                         0.11990
+## urban                                                       -0.21602
+## paternalage.mean                                            -0.01569
+## paternalage.diff                                            -0.02309
+## maternal.grandpaternalage.diff                               0.00388
+## maternal.grandpaternalage.mean                               0.00880
+## paternal.grandpaternalage.diff                              -0.01320
+## paternal.grandpaternalage.mean                               0.01298
+## traitza_children.surviving5y:birth.cohort(1703,1722]         0.24208
+## traitza_children.surviving5y:birth.cohort(1722,1734]        -0.01129
+## traitza_children.surviving5y:birth.cohort(1734,1743]         0.08052
+## traitza_children.surviving5y:male                           -0.33000
+## traitza_children.surviving5y:urban                          -0.40178
+## traitza_children.surviving5y:paternalage.mean                0.04467
+## traitza_children.surviving5y:paternalage.diff               -0.08012
+## traitza_children.surviving5y:maternal.grandpaternalage.diff -0.00203
+## traitza_children.surviving5y:maternal.grandpaternalage.mean  0.04493
+## traitza_children.surviving5y:paternal.grandpaternalage.diff -0.01111
+## traitza_children.surviving5y:paternal.grandpaternalage.mean  0.04706</code></pre>
+<p><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-2.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-3.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-4.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-5.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-6.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-7.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre><code>## NULL</code></pre>
+<p><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-8.png" title="" alt="" width="1440px" height="900px" /><img src="3_rpqa_grandparents_files/figure-html/rpqa_linear_diag-9.png" title="" alt="" width="1440px" height="900px" /></p>
+<pre><code>## NULL
+##                                   traitchildren.surviving5y 
+##                                                       14875 
+##                                traitza_children.surviving5y 
+##                                                       15330 
+##                                     birth.cohort(1703,1722] 
+##                                                       15112 
+##                                     birth.cohort(1722,1734] 
+##                                                       15152 
+##                                     birth.cohort(1734,1743] 
+##                                                       15100 
+##                                                        male 
+##                                                       14686 
+##                                                       urban 
+##                                                       13740 
+##                                            paternalage.mean 
+##                                                       15135 
+##                                            paternalage.diff 
+##                                                       14697 
+##                              maternal.grandpaternalage.diff 
+##                                                       14766 
+##                              maternal.grandpaternalage.mean 
+##                                                       14607 
+##                              paternal.grandpaternalage.diff 
+##                                                       15164 
+##                              paternal.grandpaternalage.mean 
+##                                                       16124 
+##        traitza_children.surviving5y:birth.cohort(1703,1722] 
+##                                                       15162 
+##        traitza_children.surviving5y:birth.cohort(1722,1734] 
+##                                                       15580 
+##        traitza_children.surviving5y:birth.cohort(1734,1743] 
+##                                                       15418 
+##                           traitza_children.surviving5y:male 
+##                                                       15237 
+##                          traitza_children.surviving5y:urban 
+##                                                       14688 
+##               traitza_children.surviving5y:paternalage.mean 
+##                                                       15505 
+##               traitza_children.surviving5y:paternalage.diff 
+##                                                       15829 
+## traitza_children.surviving5y:maternal.grandpaternalage.diff 
+##                                                       14538 
+## traitza_children.surviving5y:maternal.grandpaternalage.mean 
+##                                                       15285 
+## traitza_children.surviving5y:paternal.grandpaternalage.diff 
+##                                                       14871 
+## traitza_children.surviving5y:paternal.grandpaternalage.mean 
+##                                                       15331 
+##                 traitchildren.surviving5y.idParents 
+##                                                6458 
+##              traitza_children.surviving5y.idParents 
+##                                                9986 
+##    traitchildren.surviving5y.idMaternalGrandparents 
+##                                                7422 
+## traitza_children.surviving5y.idMaternalGrandparents 
+##                                               12472 
+##    traitchildren.surviving5y.idPaternalGrandparents 
+##                                                8545 
+## traitza_children.surviving5y.idPaternalGrandparents 
+##                                               11170 
+##                     traitchildren.surviving5y.units 
+##                                                8605 
+##                  traitza_children.surviving5y.units 
+##                                                   0</code></pre>
+</div>
+</div>
 </div>
 <div id="wrap-up" class="section level1 accordion">
 <h1>Wrap up</h1>
@@ -798,27 +1359,36 @@ rpqa<span class="fl">.1</span>[, birth.cohort :<span class="er">=</span><span cl
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
-## [1] graphics  grDevices utils     datasets  stats     methods   base     
+## [1] grid      parallel  graphics  grDevices utils     datasets  stats    
+## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] stringi_1.0-1    dplyr_0.4.1      rmarkdown_0.7    QuantPsyc_1.5   
-##  [5] MASS_7.3-40      boot_1.3-16      lubridate_1.3.3  pander_0.5.2    
-##  [9] lme4_1.1-7       Rcpp_0.12.1      Matrix_1.2-1     knitr_1.10.5    
-## [13] plyr_1.8.3       ggplot2_1.0.1    formr_0.2.9      data.table_1.9.6
-## [17] stringr_1.0.0    devtools_1.8.0  
+##  [1] Hmisc_3.17-0     Formula_1.2-1    survival_2.38-1  lattice_0.20-31 
+##  [5] doMC_1.3.3       iterators_1.0.7  foreach_1.4.2    MCMCglmm_2.22   
+##  [9] ape_3.3          coda_0.17-1      QuantPsyc_1.5    MASS_7.3-40     
+## [13] boot_1.3-16      lubridate_1.3.3  lme4_1.1-7       Rcpp_0.12.1     
+## [17] Matrix_1.2-1     stringi_1.0-1    dplyr_0.4.1      pander_0.5.2    
+## [21] knitr_1.10.5     rmarkdown_0.7    plyr_1.8.3       ggplot2_1.0.1   
+## [25] formr_0.2.9      data.table_1.9.6 stringr_1.0.0    devtools_1.8.0  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] formatR_1.2.1    nloptr_1.0.4     git2r_0.10.1     tools_3.2.0     
-##  [5] digest_0.6.8     evaluate_0.8     memoise_0.2.1    gtable_0.1.2    
-##  [9] nlme_3.1-120     lattice_0.20-31  mgcv_1.8-6       DBI_0.3.1       
-## [13] curl_0.9.3       parallel_3.2.0   SparseM_1.6      proto_0.3-10    
-## [17] xml2_0.1.1       rversions_1.0.1  grid_3.2.0       nnet_7.3-9      
-## [21] minqa_1.2.4      reshape2_1.4.1   car_2.0-25       magrittr_1.5    
-## [25] codetools_0.2-11 htmltools_0.2.6  scales_0.3.0     splines_3.2.0   
-## [29] assertthat_0.1   pbkrtest_0.4-2   colorspace_1.2-6 quantreg_5.11   
-## [33] munsell_0.4.2    chron_2.3-47</code></pre>
+##  [1] corpcor_1.6.7       assertthat_0.1      digest_0.6.8       
+##  [4] chron_2.3-47        acepack_1.3-3.3     evaluate_0.8       
+##  [7] curl_0.9.3          cubature_1.1-2      minqa_1.2.4        
+## [10] SparseM_1.6         car_2.0-25          nloptr_1.0.4       
+## [13] rpart_4.1-9         labeling_0.3        proto_0.3-10       
+## [16] splines_3.2.0       foreign_0.8-63      munsell_0.4.2      
+## [19] compiler_3.2.0      rversions_1.0.1     mgcv_1.8-6         
+## [22] htmltools_0.2.6     nnet_7.3-9          tensorA_0.36       
+## [25] gridExtra_2.0.0     codetools_0.2-11    nlme_3.1-120       
+## [28] gtable_0.1.2        DBI_0.3.1           git2r_0.10.1       
+## [31] magrittr_1.5        formatR_1.2.1       scales_0.3.0       
+## [34] reshape2_1.4.1      latticeExtra_0.6-26 xml2_0.1.1         
+## [37] RColorBrewer_1.1-2  tools_3.2.0         pbkrtest_0.4-2     
+## [40] colorspace_1.2-6    cluster_2.0.1       memoise_0.2.1      
+## [43] quantreg_5.11</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre>
-<pre><code>## [1] &quot;Fri Oct 30 16:25:01 2015&quot;</code></pre>
+<pre><code>## [1] &quot;Mon Nov 23 09:43:44 2015&quot;</code></pre>
 <script src="library/auto_tab_first_section.js"></script>
 <style> img { max-width:100%; height: auto; } </style>
 </div>
