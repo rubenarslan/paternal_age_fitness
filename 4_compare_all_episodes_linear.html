@@ -96,18 +96,17 @@ opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span cla
 <div id="all-episodes-few-controls" class="section level2">
 <h2>All episodes (few controls)</h2>
 <p>We control for birth.cohort (birth years in five equally large bins), male sex and region.</p>
-<p>We load the coefficients estimated in the sibling comparisons with extensive controls for the Krummhörn, Québec, historical and modern Sweden and compare them.</p>
+<p>We load the coefficients estimated in the sibling comparisons with extensive controls for the Krummhörn, Québec, historical and 20th-century Sweden and compare them.</p>
 <pre class="sourceCode r"><code class="sourceCode r">krmh_coefs =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/krmh_main_effects_coefs.rdata&quot;</span>);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
 rpqa_coefs =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/rpqa_main_effects_coefs.rdata&quot;</span>);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
 ddb_coefs =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/ddb_main_effects_coefs.rdata&quot;</span>);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
 swed_coefs =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/swed_main_effects_coefs.rdata&quot;</span>);<span class="kw">rm</span>(Children_all_coefs);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
 
-
 coefs =<span class="st"> </span><span class="kw">merge_coefs</span>(
     Krummhö<span class="dt">rn =</span> (krmh_coefs), 
     Qué<span class="dt">bec =</span> (rpqa_coefs), 
     <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span>(ddb_coefs),
-    <span class="st">`</span><span class="dt">Modern Sweden</span><span class="st">`</span> =<span class="st"> </span>(swed_coefs)
+    <span class="st">`</span><span class="dt">20th-century Sweden</span><span class="st">`</span> =<span class="st"> </span>(swed_coefs)
 )
 coefs[, Outcome :<span class="er">=</span><span class="st"> </span>car::<span class="kw">Recode</span>(Outcome, <span class="st">&quot;</span>
 <span class="st">    &#39;survive1y&#39;=&#39;1. Surviving infancy&#39;;</span>
@@ -118,17 +117,19 @@ coefs[, Outcome :<span class="er">=</span><span class="st"> </span>car::<span cl
 <span class="st">    &quot;</span>)]
 coefs[, Outcome :<span class="er">=</span><span class="st"> </span><span class="kw">factor</span>(Outcome, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(coefs$Outcome))))]
 
-coefs$Population =<span class="st"> </span><span class="kw">factor</span>(coefs$Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;Modern Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
+coefs$Population =<span class="st"> </span><span class="kw">factor</span>(coefs$Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;20th-century Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
 selective_episodes_comp =<span class="st"> </span><span class="kw">ggplot</span>(coefs[Coefficient ==<span class="st"> &quot;paternalage.diff&quot;</span> &amp;<span class="st"> </span>!<span class="kw">is.na</span>(Outcome),], 
                  <span class="kw">aes</span>(<span class="dt">colour =</span> Population, <span class="dt">x =</span> Outcome, <span class="dt">y =</span> Estimate, <span class="dt">ymin =</span> Lower, <span class="dt">ymax =</span> Upper, <span class="dt">group =</span> Population)) +
 <span class="st">        </span><span class="kw">coord_flip</span>() +
 <span class="st">        </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Selective episode&quot;</span>) +
-<span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="st">&quot;Within-family paternal age effect (odds ratios and intercept rate ratios)&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
+<span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="st">&quot;Within-family paternal age effect&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
 <span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
 <span class="st">        </span>pop_fill +
 <span class="st">        </span>pop_colour +
 <span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) +<span class="st"> </span>
 <span class="st">        </span>analysis_theme +
+<span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)) +
 <span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episodes across populations&quot;</span>)
 selective_episodes_comp</code></pre>
 <p><img src="4_compare_all_episodes_linear_files/figure-html/few-1.png" title="" alt="" width="1440px" height="900px" /></p>
@@ -136,17 +137,17 @@ selective_episodes_comp</code></pre>
 <div id="all-episodes-many-controls" class="section level2">
 <h2>All episodes (many controls)</h2>
 <p>We control for birth.cohort (birth years in five equally large bins), male sex and region.<br />Additionally, we control for paternal and maternal loss (whether either parent died within 5 years of the birth), for maternal age (bins of 14-20, 20-35 and 35-50), and the total number of siblings (constant for all siblings).</p>
-<p>We load the coefficients estimated in the sibling comparisons with extensive controls for the Krummhörn, Québec, historical and modern Sweden and compare them.</p>
+<p>We load the coefficients estimated in the sibling comparisons with extensive controls for the Krummhörn, Québec, historical and 20th-century Sweden and compare them.</p>
 <pre class="sourceCode r"><code class="sourceCode r">krmh_coefs_ctrl =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/krmh_main_controls_coefs.rdata&quot;</span>);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
 rpqa_coefs_ctrl =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/rpqa_main_controls_coefs.rdata&quot;</span>);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
 ddb_coefs_ctrl =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/ddb_main_controls_coefs.rdata&quot;</span>);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
-swed_coefs_ctrl =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/swed_main_controls_coefs.rdata&quot;</span>);<span class="kw">rm</span>(Survive_reproductive_coefs,Children_all_coefs);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
+swed_coefs_ctrl =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(<span class="kw">local</span>({<span class="kw">load</span>(<span class="st">&quot;coefs/swed_main_controls_coefs.rdata&quot;</span>);<span class="kw">rm</span>(Children_all_coefs);<span class="kw">environment</span>()}),<span class="dt">FUN=</span>data.table))
 
 coefs_ctrl =<span class="st"> </span><span class="kw">merge_coefs</span>(
     Krummhö<span class="dt">rn =</span> krmh_coefs_ctrl, 
     Qué<span class="dt">bec =</span> rpqa_coefs_ctrl, 
     <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span>ddb_coefs_ctrl,
-    <span class="st">`</span><span class="dt">Modern Sweden</span><span class="st">`</span> =<span class="st"> </span>swed_coefs_ctrl
+    <span class="st">`</span><span class="dt">20th-century Sweden</span><span class="st">`</span> =<span class="st"> </span>swed_coefs_ctrl
 )
 coefs_ctrl[, Outcome :<span class="er">=</span><span class="st"> </span>car::<span class="kw">Recode</span>(Outcome, <span class="st">&quot;</span>
 <span class="st">    &#39;survive1y&#39;=&#39;1. Surviving infancy&#39;;</span>
@@ -157,17 +158,19 @@ coefs_ctrl[, Outcome :<span class="er">=</span><span class="st"> </span>car::<sp
 <span class="st">    &quot;</span>)]
 coefs_ctrl[, Outcome :<span class="er">=</span><span class="st"> </span><span class="kw">factor</span>(Outcome, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(coefs_ctrl$Outcome))))]
 
-coefs_ctrl$Population =<span class="st"> </span><span class="kw">factor</span>(coefs_ctrl$Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;Modern Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
+coefs_ctrl$Population =<span class="st"> </span><span class="kw">factor</span>(coefs_ctrl$Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;20th-century Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
 selective_episodes_comp_ctrl =<span class="st"> </span><span class="kw">ggplot</span>(coefs_ctrl[Coefficient ==<span class="st"> &quot;paternalage.diff&quot;</span> &amp;<span class="st"> </span>!<span class="kw">is.na</span>(Outcome),], 
                  <span class="kw">aes</span>(<span class="dt">colour =</span> Population, <span class="dt">x =</span> Outcome, <span class="dt">y =</span> Estimate, <span class="dt">ymin =</span> Lower, <span class="dt">ymax =</span> Upper, <span class="dt">group =</span> Population)) +
 <span class="st">        </span><span class="kw">coord_flip</span>() +
 <span class="st">        </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Selective episode&quot;</span>) +
-<span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="st">&quot;Within-family paternal age effect (odds ratios and intercept rate ratios)&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
+<span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="st">&quot;Within-family paternal age effect&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
 <span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
 <span class="st">        </span>pop_fill +
 <span class="st">        </span>pop_colour +
 <span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) +<span class="st"> </span>
 <span class="st">        </span>analysis_theme +
+<span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
+            <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)) +
 <span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episodes across populations&quot;</span>)
 selective_episodes_comp_ctrl</code></pre>
 <p><img src="4_compare_all_episodes_linear_files/figure-html/many_cont-1.png" title="" alt="" width="1440px" height="900px" /></p>
@@ -181,12 +184,14 @@ selective_episodes_comp_uctrl_ctrl =<span class="st"> </span><span class="kw">gg
                  <span class="kw">aes</span>(<span class="dt">colour =</span> Population, <span class="dt">x =</span> Outcome, <span class="dt">y =</span> Estimate, <span class="dt">shape =</span> Controls, <span class="dt">linetype =</span> Controls, <span class="dt">ymin =</span> Lower, <span class="dt">ymax =</span> Upper, <span class="dt">group =</span> <span class="kw">interaction</span>(Controls,Population))) +
 <span class="st">        </span><span class="kw">coord_flip</span>() +
 <span class="st">        </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Selective episode&quot;</span>) +
-<span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="st">&quot;Within-family paternal age effect (odds ratios and intercept rate ratios)&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
+<span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="st">&quot;Within-family paternal age effect&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
 <span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
 <span class="st">        </span>pop_fill +
 <span class="st">        </span>pop_colour +
 <span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) +<span class="st"> </span>
 <span class="st">        </span>analysis_theme +
+<span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)) +
 <span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episodes across populations&quot;</span>)
 selective_episodes_comp_uctrl_ctrl </code></pre>
 <p><img src="4_compare_all_episodes_linear_files/figure-html/crtl_uctrl-1.png" title="" alt="" width="1440px" height="900px" /></p>
@@ -202,7 +207,7 @@ coefs_op =<span class="st"> </span><span class="kw">merge_coefs</span>(
     Krummhö<span class="dt">rn =</span> krmh_coefs_op, 
     Qué<span class="dt">bec =</span> rpqa_coefs_op, 
     <span class="st">`</span><span class="dt">Historical Sweden</span><span class="st">`</span> =<span class="st"> </span>ddb_coefs_op,
-    <span class="st">`</span><span class="dt">Modern Sweden</span><span class="st">`</span> =<span class="st"> </span>swed_coefs_op
+    <span class="st">`</span><span class="dt">20th-century Sweden</span><span class="st">`</span> =<span class="st"> </span>swed_coefs_op
 )
 coefs_op2 =<span class="st"> </span>coefs_op %&gt;%<span class="st"> </span><span class="kw">setDF</span>() %&gt;%
 <span class="st">    </span><span class="kw">melt</span>(<span class="dt">id=</span><span class="kw">c</span>(<span class="st">&quot;Population&quot;</span>,<span class="st">&quot;byear&quot;</span>,<span class="st">&quot;birth.decade&quot;</span>)) %&gt;%<span class="st"> </span>
@@ -220,7 +225,7 @@ coefs_op2 =<span class="st"> </span>coefs_op %&gt;%<span class="st"> </span><spa
 <span class="st">    &#39;0. Any children&#39;=NA;</span>
 <span class="st">    &#39;0. Any surviving children&#39;=NA</span>
 <span class="st">    &quot;</span>),
-    <span class="dt">Population =</span> <span class="kw">factor</span>(Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;Modern Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
+    <span class="dt">Population =</span> <span class="kw">factor</span>(Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;20th-century Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
     )
 coefs_op2$variable =<span class="st"> </span><span class="kw">factor</span>(coefs_op2$variable, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(coefs_op2$variable))))
 
@@ -234,6 +239,8 @@ selective_episodes_opportunity =<span class="st"> </span><span class="kw">ggplot
 <span class="st">        </span>pop_fill +
 <span class="st">        </span>pop_colour +
 <span class="st">        </span>analysis_theme +
+<span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
+            <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)) +
 <span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Opportunity for selection across populations&quot;</span>)
 selective_episodes_opportunity</code></pre>
 <p><img src="4_compare_all_episodes_linear_files/figure-html/unnamed-chunk-1-1.png" title="" alt="" width="1440px" height="900px" /></p>
@@ -244,9 +251,9 @@ selective_episodes_opportunity</code></pre>
 <div id="session-info" class="section level4">
 <h4>Session Info</h4>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre>
-<pre><code>## R version 3.1.3 (2015-03-09)
+<pre><code>## R version 3.2.0 (2015-04-16)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: OS X 10.10.2 (Yosemite)
+## Running under: OS X 10.10.5 (Yosemite)
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -256,28 +263,29 @@ selective_episodes_opportunity</code></pre>
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] mgcv_1.8-6       nlme_3.1-120     Hmisc_3.15-0     Formula_1.2-1   
-##  [5] survival_2.38-1  lattice_0.20-31  reshape2_1.4.1   lubridate_1.3.3 
-##  [9] car_2.0-25       stringi_0.4-1    dplyr_0.4.1      pander_0.5.2    
-## [13] knitr_1.9        rmarkdown_0.5.1  plyr_1.8.1       ggplot2_1.0.1   
-## [17] formr_0.1.15     data.table_1.9.5 stringr_0.6.2    devtools_1.7.0  
+##  [1] stringi_1.0-1    rmarkdown_0.7    coda_0.17-1      Hmisc_3.17-0    
+##  [5] Formula_1.2-1    survival_2.38-1  lattice_0.20-31  dplyr_0.4.1     
+##  [9] boot_1.3-16      lme4_1.1-7       Rcpp_0.12.1      Matrix_1.2-1    
+## [13] pander_0.5.2     knitr_1.10.5     plyr_1.8.3       ggplot2_1.0.1   
+## [17] formr_0.2.9      data.table_1.9.6 stringr_1.0.0    devtools_1.8.0  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] acepack_1.3-3.3     assertthat_0.1      chron_2.3-45       
-##  [4] cluster_2.0.1       colorspace_1.2-6    DBI_0.3.1          
-##  [7] digest_0.6.8        evaluate_0.6        foreign_0.8-63     
-## [10] formatR_1.1         gtable_0.1.2        htmltools_0.2.6    
-## [13] labeling_0.3        latticeExtra_0.6-26 lazyeval_0.1.10    
-## [16] lme4_1.1-7          magrittr_1.5        MASS_7.3-40        
-## [19] Matrix_1.2-0        memoise_0.2.1       minqa_1.2.4        
-## [22] mnormt_1.5-2        munsell_0.4.2       nloptr_1.0.4       
-## [25] nnet_7.3-9          parallel_3.1.3      pbkrtest_0.4-2     
-## [28] proto_0.3-10        psych_1.5.1         quantreg_5.11      
-## [31] RColorBrewer_1.1-2  Rcpp_0.11.5         rpart_4.1-9        
-## [34] scales_0.2.4        SparseM_1.6         splines_3.1.3      
-## [37] tools_3.1.3</code></pre>
+##  [1] reshape2_1.4.1      splines_3.2.0       colorspace_1.2-6   
+##  [4] htmltools_0.2.6     mgcv_1.8-6          chron_2.3-47       
+##  [7] nloptr_1.0.4        foreign_0.8-63      DBI_0.3.1          
+## [10] RColorBrewer_1.1-2  munsell_0.4.2       gtable_0.1.2       
+## [13] memoise_0.2.1       evaluate_0.8        labeling_0.3       
+## [16] latticeExtra_0.6-26 SparseM_1.6         quantreg_5.11      
+## [19] pbkrtest_0.4-2      parallel_3.2.0      curl_0.9.3         
+## [22] highr_0.5.1         proto_0.3-10        acepack_1.3-3.3    
+## [25] scales_0.3.0        formatR_1.2.1       rversions_1.0.1    
+## [28] gridExtra_2.0.0     digest_0.6.8        tools_3.2.0        
+## [31] magrittr_1.5        lazyeval_0.1.10     cluster_2.0.1      
+## [34] car_2.0-25          MASS_7.3-40         xml2_0.1.1         
+## [37] assertthat_0.1      minqa_1.2.4         rpart_4.1-9        
+## [40] nnet_7.3-9          nlme_3.1-120        git2r_0.10.1</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre>
-<pre><code>## [1] &quot;Sat May  9 14:40:38 2015&quot;</code></pre>
+<pre><code>## [1] &quot;Wed Dec  2 14:19:33 2015&quot;</code></pre>
 </div>
 </div>
 
