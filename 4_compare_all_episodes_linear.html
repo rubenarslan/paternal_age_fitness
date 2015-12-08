@@ -87,7 +87,7 @@ img {
 <h1>Compare selective episodes across populations</h1>
 <div id="loading-details" class="section level3 accordion">
 <h3>Loading details</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(knitr);
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(grid); <span class="kw">library</span>(data.table); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(knitr)
 
 opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">TRUE</span>,<span class="dt">cache=</span>F,<span class="dt">message=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">20</span>,<span class="dt">fig.height=</span><span class="fl">12.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
 
@@ -124,12 +124,12 @@ selective_episodes_comp =<span class="st"> </span><span class="kw">ggplot</span>
 <span class="st">        </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Selective episode&quot;</span>) +
 <span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="st">&quot;Within-family paternal age effect&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
 <span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
-<span class="st">        </span>pop_fill +
 <span class="st">        </span>pop_colour +
 <span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) +<span class="st"> </span>
 <span class="st">        </span>analysis_theme +
 <span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
-                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)) +
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.key.height =</span> <span class="kw">unit</span>(<span class="fl">1.7</span>,<span class="st">&quot;line&quot;</span>)) +
 <span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episodes across populations&quot;</span>)
 selective_episodes_comp</code></pre>
 <p><img src="4_compare_all_episodes_linear_files/figure-html/few-1.png" title="" alt="" width="1440px" height="900px" /></p>
@@ -165,12 +165,12 @@ selective_episodes_comp_ctrl =<span class="st"> </span><span class="kw">ggplot</
 <span class="st">        </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Selective episode&quot;</span>) +
 <span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="st">&quot;Within-family paternal age effect&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
 <span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
-<span class="st">        </span>pop_fill +
 <span class="st">        </span>pop_colour +
 <span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) +<span class="st"> </span>
 <span class="st">        </span>analysis_theme +
 <span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
-            <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)) +
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.key.height =</span> <span class="kw">unit</span>(<span class="fl">1.7</span>,<span class="st">&quot;line&quot;</span>)) +
 <span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episodes across populations&quot;</span>)
 selective_episodes_comp_ctrl</code></pre>
 <p><img src="4_compare_all_episodes_linear_files/figure-html/many_cont-1.png" title="" alt="" width="1440px" height="900px" /></p>
@@ -240,7 +240,8 @@ selective_episodes_opportunity =<span class="st"> </span><span class="kw">ggplot
 <span class="st">        </span>pop_colour +
 <span class="st">        </span>analysis_theme +
 <span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
-            <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)) +
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.key.height =</span> <span class="kw">unit</span>(<span class="fl">1.7</span>,<span class="st">&quot;line&quot;</span>)) +
 <span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Opportunity for selection across populations&quot;</span>)
 selective_episodes_opportunity</code></pre>
 <p><img src="4_compare_all_episodes_linear_files/figure-html/unnamed-chunk-1-1.png" title="" alt="" width="1440px" height="900px" /></p>
@@ -263,29 +264,23 @@ selective_episodes_opportunity</code></pre>
 ## [8] base     
 ## 
 ## other attached packages:
-##  [1] stringi_1.0-1    rmarkdown_0.7    coda_0.17-1      Hmisc_3.17-0    
-##  [5] Formula_1.2-1    survival_2.38-1  lattice_0.20-31  dplyr_0.4.1     
-##  [9] boot_1.3-16      lme4_1.1-7       Rcpp_0.12.1      Matrix_1.2-1    
-## [13] pander_0.5.2     knitr_1.10.5     plyr_1.8.3       ggplot2_1.0.1   
-## [17] formr_0.2.9      data.table_1.9.6 stringr_1.0.0    devtools_1.8.0  
+##  [1] stringi_1.0-1    dplyr_0.4.1      pander_0.5.2     knitr_1.10.5    
+##  [5] rmarkdown_0.7    plyr_1.8.3       ggplot2_1.0.1    formr_0.2.9     
+##  [9] data.table_1.9.6 stringr_1.0.0    devtools_1.8.0  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] reshape2_1.4.1      splines_3.2.0       colorspace_1.2-6   
-##  [4] htmltools_0.2.6     mgcv_1.8-6          chron_2.3-47       
-##  [7] nloptr_1.0.4        foreign_0.8-63      DBI_0.3.1          
-## [10] RColorBrewer_1.1-2  munsell_0.4.2       gtable_0.1.2       
-## [13] memoise_0.2.1       evaluate_0.8        labeling_0.3       
-## [16] latticeExtra_0.6-26 SparseM_1.6         quantreg_5.11      
-## [19] pbkrtest_0.4-2      parallel_3.2.0      curl_0.9.3         
-## [22] highr_0.5.1         proto_0.3-10        acepack_1.3-3.3    
-## [25] scales_0.3.0        formatR_1.2.1       rversions_1.0.1    
-## [28] gridExtra_2.0.0     digest_0.6.8        tools_3.2.0        
-## [31] magrittr_1.5        lazyeval_0.1.10     cluster_2.0.1      
-## [34] car_2.0-25          MASS_7.3-40         xml2_0.1.1         
-## [37] assertthat_0.1      minqa_1.2.4         rpart_4.1-9        
-## [40] nnet_7.3-9          nlme_3.1-120        git2r_0.10.1</code></pre>
+##  [1] Rcpp_0.12.1      nloptr_1.0.4     formatR_1.2.1    git2r_0.10.1    
+##  [5] tools_3.2.0      digest_0.6.8     lme4_1.1-7       nlme_3.1-120    
+##  [9] lattice_0.20-31  memoise_0.2.1    evaluate_0.8     gtable_0.1.2    
+## [13] mgcv_1.8-6       Matrix_1.2-1     DBI_0.3.1        curl_0.9.3      
+## [17] yaml_2.1.13      parallel_3.2.0   SparseM_1.6      proto_0.3-10    
+## [21] xml2_0.1.1       rversions_1.0.1  nnet_7.3-9       minqa_1.2.4     
+## [25] reshape2_1.4.1   car_2.0-25       magrittr_1.5     scales_0.3.0    
+## [29] htmltools_0.2.6  MASS_7.3-40      splines_3.2.0    assertthat_0.1  
+## [33] pbkrtest_0.4-2   colorspace_1.2-6 labeling_0.3     quantreg_5.11   
+## [37] lazyeval_0.1.10  munsell_0.4.2    chron_2.3-47</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre>
-<pre><code>## [1] &quot;Wed Dec  2 14:19:33 2015&quot;</code></pre>
+<pre><code>## [1] &quot;Tue Dec  8 16:50:04 2015&quot;</code></pre>
 </div>
 </div>
 
