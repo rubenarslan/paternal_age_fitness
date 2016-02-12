@@ -22,23 +22,41 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -80,15 +98,15 @@ img {
 <h1>20th century Sweden sensitivity analyses</h1>
 <div id="loading-details" class="section level3 accordion">
 <h3>Loading details</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bsub -q fat -W 48:00 -n 1 Rscript -e &quot;setwd(&#39;/usr/users/rarslan/updated_data/5_swed_sensitivity/&#39;);knitr::knit(input = &#39;2_swed_main_controls.Rmd&#39;, output = &#39;2_swed_main_controls.md&#39;)&quot;</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bsub -q fat -W 48:00 -n 1 Rscript -e &quot;setwd(&#39;/usr/users/rarslan/updated_data/5_swed_sensitivity/&#39;);knitr::knit(input = &#39;5_swed_sensitivity&#39;, output = &#39;2_swed_main_controls.md&#39;)&quot;</span>
 <span class="kw">library</span>(data.table); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(knitr); <span class="kw">library</span>(lme4);   <span class="kw">library</span>(formr); <span class="kw">library</span>(blme); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(lubridate)
 
-opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">TRUE</span>, <span class="dt">cache=</span>T,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">20</span>,<span class="dt">fig.height=</span><span class="fl">12.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>,<span class="dt">cache.extra=</span><span class="kw">file.info</span>(<span class="st">&#39;swed1.rdata&#39;</span>)[, <span class="st">&#39;mtime&#39;</span>])
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">TRUE</span>, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">20</span>,<span class="dt">fig.height=</span><span class="fl">12.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>,<span class="dt">cache.extra=</span><span class="kw">file.info</span>(<span class="st">&#39;swed1.rdata&#39;</span>)[, <span class="st">&#39;mtime&#39;</span>])
 
 <span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
 <span class="kw">load</span>(<span class="st">&quot;swed1.rdata&quot;</span>)
 swed<span class="fl">.1</span> %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(), <span class="dt">m =</span> <span class="kw">mean</span>(male), <span class="dt">ch =</span> <span class="kw">mean</span>(children,<span class="dt">na.rm=</span>T), <span class="dt">age =</span> <span class="kw">mean</span>(age,<span class="dt">na.rm=</span>T), <span class="dt">a1stc =</span> <span class="kw">mean</span>(age_at_1st_child *<span class="st"> </span><span class="dv">10</span>,<span class="dt">na.rm=</span>T), <span class="dt">alastc =</span> <span class="kw">mean</span>(age_at_last_child *<span class="st"> </span><span class="dv">10</span>,<span class="dt">na.rm=</span>T))
-swed<span class="fl">.1</span> %&gt;%<span class="st"> </span><span class="kw">group_by</span>(education) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(), <span class="dt">m =</span> <span class="kw">mean</span>(male), <span class="dt">ch =</span> <span class="kw">mean</span>(children,<span class="dt">na.rm=</span>T), <span class="dt">age =</span> <span class="kw">mean</span>(age,<span class="dt">na.rm=</span>T), <span class="dt">a1stc =</span> <span class="kw">mean</span>(age_at_1st_child *<span class="st"> </span><span class="dv">10</span>,<span class="dt">na.rm=</span>T), <span class="dt">alastc =</span> <span class="kw">mean</span>(age_at_last_child *<span class="st"> </span><span class="dv">10</span>,<span class="dt">na.rm=</span>T)) %&gt;%<span class="st"> </span><span class="kw">arrange</span>(education)</code></pre>
+swed<span class="fl">.1</span> %&gt;%<span class="st"> </span><span class="kw">group_by</span>(education) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(), <span class="dt">m =</span> <span class="kw">mean</span>(male), <span class="dt">ch =</span> <span class="kw">mean</span>(children,<span class="dt">na.rm=</span>T), <span class="dt">age =</span> <span class="kw">mean</span>(age,<span class="dt">na.rm=</span>T), <span class="dt">a1stc =</span> <span class="kw">mean</span>(age_at_1st_child *<span class="st"> </span><span class="dv">10</span>,<span class="dt">na.rm=</span>T), <span class="dt">alastc =</span> <span class="kw">mean</span>(age_at_last_child *<span class="st"> </span><span class="dv">10</span>,<span class="dt">na.rm=</span>T)) %&gt;%<span class="st"> </span><span class="kw">arrange</span>(education)</code></pre></div>
 <pre><code>## Source: local data table [8 x 7]
 ## 
 ##   education      n      m     ch   age a1stc alastc
@@ -101,9 +119,9 @@ swed<span class="fl">.1</span> %&gt;%<span class="st"> </span><span class="kw">g
 ## 6         6 230807 0.4470 1.9451 51.86 28.92  33.96
 ## 7         7  14447 0.6900 1.9594 52.28 30.62  35.86
 ## 8        NA  63815 0.5210 0.3059 24.87 24.62  27.52</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># swed.1 = sample_level2(swed.1, &quot;idParents&quot;, 10000) # remove this on server</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># swed.1 = sample_level2(swed.1, &quot;idParents&quot;, 10000) # remove this on server</span>
 <span class="kw">rm</span>(swed<span class="fl">.2</span>)
-swed<span class="fl">.1</span>$any_children =<span class="st"> </span><span class="kw">ifelse</span>(swed<span class="fl">.1</span>$children &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</code></pre>
+swed<span class="fl">.1</span>$any_children =<span class="st"> </span><span class="kw">ifelse</span>(swed<span class="fl">.1</span>$children &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</code></pre></div>
 </div>
 <div id="analysis-description" class="section level2">
 <h2>Analysis description</h2>
@@ -113,7 +131,7 @@ swed<span class="fl">.1</span>$any_children =<span class="st"> </span><span clas
 <div id="optimizer-settings" class="section level4">
 <h4>Optimizer settings</h4>
 <p>Bobyqa is fairly robust to convergence failures. In addition to using Bobyqa, we center some variables that otherwise lead to large eigenvalues.</p>
-<pre class="sourceCode r"><code class="sourceCode r">control_defaults =<span class="st"> </span><span class="kw">glmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">control_defaults =<span class="st"> </span><span class="kw">glmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)</code></pre></div>
 </div>
 </div>
 </div>
@@ -122,16 +140,16 @@ swed<span class="fl">.1</span>$any_children =<span class="st"> </span><span clas
 <p>In our main analyses, we chose to control for the number of other siblings who were very dependent (i.e. younger than 5) in the first 5 years of life. We think this maps more closely to our intention to control social competition among siblings. Other researchers have decided to control for birth order (or the number of older siblings). In the case of multiple births, it is ill-defined because exact birth order is often not known and does not matter as much (but especially a fraternal co-twin can be seen as just as much a competitor as a regular sibling, which is picked up by our chosen control variable). To show that our results hold up when this perhaps more standard, but arguably flawed variable is controlled instead, we offer the following two analyses.</p>
 <div id="as-a-factor-up-to-5-and-control-for-last-born-status" class="section level3">
 <h3>as a factor up to 5+, and control for last born status</h3>
-<pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span>[, birthorder.factor :<span class="er">=</span><span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(birthorder&gt;<span class="dv">3</span>,<span class="st">&quot;4+&quot;</span>, birthorder))]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span>[, birthorder.factor :<span class="er">=</span><span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>(birthorder&gt;<span class="dv">3</span>,<span class="st">&quot;4+&quot;</span>, birthorder))]
 swed<span class="fl">.1</span>[, last_born :<span class="er">=</span><span class="st"> </span>birthorder==nr.siblings]
 Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
     any_children ~<span class="st"> </span>birthorder.factor +<span class="st"> </span>last_born +<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">scale</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
-    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre>
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre></div>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
-## $checkConv, : Model failed to converge with max|grad| = 0.00470976 (tol =
-## 0.001, component 11)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre>
+## $checkConv, : Model failed to converge with max|grad| = 0.0427483 (tol =
+## 0.001, component 1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
@@ -237,26 +255,107 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1954,195         
 ## male                
 ## paternlg.mn         
-## patrnlg.dff  0.136</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
-<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Any_children3-1.png" title="plot of chunk Any_children3" alt="plot of chunk Any_children3" width="1440px" height="900px" /></p>
+## patrnlg.dff  0.136  
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.0427483 (tol = 0.001, component 1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
+<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Any_children3-1.png" title="plot of chunk Any_children3" alt="plot of chunk Any_children3" width="1440px" height="900px" /></p>
+</div>
+<div id="bo-firstlast-born-adult-interacted-with-sex" class="section level3">
+<h3>BO + first/last born adult interacted with sex</h3>
+<p>In this analysis, we attempt to form a dummy variable for “being likely to inherit property”. In actual fact, inheritance, then as now, was a complex system. This analysis is overly conservative, because controlling for a variable that contains “reaching adulthood” means adjusting for part of the outcome (no early mortality). Still, paternal age differences have a negative effect above and beyond this.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setkey</span>(swed<span class="fl">.1</span>, idParents, byear)
+swed<span class="fl">.1</span>[, first_born_adult_male :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(<span class="kw">ifelse</span>(male ==<span class="st"> </span><span class="dv">1</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>), idParents, <span class="dt">FUN =</span> function(x) {
+    x[<span class="kw">is.na</span>(x)] =<span class="st"> </span><span class="dv">0</span>
+    y =<span class="st"> </span><span class="kw">cumsum</span>(x)
+    <span class="kw">ifelse</span>(y &gt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>y ==<span class="st"> </span>x,<span class="dv">1</span>,<span class="dv">0</span>)
+})]
+swed<span class="fl">.1</span>[, last_born_adult_male :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(<span class="kw">ifelse</span>(male ==<span class="st"> </span><span class="dv">1</span> &amp;<span class="st"> </span>surviveR ==<span class="st"> </span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>), idParents, <span class="dt">FUN =</span> function(x) { 
+    x[<span class="kw">is.na</span>(x)] =<span class="st"> </span><span class="dv">0</span>
+    y =<span class="st"> </span><span class="kw">max</span>(<span class="kw">cumsum</span>(x)) -<span class="st"> </span><span class="kw">cumsum</span>(x) +<span class="st"> </span><span class="dv">1</span>
+    <span class="kw">ifelse</span>(y &gt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>y ==<span class="st"> </span>x,<span class="dv">1</span>,<span class="dv">0</span>)
+})]
+
+Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
+    any_children ~<span class="st"> </span>first_born_adult_male +<span class="st"> </span>last_born_adult_male +<span class="st"> </span>birthorder.factor +<span class="st"> </span>last_born +<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">scale</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
+    <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre></div>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
+## $checkConv, : Model failed to converge with max|grad| = 0.0210659 (tol =
+## 0.001, component 1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: any_children ~ first_born_adult_male + last_born_adult_male +  
+##     birthorder.factor + last_born + scale(dependent_sibs_f5y) +  
+##     maternalage.factor + paternalloss + maternalloss + scale(nr.siblings) +  
+##     birth.cohort + male + paternalage.mean + paternalage.diff +  
+##     (1 | idParents)
+##    Data: swed.1
+## Control: control_defaults
+##  Subset: byear &lt; 1958
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##  1157526  1157790  -578741  1157482  1197840 
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -4.812  0.311  0.380  0.441  1.445 
+## 
+## Random effects:
+##  Groups    Name        Variance Std.Dev.
+##  idParents (Intercept) 0.737    0.858   
+## Number of obs: 1197862, groups:  idParents, 786991
+## 
+## Fixed effects:
+##                           Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                2.01297    0.00984   204.6  &lt; 2e-16 ***
+## first_born_adult_male     -0.51678    0.05243    -9.9  &lt; 2e-16 ***
+## last_born_adult_male      -0.57498    0.05248   -11.0  &lt; 2e-16 ***
+## birthorder.factor2         0.16074    0.00845    19.0  &lt; 2e-16 ***
+## birthorder.factor3         0.18634    0.01391    13.4  &lt; 2e-16 ***
+## birthorder.factor4+        0.15317    0.02125     7.2  5.7e-13 ***
+## last_bornTRUE              0.07003    0.00573    12.2  &lt; 2e-16 ***
+## scale(dependent_sibs_f5y) -0.09146    0.00440   -20.8  &lt; 2e-16 ***
+## maternalage.factor(14,20]  0.22525    0.01050    21.5  &lt; 2e-16 ***
+## maternalage.factor(35,61] -0.06340    0.00912    -7.0  3.6e-12 ***
+## paternallossNA            -0.33681    0.00677   -49.7  &lt; 2e-16 ***
+## paternallossTRUE           0.14076    0.15754     0.9    0.372    
+## maternallossNA            -0.13102    0.00604   -21.7  &lt; 2e-16 ***
+## maternallossTRUE          -0.38243    0.16173    -2.4    0.018 *  
+## scale(nr.siblings)         0.17258    0.00573    30.1  &lt; 2e-16 ***
+## birth.cohort(1949,1951]   -0.08803    0.00784   -11.2  &lt; 2e-16 ***
+## birth.cohort(1951,1954]   -0.14589    0.00709   -20.6  &lt; 2e-16 ***
+## birth.cohort(1954,1957]   -0.19451    0.00726   -26.8  &lt; 2e-16 ***
+## male                      -0.35902    0.00532   -67.5  &lt; 2e-16 ***
+## paternalage.mean          -0.26213    0.00525   -49.9  &lt; 2e-16 ***
+## paternalage.diff          -0.26781    0.01645   -16.3  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre><code>## 
+## Correlation matrix not shown by default, as p = 21 &gt; 20.
+## Use print(x, correlation=TRUE)  or
+##   vcov(x)     if you need it</code></pre>
+<pre><code>## convergence code: 0
+## Model failed to converge with max|grad| = 0.0210659 (tol = 0.001, component 1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
+<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Any_surviving_children_flm-1.png" title="plot of chunk Any_surviving_children_flm" alt="plot of chunk Any_surviving_children_flm" width="1440px" height="900px" /></p>
 </div>
 <div id="birth-order-as-a-continuous-predictor-and-allowing-a-quadratic-effect" class="section level3">
 <h3>birth order as a continuous predictor and allowing a quadratic effect</h3>
-<pre class="sourceCode r"><code class="sourceCode r">Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
     any_children ~<span class="st"> </span><span class="kw">poly</span>(<span class="kw">scale</span>(birthorder),<span class="dt">degree=</span><span class="dv">2</span>,<span class="dt">raw=</span>T) +<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">scale</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
-    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre>
-<pre><code>## Warning in optwrap(optimizer, devfun, start, rho$lower, control =
-## control, : convergence code 1 from bobyqa: bobyqa -- maximum number of
-## function evaluations exceeded</code></pre>
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre></div>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
-## $checkConv, : Model failed to converge with max|grad| = 0.0907971 (tol =
-## 0.001, component 11)</code></pre>
+## $checkConv, : Model failed to converge with max|grad| = 0.0298446 (tol =
+## 0.001, component 1)</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
@@ -269,47 +368,47 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ##  Subset: byear &lt; 1958
 ## 
 ##      AIC      BIC   logLik deviance df.resid 
-##  1165079  1165295  -582521  1165043  1197844 
+##  1165078  1165294  -582521  1165042  1197844 
 ## 
 ## Scaled residuals: 
 ##    Min     1Q Median     3Q    Max 
-## -4.767  0.316  0.388  0.450  1.207 
+## -4.769  0.316  0.388  0.450  1.206 
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
-##  idParents (Intercept) 0.721    0.849   
+##  idParents (Intercept) 0.722    0.849   
 ## Number of obs: 1197862, groups:  idParents, 786991
 ## 
 ## Fixed effects:
 ##                                               Estimate Std. Error z value
-## (Intercept)                                    2.12430    0.00775   274.2
-## poly(scale(birthorder), degree = 2, raw = T)1  0.08920    0.00871    10.2
-## poly(scale(birthorder), degree = 2, raw = T)2 -0.02717    0.00140   -19.4
-## scale(dependent_sibs_f5y)                     -0.07693    0.00427   -18.0
-## maternalage.factor(14,20]                      0.19660    0.01039    18.9
-## maternalage.factor(35,61]                     -0.06976    0.00906    -7.7
-## paternallossNA                                -0.32414    0.00673   -48.1
-## paternallossTRUE                               0.09999    0.15602     0.6
-## maternallossNA                                -0.11711    0.00600   -19.5
-## maternallossTRUE                              -0.32221    0.16247    -2.0
-## scale(nr.siblings)                             0.17682    0.00662    26.7
-## birth.cohort(1949,1951]                       -0.07709    0.00779    -9.9
-## birth.cohort(1951,1954]                       -0.12627    0.00704   -17.9
-## birth.cohort(1954,1957]                       -0.16864    0.00721   -23.4
-## male                                          -0.44253    0.00521   -85.0
-## paternalage.mean                              -0.25283    0.00522   -48.4
-## paternalage.diff                              -0.23085    0.01778   -13.0
+## (Intercept)                                    2.12445    0.00774   274.5
+## poly(scale(birthorder), degree = 2, raw = T)1  0.08892    0.00870    10.2
+## poly(scale(birthorder), degree = 2, raw = T)2 -0.02714    0.00140   -19.4
+## scale(dependent_sibs_f5y)                     -0.07699    0.00427   -18.0
+## maternalage.factor(14,20]                      0.19670    0.01040    18.9
+## maternalage.factor(35,61]                     -0.07014    0.00906    -7.7
+## paternallossNA                                -0.32415    0.00673   -48.1
+## paternallossTRUE                               0.12105    0.15684     0.8
+## maternallossNA                                -0.11733    0.00600   -19.6
+## maternallossTRUE                              -0.40999    0.16051    -2.6
+## scale(nr.siblings)                             0.17704    0.00661    26.8
+## birth.cohort(1949,1951]                       -0.07715    0.00779    -9.9
+## birth.cohort(1951,1954]                       -0.12628    0.00704   -17.9
+## birth.cohort(1954,1957]                       -0.16857    0.00721   -23.4
+## male                                          -0.44250    0.00521   -85.0
+## paternalage.mean                              -0.25281    0.00522   -48.4
+## paternalage.diff                              -0.23043    0.01773   -13.0
 ##                                               Pr(&gt;|z|)    
 ## (Intercept)                                    &lt; 2e-16 ***
 ## poly(scale(birthorder), degree = 2, raw = T)1  &lt; 2e-16 ***
 ## poly(scale(birthorder), degree = 2, raw = T)2  &lt; 2e-16 ***
 ## scale(dependent_sibs_f5y)                      &lt; 2e-16 ***
 ## maternalage.factor(14,20]                      &lt; 2e-16 ***
-## maternalage.factor(35,61]                      1.4e-14 ***
+## maternalage.factor(35,61]                      9.8e-15 ***
 ## paternallossNA                                 &lt; 2e-16 ***
-## paternallossTRUE                                 0.522    
+## paternallossTRUE                                 0.440    
 ## maternallossNA                                 &lt; 2e-16 ***
-## maternallossTRUE                                 0.047 *  
+## maternallossTRUE                                 0.011 *  
 ## scale(nr.siblings)                             &lt; 2e-16 ***
 ## birth.cohort(1949,1951]                        &lt; 2e-16 ***
 ## birth.cohort(1951,1954]                        &lt; 2e-16 ***
@@ -324,20 +423,20 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ##                (Intr) p((),d=2,r=T)1 p((),d=2,r=T)2 s(__5) m.(14, m.(35,
 ## p((),d=2,r=T)1  0.077                                                   
 ## p((),d=2,r=T)2 -0.179 -0.486                                            
-## scl(dpn__5)    -0.094 -0.135          0.274                             
-## mtr.(14,20]    -0.053  0.097         -0.077          0.068              
-## mtr.(35,61]    -0.180  0.090         -0.082          0.099 -0.077       
+## scl(dpn__5)    -0.095 -0.135          0.274                             
+## mtr.(14,20]    -0.053  0.097         -0.078          0.068              
+## mtr.(35,61]    -0.180  0.089         -0.082          0.099 -0.077       
 ## patrnllssNA    -0.145  0.013         -0.028         -0.009 -0.021 -0.035
-## ptrnllsTRUE     0.000  0.000         -0.005         -0.003 -0.010 -0.002
-## matrnllssNA    -0.263  0.003         -0.003         -0.012 -0.055  0.123
-## mtrnllsTRUE    -0.007 -0.001         -0.004         -0.001 -0.016  0.004
-## scl(nr.sbl)     0.067 -0.668         -0.020         -0.448 -0.094 -0.106
-## b.(1949,195    -0.380  0.000          0.003          0.019 -0.005  0.005
+## ptrnllsTRUE     0.000  0.000         -0.005         -0.003 -0.009 -0.002
+## matrnllssNA    -0.263  0.003         -0.004         -0.012 -0.055  0.123
+## mtrnllsTRUE    -0.008 -0.001         -0.004         -0.001 -0.016  0.004
+## scl(nr.sbl)     0.068 -0.668         -0.020         -0.448 -0.094 -0.105
+## b.(1949,195    -0.379  0.000          0.003          0.019 -0.005  0.004
 ## b.(1951,195    -0.408  0.009          0.002          0.029 -0.002  0.012
-## b.(1954,195    -0.382  0.006          0.008          0.017 -0.006  0.010
-## male           -0.449 -0.004          0.008          0.005 -0.004  0.003
-## paternlg.mn    -0.132 -0.016          0.020          0.060  0.246 -0.367
-## patrnlg.dff    -0.053 -0.836          0.294          0.169  0.044 -0.279
+## b.(1954,195    -0.381  0.006          0.008          0.017 -0.006  0.010
+## male           -0.449 -0.004          0.007          0.005 -0.004  0.003
+## paternlg.mn    -0.132 -0.016          0.019          0.060  0.246 -0.367
+## patrnlg.dff    -0.053 -0.836          0.293          0.168  0.044 -0.278
 ##                ptrnNA ptTRUE mtrnNA mtTRUE scl(.) b.(194 b.(1951 b.(1954
 ## p((),d=2,r=T)1                                                          
 ## p((),d=2,r=T)2                                                          
@@ -347,14 +446,14 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## patrnllssNA                                                             
 ## ptrnllsTRUE     0.017                                                   
 ## matrnllssNA    -0.112 -0.001                                            
-## mtrnllsTRUE     0.000 -0.004  0.022                                     
-## scl(nr.sbl)     0.011  0.006  0.007  0.007                              
-## b.(1949,195    -0.027  0.000 -0.063 -0.003 -0.014                       
+## mtrnllsTRUE     0.000 -0.004  0.023                                     
+## scl(nr.sbl)     0.011  0.006  0.006  0.007                              
+## b.(1949,195    -0.027 -0.001 -0.063 -0.003 -0.014                       
 ## b.(1951,195    -0.081 -0.004 -0.138 -0.008 -0.029  0.445                
 ## b.(1954,195    -0.154 -0.018 -0.208 -0.017 -0.024  0.445  0.528         
-## male            0.017 -0.001  0.010  0.002 -0.009  0.000  0.003   0.005 
-## paternlg.mn     0.216  0.012  0.113  0.009 -0.053  0.006  0.000  -0.011 
-## patrnlg.dff     0.070 -0.001  0.079  0.000  0.559 -0.018 -0.050  -0.071 
+## male            0.017 -0.001  0.010  0.003 -0.009  0.000  0.003   0.005 
+## paternlg.mn     0.216  0.012  0.113  0.009 -0.054  0.006  0.000  -0.011 
+## patrnlg.dff     0.070 -0.001  0.079  0.000  0.558 -0.018 -0.049  -0.071 
 ##                male   ptrnlg.m
 ## p((),d=2,r=T)1                
 ## p((),d=2,r=T)2                
@@ -370,11 +469,15 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1951,195                   
 ## b.(1954,195                   
 ## male                          
-## paternlg.mn     0.020         
-## patrnlg.dff     0.006  0.125</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
-<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="1440px" height="900px" /></p>
+## paternlg.mn     0.019         
+## patrnlg.dff     0.006  0.125  
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.0298446 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
+<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="1440px" height="900px" /></p>
 </div>
 </div>
 <div id="control-age-at-orphanhood" class="section level2">
@@ -386,7 +489,7 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 <li>if both parents lived until 30 years after the child’s birth, we set the bin variable to “not orphaned”. This already reflects a relaxed usage of the word, since adults who lose their parents are <a href="https://en.wikipedia.org/wiki/Orphan">not usually called “orphans”</a>.</li>
 <li>if the age at orphanhood was unclear, because we did not know the death date for either or both parents, we set the bin variable to “orphanhood_unclear”.</li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span> %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span> %&gt;%
 <span class="st">    </span><span class="kw">rowwise</span>() %&gt;%
 <span class="st">    </span><span class="kw">mutate</span>(<span class="dt">age_at_orphanhood =</span> <span class="kw">max</span>((dyear.Mother -<span class="st"> </span>byear)/<span class="dv">10</span>, (dyear.Father -<span class="st"> </span>byear)/<span class="dv">10</span>)) %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">ungroup</span>() %&gt;%
@@ -403,14 +506,14 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
     any_children ~<span class="st"> </span>age_at_orphanhood_bin  +<span class="st"> </span><span class="kw">center</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
-    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre>
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre></div>
 <pre><code>## Warning in optwrap(optimizer, devfun, start, rho$lower, control =
 ## control, : convergence code 1 from bobyqa: bobyqa -- maximum number of
 ## function evaluations exceeded</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
-## $checkConv, : Model failed to converge with max|grad| = 0.304893 (tol =
-## 0.001, component 7)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre>
+## $checkConv, : Model failed to converge with max|grad| = 0.209071 (tol =
+## 0.001, component 1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
@@ -436,31 +539,31 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Fixed effects:
 ##                                         Estimate Std. Error z value
-## (Intercept)                              1.98321    0.17616    11.3
-## age_at_orphanhood_bin(15,20]             0.14219    0.18875     0.8
-## age_at_orphanhood_bin(20,25]             0.25604    0.18055     1.4
-## age_at_orphanhood_bin(25,30]             0.10781    0.17751     0.6
-## age_at_orphanhood_bin(5,10]             -0.32364    0.41691    -0.8
-## age_at_orphanhood_bin[0,5]              -0.35240    1.48924    -0.2
-## age_at_orphanhood_binorphanhood_unclear -0.03443    0.17570    -0.2
-## center(dependent_sibs_f5y)              -0.07951    0.00636   -12.5
-## maternalage.factor(14,20]                0.16633    0.01208    13.8
-## maternalage.factor(35,61]               -0.16343    0.01815    -9.0
-## center(nr.siblings)                      0.15131    0.00441    34.3
-## birth.cohort(1949,1951]                 -0.06331    0.01202    -5.3
-## birth.cohort(1951,1954]                 -0.10532    0.01047   -10.1
-## birth.cohort(1954,1957]                 -0.17456    0.01018   -17.2
-## male                                    -0.39940    0.00726   -55.0
+## (Intercept)                              1.98080    0.11206    17.7
+## age_at_orphanhood_bin(15,20]             0.14413    0.13353     1.1
+## age_at_orphanhood_bin(20,25]             0.25850    0.12017     2.2
+## age_at_orphanhood_bin(25,30]             0.11021    0.11520     1.0
+## age_at_orphanhood_bin(5,10]             -0.31730    0.39617    -0.8
+## age_at_orphanhood_bin[0,5]              -0.41829    1.47141    -0.3
+## age_at_orphanhood_binorphanhood_unclear -0.03204    0.11176    -0.3
+## center(dependent_sibs_f5y)              -0.07949    0.00636   -12.5
+## maternalage.factor(14,20]                0.16634    0.01207    13.8
+## maternalage.factor(35,61]               -0.16337    0.01813    -9.0
+## center(nr.siblings)                      0.15129    0.00441    34.3
+## birth.cohort(1949,1951]                 -0.06330    0.01201    -5.3
+## birth.cohort(1951,1954]                 -0.10529    0.01046   -10.1
+## birth.cohort(1954,1957]                 -0.17452    0.01016   -17.2
+## male                                    -0.39941    0.00726   -55.0
 ## paternalage.mean                        -0.20455    0.00760   -26.9
-## paternalage.diff                        -0.09738    0.01385    -7.0
+## paternalage.diff                        -0.09738    0.01384    -7.0
 ##                                         Pr(&gt;|z|)    
 ## (Intercept)                              &lt; 2e-16 ***
-## age_at_orphanhood_bin(15,20]                0.45    
-## age_at_orphanhood_bin(20,25]                0.16    
-## age_at_orphanhood_bin(25,30]                0.54    
-## age_at_orphanhood_bin(5,10]                 0.44    
-## age_at_orphanhood_bin[0,5]                  0.81    
-## age_at_orphanhood_binorphanhood_unclear     0.84    
+## age_at_orphanhood_bin(15,20]               0.280    
+## age_at_orphanhood_bin(20,25]               0.031 *  
+## age_at_orphanhood_bin(25,30]               0.339    
+## age_at_orphanhood_bin(5,10]                0.423    
+## age_at_orphanhood_bin[0,5]                 0.776    
+## age_at_orphanhood_binorphanhood_unclear    0.774    
 ## center(dependent_sibs_f5y)               &lt; 2e-16 ***
 ## maternalage.factor(14,20]                &lt; 2e-16 ***
 ## maternalage.factor(35,61]                &lt; 2e-16 ***
@@ -470,28 +573,28 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## birth.cohort(1954,1957]                  &lt; 2e-16 ***
 ## male                                     &lt; 2e-16 ***
 ## paternalage.mean                         &lt; 2e-16 ***
-## paternalage.diff                         2.1e-12 ***
+## paternalage.diff                         2.0e-12 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) a___(1 a___(20 a___(25 a___(5 a___[0 ag____ c(__5)
-## a___(15,20] -0.914                                                   
-## a___(20,25] -0.966  0.890                                            
-## a___(25,30] -0.984  0.905  0.957                                     
-## ag___(5,10] -0.402  0.372  0.391   0.398                             
-## ag_t__[0,5] -0.110  0.101  0.107   0.109   0.077                     
-## ag_t_rphn__ -0.998  0.915  0.967   0.986   0.403  0.110              
-## cntr(dp__5)  0.003 -0.003 -0.002  -0.003   0.000  0.000 -0.007       
-## mtr.(14,20] -0.014  0.005  0.005   0.006   0.002  0.002  0.009  0.083
-## mtr.(35,61] -0.058  0.020  0.019   0.020   0.008  0.003  0.048  0.137
-## cntr(nr.sb)  0.006 -0.002 -0.003  -0.004  -0.001  0.000  0.003 -0.747
-## b.(1949,195 -0.043  0.010  0.011   0.013   0.004  0.001  0.011  0.012
-## b.(1951,195 -0.052  0.014  0.017   0.019   0.004  0.002  0.015  0.020
-## b.(1954,195 -0.056  0.017  0.021   0.024   0.000  0.000  0.017  0.007
-## male        -0.035  0.008  0.007   0.007   0.003  0.000  0.008  0.004
-## paternlg.mn -0.025  0.008  0.009   0.010   0.007  0.005  0.026  0.089
-## patrnlg.dff -0.009  0.004  0.004   0.004   0.003  0.000  0.019 -0.038
+## a___(15,20] -0.819                                                   
+## a___(20,25] -0.921  0.770                                            
+## a___(25,30] -0.963  0.800  0.901                                     
+## ag___(5,10] -0.268  0.226  0.250   0.262                             
+## ag_t__[0,5] -0.070  0.058  0.066   0.069   0.054                     
+## ag_t_rphn__ -0.995  0.822  0.924   0.966   0.269  0.071              
+## cntr(dp__5)  0.000  0.000  0.002   0.000   0.002  0.000 -0.007       
+## mtr.(14,20] -0.011 -0.002 -0.002  -0.001  -0.001  0.002  0.004  0.083
+## mtr.(35,61] -0.042 -0.012 -0.018  -0.017  -0.005  0.000  0.026  0.138
+## cntr(nr.sb)  0.008 -0.001 -0.003  -0.004   0.000  0.000  0.006 -0.747
+## b.(1949,195 -0.042 -0.006 -0.006  -0.004  -0.003 -0.001 -0.007  0.012
+## b.(1951,195 -0.050 -0.006 -0.003  -0.001  -0.005  0.000 -0.008  0.021
+## b.(1954,195 -0.054 -0.004  0.000   0.004  -0.009 -0.003 -0.008  0.007
+## male        -0.034 -0.005 -0.008  -0.008  -0.002 -0.001 -0.007  0.004
+## paternlg.mn -0.015 -0.009 -0.009  -0.008   0.001  0.003  0.017  0.089
+## patrnlg.dff -0.001 -0.005 -0.007  -0.006  -0.001 -0.001  0.017 -0.038
 ##             m.(14, m.(35, cnt(.) b.(194 b.(1951 b.(1954 male   ptrnlg.m
 ## a___(15,20]                                                            
 ## a___(20,25]                                                            
@@ -503,17 +606,17 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## mtr.(14,20]                                                            
 ## mtr.(35,61] -0.077                                                     
 ## cntr(nr.sb) -0.043 -0.126                                              
-## b.(1949,195  0.000  0.022 -0.018                                       
-## b.(1951,195  0.004  0.038 -0.035  0.517                                
-## b.(1954,195 -0.003  0.033 -0.035  0.534  0.629                         
-## male        -0.003  0.006 -0.016  0.001  0.002   0.004                 
-## paternlg.mn  0.299 -0.296 -0.144  0.012  0.015   0.016   0.015         
-## patrnlg.dff  0.254 -0.342  0.121 -0.028 -0.070  -0.114   0.006  0.170</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
-<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_residuals</span>(Any_children)</code></pre>
-<p><img src="5_swed_sensitivity/figure/unnamed-chunk-3-2.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="1440px" height="900px" /></p>
+## b.(1949,195  0.000  0.021 -0.018                                       
+## b.(1951,195  0.004  0.036 -0.034  0.516                                
+## b.(1954,195 -0.003  0.032 -0.034  0.533  0.628                         
+## male        -0.003  0.005 -0.016  0.000  0.002   0.003                 
+## paternlg.mn  0.299 -0.297 -0.144  0.011  0.014   0.016   0.015         
+## patrnlg.dff  0.254 -0.342  0.121 -0.028 -0.070  -0.114   0.006  0.169  
+## convergence code: 1
+## Model failed to converge with max|grad| = 0.209071 (tol = 0.001, component 1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
+<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="1440px" height="900px" /></p>
 </div>
 <div id="control-education" class="section level2">
 <h2>control education</h2>
@@ -521,20 +624,20 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 <div id="paternal-age-on-education" class="section level3">
 <h3>Paternal age on education</h3>
 <p>Paternal age appears to affect achieved education.</p>
-<pre class="sourceCode r"><code class="sourceCode r">Education &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Education &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     education ~<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>,
     <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults,
-    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )</code></pre>
+    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )</code></pre></div>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, :
-## Model failed to converge with max|grad| = 0.002819 (tol = 0.001, component
-## 6)</code></pre>
+## Model failed to converge with max|grad| = 0.0024621 (tol = 0.001, component
+## 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Education)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Education)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
-## Prior dev  : 49.06
+## Prior dev  : 51.88
 ## 
 ## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [bglmerMod]
@@ -546,27 +649,27 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## Control: control_defaults
 ## 
 ##      AIC      BIC   logLik deviance df.resid 
-##  5056874  5056984 -2528428  5056856  1355458 
+##  5056847  5056956 -2528414  5056829  1355458 
 ## 
 ## Scaled residuals: 
 ##    Min     1Q Median     3Q    Max 
-## -1.713 -0.464 -0.276  0.662  2.111 
+## -1.712 -0.465 -0.276  0.661  2.112 
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
-##  idParents (Intercept) 1.28e-05 0.00357 
+##  idParents (Intercept) 1.95e-06 0.0014  
 ## Number of obs: 1355467, groups:  idParents, 862636
 ## 
 ## Fixed effects:
 ##                          Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)              1.295459   0.001016    1275   &lt;2e-16 ***
-## male                    -0.064808   0.000892     -73   &lt;2e-16 ***
-## birth.cohort(1949,1951]  0.039045   0.001467      27   &lt;2e-16 ***
-## birth.cohort(1951,1954]  0.055591   0.001310      42   &lt;2e-16 ***
-## birth.cohort(1954,1957]  0.075546   0.001304      58   &lt;2e-16 ***
-## birth.cohort(1957,1959]  0.080467   0.001465      55   &lt;2e-16 ***
-## paternalage.mean         0.043063   0.000754      57   &lt;2e-16 ***
-## paternalage.diff        -0.052832   0.001331     -40   &lt;2e-16 ***
+## (Intercept)              1.296512   0.001016    1276   &lt;2e-16 ***
+## male                    -0.065579   0.000892     -74   &lt;2e-16 ***
+## birth.cohort(1949,1951]  0.039970   0.001466      27   &lt;2e-16 ***
+## birth.cohort(1951,1954]  0.054343   0.001310      41   &lt;2e-16 ***
+## birth.cohort(1954,1957]  0.072725   0.001305      56   &lt;2e-16 ***
+## birth.cohort(1957,1959]  0.083207   0.001464      57   &lt;2e-16 ***
+## paternalage.mean         0.043549   0.000754      58   &lt;2e-16 ***
+## paternalage.diff        -0.051728   0.001331     -39   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -575,28 +678,32 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## male        -0.433                                               
 ## b.(1949,195 -0.560 -0.002                                        
 ## b.(1951,195 -0.628 -0.002  0.435                                 
-## b.(1954,195 -0.633 -0.002  0.437  0.491                          
-## b.(1957,195 -0.564 -0.003  0.390  0.438   0.442                  
-## paternlg.mn -0.077  0.001  0.024  0.045   0.066   0.076          
-## patrnlg.dff  0.015  0.001 -0.011 -0.020  -0.028  -0.032  -0.092</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Education_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Education)
-<span class="kw">plot_fortified_mer</span>(Education_coefs, <span class="st">&quot;Education&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Education-1.png" title="plot of chunk Education" alt="plot of chunk Education" width="1440px" height="900px" /></p>
+## b.(1954,195 -0.633 -0.002  0.437  0.490                          
+## b.(1957,195 -0.565 -0.003  0.390  0.438   0.442                  
+## paternlg.mn -0.078  0.001  0.024  0.045   0.066   0.076          
+## patrnlg.dff  0.015  0.001 -0.011 -0.020  -0.028  -0.032  -0.092  
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.0024621 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Education_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Education)
+<span class="kw">plot_fortified_mer</span>(Education_coefs, <span class="st">&quot;Education&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Education-1.png" title="plot of chunk Education" alt="plot of chunk Education" width="1440px" height="900px" /></p>
 </div>
 <div id="pa-on-education-extensive-controls" class="section level3">
 <h3>PA on education, extensive controls</h3>
 <p>This association persists after extensive controls.</p>
-<pre class="sourceCode r"><code class="sourceCode r">Education_c &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Education_c &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     education ~<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>,
     <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults,
-    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )</code></pre>
-<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt
-## $par, : Model failed to converge with max|grad| = 0.00126112 (tol = 0.001,
-## component 9)</code></pre>
+    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )</code></pre></div>
+<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, :
+## Model failed to converge with max|grad| = 0.0424172 (tol = 0.001, component
+## 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Education_c)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Education_c)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
 ## Prior dev  : 81.68
@@ -625,22 +732,22 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Fixed effects:
 ##                            Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                1.282604   0.001109    1156  &lt; 2e-16 ***
+## (Intercept)                1.282605   0.001109    1156  &lt; 2e-16 ***
 ## scale(dependent_sibs_f5y)  0.002649   0.000693       4  0.00013 ***
-## maternalage.factor(14,20] -0.125125   0.001762     -71  &lt; 2e-16 ***
-## maternalage.factor(35,61]  0.014776   0.001584       9  &lt; 2e-16 ***
-## paternallossNA             0.043193   0.001127      38  &lt; 2e-16 ***
-## paternallossTRUE          -0.037171   0.016447      -2  0.02382 *  
-## maternallossNA             0.048030   0.001002      48  &lt; 2e-16 ***
-## maternallossTRUE          -0.007761   0.023698       0  0.74329    
+## maternalage.factor(14,20] -0.125128   0.001762     -71  &lt; 2e-16 ***
+## maternalage.factor(35,61]  0.014777   0.001584       9  &lt; 2e-16 ***
+## paternallossNA             0.043191   0.001127      38  &lt; 2e-16 ***
+## paternallossTRUE          -0.037989   0.016453      -2  0.02094 *  
+## maternallossNA             0.048031   0.001002      48  &lt; 2e-16 ***
+## maternallossTRUE          -0.008719   0.023707       0  0.71302    
 ## center(nr.siblings)       -0.036566   0.000453     -81  &lt; 2e-16 ***
 ## male                      -0.065620   0.000894     -73  &lt; 2e-16 ***
-## birth.cohort(1949,1951]    0.035921   0.001474      24  &lt; 2e-16 ***
+## birth.cohort(1949,1951]    0.035920   0.001474      24  &lt; 2e-16 ***
 ## birth.cohort(1951,1954]    0.043518   0.001331      33  &lt; 2e-16 ***
-## birth.cohort(1954,1957]    0.053327   0.001355      39  &lt; 2e-16 ***
-## birth.cohort(1957,1959]    0.056199   0.001542      36  &lt; 2e-16 ***
-## paternalage.mean           0.050166   0.000889      56  &lt; 2e-16 ***
-## paternalage.diff          -0.044904   0.001630     -28  &lt; 2e-16 ***
+## birth.cohort(1954,1957]    0.053328   0.001355      39  &lt; 2e-16 ***
+## birth.cohort(1957,1959]    0.056201   0.001542      36  &lt; 2e-16 ***
+## paternalage.mean           0.050165   0.000889      56  &lt; 2e-16 ***
+## paternalage.diff          -0.044902   0.001630     -28  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -674,24 +781,31 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1949,195 -0.002                                        
 ## b.(1951,195 -0.002  0.439                                 
 ## b.(1954,195 -0.002  0.439  0.509                          
-## b.(1957,195 -0.003  0.391  0.460   0.486                  
+## b.(1957,195 -0.003  0.391  0.460   0.485                  
 ## paternlg.mn  0.000  0.002 -0.006  -0.019  -0.026          
-## patrnlg.dff  0.000 -0.026 -0.058  -0.091  -0.107   0.220</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Education_c_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Education_c)
-<span class="kw">plot_fortified_mer</span>(Education_c_coefs, <span class="st">&quot;Education&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Education_c-1.png" title="plot of chunk Education_c" alt="plot of chunk Education_c" width="1440px" height="900px" /></p>
+## patrnlg.dff  0.000 -0.026 -0.058  -0.091  -0.107   0.220  
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.0424172 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Education_c_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Education_c)
+<span class="kw">plot_fortified_mer</span>(Education_c_coefs, <span class="st">&quot;Education&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Education_c-1.png" title="plot of chunk Education_c" alt="plot of chunk Education_c" width="1440px" height="900px" /></p>
 </div>
 <div id="education-on-number-of-children" class="section level3">
 <h3>Education on number of children</h3>
 <p>Education is connected to total fertility, mostly via reproductive timing.</p>
-<pre class="sourceCode r"><code class="sourceCode r">Education_Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Education_Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     children ~<span class="st"> </span><span class="kw">factor</span>(education) *<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>,
     <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults,
-    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )</code></pre>
+    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )</code></pre></div>
+<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, :
+## Model failed to converge with max|grad| = 0.0295808 (tol = 0.001, component
+## 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Education_Children)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Education_Children)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
 ## Prior dev  : 87.06
@@ -713,51 +827,51 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
-##  idParents (Intercept) 5.39e-06 0.00232 
+##  idParents (Intercept) 5.41e-06 0.00233 
 ## Number of obs: 1355467, groups:  idParents, 862636
 ## 
 ## Fixed effects:
-##                         Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)              0.69336    0.00428   161.9  &lt; 2e-16 ***
-## factor(education)2      -0.00599    0.00500    -1.2     0.23    
-## factor(education)3       0.01910    0.00450     4.2  2.2e-05 ***
-## factor(education)4      -0.03398    0.00505    -6.7  1.8e-11 ***
-## factor(education)5      -0.03444    0.00483    -7.1  9.5e-13 ***
-## factor(education)6      -0.02558    0.00473    -5.4  6.2e-08 ***
-## factor(education)7      -0.11308    0.01198    -9.4  &lt; 2e-16 ***
-## male                    -0.11714    0.00541   -21.6  &lt; 2e-16 ***
-## birth.cohort(1949,1951] -0.00067    0.00202    -0.3     0.74    
-## birth.cohort(1951,1954] -0.00159    0.00183    -0.9     0.38    
-## birth.cohort(1954,1957] -0.00110    0.00184    -0.6     0.55    
-## birth.cohort(1957,1959] -0.00949    0.00207    -4.6  4.5e-06 ***
-## factor(education)2:male  0.00915    0.00638     1.4     0.15    
-## factor(education)3:male  0.02431    0.00579     4.2  2.7e-05 ***
-## factor(education)4:male  0.07043    0.00650    10.8  &lt; 2e-16 ***
-## factor(education)5:male  0.09891    0.00632    15.6  &lt; 2e-16 ***
-## factor(education)6:male  0.11634    0.00619    18.8  &lt; 2e-16 ***
-## factor(education)7:male  0.25137    0.01426    17.6  &lt; 2e-16 ***
+##                          Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)              0.693338   0.004272   162.3  &lt; 2e-16 ***
+## factor(education)2      -0.005946   0.004985    -1.2     0.23    
+## factor(education)3       0.019121   0.004489     4.3  2.0e-05 ***
+## factor(education)4      -0.033949   0.005039    -6.7  1.6e-11 ***
+## factor(education)5      -0.034434   0.004820    -7.1  9.0e-13 ***
+## factor(education)6      -0.025555   0.004717    -5.4  6.1e-08 ***
+## factor(education)7      -0.112780   0.011976    -9.4  &lt; 2e-16 ***
+## male                    -0.117108   0.005387   -21.7  &lt; 2e-16 ***
+## birth.cohort(1949,1951] -0.000674   0.002022    -0.3     0.74    
+## birth.cohort(1951,1954] -0.001587   0.001825    -0.9     0.38    
+## birth.cohort(1954,1957] -0.001097   0.001836    -0.6     0.55    
+## birth.cohort(1957,1959] -0.009493   0.002070    -4.6  4.5e-06 ***
+## factor(education)2:male  0.009074   0.006362     1.4     0.15    
+## factor(education)3:male  0.024279   0.005767     4.2  2.6e-05 ***
+## factor(education)4:male  0.070389   0.006476    10.9  &lt; 2e-16 ***
+## factor(education)5:male  0.098916   0.006308    15.7  &lt; 2e-16 ***
+## factor(education)6:male  0.116306   0.006169    18.9  &lt; 2e-16 ***
+## factor(education)7:male  0.251042   0.014260    17.6  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) fct()2 fct()3 fct()4 fct()5 fct()6 fct()7 male   b.(194
-## fctr(dctn)2 -0.827                                                        
-## fctr(dctn)3 -0.919  0.814                                                 
-## fctr(dctn)4 -0.819  0.729  0.807                                          
-## fctr(dctn)5 -0.856  0.761  0.843  0.755                                   
-## fctr(dctn)6 -0.875  0.776  0.860  0.770  0.804                            
-## fctr(dctn)7 -0.345  0.306  0.339  0.304  0.317  0.324                     
-## male        -0.772  0.665  0.737  0.659  0.688  0.702  0.277              
+## fctr(dctn)2 -0.826                                                        
+## fctr(dctn)3 -0.919  0.813                                                 
+## fctr(dctn)4 -0.818  0.727  0.806                                          
+## fctr(dctn)5 -0.855  0.760  0.842  0.753                                   
+## fctr(dctn)6 -0.874  0.775  0.859  0.769  0.803                            
+## fctr(dctn)7 -0.344  0.306  0.339  0.303  0.317  0.323                     
+## male        -0.771  0.663  0.736  0.657  0.686  0.701  0.276              
 ## b.(1949,195 -0.131 -0.045 -0.047 -0.049 -0.049 -0.048 -0.019 -0.011       
 ## b.(1951,195 -0.110 -0.090 -0.089 -0.088 -0.093 -0.088 -0.037 -0.012  0.428
-## b.(1954,195 -0.090 -0.107 -0.109 -0.110 -0.114 -0.108 -0.045 -0.008  0.429
-## b.(1957,195 -0.076 -0.094 -0.100 -0.104 -0.104 -0.100 -0.042 -0.007  0.381
-## fctr(dct)2:  0.655 -0.769 -0.623 -0.556 -0.581 -0.593 -0.234 -0.847  0.004
-## fctr(dct)3:  0.722 -0.618 -0.762 -0.613 -0.639 -0.653 -0.257 -0.933  0.006
-## fctr(dct)4:  0.642 -0.558 -0.619 -0.769 -0.577 -0.590 -0.232 -0.834  0.017
-## fctr(dct)5:  0.660 -0.568 -0.630 -0.563 -0.749 -0.600 -0.237 -0.855  0.006
-## fctr(dct)6:  0.674 -0.582 -0.645 -0.577 -0.602 -0.752 -0.242 -0.874  0.012
-## fctr(dct)7:  0.292 -0.252 -0.280 -0.250 -0.261 -0.266 -0.837 -0.379  0.005
+## b.(1954,195 -0.090 -0.107 -0.110 -0.110 -0.114 -0.109 -0.045 -0.008  0.429
+## b.(1957,195 -0.076 -0.094 -0.100 -0.104 -0.105 -0.100 -0.042 -0.007  0.381
+## fctr(dct)2:  0.653 -0.768 -0.621 -0.554 -0.579 -0.591 -0.233 -0.846  0.004
+## fctr(dct)3:  0.720 -0.616 -0.760 -0.610 -0.638 -0.652 -0.256 -0.933  0.006
+## fctr(dct)4:  0.639 -0.555 -0.616 -0.768 -0.575 -0.587 -0.231 -0.833  0.017
+## fctr(dct)5:  0.659 -0.566 -0.628 -0.561 -0.749 -0.599 -0.236 -0.854  0.006
+## fctr(dct)6:  0.673 -0.580 -0.643 -0.574 -0.600 -0.751 -0.241 -0.874  0.012
+## fctr(dct)7:  0.291 -0.251 -0.278 -0.248 -0.260 -0.265 -0.837 -0.378  0.005
 ##             b.(1951 b.(1954 b.(1957 fc()2: fc()3: fc()4: fc()5: fc()6:
 ## fctr(dctn)2                                                           
 ## fctr(dctn)3                                                           
@@ -771,22 +885,26 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1954,195  0.489                                                    
 ## b.(1957,195  0.434   0.440                                            
 ## fctr(dct)2: -0.001  -0.005  -0.005                                    
-## fctr(dct)3:  0.004  -0.006  -0.008   0.791                            
-## fctr(dct)4:  0.027   0.030   0.030   0.706  0.778                     
-## fctr(dct)5:  0.009   0.007   0.006   0.724  0.798  0.713              
-## fctr(dct)6:  0.014   0.012   0.012   0.741  0.816  0.730  0.748       
-## fctr(dct)7:  0.006   0.005   0.006   0.321  0.354  0.316  0.324  0.331</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Education_Children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Education_Children)
-<span class="kw">plot_fortified_mer</span>(Education_Children_coefs, <span class="st">&quot;Children&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Education_Children-1.png" title="plot of chunk Education_Children" alt="plot of chunk Education_Children" width="1440px" height="900px" /></p>
+## fctr(dct)3:  0.004  -0.006  -0.008   0.789                            
+## fctr(dct)4:  0.027   0.030   0.030   0.704  0.776                     
+## fctr(dct)5:  0.009   0.007   0.006   0.723  0.797  0.711              
+## fctr(dct)6:  0.014   0.012   0.012   0.739  0.815  0.728  0.746       
+## fctr(dct)7:  0.006   0.006   0.006   0.319  0.352  0.315  0.323  0.330
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.0295808 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Education_Children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Education_Children)
+<span class="kw">plot_fortified_mer</span>(Education_Children_coefs, <span class="st">&quot;Children&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Education_Children-1.png" title="plot of chunk Education_Children" alt="plot of chunk Education_Children" width="1440px" height="900px" /></p>
 </div>
 <div id="education-on-age-at-birth" class="section level3">
 <h3>Education on age at birth</h3>
-<pre class="sourceCode r"><code class="sourceCode r">Age1stChild_e &lt;-<span class="st"> </span><span class="kw">blmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Age1stChild_e &lt;-<span class="st"> </span><span class="kw">blmer</span>(
     age_at_1st_child ~<span class="st"> </span><span class="kw">factor</span>(education) *<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>,
     <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )
-<span class="kw">summary</span>(Age1stChild_e)</code></pre>
+<span class="kw">summary</span>(Age1stChild_e)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = TRUE)
 ## Prior dev  : 45.88
@@ -813,7 +931,7 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## (Intercept)              2.201430   0.003344     658
 ## factor(education)2       0.013511   0.003881       3
 ## factor(education)3       0.105083   0.003508      30
-## factor(education)4       0.260350   0.003910      67
+## factor(education)4       0.260349   0.003910      67
 ## factor(education)5       0.359207   0.003751      96
 ## factor(education)6       0.481008   0.003687     130
 ## factor(education)7       0.622658   0.009121      68
@@ -866,14 +984,14 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## fctr(dct)5:  0.009   0.007   0.006   0.731  0.804  0.723              
 ## fctr(dct)6:  0.013   0.011   0.012   0.744  0.819  0.736  0.753       
 ## fctr(dct)7:  0.006   0.005   0.006   0.326  0.359  0.323  0.330  0.336</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Age1stChild_e_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Age1stChild_e)
-<span class="kw">plot_fortified_mer</span>(Age1stChild_e_coefs, <span class="st">&quot;Age at first child&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Age1stChild_e-1.png" title="plot of chunk Age1stChild_e" alt="plot of chunk Age1stChild_e" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">AgeLastChild &lt;-<span class="st"> </span><span class="kw">blmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Age1stChild_e_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Age1stChild_e)
+<span class="kw">plot_fortified_mer</span>(Age1stChild_e_coefs, <span class="st">&quot;Age at first child&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Age1stChild_e-1.png" title="plot of chunk Age1stChild_e" alt="plot of chunk Age1stChild_e" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AgeLastChild &lt;-<span class="st"> </span><span class="kw">blmer</span>(
     age_at_last_child ~<span class="st"> </span><span class="kw">factor</span>(education) *<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>,
     <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )
-<span class="kw">summary</span>(AgeLastChild)</code></pre>
+<span class="kw">summary</span>(AgeLastChild)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = TRUE)
 ## Prior dev  : 51.46
@@ -953,17 +1071,17 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## fctr(dct)5:  0.009   0.007   0.006   0.731  0.804  0.723              
 ## fctr(dct)6:  0.013   0.011   0.012   0.744  0.819  0.736  0.754       
 ## fctr(dct)7:  0.005   0.005   0.006   0.326  0.359  0.323  0.330  0.337</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">AgeLastChild_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(AgeLastChild)
-<span class="kw">plot_fortified_mer</span>(AgeLastChild_coefs, <span class="st">&quot;Age at last child&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/AgeLastChild_e-1.png" title="plot of chunk AgeLastChild_e" alt="plot of chunk AgeLastChild_e" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AgeLastChild_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(AgeLastChild)
+<span class="kw">plot_fortified_mer</span>(AgeLastChild_coefs, <span class="st">&quot;Age at last child&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/AgeLastChild_e-1.png" title="plot of chunk AgeLastChild_e" alt="plot of chunk AgeLastChild_e" width="1440px" height="900px" /></p>
 </div>
 <div id="paternal-age-on-age-at-birth" class="section level3">
 <h3>Paternal age on age at birth</h3>
-<pre class="sourceCode r"><code class="sourceCode r">Age1stChild &lt;-<span class="st"> </span><span class="kw">blmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Age1stChild &lt;-<span class="st"> </span><span class="kw">blmer</span>(
     age_at_1st_child ~<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff+<span class="st"> </span><span class="kw">factor</span>(education)  +<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>,
     <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )
-<span class="kw">summary</span>(Age1stChild)</code></pre>
+<span class="kw">summary</span>(Age1stChild)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = TRUE)
 ## Prior dev  : 52.37
@@ -993,7 +1111,7 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## maternalage.factor(14,20] -0.077430   0.001785     -43
 ## maternalage.factor(35,61]  0.011753   0.001717       7
 ## paternallossNA             0.018256   0.001262      14
-## paternallossTRUE          -0.035355   0.017277      -2
+## paternallossTRUE          -0.035354   0.017278      -2
 ## maternallossNA             0.020237   0.001118      18
 ## maternallossTRUE           0.018624   0.026175       1
 ## center(nr.siblings)       -0.023874   0.000339     -70
@@ -1004,7 +1122,7 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## factor(education)4         0.179636   0.002513      71
 ## factor(education)5         0.268954   0.002478     109
 ## factor(education)6         0.390706   0.002435     160
-## factor(education)7         0.467694   0.005111      92
+## factor(education)7         0.467693   0.005111      92
 ## male                       0.319849   0.000956     334
 ## birth.cohort(1949,1951]    0.036002   0.001533      23
 ## birth.cohort(1951,1954]    0.085290   0.001407      61
@@ -1014,16 +1132,16 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## Correlation matrix not shown by default, as p = 21 &gt; 20.
 ## Use print(x, correlation=TRUE)  or
 ##   vcov(x)     if you need it</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Age1stChild_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Age1stChild)
-<span class="kw">plot_fortified_mer</span>(Age1stChild_coefs, <span class="st">&quot;Age at first child&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Age1stChild_e_pa-1.png" title="plot of chunk Age1stChild_e_pa" alt="plot of chunk Age1stChild_e_pa" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Age1stChild_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Age1stChild)
+<span class="kw">plot_fortified_mer</span>(Age1stChild_coefs, <span class="st">&quot;Age at first child&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Age1stChild_e_pa-1.png" title="plot of chunk Age1stChild_e_pa" alt="plot of chunk Age1stChild_e_pa" width="1440px" height="900px" /></p>
 <p>An effect on age at last child would only be interesting if indepedent of early mortality, hence we control age.</p>
-<pre class="sourceCode r"><code class="sourceCode r">AgeLastChild &lt;-<span class="st"> </span><span class="kw">blmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AgeLastChild &lt;-<span class="st"> </span><span class="kw">blmer</span>(
     age_at_last_child ~<span class="st"> </span>age_bins +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff+<span class="st"> </span><span class="kw">factor</span>(education)  +<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>,
-    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )</code></pre>
+    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>() )</code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object &#39;age_bins&#39; not found</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(AgeLastChild)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(AgeLastChild)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = TRUE)
 ## Prior dev  : 51.46
@@ -1103,26 +1221,23 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## fctr(dct)5:  0.009   0.007   0.006   0.731  0.804  0.723              
 ## fctr(dct)6:  0.013   0.011   0.012   0.744  0.819  0.736  0.754       
 ## fctr(dct)7:  0.005   0.005   0.006   0.326  0.359  0.323  0.330  0.337</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">AgeLastChild_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(AgeLastChild)
-<span class="kw">plot_fortified_mer</span>(AgeLastChild_coefs, <span class="st">&quot;Age at last child&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/AgelastChild_e_pa-1.png" title="plot of chunk AgelastChild_e_pa" alt="plot of chunk AgelastChild_e_pa" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">AgeLastChild_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(AgeLastChild)
+<span class="kw">plot_fortified_mer</span>(AgeLastChild_coefs, <span class="st">&quot;Age at last child&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/AgelastChild_e_pa-1.png" title="plot of chunk AgelastChild_e_pa" alt="plot of chunk AgelastChild_e_pa" width="1440px" height="900px" /></p>
 </div>
 <div id="is-the-paternal-age-effect-on-number-of-children-independent-of-an-effect-on-education" class="section level3">
 <h3>is the paternal age effect on number of children independent of an effect on education?</h3>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     children ~<span class="st">  </span><span class="kw">factor</span>(education) +<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents),
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
 <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults, 
-<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre>
-<pre><code>## Warning in optwrap(optimizer, devfun, start, rho$lower, control =
-## control, : convergence code 1 from bobyqa: bobyqa -- maximum number of
-## function evaluations exceeded</code></pre>
-<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt
-## $par, : Model failed to converge with max|grad| = 0.00254922 (tol = 0.001,
-## component 13)</code></pre>
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre></div>
+<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, :
+## Model failed to converge with max|grad| = 0.102372 (tol = 0.001, component
+## 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
 ## Prior dev  : 98.17
@@ -1153,51 +1268,58 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Fixed effects:
 ##                            Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                0.633052   0.002967   213.4  &lt; 2e-16 ***
-## factor(education)2         0.006656   0.003304     2.0  0.04395 *  
-## factor(education)3         0.051879   0.002973    17.4  &lt; 2e-16 ***
-## factor(education)4         0.029431   0.003350     8.8  &lt; 2e-16 ***
-## factor(education)5         0.045696   0.003298    13.9  &lt; 2e-16 ***
-## factor(education)6         0.064897   0.003209    20.2  &lt; 2e-16 ***
-## factor(education)7         0.096951   0.007014    13.8  &lt; 2e-16 ***
-## scale(dependent_sibs_f5y)  0.000766   0.001005     0.8  0.44599    
-## maternalage.factor(14,20]  0.042741   0.002544    16.8  &lt; 2e-16 ***
-## maternalage.factor(35,61] -0.004417   0.002410    -1.8  0.06689 .  
-## paternallossNA             0.011227   0.001760     6.4  1.8e-10 ***
-## paternallossTRUE           0.087773   0.037560     2.3  0.01945 *  
-## maternallossNA             0.013837   0.001510     9.2  &lt; 2e-16 ***
-## maternallossTRUE          -0.066911   0.047475    -1.4  0.15872    
-## center(nr.siblings)        0.033767   0.000638    52.9  &lt; 2e-16 ***
-## male                      -0.053124   0.001361   -39.0  &lt; 2e-16 ***
-## birth.cohort(1949,1951]   -0.006942   0.002035    -3.4  0.00064 ***
-## birth.cohort(1951,1954]   -0.011731   0.001861    -6.3  2.9e-10 ***
-## birth.cohort(1954,1957]   -0.015590   0.001921    -8.1  4.8e-16 ***
-## paternalage.mean          -0.039764   0.001373   -29.0  &lt; 2e-16 ***
-## paternalage.diff          -0.029336   0.002407   -12.2  &lt; 2e-16 ***
+## (Intercept)                0.633056   0.002967   213.4  &lt; 2e-16 ***
+## factor(education)2         0.006646   0.003304     2.0  0.04425 *  
+## factor(education)3         0.051874   0.002973    17.4  &lt; 2e-16 ***
+## factor(education)4         0.029429   0.003350     8.8  &lt; 2e-16 ***
+## factor(education)5         0.045687   0.003298    13.9  &lt; 2e-16 ***
+## factor(education)6         0.064889   0.003208    20.2  &lt; 2e-16 ***
+## factor(education)7         0.096961   0.007015    13.8  &lt; 2e-16 ***
+## scale(dependent_sibs_f5y)  0.000767   0.001005     0.8  0.44539    
+## maternalage.factor(14,20]  0.042742   0.002544    16.8  &lt; 2e-16 ***
+## maternalage.factor(35,61] -0.004418   0.002410    -1.8  0.06681 .  
+## paternallossNA             0.011221   0.001760     6.4  1.8e-10 ***
+## paternallossTRUE           0.085445   0.037618     2.3  0.02312 *  
+## maternallossNA             0.013836   0.001510     9.2  &lt; 2e-16 ***
+## maternallossTRUE          -0.069416   0.047517    -1.5  0.14405    
+## center(nr.siblings)        0.033766   0.000638    52.9  &lt; 2e-16 ***
+## male                      -0.053121   0.001361   -39.0  &lt; 2e-16 ***
+## birth.cohort(1949,1951]   -0.006939   0.002035    -3.4  0.00065 ***
+## birth.cohort(1951,1954]   -0.011727   0.001861    -6.3  3.0e-10 ***
+## birth.cohort(1954,1957]   -0.015583   0.001921    -8.1  5.0e-16 ***
+## paternalage.mean          -0.039769   0.001373   -29.0  &lt; 2e-16 ***
+## paternalage.diff          -0.029332   0.002407   -12.2  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre><code>## 
 ## Correlation matrix not shown by default, as p = 21 &gt; 20.
 ## Use print(x, correlation=TRUE)  or
 ##   vcov(x)     if you need it</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all)
-<span class="kw">plot_fortified_mer</span>(Children_all_coefs, <span class="st">&quot;Nr. Children (all)&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Children_all_cx-1.png" title="plot of chunk Children_all_cx" alt="plot of chunk Children_all_cx" width="1440px" height="900px" /></p>
+<pre><code>## convergence code: 0
+## Model failed to converge with max|grad| = 0.102372 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all)
+<span class="kw">plot_fortified_mer</span>(Children_all_coefs, <span class="st">&quot;Nr. Children (all)&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Children_all_cx-1.png" title="plot of chunk Children_all_cx" alt="plot of chunk Children_all_cx" width="1440px" height="900px" /></p>
 </div>
 </div>
 <div id="control-anchors-age-at-first-child" class="section level2">
 <h2>Control anchor’s age at first child</h2>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all_ac &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all_ac &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     children ~<span class="st">  </span>age_at_1st_child +<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents),
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
 <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults, 
-<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre>
-<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt
-## $par, : Model failed to converge with max|grad| = 0.00115139 (tol = 0.001,
-## component 8)</code></pre>
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre></div>
+<pre><code>## Warning in optwrap(optimizer, devfun, start, rho$lower, control =
+## control, : convergence code 1 from bobyqa: bobyqa -- maximum number of
+## function evaluations exceeded</code></pre>
+<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, :
+## Model failed to converge with max|grad| = 0.284793 (tol = 0.001, component
+## 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all_ac)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all_ac)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
 ## Prior dev  : 82.06
@@ -1215,11 +1337,11 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ##  Subset: byear &lt; 1958
 ## 
 ##      AIC      BIC   logLik deviance df.resid 
-##  2909134  2909335 -1454550  2909100   962105 
+##  2909135  2909335 -1454550  2909101   962105 
 ## 
 ## Scaled residuals: 
 ##    Min     1Q Median     3Q    Max 
-## -1.294 -0.352 -0.109  0.350  9.066 
+## -1.295 -0.352 -0.109  0.350  9.066 
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
@@ -1228,22 +1350,22 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Fixed effects:
 ##                            Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                1.386641   0.003531     393  &lt; 2e-16 ***
-## age_at_1st_child          -0.246485   0.001353    -182  &lt; 2e-16 ***
-## scale(dependent_sibs_f5y)  0.009192   0.001002       9  &lt; 2e-16 ***
-## maternalage.factor(14,20] -0.008829   0.002525      -3  0.00047 ***
-## maternalage.factor(35,61]  0.015542   0.002406       6  1.0e-10 ***
-## paternallossNA             0.009598   0.001750       5  4.1e-08 ***
-## paternallossTRUE           0.038533   0.037580       1  0.30519    
-## maternallossNA             0.008437   0.001503       6  2.0e-08 ***
-## maternallossTRUE          -0.020807   0.046925       0  0.65748    
-## center(nr.siblings)        0.008251   0.000638      13  &lt; 2e-16 ***
-## male                       0.095346   0.001401      68  &lt; 2e-16 ***
-## birth.cohort(1949,1951]    0.022713   0.002022      11  &lt; 2e-16 ***
-## birth.cohort(1951,1954]    0.044825   0.001838      24  &lt; 2e-16 ***
-## birth.cohort(1954,1957]    0.070630   0.001893      37  &lt; 2e-16 ***
-## paternalage.mean           0.020874   0.001359      15  &lt; 2e-16 ***
-## paternalage.diff          -0.032216   0.002391     -13  &lt; 2e-16 ***
+## (Intercept)                1.386668   0.003532     393  &lt; 2e-16 ***
+## age_at_1st_child          -0.246491   0.001353    -182  &lt; 2e-16 ***
+## scale(dependent_sibs_f5y)  0.009188   0.001002       9  &lt; 2e-16 ***
+## maternalage.factor(14,20] -0.008795   0.002525      -3    5e-04 ***
+## maternalage.factor(35,61]  0.015527   0.002406       6  1.1e-10 ***
+## paternallossNA             0.009592   0.001750       5  4.2e-08 ***
+## paternallossTRUE           0.031929   0.037698       1    4e-01    
+## maternallossNA             0.008420   0.001503       6  2.1e-08 ***
+## maternallossTRUE          -0.024353   0.047003      -1    6e-01    
+## center(nr.siblings)        0.008250   0.000638      13  &lt; 2e-16 ***
+## male                       0.095350   0.001401      68  &lt; 2e-16 ***
+## birth.cohort(1949,1951]    0.022686   0.002022      11  &lt; 2e-16 ***
+## birth.cohort(1951,1954]    0.044837   0.001838      24  &lt; 2e-16 ***
+## birth.cohort(1954,1957]    0.070625   0.001893      37  &lt; 2e-16 ***
+## paternalage.mean           0.020883   0.001359      15  &lt; 2e-16 ***
+## paternalage.diff          -0.032228   0.002391     -13  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -1260,7 +1382,7 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## cntr(nr.sb) -0.062  0.081 -0.749 -0.070 -0.111  0.013  0.008  0.015  0.007
 ## male         0.074 -0.285  0.003 -0.014  0.004  0.003 -0.002  0.006  0.002
 ## b.(1949,195 -0.182 -0.026  0.012 -0.006  0.005 -0.032 -0.001 -0.064 -0.002
-## b.(1951,195 -0.159 -0.063  0.020 -0.006  0.012 -0.090 -0.005 -0.138 -0.008
+## b.(1951,195 -0.159 -0.062  0.020 -0.006  0.012 -0.090 -0.005 -0.138 -0.008
 ## b.(1954,195 -0.102 -0.103  0.016 -0.013  0.011 -0.165 -0.021 -0.206 -0.015
 ## paternlg.mn  0.043 -0.082  0.071  0.261 -0.358  0.208  0.012  0.113  0.007
 ## patrnlg.dff -0.005  0.006  0.146  0.250 -0.410  0.149 -0.003  0.157 -0.003
@@ -1279,27 +1401,31 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1951,195 -0.030  0.019  0.430                         
 ## b.(1954,195 -0.028  0.033  0.427  0.501                  
 ## paternlg.mn -0.121  0.028  0.005  0.000  -0.009          
-## patrnlg.dff -0.116 -0.001 -0.031 -0.066  -0.103   0.217</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all_ac_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all_ac)
-<span class="kw">plot_fortified_mer</span>(Children_all_ac_coefs, <span class="st">&quot;Nr. Children (all)&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Children_all_a1c-1.png" title="plot of chunk Children_all_a1c" alt="plot of chunk Children_all_a1c" width="1440px" height="900px" /></p>
+## patrnlg.dff -0.116 -0.001 -0.031 -0.066  -0.103   0.217  
+## convergence code: 1
+## Model failed to converge with max|grad| = 0.284793 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all_ac_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all_ac)
+<span class="kw">plot_fortified_mer</span>(Children_all_ac_coefs, <span class="st">&quot;Nr. Children (all)&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Children_all_a1c-1.png" title="plot of chunk Children_all_a1c" alt="plot of chunk Children_all_a1c" width="1440px" height="900px" /></p>
 </div>
 <div id="control-anchors-age-at-last-child" class="section level2">
 <h2>Control anchor’s age at last child</h2>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all_alc &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all_alc &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     children ~<span class="st">  </span>age_at_last_child +<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents),
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
 <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults, 
-<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre>
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre></div>
 <pre><code>## Warning in optwrap(optimizer, devfun, start, rho$lower, control =
 ## control, : convergence code 1 from bobyqa: bobyqa -- maximum number of
 ## function evaluations exceeded</code></pre>
-<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt
-## $par, : Model failed to converge with max|grad| = 0.00246055 (tol = 0.001,
-## component 10)</code></pre>
+<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, :
+## Model failed to converge with max|grad| = 0.0721324 (tol = 0.001, component
+## 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all_alc)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all_alc)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
 ## Prior dev  : 82.13
@@ -1321,7 +1447,7 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Scaled residuals: 
 ##    Min     1Q Median     3Q    Max 
-## -1.863 -0.352 -0.036  0.319  7.717 
+## -1.863 -0.352 -0.036  0.319  7.716 
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
@@ -1330,22 +1456,22 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Fixed effects:
 ##                            Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)               -0.068980   0.003743   -18.4  &lt; 2e-16 ***
-## age_at_last_child          0.291950   0.001124   259.8  &lt; 2e-16 ***
-## scale(dependent_sibs_f5y)  0.002190   0.001003     2.2    0.029 *  
-## maternalage.factor(14,20]  0.040019   0.002525    15.9  &lt; 2e-16 ***
-## maternalage.factor(35,61]  0.003542   0.002407     1.5    0.141    
-## paternallossNA            -0.004274   0.001750    -2.4    0.015 *  
-## paternallossTRUE           0.070523   0.037542     1.9    0.060 .  
-## maternallossNA            -0.007475   0.001502    -5.0  6.5e-07 ***
-## maternallossTRUE          -0.023465   0.047015    -0.5    0.618    
+## (Intercept)               -0.068973   0.003744   -18.4  &lt; 2e-16 ***
+## age_at_last_child          0.291946   0.001124   259.8  &lt; 2e-16 ***
+## scale(dependent_sibs_f5y)  0.002186   0.001003     2.2    0.029 *  
+## maternalage.factor(14,20]  0.040020   0.002525    15.9  &lt; 2e-16 ***
+## maternalage.factor(35,61]  0.003550   0.002407     1.5    0.140    
+## paternallossNA            -0.004277   0.001750    -2.4    0.015 *  
+## paternallossTRUE           0.070592   0.037546     1.9    0.060 .  
+## maternallossNA            -0.007480   0.001502    -5.0  6.3e-07 ***
+## maternallossTRUE          -0.023497   0.047014    -0.5    0.617    
 ## center(nr.siblings)        0.023583   0.000635    37.1  &lt; 2e-16 ***
-## male                      -0.080088   0.001403   -57.1  &lt; 2e-16 ***
-## birth.cohort(1949,1951]   -0.001750   0.002022    -0.9    0.387    
+## male                      -0.080083   0.001403   -57.1  &lt; 2e-16 ***
+## birth.cohort(1949,1951]   -0.001742   0.002022    -0.9    0.389    
 ## birth.cohort(1951,1954]   -0.002563   0.001837    -1.4    0.163    
-## birth.cohort(1954,1957]   -0.001327   0.001888    -0.7    0.482    
-## paternalage.mean          -0.018149   0.001369   -13.3  &lt; 2e-16 ***
-## paternalage.diff          -0.016718   0.002397    -7.0  3.1e-12 ***
+## birth.cohort(1954,1957]   -0.001320   0.001888    -0.7    0.484    
+## paternalage.mean          -0.018145   0.001369   -13.3  &lt; 2e-16 ***
+## paternalage.diff          -0.016726   0.002397    -7.0  3.0e-12 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -1365,7 +1491,7 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1951,195 -0.157 -0.051  0.021 -0.003  0.011 -0.093 -0.006 -0.140 -0.008
 ## b.(1954,195 -0.124 -0.066  0.017 -0.008  0.010 -0.169 -0.020 -0.210 -0.015
 ## paternlg.mn  0.016 -0.050  0.069  0.271 -0.357  0.209  0.012  0.110  0.007
-## patrnlg.dff -0.020  0.022  0.148  0.252 -0.411  0.150 -0.003  0.157 -0.002
+## patrnlg.dff -0.019  0.022  0.148  0.252 -0.411  0.150 -0.003  0.157 -0.002
 ##             cnt(.) male   b.(194 b.(1951 b.(1954 ptrnlg.m
 ## ag_t_lst_ch                                              
 ## scl(dpn__5)                                              
@@ -1381,30 +1507,31 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1951,195 -0.026  0.016  0.430                         
 ## b.(1954,195 -0.022  0.023  0.428  0.501                  
 ## paternlg.mn -0.117  0.019  0.004 -0.003  -0.015          
-## patrnlg.dff -0.118 -0.006 -0.031 -0.068  -0.106   0.218</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all_alc_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all_alc)
-<span class="kw">plot_fortified_mer</span>(Children_all_alc_coefs, <span class="st">&quot;Nr. Children (all)&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Children_all_alc-1.png" title="plot of chunk Children_all_alc" alt="plot of chunk Children_all_alc" width="1440px" height="900px" /></p>
+## patrnlg.dff -0.118 -0.006 -0.031 -0.068  -0.106   0.218  
+## convergence code: 1
+## Model failed to converge with max|grad| = 0.0721324 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all_alc_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all_alc)
+<span class="kw">plot_fortified_mer</span>(Children_all_alc_coefs, <span class="st">&quot;Nr. Children (all)&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Children_all_alc-1.png" title="plot of chunk Children_all_alc" alt="plot of chunk Children_all_alc" width="1440px" height="900px" /></p>
 </div>
 <div id="control-education-age-at-first-and-last-child" class="section level2">
 <h2>Control education, age at first and last child</h2>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all_ccc &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all_ccc &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     children ~<span class="st">  </span><span class="kw">factor</span>(education) +<span class="st"> </span>age_at_1st_child +<span class="st"> </span>age_at_last_child +<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>male +<span class="st"> </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents),
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
 <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults, 
-<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre>
-<pre><code>## Warning in optwrap(optimizer, devfun, start, rho$lower, control =
-## control, : convergence code 1 from bobyqa: bobyqa -- maximum number of
-## function evaluations exceeded</code></pre>
-<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt
-## $par, : Model failed to converge with max|grad| = 0.00479793 (tol = 0.001,
-## component 17)</code></pre>
+<span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre></div>
+<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, :
+## Model failed to converge with max|grad| = 7.96666 (tol = 0.001, component
+## 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all_ccc)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all_ccc)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
-## Prior dev  : 108.2
+## Prior dev  : 110.3
 ## 
 ## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [bglmerMod]
@@ -1419,51 +1546,55 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ##  Subset: byear &lt; 1958
 ## 
 ##      AIC      BIC   logLik deviance df.resid 
-##  2716681  2716963 -1358316  2716633   953084 
+##  2716765  2717048 -1358359  2716717   953084 
 ## 
 ## Scaled residuals: 
 ##    Min     1Q Median     3Q    Max 
-## -2.897 -0.293  0.011  0.191  4.958 
+## -2.924 -0.295  0.011  0.192  4.925 
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
-##  idParents (Intercept) 8.81e-07 0.000939
+##  idParents (Intercept) 2.24e-07 0.000473
 ## Number of obs: 953108, groups:  idParents, 668432
 ## 
 ## Fixed effects:
 ##                            Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                0.573803   0.004833     119  &lt; 2e-16 ***
-## factor(education)2        -0.018704   0.003306      -6  1.5e-08 ***
-## factor(education)3        -0.008420   0.002975      -3  0.00465 ** 
-## factor(education)4         0.006153   0.003360       2  0.06702 .  
-## factor(education)5         0.019491   0.003318       6  4.2e-09 ***
-## factor(education)6         0.056698   0.003257      17  &lt; 2e-16 ***
-## factor(education)7         0.069745   0.007049      10  &lt; 2e-16 ***
-## age_at_1st_child          -0.541865   0.001499    -362  &lt; 2e-16 ***
-## age_at_last_child          0.504584   0.001202     420  &lt; 2e-16 ***
-## scale(dependent_sibs_f5y)  0.005157   0.001006       5  3.0e-07 ***
-## maternalage.factor(14,20] -0.009649   0.002543      -4  0.00015 ***
-## maternalage.factor(35,61]  0.007525   0.002413       3  0.00182 ** 
-## paternallossNA             0.006566   0.001759       4  0.00019 ***
-## paternallossTRUE           0.033520   0.037670       1  0.37356    
-## maternallossNA             0.004329   0.001510       3  0.00414 ** 
-## maternallossTRUE          -0.002336   0.047535       0  0.96081    
-## center(nr.siblings)        0.006674   0.000643      10  &lt; 2e-16 ***
-## male                       0.009161   0.001452       6  2.8e-10 ***
-## birth.cohort(1949,1951]    0.011704   0.002035       6  8.9e-09 ***
-## birth.cohort(1951,1954]    0.030460   0.001865      16  &lt; 2e-16 ***
-## birth.cohort(1954,1957]    0.059699   0.001931      31  &lt; 2e-16 ***
-## paternalage.mean           0.015474   0.001365      11  &lt; 2e-16 ***
-## paternalage.diff          -0.009489   0.002402      -4  7.8e-05 ***
+## (Intercept)                0.569599   0.004839     118  &lt; 2e-16 ***
+## factor(education)2        -0.012358   0.003313      -4  0.00019 ***
+## factor(education)3         0.000339   0.002983       0  0.90964    
+## factor(education)4         0.016912   0.003365       5  5.0e-07 ***
+## factor(education)5         0.025505   0.003326       8  1.7e-14 ***
+## factor(education)6         0.062388   0.003265      19  &lt; 2e-16 ***
+## factor(education)7         0.045262   0.007145       6  2.4e-10 ***
+## age_at_1st_child          -0.546349   0.001498    -365  &lt; 2e-16 ***
+## age_at_last_child          0.507365   0.001201     422  &lt; 2e-16 ***
+## scale(dependent_sibs_f5y)  0.004528   0.001006       5  6.7e-06 ***
+## maternalage.factor(14,20] -0.022161   0.002552      -9  &lt; 2e-16 ***
+## maternalage.factor(35,61]  0.006475   0.002413       3  0.00729 ** 
+## paternallossNA             0.003155   0.001760       2  0.07313 .  
+## paternallossTRUE           0.027910   0.037748       1  0.45968    
+## maternallossNA             0.005112   0.001509       3  0.00071 ***
+## maternallossTRUE          -0.019896   0.048022       0  0.67865    
+## center(nr.siblings)        0.007191   0.000643      11  &lt; 2e-16 ***
+## male                       0.010166   0.001452       7  2.5e-12 ***
+## birth.cohort(1949,1951]    0.011904   0.002036       6  5.0e-09 ***
+## birth.cohort(1951,1954]    0.030778   0.001866      16  &lt; 2e-16 ***
+## birth.cohort(1954,1957]    0.063800   0.001930      33  &lt; 2e-16 ***
+## paternalage.mean           0.014696   0.001365      11  &lt; 2e-16 ***
+## paternalage.diff          -0.009683   0.002401      -4  5.5e-05 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre><code>## 
 ## Correlation matrix not shown by default, as p = 23 &gt; 20.
 ## Use print(x, correlation=TRUE)  or
 ##   vcov(x)     if you need it</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all_ccc_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all_ccc)
-<span class="kw">plot_fortified_mer</span>(Children_all_ccc_coefs, <span class="st">&quot;Nr. Children (all)&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/Children_all_ccc-1.png" title="plot of chunk Children_all_ccc" alt="plot of chunk Children_all_ccc" width="1440px" height="900px" /></p>
+<pre><code>## convergence code: 0
+## Model failed to converge with max|grad| = 7.96666 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all_ccc_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all_ccc)
+<span class="kw">plot_fortified_mer</span>(Children_all_ccc_coefs, <span class="st">&quot;Nr. Children (all)&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/Children_all_ccc-1.png" title="plot of chunk Children_all_ccc" alt="plot of chunk Children_all_ccc" width="1440px" height="900px" /></p>
 </div>
 <div id="adding-zeros" class="section level2">
 <h2>adding zeros</h2>
@@ -1474,14 +1605,14 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 <li>Assume that N*2% children died.</li>
 <li>Take the estimate of the paternal age difference between siblings who died and who didn’t from our later cohort. If we do a t.test on paternalage.diff, the upper bound of the difference is -0.22 years. We round this up to -1, i.e. fathers being one year younger (at the births of the added fake children who died early) compared to siblings.</li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">n_fakes =</span> <span class="kw">nrow</span>(swed<span class="fl">.1</span>) *<span class="st"> </span><span class="fl">0.02</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">n_fakes =</span> <span class="kw">nrow</span>(swed<span class="fl">.1</span>) *<span class="st"> </span><span class="fl">0.02</span>)</code></pre></div>
 <pre><code>## [1] 28386</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">fakes =<span class="st"> </span>swed<span class="fl">.1</span>[<span class="kw">sample</span>(<span class="kw">nrow</span>(swed<span class="fl">.1</span>), n_fakes), ]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fakes =<span class="st"> </span>swed<span class="fl">.1</span>[<span class="kw">sample</span>(<span class="kw">nrow</span>(swed<span class="fl">.1</span>), n_fakes), ]
 fakes[, survive1y :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
-<span class="kw">qplot</span>(fakes$paternalage_c)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="5_swed_sensitivity/figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">fakes[, paternalage.diff :<span class="er">=</span><span class="st"> </span>paternalage.diff -<span class="st"> </span><span class="fl">0.1</span>]
+<span class="kw">qplot</span>(fakes$paternalage_c)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fakes[, paternalage.diff :<span class="er">=</span><span class="st"> </span>paternalage.diff -<span class="st"> </span><span class="fl">0.1</span>]
 fakes[, children :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
 swed.1wfakes =<span class="st"> </span><span class="kw">rbind</span>(swed<span class="fl">.1</span>,fakes)
 
@@ -1489,13 +1620,16 @@ Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     children ~<span class="st"> </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed.1wfakes, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
 <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults,
-    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre>
+    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre></div>
+<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt
+## $par, : Model failed to converge with max|grad| = 0.00326104 (tol = 0.001,
+## component 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
-## Prior dev  : 33.71
+## Prior dev  : 33.89
 ## 
 ## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [bglmerMod]
@@ -1507,25 +1641,25 @@ Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
 ##  Subset: byear &lt; 1958
 ## 
 ##      AIC      BIC   logLik deviance df.resid 
-##  4039932  4040016 -2019959  4039918  1231848 
+##  4039844  4039929 -2019915  4039830  1231827 
 ## 
 ## Scaled residuals: 
 ##    Min     1Q Median     3Q    Max 
-## -1.383 -0.614  0.131  0.841 11.192 
+## -1.381 -0.614  0.131  0.841 11.191 
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
-##  idParents (Intercept) 0.00263  0.0513  
-## Number of obs: 1231855, groups:  idParents, 795812
+##  idParents (Intercept) 0.00233  0.0483  
+## Number of obs: 1231834, groups:  idParents, 795812
 ## 
 ## Fixed effects:
 ##                         Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)              0.59963    0.00127     473  &lt; 2e-16 ***
-## birth.cohort(1949,1951] -0.00365    0.00201      -2     0.07 .  
-## birth.cohort(1951,1954] -0.00737    0.00180      -4  4.4e-05 ***
-## birth.cohort(1954,1957] -0.01192    0.00180      -7  3.9e-11 ***
-## paternalage.mean        -0.02844    0.00115     -25  &lt; 2e-16 ***
-## paternalage.diff        -0.01613    0.00202      -8  1.4e-15 ***
+## (Intercept)              0.59957    0.00127     473  &lt; 2e-16 ***
+## birth.cohort(1949,1951] -0.00290    0.00201      -1  0.14932    
+## birth.cohort(1951,1954] -0.00677    0.00180      -4  0.00017 ***
+## birth.cohort(1954,1957] -0.01211    0.00180      -7  1.8e-11 ***
+## paternalage.mean        -0.02876    0.00115     -25  &lt; 2e-16 ***
+## paternalage.diff        -0.01625    0.00202      -8  8.1e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -1533,9 +1667,13 @@ Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
 ##             (Intr) b.(194 b.(1951 b.(1954 ptrnlg.m
 ## b.(1949,195 -0.601                                
 ## b.(1951,195 -0.673  0.423                         
-## b.(1954,195 -0.674  0.424  0.475                  
-## paternlg.mn -0.066  0.026  0.049   0.072          
-## patrnlg.dff  0.016 -0.012 -0.023  -0.032  -0.092</code></pre>
+## b.(1954,195 -0.675  0.424  0.475                  
+## paternlg.mn -0.066  0.026  0.048   0.072          
+## patrnlg.dff  0.016 -0.012 -0.022  -0.032  -0.092  
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.00326104 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
 </div>
 <div id="chromosomal-anomalies" class="section level2">
 <h2>chromosomal anomalies</h2>
@@ -1543,21 +1681,25 @@ Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
 <li>We assume that 4 in 1000 births are children with Down syndrome (four times the actual rate).</li>
 <li>We randomly exclude 33% of all children who have a mother older than 40 and have no children (many times the actual rate).</li>
 </ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(swed<span class="fl">.1</span>$maternalage)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="5_swed_sensitivity/figure/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">applicable =</span> <span class="kw">nrow</span>(swed<span class="fl">.1</span>[maternalage &gt;<span class="st"> </span><span class="dv">4</span> &amp;<span class="st"> </span>children ==<span class="st"> </span><span class="dv">0</span>, ]))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(swed<span class="fl">.1</span>$maternalage)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 11070 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">applicable =</span> <span class="kw">nrow</span>(swed<span class="fl">.1</span>[maternalage &gt;<span class="st"> </span><span class="dv">4</span> &amp;<span class="st"> </span>children ==<span class="st"> </span><span class="dv">0</span>, ]))</code></pre></div>
 <pre><code>## [1] 10669</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">exclude =<span class="st"> </span><span class="kw">sample</span>(swed<span class="fl">.1</span>[maternalage &gt;<span class="st"> </span><span class="dv">4</span> &amp;<span class="st"> </span>children ==<span class="st"> </span><span class="dv">0</span>, idIndividu], <span class="dt">size =</span> applicable/<span class="dv">3</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exclude =<span class="st"> </span><span class="kw">sample</span>(swed<span class="fl">.1</span>[maternalage &gt;<span class="st"> </span><span class="dv">4</span> &amp;<span class="st"> </span>children ==<span class="st"> </span><span class="dv">0</span>, idIndividu], <span class="dt">size =</span> applicable/<span class="dv">3</span>)
 swed.1wodown =<span class="st"> </span>swed<span class="fl">.1</span>[ !<span class="st"> </span>idIndividu %in%<span class="st"> </span>exclude, ]
 Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
     children ~<span class="st"> </span>birth.cohort +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>maternalage.factor+<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed.1wodown, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
 <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults,
-    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre>
+    <span class="dt">fixef.prior =</span> <span class="kw">normal</span>()  )</code></pre></div>
+<pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt
+## $par, : Model failed to converge with max|grad| = 0.00602126 (tol = 0.001,
+## component 1)</code></pre>
 <pre><code>## Warning in get(&quot;checkConv&quot;, lme4Namespace)(attr(opt, &quot;derivs&quot;), opt$par, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children)</code></pre></div>
 <pre><code>## Cov prior  : idParents ~ wishart(df = 3.5, scale = Inf, posterior.scale = cov, common.scale = TRUE)
 ## Fixef prior: normal(sd = c(10, 2.5, ...), corr = c(0 ...), common.scale = FALSE)
 ## Prior dev  : 48.47
@@ -1572,27 +1714,27 @@ Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
 ##  Subset: byear &lt; 1958
 ## 
 ##      AIC      BIC   logLik deviance df.resid 
-##  3906690  3906798 -1953336  3906672  1194761 
+##  3906672  3906780 -1953327  3906654  1194755 
 ## 
 ## Scaled residuals: 
 ##    Min     1Q Median     3Q    Max 
-## -1.418 -0.630  0.106  0.818 11.274 
+## -1.418 -0.630  0.106  0.818 11.273 
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
-##  idParents (Intercept) 1.87e-05 0.00433 
-## Number of obs: 1194770, groups:  idParents, 784911
+##  idParents (Intercept) 1.87e-05 0.00432 
+## Number of obs: 1194764, groups:  idParents, 784962
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                0.61806    0.00130     475  &lt; 2e-16 ***
-## birth.cohort(1949,1951]   -0.00328    0.00201      -2    1e-01    
-## birth.cohort(1951,1954]   -0.00639    0.00181      -4    4e-04 ***
-## birth.cohort(1954,1957]   -0.01169    0.00181      -6  9.5e-11 ***
-## paternalage.mean          -0.01944    0.00130     -15  &lt; 2e-16 ***
-## paternalage.diff          -0.02291    0.00234     -10  &lt; 2e-16 ***
-## maternalage.factor(14,20]  0.04902    0.00250      20  &lt; 2e-16 ***
-## maternalage.factor(35,61]  0.01585    0.00236       7  1.7e-11 ***
+## (Intercept)                0.61794    0.00130     475  &lt; 2e-16 ***
+## birth.cohort(1949,1951]   -0.00307    0.00202      -2  0.12709    
+## birth.cohort(1951,1954]   -0.00641    0.00181      -4  0.00039 ***
+## birth.cohort(1954,1957]   -0.01136    0.00181      -6  3.2e-10 ***
+## paternalage.mean          -0.01934    0.00130     -15  &lt; 2e-16 ***
+## paternalage.diff          -0.02299    0.00234     -10  &lt; 2e-16 ***
+## maternalage.factor(14,20]  0.04905    0.00250      20  &lt; 2e-16 ***
+## maternalage.factor(35,61]  0.01587    0.00236       7  1.6e-11 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -1604,22 +1746,30 @@ Children &lt;-<span class="st"> </span><span class="kw">bglmer</span>(
 ## paternlg.mn -0.003  0.017  0.031   0.047                          
 ## patrnlg.dff  0.093 -0.016 -0.031  -0.044   0.167                  
 ## mtr.(14,20] -0.141 -0.011 -0.016  -0.028   0.292    0.258         
-## mtr.(35,61] -0.247  0.009  0.021   0.027  -0.399   -0.459   -0.102</code></pre>
+## mtr.(35,61] -0.247  0.009  0.021   0.027  -0.399   -0.459   -0.102
+## convergence code: 0
+## Model failed to converge with max|grad| = 0.00602126 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
 </div>
 <div id="modelling-mother-and-father-separately" class="section level2">
 <h2>Modelling mother and father separately</h2>
 <p>Here, we use two random effects for mothers and fathers instead of parent/family-wise IDs. This increases the model complexity, but our effects are robust to this.</p>
-<pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span> =<span class="st"> </span>swed<span class="fl">.1</span>[<span class="kw">order</span>(idPere),]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span> =<span class="st"> </span>swed<span class="fl">.1</span>[<span class="kw">order</span>(idPere),]
 swed<span class="fl">.1</span> =<span class="st"> </span><span class="kw">recenter.pat</span>(swed<span class="fl">.1</span>,<span class="dt">what =</span> <span class="st">&quot;paternalage&quot;</span>,<span class="st">&quot;idPere&quot;</span>)
 
 Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
     any_children ~<span class="st"> </span><span class="kw">center</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idPere) +<span class="st"> </span>(<span class="dv">1</span>|idMere), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
-    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre>
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre></div>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
-## $checkConv, : Model failed to converge with max|grad| = 0.00515508 (tol =
-## 0.001, component 10)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre>
+## $checkConv, : unable to evaluate scaled gradient</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
+## $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
+## eigenvalues</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre></div>
+<pre><code>## Warning in vcov.merMod(object, correlation = correlation, sigm = sig): variance-covariance matrix computed from finite-difference Hessian is
+## not positive definite or contains NA values: falling back to var-cov estimated from RX</code></pre>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
@@ -1640,46 +1790,46 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Random effects:
 ##  Groups Name        Variance Std.Dev.
-##  idMere (Intercept) 0.444    0.666   
-##  idPere (Intercept) 0.276    0.526   
+##  idMere (Intercept) 0.443    0.665   
+##  idPere (Intercept) 0.277    0.526   
 ## Number of obs: 1197862, groups:  idMere, 769987; idPere, 768455
 ## 
 ## Fixed effects:
 ##                            Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                 2.10672    0.00791   266.2  &lt; 2e-16 ***
-## center(dependent_sibs_f5y) -0.06425    0.00436   -14.7  &lt; 2e-16 ***
-## maternalage.factor(14,20]   0.17453    0.01036    16.8  &lt; 2e-16 ***
-## maternalage.factor(35,61]  -0.06556    0.00887    -7.4  1.5e-13 ***
-## paternallossNA             -0.32946    0.00674   -48.9  &lt; 2e-16 ***
-## paternallossTRUE            0.12234    0.15646     0.8    0.434    
+## (Intercept)                 2.10672    0.00687   306.8  &lt; 2e-16 ***
+## center(dependent_sibs_f5y) -0.06424    0.00422   -15.2  &lt; 2e-16 ***
+## maternalage.factor(14,20]   0.17447    0.01051    16.6  &lt; 2e-16 ***
+## maternalage.factor(35,61]  -0.06551    0.00885    -7.4  1.3e-13 ***
+## paternallossNA             -0.32946    0.00668   -49.3  &lt; 2e-16 ***
+## paternallossTRUE            0.12985    0.15936     0.8    0.415    
 ## maternallossNA             -0.12350    0.00599   -20.6  &lt; 2e-16 ***
-## maternallossTRUE           -0.40461    0.16044    -2.5    0.012 *  
-## center(nr.siblings)         0.12190    0.00290    42.0  &lt; 2e-16 ***
-## birth.cohort(1949,1951]    -0.08157    0.00787   -10.4  &lt; 2e-16 ***
-## birth.cohort(1951,1954]    -0.13820    0.00750   -18.4  &lt; 2e-16 ***
-## birth.cohort(1954,1957]    -0.18833    0.00838   -22.5  &lt; 2e-16 ***
-## male                       -0.44209    0.00556   -79.5  &lt; 2e-16 ***
-## paternalage.mean           -0.23579    0.00507   -46.5  &lt; 2e-16 ***
-## paternalage.diff           -0.11664    0.01604    -7.3  3.5e-13 ***
+## maternallossTRUE           -0.38626    0.15833    -2.4    0.015 *  
+## center(nr.siblings)         0.12190    0.00273    44.6  &lt; 2e-16 ***
+## birth.cohort(1949,1951]    -0.08154    0.00794   -10.3  &lt; 2e-16 ***
+## birth.cohort(1951,1954]    -0.13819    0.00753   -18.3  &lt; 2e-16 ***
+## birth.cohort(1954,1957]    -0.18829    0.00839   -22.4  &lt; 2e-16 ***
+## male                       -0.44210    0.00520   -85.1  &lt; 2e-16 ***
+## paternalage.mean           -0.23581    0.00504   -46.8  &lt; 2e-16 ***
+## paternalage.diff           -0.11680    0.01612    -7.2  4.3e-13 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) c(__5) m.(14, m.(35, ptrnNA ptTRUE mtrnNA mtTRUE cnt(.)
-## cntr(dp__5)  0.070                                                        
-## mtr.(14,20] -0.025  0.087                                                 
-## mtr.(35,61] -0.189  0.161 -0.078                                          
-## patrnllssNA -0.141 -0.012 -0.023 -0.036                                   
+## cntr(dp__5) -0.051                                                        
+## mtr.(14,20] -0.047  0.082                                                 
+## mtr.(35,61] -0.243  0.154 -0.078                                          
+## patrnllssNA -0.122 -0.006 -0.022 -0.034                                   
 ## ptrnllsTRUE -0.002  0.000 -0.009 -0.004  0.017                            
-## matrnllssNA -0.253 -0.028 -0.060  0.138 -0.113 -0.001                     
-## mtrnllsTRUE -0.009 -0.001 -0.016  0.002  0.001 -0.004  0.024              
-## cntr(nr.sb) -0.058 -0.750 -0.058 -0.129  0.028  0.006  0.029  0.008       
-## b.(1949,195 -0.406  0.026 -0.017  0.008 -0.029  0.000 -0.066 -0.003 -0.035
-## b.(1951,195 -0.469  0.041 -0.032  0.019 -0.082 -0.004 -0.138 -0.008 -0.060
-## b.(1954,195 -0.464  0.029 -0.049  0.022 -0.141 -0.015 -0.193 -0.016 -0.062
-## male        -0.427 -0.272 -0.024 -0.044  0.026  0.001  0.020  0.006  0.353
-## paternlg.mn -0.140  0.111  0.264 -0.432  0.225  0.010  0.137  0.006 -0.146
-## patrnlg.dff  0.262  0.030  0.188 -0.198  0.092  0.001  0.085  0.003  0.019
+## matrnllssNA -0.272 -0.023 -0.058  0.142 -0.119 -0.001                     
+## mtrnllsTRUE -0.007  0.001 -0.016  0.002  0.000 -0.004  0.024              
+## cntr(nr.sb)  0.089 -0.729 -0.052 -0.120  0.025  0.005  0.025  0.007       
+## b.(1949,195 -0.472  0.022 -0.016  0.007 -0.029  0.000 -0.065 -0.003 -0.030
+## b.(1951,195 -0.543  0.035 -0.031  0.018 -0.082 -0.004 -0.137 -0.008 -0.053
+## b.(1954,195 -0.534  0.024 -0.048  0.021 -0.141 -0.015 -0.192 -0.016 -0.055
+## male        -0.440  0.003 -0.002  0.003  0.009 -0.001  0.007  0.002 -0.008
+## paternlg.mn -0.152  0.104  0.261 -0.437  0.224  0.010  0.135  0.006 -0.135
+## patrnlg.dff  0.312  0.035  0.186 -0.197  0.091  0.001  0.083  0.003  0.013
 ##             b.(194 b.(1951 b.(1954 male   ptrnlg.m
 ## cntr(dp__5)                                       
 ## mtr.(14,20]                                       
@@ -1690,26 +1840,31 @@ Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## mtrnllsTRUE                                       
 ## cntr(nr.sb)                                       
 ## b.(1949,195                                       
-## b.(1951,195  0.465                                
-## b.(1954,195  0.455  0.602                         
-## male        -0.013 -0.019  -0.019                 
-## paternlg.mn  0.029  0.056   0.075  -0.037         
-## patrnlg.dff -0.148 -0.344  -0.509   0.011  0.084</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
-<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" width="1440px" height="900px" /></p>
+## b.(1951,195  0.468                                
+## b.(1954,195  0.458  0.605                         
+## male        -0.002  0.000   0.000                 
+## paternlg.mn  0.028  0.054   0.072   0.009         
+## patrnlg.dff -0.146 -0.340  -0.507   0.003  0.084  
+## convergence code: 0
+## unable to evaluate scaled gradient
+## Model failed to converge: degenerate  Hessian with 1 negative eigenvalues</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)</code></pre></div>
+<pre><code>## Warning in vcov.merMod(object, correlation = correlation, sigm = sig): variance-covariance matrix computed from finite-difference Hessian is
+## not positive definite or contains NA values: falling back to var-cov estimated from RX</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" width="1440px" height="900px" /></p>
 </div>
 <div id="control-age" class="section level2">
 <h2>Control age</h2>
 <p>Here, we checked whether the effect on number of surviving children is mediated by age. Unfortunately for the cohort we use for computing an effect on number of children, we have both left and right censoring (because the death register was only established in 1962, so some people may have died before then, and because many people born in 1958 are still alive). So we can only include people who died after their 11th-15th birthday (see “adding zeros”), and have to enter an unknown age for those who have not died before their 51st-63rd birthday.</p>
-<pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span>$age_bins =<span class="st"> </span><span class="kw">factor</span>(<span class="kw">relevel</span>(<span class="kw">factor</span>(<span class="kw">cut</span>(<span class="kw">round</span>(swed<span class="fl">.1</span>$age,<span class="dv">1</span>),<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>,<span class="dv">63</span>), <span class="dt">include.lowest =</span> T)), <span class="st">&quot;(25,50]&quot;</span>),<span class="dt">exclude =</span> <span class="ot">NULL</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swed<span class="fl">.1</span>$age_bins =<span class="st"> </span><span class="kw">factor</span>(<span class="kw">relevel</span>(<span class="kw">factor</span>(<span class="kw">cut</span>(<span class="kw">round</span>(swed<span class="fl">.1</span>$age,<span class="dv">1</span>),<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>,<span class="dv">63</span>), <span class="dt">include.lowest =</span> T)), <span class="st">&quot;(25,50]&quot;</span>),<span class="dt">exclude =</span> <span class="ot">NULL</span>)
 Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
     children ~<span class="st"> </span>age_bins  +<span class="st"> </span><span class="kw">center</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">center</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
-    <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre>
+    <span class="dt">family =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre></div>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Children_all)</code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: poisson  ( log )
@@ -1735,21 +1890,21 @@ Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Fixed effects:
 ##                             Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                 0.329772   0.005402    61.0  &lt; 2e-16 ***
-## age_bins[0,25]             -2.894771   0.046854   -61.8  &lt; 2e-16 ***
-## age_bins(50,63]             0.182266   0.006669    27.3  &lt; 2e-16 ***
-## age_binsNA                  0.343213   0.005205    65.9  &lt; 2e-16 ***
+## (Intercept)                 0.329772   0.005406    61.0  &lt; 2e-16 ***
+## age_bins[0,25]             -2.894771   0.046812   -61.8  &lt; 2e-16 ***
+## age_bins(50,63]             0.182266   0.006671    27.3  &lt; 2e-16 ***
+## age_binsNA                  0.343213   0.005209    65.9  &lt; 2e-16 ***
 ## center(dependent_sibs_f5y) -0.003864   0.001025    -3.8  0.00016 ***
-## maternalage.factor(14,20]   0.052965   0.002526    21.0  &lt; 2e-16 ***
-## maternalage.factor(35,61]  -0.006379   0.002359    -2.7  0.00684 ** 
+## maternalage.factor(14,20]   0.052964   0.002526    21.0  &lt; 2e-16 ***
+## maternalage.factor(35,61]  -0.006380   0.002359    -2.7  0.00684 ** 
 ## paternallossNA             -0.060395   0.001748   -34.6  &lt; 2e-16 ***
-## paternallossTRUE            0.076476   0.037553     2.0  0.04170 *  
+## paternallossTRUE            0.076476   0.037558     2.0  0.04173 *  
 ## maternallossNA             -0.023227   0.001498   -15.5  &lt; 2e-16 ***
-## maternallossTRUE           -0.079891   0.046965    -1.7  0.08893 .  
+## maternallossTRUE           -0.079891   0.046962    -1.7  0.08891 .  
 ## center(nr.siblings)         0.037289   0.000632    59.0  &lt; 2e-16 ***
-## birth.cohort(1949,1951]    -0.001050   0.002045    -0.5  0.60755    
-## birth.cohort(1951,1954]     0.000864   0.001954     0.4  0.65827    
-## birth.cohort(1954,1957]     0.004991   0.002182     2.3  0.02221 *  
+## birth.cohort(1949,1951]    -0.001050   0.002045    -0.5  0.60754    
+## birth.cohort(1951,1954]     0.000864   0.001954     0.4  0.65830    
+## birth.cohort(1954,1957]     0.004990   0.002182     2.3  0.02220 *  
 ## male                       -0.047812   0.001344   -35.6  &lt; 2e-16 ***
 ## paternalage.mean           -0.048388   0.001316   -36.8  &lt; 2e-16 ***
 ## paternalage.diff           -0.055270   0.004190   -13.2  &lt; 2e-16 ***
@@ -1760,7 +1915,7 @@ Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ##             (Intr) a_[0,2 a_(50, ag_bNA c(__5) m.(14, m.(35, ptrnNA ptTRUE
 ## ag_bn[0,25] -0.105                                                        
 ## ag_b(50,63] -0.750  0.085                                                 
-## age_binsNA  -0.951  0.109  0.766                                          
+## age_binsNA  -0.951  0.109  0.767                                          
 ## cntr(dp__5) -0.018  0.000  0.002  0.001                                   
 ## mtr.(14,20] -0.024  0.001  0.002  0.009  0.090                            
 ## mtr.(35,61] -0.077  0.000 -0.001 -0.001  0.157 -0.084                     
@@ -1773,7 +1928,7 @@ Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1951,195 -0.182  0.001  0.039  0.009  0.029 -0.035  0.020 -0.085 -0.005
 ## b.(1954,195 -0.180  0.000  0.047  0.011  0.028 -0.055  0.025 -0.144 -0.017
 ## male        -0.153 -0.001  0.005  0.033 -0.001  0.003  0.002 -0.002 -0.001
-## paternlg.mn -0.024  0.000 -0.004 -0.013  0.111  0.291 -0.434  0.212  0.011
+## paternlg.mn -0.024  0.000 -0.004 -0.012  0.111  0.291 -0.434  0.212  0.011
 ## patrnlg.dff  0.107  0.000  0.001 -0.001  0.021  0.200 -0.203  0.087  0.001
 ##             mtrnNA mtTRUE cnt(.) b.(194 b.(1951 b.(1954 male   ptrnlg.m
 ## ag_bn[0,25]                                                            
@@ -1792,29 +1947,30 @@ Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1954,195 -0.189 -0.014 -0.065  0.441  0.578                         
 ## male         0.000  0.002  0.000 -0.004 -0.004  -0.005                 
 ## paternlg.mn  0.132  0.005 -0.156  0.028  0.055   0.075   0.000         
-## patrnlg.dff  0.082  0.003  0.039 -0.150 -0.339  -0.500   0.001  0.084</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Children_all_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all)
-<span class="kw">plot_fortified_mer</span>(Children_all_coefs, <span class="st">&quot;Children&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_residuals</span>(Children_all)</code></pre>
-<p><img src="5_swed_sensitivity/figure/unnamed-chunk-7-2.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="1440px" height="900px" /></p>
+## patrnlg.dff  0.082  0.003  0.039 -0.150 -0.339  -0.500   0.001  0.084  
+## convergence code: 0
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Children_all_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Children_all)
+<span class="kw">plot_fortified_mer</span>(Children_all_coefs, <span class="st">&quot;Children&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="1440px" height="900px" /></p>
 </div>
 <div id="control-for-age-at-first-birth" class="section level2">
 <h2>control for age at first birth</h2>
 <p>In our main analyses, we controlled for the father’s average age at reproduction in each family to ensure that the effects of paternal age would be interpretable strictly as within-family. It is also common to instead control for the father’s (or mother’s age at first birth). Here, we show that this choice does not matter much for our central results.</p>
-<pre class="sourceCode r"><code class="sourceCode r">Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Any_children &lt;-<span class="st"> </span><span class="kw">glmer</span>(
     any_children ~<span class="st"> </span><span class="kw">scale</span>(dependent_sibs_f5y) +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalloss +<span class="st"> </span>maternalloss +<span class="st"> </span><span class="kw">scale</span>(nr.siblings) +<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage_at_1st_sib +<span class="st"> </span>paternalage.diff +<span class="st"> </span>paternalage.mean +<span class="st"> </span>(<span class="dv">1</span>|idParents), 
     <span class="dt">data=</span> swed<span class="fl">.1</span>, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1958</span>,
-    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre>
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">control =</span> control_defaults )</code></pre></div>
 <pre><code>## Warning in optwrap(optimizer, devfun, start, rho$lower, control =
 ## control, : convergence code 1 from bobyqa: bobyqa -- maximum number of
 ## function evaluations exceeded</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
-## $checkConv, : Model failed to converge with max|grad| = 0.0458266 (tol =
-## 0.001, component 7)</code></pre>
+## $checkConv, : Model failed to converge with max|grad| = 0.0290621 (tol =
+## 0.001, component 1)</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
 ##  - Rescale variables?</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Any_children)</code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: binomial  ( logit )
@@ -1827,11 +1983,11 @@ Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ##  Subset: byear &lt; 1958
 ## 
 ##      AIC      BIC   logLik deviance df.resid 
-##  1164639  1164842  -582302  1164605  1197845 
+##  1164638  1164842  -582302  1164604  1197845 
 ## 
 ## Scaled residuals: 
 ##    Min     1Q Median     3Q    Max 
-## -4.081  0.315  0.387  0.450  1.131 
+## -4.080  0.315  0.387  0.450  1.131 
 ## 
 ## Random effects:
 ##  Groups    Name        Variance Std.Dev.
@@ -1840,42 +1996,42 @@ Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)                2.89850    0.02743   105.7  &lt; 2e-16 ***
-## scale(dependent_sibs_f5y) -0.02010    0.00430    -4.7  3.0e-06 ***
-## maternalage.factor(14,20]  0.18273    0.01036    17.6  &lt; 2e-16 ***
-## maternalage.factor(35,61] -0.10051    0.00895   -11.2  &lt; 2e-16 ***
-## paternallossNA            -0.32148    0.00674   -47.7  &lt; 2e-16 ***
-## paternallossTRUE           0.05437    0.15495     0.4   0.7257    
-## maternallossNA            -0.11255    0.00599   -18.8  &lt; 2e-16 ***
-## maternallossTRUE          -0.45795    0.15980    -2.9   0.0042 ** 
-## scale(nr.siblings)         0.10341    0.00501    20.6  &lt; 2e-16 ***
-## birth.cohort(1949,1951]   -0.07545    0.00788    -9.6  &lt; 2e-16 ***
-## birth.cohort(1951,1954]   -0.12096    0.00753   -16.1  &lt; 2e-16 ***
-## birth.cohort(1954,1957]   -0.15745    0.00845   -18.6  &lt; 2e-16 ***
-## male                      -0.44274    0.00521   -85.0  &lt; 2e-16 ***
-## paternalage_at_1st_sib    -0.28675    0.00943   -30.4  &lt; 2e-16 ***
-## paternalage.diff          -0.11608    0.01606    -7.2  4.9e-13 ***
-## paternalage.mean           0.00241    0.00935     0.3   0.7964    
+## (Intercept)                2.89913    0.02742   105.7  &lt; 2e-16 ***
+## scale(dependent_sibs_f5y) -0.01989    0.00430    -4.6  3.8e-06 ***
+## maternalage.factor(14,20]  0.18290    0.01036    17.7  &lt; 2e-16 ***
+## maternalage.factor(35,61] -0.10064    0.00895   -11.2  &lt; 2e-16 ***
+## paternallossNA            -0.32138    0.00673   -47.7  &lt; 2e-16 ***
+## paternallossTRUE           0.10392    0.15682     0.7    0.508    
+## maternallossNA            -0.11266    0.00599   -18.8  &lt; 2e-16 ***
+## maternallossTRUE          -0.42552    0.16047    -2.7    0.008 ** 
+## scale(nr.siblings)         0.10320    0.00501    20.6  &lt; 2e-16 ***
+## birth.cohort(1949,1951]   -0.07575    0.00788    -9.6  &lt; 2e-16 ***
+## birth.cohort(1951,1954]   -0.12112    0.00753   -16.1  &lt; 2e-16 ***
+## birth.cohort(1954,1957]   -0.15753    0.00845   -18.6  &lt; 2e-16 ***
+## male                      -0.44266    0.00521   -85.0  &lt; 2e-16 ***
+## paternalage_at_1st_sib    -0.28696    0.00942   -30.5  &lt; 2e-16 ***
+## paternalage.diff          -0.11645    0.01606    -7.2  4.2e-13 ***
+## paternalage.mean           0.00280    0.00934     0.3    0.764    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) s(__5) m.(14, m.(35, ptrnNA ptTRUE mtrnNA mtTRUE scl(.)
-## scl(dpn__5)  0.292                                                        
+## scl(dpn__5)  0.291                                                        
 ## mtr.(14,20]  0.013  0.087                                                 
 ## mtr.(35,61] -0.182  0.102 -0.081                                          
 ## patrnllssNA -0.007  0.007 -0.022 -0.039                                   
 ## ptrnllsTRUE -0.004 -0.001 -0.009 -0.004  0.017                            
 ## matrnllssNA -0.018 -0.003 -0.058  0.131 -0.112 -0.001                     
 ## mtrnllsTRUE -0.006  0.000 -0.016  0.003  0.000 -0.004  0.023              
-## scl(nr.sbl) -0.502 -0.751 -0.059 -0.028 -0.003  0.007 -0.013  0.008       
-## b.(1949,195 -0.096  0.030 -0.016  0.004 -0.028 -0.001 -0.064 -0.003 -0.041
+## scl(nr.sbl) -0.501 -0.751 -0.059 -0.028 -0.002  0.007 -0.013  0.008       
+## b.(1949,195 -0.095  0.030 -0.016  0.004 -0.028 -0.001 -0.064 -0.003 -0.041
 ## b.(1951,195 -0.067  0.058 -0.030  0.010 -0.079 -0.004 -0.133 -0.008 -0.089
-## b.(1954,195 -0.022  0.062 -0.046  0.007 -0.135 -0.016 -0.184 -0.016 -0.117
+## b.(1954,195 -0.021  0.062 -0.046  0.007 -0.135 -0.016 -0.184 -0.016 -0.117
 ## male        -0.138  0.000 -0.003  0.005  0.017 -0.001  0.010  0.003 -0.007
-## ptrnlg_t_1_ -0.957 -0.320 -0.024  0.128 -0.034  0.004 -0.056  0.004  0.552
-## patrnlg.dff  0.075  0.033  0.188 -0.198  0.092  0.001  0.084  0.003  0.015
-## paternlg.mn  0.778  0.321  0.163 -0.342  0.152  0.002  0.122  0.000 -0.526
+## ptrnlg_t_1_ -0.957 -0.319 -0.024  0.127 -0.034  0.004 -0.056  0.004  0.551
+## patrnlg.dff  0.074  0.033  0.188 -0.198  0.092  0.001  0.084  0.003  0.015
+## paternlg.mn  0.777  0.320  0.163 -0.341  0.151  0.002  0.121  0.000 -0.526
 ##             b.(194 b.(1951 b.(1954 male   pt__1_ ptrnlg.d
 ## scl(dpn__5)                                              
 ## mtr.(14,20]                                              
@@ -1889,19 +2045,23 @@ Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## b.(1951,195  0.465                                       
 ## b.(1954,195  0.454  0.605                                
 ## male         0.000  0.002   0.003                        
-## ptrnlg_t_1_ -0.024 -0.074  -0.120   0.012                
+## ptrnlg_t_1_ -0.025 -0.075  -0.120   0.012                
 ## patrnlg.dff -0.147 -0.342  -0.504   0.005  0.002         
-## paternlg.mn  0.036  0.093   0.142   0.000 -0.840  0.044</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
-<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre>
-<p><img src="5_swed_sensitivity/figure/afb-1.png" title="plot of chunk afb" alt="plot of chunk afb" width="1440px" height="900px" /></p>
+## paternlg.mn  0.037  0.094   0.142   0.000 -0.840  0.043  
+## convergence code: 1
+## Model failed to converge with max|grad| = 0.0290621 (tol = 0.001, component 1)
+## Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Any_children_coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(Any_children)
+<span class="kw">plot_fortified_mer</span>(Any_children_coefs, <span class="st">&quot;Any surviving children&quot;</span>)</code></pre></div>
+<p><img src="/Users/rubenarslan/paternal_age_genealogies/5_swed_sensitivity/figure/afb-1.png" title="plot of chunk afb" alt="plot of chunk afb" width="1440px" height="900px" /></p>
 </div>
 </div>
 <div id="wrap-up" class="section level1 accordion">
 <h1>Wrap up</h1>
 <div id="session-info" class="section level4">
 <h4>Session Info</h4>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.2.2 (2015-08-14)
 ## Platform: x86_64-redhat-linux-gnu (64-bit)
 ## Running under: Scientific Linux 7.1 (Nitrogen)
@@ -1918,26 +2078,25 @@ Children_all &lt;-<span class="st"> </span><span class="kw">glmer</span>(
 ## [1] methods   stats     graphics  grDevices utils     datasets  base     
 ## 
 ## other attached packages:
-##  [1] QuantPsyc_1.5    MASS_7.3-44      boot_1.3-17      mgcv_1.8-7      
-##  [5] nlme_3.1-121     stringr_1.0.0    pander_0.5.2     lubridate_1.3.3 
-##  [9] dplyr_0.4.3      blme_1.0-4       formr_0.2.9      lme4_1.1-7      
-## [13] Rcpp_0.12.1      Matrix_1.2-2     knitr_1.11       ggplot2_1.0.1   
-## [17] data.table_1.9.6
+##  [1] QuantPsyc_1.5    MASS_7.3-45      boot_1.3-17      stringr_1.0.0   
+##  [5] pander_0.6.0     lubridate_1.5.0  dplyr_0.4.3      blme_1.0-4      
+##  [9] formr_0.2.9      lme4_1.1-10      Matrix_1.2-3     knitr_1.12      
+## [13] ggplot2_2.0.0    data.table_1.9.6
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] formatR_1.2.1      nloptr_1.0.4       plyr_1.8.3        
-##  [4] tools_3.2.2        digest_0.6.8       evaluate_0.8      
-##  [7] memoise_0.2.1      gtable_0.1.2       lattice_0.20-33   
-## [10] DBI_0.3.1          parallel_3.2.2     SparseM_1.7       
-## [13] proto_0.3-10       MatrixModels_0.4-1 grid_3.2.2        
-## [16] nnet_7.3-10        R6_2.1.1           minqa_1.2.4       
-## [19] reshape2_1.4.1     car_2.1-0          magrittr_1.5      
-## [22] scales_0.3.0       codetools_0.2-14   splines_3.2.2     
-## [25] assertthat_0.1     pbkrtest_0.4-2     colorspace_1.2-6  
-## [28] labeling_0.3       quantreg_5.19      stringi_1.0-1     
-## [31] lazyeval_0.1.10    munsell_0.4.2      chron_2.3-47</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre>
-<pre><code>## [1] &quot;Fri Nov 13 08:23:46 2015&quot;</code></pre>
+##  [1] Rcpp_0.12.3        formatR_1.2.1      nloptr_1.0.4      
+##  [4] plyr_1.8.3         tools_3.2.2        digest_0.6.9      
+##  [7] evaluate_0.8       nlme_3.1-124       gtable_0.1.2      
+## [10] lattice_0.20-33    mgcv_1.8-10        DBI_0.3.1         
+## [13] parallel_3.2.2     SparseM_1.7        MatrixModels_0.4-1
+## [16] grid_3.2.2         nnet_7.3-11        R6_2.1.1          
+## [19] minqa_1.2.4        car_2.1-1          magrittr_1.5      
+## [22] scales_0.3.0       splines_3.2.2      assertthat_0.1    
+## [25] pbkrtest_0.4-5     colorspace_1.2-6   labeling_0.3      
+## [28] quantreg_5.19      stringi_1.0-1      lazyeval_0.1.10   
+## [31] munsell_0.4.2      chron_2.3-47</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre></div>
+<pre><code>## [1] &quot;Fri Feb 12 04:27:00 2016&quot;</code></pre>
 <script src="library/auto_tab_first_section.js"></script>
 </div>
 </div>
