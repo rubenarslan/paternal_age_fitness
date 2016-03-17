@@ -203,15 +203,15 @@ explain =<span class="st"> </span><span class="kw">glm</span>(muts ~<span class=
 no_explain =<span class="st"> </span><span class="kw">glm</span>(muts ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">family =</span> <span class="kw">poisson</span>())
 sjmisc::<span class="kw">pseudo_r2</span>(explain)</code></pre></div>
 <pre><code>## $CoxSnell
-## [1] 0.9146
+## [1] 0.915
 ## 
 ## $Nagelkerke
-## [1] 0.9387</code></pre>
+## [1] 0.939</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="kw">logLik</span>(explain)/<span class="kw">logLik</span>(no_explain)) /<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span><span class="kw">mean</span>(muts)/<span class="kw">var</span>(muts))</code></pre></div>
-<pre><code>## &#39;log Lik.&#39; 1.026 (df=2)</code></pre>
+<pre><code>## &#39;log Lik.&#39; 1.025 (df=2)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_r2 =<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(muts ~<span class="st"> </span>paternalage))$adj.r.squared
 lm_r2 /<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span><span class="kw">mean</span>(muts)/<span class="kw">var</span>(muts)) <span class="co"># as in kong et al. 2012 supplement, achieve .94 var explained</span></code></pre></div>
-<pre><code>## [1] 0.9413</code></pre>
+<pre><code>## [1] 0.9421</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(muts, paternalage) <span class="co"># natural poisson var means correlation not perfect</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
@@ -220,17 +220,17 @@ lm_r2 /<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </
 ## t = 1800, df = 1400000, p-value &lt;2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.8289 0.8299
+##  0.8294 0.8304
 ## sample estimates:
 ##    cor 
-## 0.8294</code></pre>
+## 0.8299</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(muts)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-3-1.png" alt="" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(muts)</code></pre></div>
-<pre><code>## [1] 77.71</code></pre>
+<pre><code>## [1] 77.68</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">var</span>(muts)</code></pre></div>
-<pre><code>## [1] 288.7</code></pre>
+<pre><code>## [1] 288.8</code></pre>
 </div>
 <div id="assume-11000-is-lethal" class="section level2">
 <h2>assume 1/1000 is lethal</h2>
@@ -240,25 +240,25 @@ lm_r2 /<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-4-1.png" alt="" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span>)</code></pre></div>
-<pre><code>## [1] 0.07472</code></pre>
+<pre><code>## [1] 0.07481</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lethal =<span class="st"> </span><span class="kw">glm</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span> ~<span class="st"> </span>paternalage, <span class="dt">family =</span> <span class="kw">binomial</span>())
 pred =<span class="st"> </span><span class="kw">predict</span>(lethal, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
 pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">1</span>]</code></pre></div>
 <pre><code>##        2 
-## 0.009467</code></pre>
+## 0.009471</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sjmisc::<span class="kw">pseudo_r2</span>(lethal)</code></pre></div>
 <pre><code>## $CoxSnell
-## [1] 0.002349
+## [1] 0.002341
 ## 
 ## $Nagelkerke
-## [1] 0.005699</code></pre>
+## [1] 0.005675</code></pre>
 </div>
 <div id="assume-21000-are-lethal" class="section level2">
 <h2>assume 2/1000 are lethal</h2>
 <p>(still seems ok, just downs is that many, presumably other syndromes add up)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deleterious_mutations =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">length</span>(muts), <span class="dt">lambda =</span> <span class="dv">2</span> /<span class="st"> </span><span class="dv">1000</span> *<span class="st"> </span>muts)
 <span class="kw">mean</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span>)</code></pre></div>
-<pre><code>## [1] 0.1432</code></pre>
+<pre><code>## [1] 0.1429</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lethal =<span class="st"> </span><span class="kw">glm</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span> ~<span class="st"> </span>paternalage, <span class="dt">family =</span> <span class="kw">binomial</span>())
 pred =<span class="st"> </span><span class="kw">predict</span>(lethal, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
 pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">1</span>]</code></pre></div>
@@ -266,10 +266,10 @@ pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">
 ## 0.01834</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sjmisc::<span class="kw">pseudo_r2</span>(lethal)</code></pre></div>
 <pre><code>## $CoxSnell
-## [1] 0.004405
+## [1] 0.004437
 ## 
 ## $Nagelkerke
-## [1] 0.007863</code></pre>
+## [1] 0.007927</code></pre>
 </div>
 <div id="assume-51000-are-lethal" class="section level2">
 <h2>assume 5/1000 are lethal</h2>
@@ -281,18 +281,18 @@ pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-6-1.png" alt="" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span>)</code></pre></div>
-<pre><code>## [1] 0.3611</code></pre>
+<pre><code>## [1] 0.361</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lethal =<span class="st"> </span><span class="kw">glm</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span> ~<span class="st"> </span>paternalage, <span class="dt">family =</span> <span class="kw">binomial</span>())
 pred =<span class="st"> </span><span class="kw">predict</span>(lethal, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
 pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">1</span>]</code></pre></div>
 <pre><code>##       2 
-## 0.04842</code></pre>
+## 0.04897</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sjmisc::<span class="kw">pseudo_r2</span>(lethal)</code></pre></div>
 <pre><code>## $CoxSnell
-## [1] 0.01058
+## [1] 0.01107
 ## 
 ## $Nagelkerke
-## [1] 0.0145</code></pre>
+## [1] 0.01518</code></pre>
 </div>
 <div id="relative-fitness-differences-mutations-of-small-effect-allowed" class="section level2">
 <h2>relative fitness differences, mutations of small effect allowed</h2>
@@ -308,52 +308,53 @@ pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -3.358 -0.294  0.007  0.301  3.198 
+## -3.025 -0.294  0.007  0.300  3.407 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.081958   0.001814   -45.2   &lt;2e-16 ***
-## paternalage -0.116555   0.000556  -209.6   &lt;2e-16 ***
+## (Intercept) -0.080690   0.001814   -44.5   &lt;2e-16 ***
+## paternalage -0.116957   0.000556  -210.3   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 0.467 on 1419280 degrees of freedom
-## Multiple R-squared:  0.03,   Adjusted R-squared:  0.03 
-## F-statistic: 4.39e+04 on 1 and 1419280 DF,  p-value: &lt;2e-16</code></pre>
+## Multiple R-squared:  0.0302, Adjusted R-squared:  0.0302 
+## F-statistic: 4.42e+04 on 1 and 1419280 DF,  p-value: &lt;2e-16</code></pre>
 </div>
 <div id="not-making-it-simple-on-myself" class="section level2">
 <h2>not making it simple on myself</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for each person draw from a gamma of this shape</span>
-<span class="kw">qplot</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="fl">1e5</span>, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="dv">60</span>))</code></pre></div>
+<span class="kw">qplot</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="fl">1e5</span>, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="dv">200</span>))</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-1.png" alt="" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="fl">1e5</span>, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="fl">0.45</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="fl">1e5</span>, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="dv">200</span>))</code></pre></div>
+<pre><code>## [1] 0.005004</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness_effects =<span class="st"> </span><span class="kw">sapply</span>(muts, function(muts) { <span class="kw">sum</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> muts, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="dv">200</span>)) })
+<span class="kw">mean</span>(fitness_effects)</code></pre></div>
+<pre><code>## [1] 0.3884</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(fitness_effects)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-2.png" alt="" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness_effects =<span class="st"> </span><span class="kw">sapply</span>(muts, function(muts) { <span class="kw">sum</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> muts, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="dv">60</span>)) })
-<span class="kw">qplot</span>(fitness_effects)</code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-3.png" alt="" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness =<span class="st"> </span><span class="fl">0.8</span> *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(muts)) -<span class="st"> </span><span class="fl">0.2</span> *<span class="st"> </span><span class="kw">scale</span>(fitness_effects)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness =<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(muts)) -<span class="st"> </span>fitness_effects
 kids =<span class="st"> </span><span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">length</span>(muts), scales::<span class="kw">rescale</span>(fitness, <span class="dt">to =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">4</span>)))
 <span class="kw">qplot</span>(fitness)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-4.png" alt="" /></p>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-3.png" alt="" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(kids)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-5.png" alt="" /></p>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-4.png" alt="" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(kids)</code></pre></div>
-<pre><code>## [1] 2.171</code></pre>
+<pre><code>## [1] 2.024</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">data.frame</span>(fitness, kids, <span class="dt">paternalage =</span> paternalage)
 
 fitness_m =<span class="st"> </span><span class="kw">glm</span>(kids ~<span class="st"> </span>paternalage, <span class="dt">data =</span> df, <span class="dt">family =</span> poisson)
 pred =<span class="st"> </span><span class="kw">predict</span>(fitness_m, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
 pred[<span class="dv">2</span>]/pred[<span class="dv">1</span>] -<span class="st"> </span><span class="dv">1</span></code></pre></div>
 <pre><code>##        2 
-## -0.04433</code></pre>
+## -0.01881</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">1</span>]</code></pre></div>
-<pre><code>##       2 
-## -0.1111</code></pre>
+<pre><code>##        2 
+## -0.04044</code></pre>
 </div>
 </div>
 <div id="wrap-up" class="section level1 accordion">
@@ -387,7 +388,7 @@ pred[<span class="dv">2</span>]/pred[<span class="dv">1</span>] -<span class="st
 ## [22] memoise_1.0.0     labeling_0.3      scales_0.4.0     
 ## [25] chron_2.3-47</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre></div>
-<pre><code>## [1] &quot;Thu Mar 17 20:30:27 2016&quot;</code></pre>
+<pre><code>## [1] &quot;Thu Mar 17 21:07:24 2016&quot;</code></pre>
 <script src="library/auto_tab_first_section.js"></script>
 </div>
 </div>
