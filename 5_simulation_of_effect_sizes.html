@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Simulation Of Effect Sizes</title>
+
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div id="realistic-effect-sizes" class="section level1 tab-content">
+<h1>Realistic effect sizes</h1>
+<div id="loading-packages" class="section level3 accordion">
+<h3>Loading packages</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)</code></pre></div>
+</div>
+<div id="problem-statement" class="section level2">
+<h2>Problem statement</h2>
+<p>What are realistic effect sizes for paternal age effects that can be accounted for by mutations? The problem is that most of the variables/parameters involved are unknown:</p>
+<ol style="list-style-type: decimal">
+<li>Selection on relative fitness differences or absolute fitness
+<ul>
+<li>probably both
+<ul>
+<li>some mutations are just lethal</li>
+<li>sexual selection can sort by cumulative load</li>
+</ul></li>
+<li>unclear how to model both</li>
+</ul></li>
+<li>distribution of fitness effects
+<ul>
+<li>presumably somewhat upward of 1/10000/60 are clearly lethal mutation, based on guesstimated aggregate incidence of lethal de novo mutation-based disease</li>
+<li>maybe 4/100 have intellectual disability/autism and other things that are on average a genetic death
+<ul>
+<li>maybe 30% is a conservative estimate for ID/autism cases caused by de novo, so 1/100 causes a genetic death? seems high</li>
+</ul></li>
+<li>maybe 0.35 per genome per generation affect amino acids, which usually isn’t good (but also not nec lethal)</li>
+<li>ca 1 in 500 births are Down syndrome, which is almost genetically lethal. now, those usually don’t come from the father, but 1 in 500 seems to be something that can exist</li>
+<li>other mutations aren’t all neutral and small negative effect may add up. These differences may be selected on relatively (i.e. if everyone is slightly uglier the same selection coefficient still applies). No one has put a convincing number on this.</li>
+</ul></li>
+<li>de novo mutation contribution to fitness differences. This is relevant for non-lethal mutations, because if de novo mutations just contribute a little bit of the differences, h2 of fitness in humans sometimes given as 30%, but that’s of course an upper bound.</li>
+</ol>
+<div id="a-bunch-of-congenital-diseases-from-wikipedia" class="section level3">
+<h3>a bunch of congenital diseases from Wikipedia</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">congenital =<span class="st"> </span><span class="kw">read.delim</span>(<span class="kw">textConnection</span>(<span class="st">&quot;Birth Defects   Cases per Births    Estimated Annual Number of Cases    Estimated National Prevalence per 10,000 Live Births (Adjusted for maternal race/ethnicity)</span>
+<span class="st">Anencephaly 1 in 4,859  859 2.06</span>
+<span class="st">Spina bifida without anencephaly    1 in 2,858  1460    3.50</span>
+<span class="st">Encephalocele   1 in 12,235 341 0.82</span>
+<span class="st">Anophthalmia/ microphthalmia    1 in 5,349  780 1.87</span>
+<span class="st">Common truncus  1 in 13,876 301 0.72</span>
+<span class="st">Transposition of great arteries 1 in 3,333  1252    3.00</span>
+<span class="st">Tetralogy of Fallot 1 in 2,518  1657    3.97    </span>
+<span class="st">Atrioventricular septal defect  1 in 2,122  1966    4.71</span>
+<span class="st">Hypoplastic left heart syndrome 1 in 4,344  960 2.30</span>
+<span class="st">Cleft palate without cleft lip  1 in 1,574  2651    6.35</span>
+<span class="st">Cleft lip with and without cleft palate 1 in 940    4437    10.63</span>
+<span class="st">Esophageal atresia/tracheoeophageal fistula 1 in 4,608  905 2.17</span>
+<span class="st">Rectal and large intestinalatresia/stenosis 1 in 2,138  1952    4.68</span>
+<span class="st">Reduction deformity, upper limbs    1 in 2,869  1454    3.49</span>
+<span class="st">Reduction deformity, lower limbs    1 in 5,949  701 1.68</span>
+<span class="st">Gastroschisis   1 in 2,229  1871    4.49</span>
+<span class="st">Omphalocele 1 in 5,386  775 1.86</span>
+<span class="st">Diaphragmatic hernia    1 in 3,836  1088    2.61&quot;</span>))
+
+<span class="kw">sum</span>(congenital$Estimated.National.Prevalence.per<span class="fl">.10.000</span>.Live.Births..Adjusted.for.maternal.race.ethnicity.)/<span class="dv">10000</span></code></pre></div>
+<pre><code>## [1] 0.006091</code></pre>
+<p>Might be not complete unreasonable to assume that the number of mutation-caused diseases per birth is somewhere above 1 in 1000.</p>
+</div>
+</div>
+<div id="relevant-sections-from-keightley-2012" class="section level2">
+<h2>Relevant sections from Keightley 2012</h2>
+<blockquote>
+<p>Considering only mutations that change an amino acid of a protein-coding gene (UP = 0.35) predicted W&quot; = 0.7. For deleterious mutations occurring anywhere in the genome (U = 2.2), W&quot; = 0.11. This latter figure seems implausibly low. For example, if each female were capable of producing 20 offspring, 18 of these progeny, on average, would need to undergo genetic death. With the caveat that some selection may occur prior to fer- tilization (Otto and Hastings 1998) or early in development (Edmonds et al. 1982), this level of selective mortality seems too high, given that there are presumably many nongenetic causes of death.&quot; “hypothesis that a load-reducing mechanism, such as quasi-truncation selec- tion, speeds up the elimination of deleterious mutations and maintains higher mean fitness</p>
+</blockquote>
+<blockquote>
+<p>If selection acts on relative fitness differences between extant individuals in the popu- lation, as under density- or frequency-dependent selection, the mutation load paradox can disappear entirely, and in- stead, load is manifest as genetic variance for fitness (Ewens 1979; Y. Lecesque, P. Keightley, and A. Eyre-Walker, unpub- lished data).</p>
+</blockquote>
+<blockquote>
+<p>Relative rather than absolute fitness differences are important under a range of scenarios, including compe- tition between individuals and sexual selection. Analysis of a multiplicative model in which individuals mate with prob- ability w 1⁄4 W=W&quot; suggests that 10s or even 100s of delete- rious mutations can be eliminated from a population each generation if there is a plausible input of new mutational variation for fitness. In reality, pure hard and soft selection is unlikely, and fitness effects of new mutations may be man- ifest via both relative and absolute fitness differences. How- ever, a high genomic deleterious mutation rate, together with the absence of evidence for widespread synergistic epistasis, suggests that much natural selection in humans occurs via relative fitness differences between individuals.</p>
+</blockquote>
+<blockquote>
+<p>Unfortunately, parameter estimates based on the DFE inferred from polymorphism data are highly model de- pendent, making prediction of the rate of change of mean fitness under relaxed selection problematic</p>
+</blockquote>
+<blockquote>
+<p>Boyko et al. (2008) fitted several models of the DFE to data for over 11,000 genes from indi- viduals of African and European ancestry. The best-fitting DFE was a mixture distribution containing a normally dis- tributed class of mutational effects and a point mass of strongly deleterious mutational effects.</p>
+</blockquote>
+<blockquote>
+<p>Estimates of the mean fitness effect of an amino acid mutation drawn from the normally distributed class were 1024 and 1023 for Afri- cans and Europeans, respectively. Assuming that UP = 0.35 (see above), maximum rates of fitness loss per generation if selection were completely relaxed on these mutations are only 0.0015% and 0.02% for Africans and Europeans, re- spectively. The class of strongly deleterious mutations repre- sents mutations (including some lethals) with effects Nehs . $10 that are kept so rare by purifying selection as to be essentially absent from polymorphism data.</p>
+</blockquote>
+<blockquote>
+<p>At an arbitrary time point 200 years in the future (about eight human generations), the nematode and Drosophila parameters predict maximum fitness losses of 1 and 14%, respectively. However, several factors suggest that the reduc- tion in fitness could be considerably smaller. First, calcula- tions have assumed additive gene action, but theory suggests that large-effect mutations tend to be partially recessive (Wright 1934; Kacser and Burns 1981). Fitness reduction caused by an accumulation of recessive deleterious mutations is delayed, and predicted DR values could be 50% or more lower (García-Dorado and Caballero 2000; Vassilieva et al. 2000).</p>
+</blockquote>
+<blockquote>
+<p>Second, doubts have been raised about D. melanogaster MA experiments, particularly the validity of controls, and the possibility of nonmutational changes in fitness or un- usual transposable element activity, and these doubts have been debated (Keightley 1996; García-Dorado 1997; Crow 1997; Keightley and Eyre-Walker 1999; Lynch et al. 1999; Fry 2004; Halligan and Keightley 2009). Third, although modern medicine and lifestyle changes have undoubtedly reduced natural selection in some human populations, nat- ural selection still occurs in all human populations. There is scope for selection in the germline cell lineages (Reed and Aquadro 2006), and many pregnancies spontaneously abort (Edmonds et al. 1982). Sexual selection still operates in human societies (Perrett et al. 1999), and this and other factors generate family size variation, allowing opportunities for natural selection. For example, selection associated with variation in male wealth in contemporary populations is at least as strong as selection measured in field studies of nat- ural populations of other species (Nettle and Pollet 2008). Finally, a change in mean fitness could be inconsequential if selection is soft (for example, it might not matter if everyone becomes 5% less sexually attractive). The above considera- tions lead to doubts about whether deleterious mutation accumulation will produce a detectable fitness loss in humans in the foreseeable future. Less speculative, perhaps, is the existence of finite global energy, food, and water resources. Coupled with expanding human populations, these factors may intensify competition and lead to stronger natural selection in years to come.</p>
+</blockquote>
+</div>
+<div id="relevant-sections-from-lesecque-et-al.-2012" class="section level2">
+<h2>Relevant sections from Lesecque et al. 2012</h2>
+</div>
+<div id="parameters" class="section level2">
+<h2>Parameters</h2>
+<p>Assume 14+60 de novo mutations per genome per generation. Paternal age effect of 20 per decade.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">denovos =<span class="st"> </span><span class="dv">60</span>
+inc_patage =<span class="st"> </span><span class="dv">20</span>
+<span class="kw">load</span>(<span class="st">&quot;swed1.rdata&quot;</span>)
+paternalage =<span class="st"> </span>swed<span class="fl">.1</span>$paternalage
+<span class="kw">rm</span>(swed<span class="fl">.1</span>)
+muts =<span class="st"> </span><span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">length</span>(paternalage), <span class="dt">lambda =</span> <span class="dv">14</span> +<span class="st"> </span>paternalage *<span class="st"> </span>inc_patage +<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(paternalage), <span class="dt">sd =</span> <span class="fl">3.5</span>))
+explain =<span class="st"> </span><span class="kw">glm</span>(muts ~<span class="st"> </span>paternalage, <span class="dt">family =</span> <span class="kw">poisson</span>())
+no_explain =<span class="st"> </span><span class="kw">glm</span>(muts ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">family =</span> <span class="kw">poisson</span>())
+sjmisc::<span class="kw">pseudo_r2</span>(explain)</code></pre></div>
+<pre><code>## $CoxSnell
+## [1] 0.9146
+## 
+## $Nagelkerke
+## [1] 0.9387</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="kw">logLik</span>(explain)/<span class="kw">logLik</span>(no_explain)) /<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span><span class="kw">mean</span>(muts)/<span class="kw">var</span>(muts))</code></pre></div>
+<pre><code>## &#39;log Lik.&#39; 1.026 (df=2)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_r2 =<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(muts ~<span class="st"> </span>paternalage))$adj.r.squared
+lm_r2 /<span class="st"> </span>(<span class="dv">1</span> -<span class="st"> </span><span class="kw">mean</span>(muts)/<span class="kw">var</span>(muts)) <span class="co"># as in kong et al. 2012 supplement, achieve .94 var explained</span></code></pre></div>
+<pre><code>## [1] 0.9413</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(muts, paternalage) <span class="co"># natural poisson var means correlation not perfect</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  muts and paternalage
+## t = 1800, df = 1400000, p-value &lt;2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.8289 0.8299
+## sample estimates:
+##    cor 
+## 0.8294</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(muts)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-3-1.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(muts)</code></pre></div>
+<pre><code>## [1] 77.71</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">var</span>(muts)</code></pre></div>
+<pre><code>## [1] 288.7</code></pre>
+</div>
+<div id="assume-11000-is-lethal" class="section level2">
+<h2>assume 1/1000 is lethal</h2>
+<p>(seems ok, just downs is that many, presumably other syndromes add up)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deleterious_mutations =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">length</span>(muts), <span class="dt">lambda =</span> <span class="dv">1</span> /<span class="st"> </span><span class="dv">1000</span> *<span class="st"> </span>muts)
+<span class="kw">qplot</span>(deleterious_mutations)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-4-1.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span>)</code></pre></div>
+<pre><code>## [1] 0.07472</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lethal =<span class="st"> </span><span class="kw">glm</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span> ~<span class="st"> </span>paternalage, <span class="dt">family =</span> <span class="kw">binomial</span>())
+pred =<span class="st"> </span><span class="kw">predict</span>(lethal, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
+pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">1</span>]</code></pre></div>
+<pre><code>##        2 
+## 0.009467</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sjmisc::<span class="kw">pseudo_r2</span>(lethal)</code></pre></div>
+<pre><code>## $CoxSnell
+## [1] 0.002349
+## 
+## $Nagelkerke
+## [1] 0.005699</code></pre>
+</div>
+<div id="assume-21000-are-lethal" class="section level2">
+<h2>assume 2/1000 are lethal</h2>
+<p>(still seems ok, just downs is that many, presumably other syndromes add up)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deleterious_mutations =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">length</span>(muts), <span class="dt">lambda =</span> <span class="dv">2</span> /<span class="st"> </span><span class="dv">1000</span> *<span class="st"> </span>muts)
+<span class="kw">mean</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span>)</code></pre></div>
+<pre><code>## [1] 0.1432</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lethal =<span class="st"> </span><span class="kw">glm</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span> ~<span class="st"> </span>paternalage, <span class="dt">family =</span> <span class="kw">binomial</span>())
+pred =<span class="st"> </span><span class="kw">predict</span>(lethal, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
+pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">1</span>]</code></pre></div>
+<pre><code>##       2 
+## 0.01834</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sjmisc::<span class="kw">pseudo_r2</span>(lethal)</code></pre></div>
+<pre><code>## $CoxSnell
+## [1] 0.004405
+## 
+## $Nagelkerke
+## [1] 0.007863</code></pre>
+</div>
+<div id="assume-51000-are-lethal" class="section level2">
+<h2>assume 5/1000 are lethal</h2>
+<p>(can’t be true, because we don’t observe that many deaths, this is based on 0.35 mutations that may change an amino-acid according to keightley 2012)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="fl">0.35</span>/<span class="dv">60</span></code></pre></div>
+<pre><code>## [1] 0.005833</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deleterious_mutations =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">length</span>(muts), <span class="dt">lambda =</span> <span class="fl">0.35</span> /<span class="st"> </span><span class="dv">60</span> *<span class="st"> </span>muts)
+<span class="kw">qplot</span>(deleterious_mutations)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-6-1.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span>)</code></pre></div>
+<pre><code>## [1] 0.3611</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lethal =<span class="st"> </span><span class="kw">glm</span>(deleterious_mutations &gt;<span class="st"> </span><span class="dv">0</span> ~<span class="st"> </span>paternalage, <span class="dt">family =</span> <span class="kw">binomial</span>())
+pred =<span class="st"> </span><span class="kw">predict</span>(lethal, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
+pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">1</span>]</code></pre></div>
+<pre><code>##       2 
+## 0.04842</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sjmisc::<span class="kw">pseudo_r2</span>(lethal)</code></pre></div>
+<pre><code>## $CoxSnell
+## [1] 0.01058
+## 
+## $Nagelkerke
+## [1] 0.0145</code></pre>
+</div>
+<div id="relative-fitness-differences-mutations-of-small-effect-allowed" class="section level2">
+<h2>relative fitness differences, mutations of small effect allowed</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness =<span class="st"> </span>-<span class="dv">1</span> *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(muts), <span class="dt">mean =</span> <span class="fl">0.35</span> /<span class="st"> </span><span class="dv">60</span> *<span class="st"> </span>muts, <span class="dt">sd =</span> <span class="fl">0.35</span> /<span class="st"> </span><span class="dv">60</span> *<span class="st"> </span>muts)
+<span class="kw">qplot</span>(fitness)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-7-1.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness_m =<span class="st"> </span><span class="kw">lm</span>(fitness ~<span class="st"> </span>paternalage)
+<span class="kw">summary</span>(fitness_m)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = fitness ~ paternalage)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.358 -0.294  0.007  0.301  3.198 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.081958   0.001814   -45.2   &lt;2e-16 ***
+## paternalage -0.116555   0.000556  -209.6   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.467 on 1419280 degrees of freedom
+## Multiple R-squared:  0.03,   Adjusted R-squared:  0.03 
+## F-statistic: 4.39e+04 on 1 and 1419280 DF,  p-value: &lt;2e-16</code></pre>
+</div>
+<div id="not-making-it-simple-on-myself" class="section level2">
+<h2>not making it simple on myself</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for each person draw from a gamma of this shape</span>
+<span class="kw">qplot</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="fl">1e5</span>, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="dv">60</span>))</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-1.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> <span class="fl">1e5</span>, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="fl">0.45</span>))</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-2.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness_effects =<span class="st"> </span><span class="kw">sapply</span>(muts, function(muts) { <span class="kw">sum</span>(<span class="kw">rgamma</span>(<span class="dt">n =</span> muts, <span class="dt">shape =</span> <span class="dv">1</span>, <span class="dt">rate =</span> <span class="dv">60</span>)) })
+<span class="kw">qplot</span>(fitness_effects)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-3.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitness =<span class="st"> </span><span class="fl">0.8</span> *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(muts)) -<span class="st"> </span><span class="fl">0.2</span> *<span class="st"> </span><span class="kw">scale</span>(fitness_effects)
+kids =<span class="st"> </span><span class="kw">rpois</span>(<span class="dt">n =</span> <span class="kw">length</span>(muts), scales::<span class="kw">rescale</span>(fitness, <span class="dt">to =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">4</span>)))
+<span class="kw">qplot</span>(fitness)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-4.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(kids)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="5_simulation_of_effect_sizes_files/figure-html/unnamed-chunk-8-5.png" alt="" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(kids)</code></pre></div>
+<pre><code>## [1] 2.171</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">data.frame</span>(fitness, kids, <span class="dt">paternalage =</span> paternalage)
+
+fitness_m =<span class="st"> </span><span class="kw">glm</span>(kids ~<span class="st"> </span>paternalage, <span class="dt">data =</span> df, <span class="dt">family =</span> poisson)
+pred =<span class="st"> </span><span class="kw">predict</span>(fitness_m, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)), <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
+pred[<span class="dv">2</span>]/pred[<span class="dv">1</span>] -<span class="st"> </span><span class="dv">1</span></code></pre></div>
+<pre><code>##        2 
+## -0.04433</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred[<span class="dv">2</span>] -<span class="st"> </span>pred[<span class="dv">1</span>]</code></pre></div>
+<pre><code>##       2 
+## -0.1111</code></pre>
+</div>
+</div>
+<div id="wrap-up" class="section level1 accordion">
+<h1>Wrap up</h1>
+<div id="session-info" class="section level4">
+<h4>Session Info</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.2.3 (2015-12-10)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X 10.10.5 (Yosemite)
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] grDevices datasets  utils     graphics  stats     methods   base     
+## 
+## other attached packages:
+##  [1] stringi_1.0-1    pander_0.6.0     knitr_1.12.3     rmarkdown_0.9.5 
+##  [5] dplyr_0.4.3      ggplot2_2.0.0    formr_0.3.1      data.table_1.9.6
+##  [9] stringr_1.0.0    devtools_1.9.1  
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.3       magrittr_1.5      MASS_7.3-45      
+##  [4] mnormt_1.5-3      munsell_0.4.3     colorspace_1.2-6 
+##  [7] R6_2.1.2          plyr_1.8.3        tools_3.2.3      
+## [10] parallel_3.2.3    grid_3.2.3        gtable_0.2.0     
+## [13] psych_1.5.8       DBI_0.3.1         htmltools_0.3    
+## [16] sjmisc_1.4        digest_0.6.9      assertthat_0.1   
+## [19] formatR_1.2.1     rsconnect_0.4.1.4 evaluate_0.8     
+## [22] memoise_1.0.0     labeling_0.3      scales_0.4.0     
+## [25] chron_2.3-47</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">date</span>()</code></pre></div>
+<pre><code>## [1] &quot;Thu Mar 17 20:30:27 2016&quot;</code></pre>
+<script src="library/auto_tab_first_section.js"></script>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>
