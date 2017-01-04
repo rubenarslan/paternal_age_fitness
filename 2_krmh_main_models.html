@@ -1286,19 +1286,19 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-2.png" alt="plot of chunk unnamed-chunk-11" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-3.png" alt="plot of chunk unnamed-chunk-11" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-4.png" alt="plot of chunk unnamed-chunk-11" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-5.png" alt="plot of chunk unnamed-chunk-11" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-6.png" alt="plot of chunk unnamed-chunk-11" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-7.png" alt="plot of chunk unnamed-chunk-11" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-8.png" alt="plot of chunk unnamed-chunk-11" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-11-9.png" alt="plot of chunk unnamed-chunk-11" /></p>
+<p><img src="2_krmh_main_models/figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" /><img src="2_krmh_main_models/figure/unnamed-chunk-11-2.png" alt="plot of chunk unnamed-chunk-11" /><img src="2_krmh_main_models/figure/unnamed-chunk-11-3.png" alt="plot of chunk unnamed-chunk-11" /><img src="2_krmh_main_models/figure/unnamed-chunk-11-4.png" alt="plot of chunk unnamed-chunk-11" /><img src="2_krmh_main_models/figure/unnamed-chunk-11-5.png" alt="plot of chunk unnamed-chunk-11" /><img src="2_krmh_main_models/figure/unnamed-chunk-11-6.png" alt="plot of chunk unnamed-chunk-11" /><img src="2_krmh_main_models/figure/unnamed-chunk-11-7.png" alt="plot of chunk unnamed-chunk-11" /><img src="2_krmh_main_models/figure/unnamed-chunk-11-8.png" alt="plot of chunk unnamed-chunk-11" /><img src="2_krmh_main_models/figure/unnamed-chunk-11-9.png" alt="plot of chunk unnamed-chunk-11" /></p>
 </div>
 <div id="coefficient-plot" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" />
 <p class="caption">plot of chunk unnamed-chunk-12</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-12-2.png" alt="plot of chunk unnamed-chunk-12" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-12-2.png" alt="plot of chunk unnamed-chunk-12" />
 <p class="caption">plot of chunk unnamed-chunk-12</p>
 </div>
 </div>
@@ -1309,12 +1309,12 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" />
 <p class="caption">plot of chunk unnamed-chunk-13</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-13-2.png" alt="plot of chunk unnamed-chunk-13" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-13-2.png" alt="plot of chunk unnamed-chunk-13" />
 <p class="caption">plot of chunk unnamed-chunk-13</p>
 </div>
 </div>
@@ -1323,7 +1323,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" />
 <p class="caption">plot of chunk unnamed-chunk-14</p>
 </div>
 </div>
@@ -1331,7 +1331,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15" />
 <p class="caption">plot of chunk unnamed-chunk-15</p>
 </div>
 </div>
@@ -1339,7 +1339,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-16-1.png" alt="plot of chunk unnamed-chunk-16" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-16-1.png" alt="plot of chunk unnamed-chunk-16" />
 <p class="caption">plot of chunk unnamed-chunk-16</p>
 </div>
 </div>
@@ -1353,7 +1353,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-18-1.png" alt="plot of chunk unnamed-chunk-18" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-18-1.png" alt="plot of chunk unnamed-chunk-18" />
 <p class="caption">plot of chunk unnamed-chunk-18</p>
 </div>
 </div>
@@ -2485,19 +2485,19 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-1.png" alt="plot of chunk unnamed-chunk-24" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-2.png" alt="plot of chunk unnamed-chunk-24" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-3.png" alt="plot of chunk unnamed-chunk-24" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-4.png" alt="plot of chunk unnamed-chunk-24" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-5.png" alt="plot of chunk unnamed-chunk-24" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-6.png" alt="plot of chunk unnamed-chunk-24" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-7.png" alt="plot of chunk unnamed-chunk-24" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-8.png" alt="plot of chunk unnamed-chunk-24" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-24-9.png" alt="plot of chunk unnamed-chunk-24" /></p>
+<p><img src="2_krmh_main_models/figure/unnamed-chunk-24-1.png" alt="plot of chunk unnamed-chunk-24" /><img src="2_krmh_main_models/figure/unnamed-chunk-24-2.png" alt="plot of chunk unnamed-chunk-24" /><img src="2_krmh_main_models/figure/unnamed-chunk-24-3.png" alt="plot of chunk unnamed-chunk-24" /><img src="2_krmh_main_models/figure/unnamed-chunk-24-4.png" alt="plot of chunk unnamed-chunk-24" /><img src="2_krmh_main_models/figure/unnamed-chunk-24-5.png" alt="plot of chunk unnamed-chunk-24" /><img src="2_krmh_main_models/figure/unnamed-chunk-24-6.png" alt="plot of chunk unnamed-chunk-24" /><img src="2_krmh_main_models/figure/unnamed-chunk-24-7.png" alt="plot of chunk unnamed-chunk-24" /><img src="2_krmh_main_models/figure/unnamed-chunk-24-8.png" alt="plot of chunk unnamed-chunk-24" /><img src="2_krmh_main_models/figure/unnamed-chunk-24-9.png" alt="plot of chunk unnamed-chunk-24" /></p>
 </div>
 <div id="coefficient-plot-1" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-25-1.png" alt="plot of chunk unnamed-chunk-25" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-25-1.png" alt="plot of chunk unnamed-chunk-25" />
 <p class="caption">plot of chunk unnamed-chunk-25</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-25-2.png" alt="plot of chunk unnamed-chunk-25" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-25-2.png" alt="plot of chunk unnamed-chunk-25" />
 <p class="caption">plot of chunk unnamed-chunk-25</p>
 </div>
 </div>
@@ -2508,12 +2508,12 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-26-1.png" alt="plot of chunk unnamed-chunk-26" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-26-1.png" alt="plot of chunk unnamed-chunk-26" />
 <p class="caption">plot of chunk unnamed-chunk-26</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-26-2.png" alt="plot of chunk unnamed-chunk-26" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-26-2.png" alt="plot of chunk unnamed-chunk-26" />
 <p class="caption">plot of chunk unnamed-chunk-26</p>
 </div>
 </div>
@@ -2522,7 +2522,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-27-1.png" alt="plot of chunk unnamed-chunk-27" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-27-1.png" alt="plot of chunk unnamed-chunk-27" />
 <p class="caption">plot of chunk unnamed-chunk-27</p>
 </div>
 </div>
@@ -2530,7 +2530,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-28-1.png" alt="plot of chunk unnamed-chunk-28" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-28-1.png" alt="plot of chunk unnamed-chunk-28" />
 <p class="caption">plot of chunk unnamed-chunk-28</p>
 </div>
 </div>
@@ -2538,7 +2538,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-29-1.png" alt="plot of chunk unnamed-chunk-29" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-29-1.png" alt="plot of chunk unnamed-chunk-29" />
 <p class="caption">plot of chunk unnamed-chunk-29</p>
 </div>
 </div>
@@ -2552,7 +2552,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-31-1.png" alt="plot of chunk unnamed-chunk-31" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-31-1.png" alt="plot of chunk unnamed-chunk-31" />
 <p class="caption">plot of chunk unnamed-chunk-31</p>
 </div>
 </div>
@@ -3754,19 +3754,19 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-1.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-2.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-3.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-4.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-5.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-6.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-7.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-8.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-9.png" alt="plot of chunk unnamed-chunk-37" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-37-10.png" alt="plot of chunk unnamed-chunk-37" /></p>
+<p><img src="2_krmh_main_models/figure/unnamed-chunk-37-1.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-2.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-3.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-4.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-5.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-6.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-7.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-8.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-9.png" alt="plot of chunk unnamed-chunk-37" /><img src="2_krmh_main_models/figure/unnamed-chunk-37-10.png" alt="plot of chunk unnamed-chunk-37" /></p>
 </div>
 <div id="coefficient-plot-2" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-38-1.png" alt="plot of chunk unnamed-chunk-38" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-38-1.png" alt="plot of chunk unnamed-chunk-38" />
 <p class="caption">plot of chunk unnamed-chunk-38</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-38-2.png" alt="plot of chunk unnamed-chunk-38" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-38-2.png" alt="plot of chunk unnamed-chunk-38" />
 <p class="caption">plot of chunk unnamed-chunk-38</p>
 </div>
 </div>
@@ -3777,12 +3777,12 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-39-1.png" alt="plot of chunk unnamed-chunk-39" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-39-1.png" alt="plot of chunk unnamed-chunk-39" />
 <p class="caption">plot of chunk unnamed-chunk-39</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-39-2.png" alt="plot of chunk unnamed-chunk-39" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-39-2.png" alt="plot of chunk unnamed-chunk-39" />
 <p class="caption">plot of chunk unnamed-chunk-39</p>
 </div>
 </div>
@@ -3791,7 +3791,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-40-1.png" alt="plot of chunk unnamed-chunk-40" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-40-1.png" alt="plot of chunk unnamed-chunk-40" />
 <p class="caption">plot of chunk unnamed-chunk-40</p>
 </div>
 </div>
@@ -3799,7 +3799,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-41-1.png" alt="plot of chunk unnamed-chunk-41" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-41-1.png" alt="plot of chunk unnamed-chunk-41" />
 <p class="caption">plot of chunk unnamed-chunk-41</p>
 </div>
 </div>
@@ -3807,7 +3807,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-42-1.png" alt="plot of chunk unnamed-chunk-42" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-42-1.png" alt="plot of chunk unnamed-chunk-42" />
 <p class="caption">plot of chunk unnamed-chunk-42</p>
 </div>
 </div>
@@ -3821,7 +3821,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-44-1.png" alt="plot of chunk unnamed-chunk-44" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-44-1.png" alt="plot of chunk unnamed-chunk-44" />
 <p class="caption">plot of chunk unnamed-chunk-44</p>
 </div>
 </div>
@@ -5033,19 +5033,19 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-1.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-2.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-3.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-4.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-5.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-6.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-7.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-8.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-9.png" alt="plot of chunk unnamed-chunk-50" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-50-10.png" alt="plot of chunk unnamed-chunk-50" /></p>
+<p><img src="2_krmh_main_models/figure/unnamed-chunk-50-1.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-2.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-3.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-4.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-5.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-6.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-7.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-8.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-9.png" alt="plot of chunk unnamed-chunk-50" /><img src="2_krmh_main_models/figure/unnamed-chunk-50-10.png" alt="plot of chunk unnamed-chunk-50" /></p>
 </div>
 <div id="coefficient-plot-3" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-51-1.png" alt="plot of chunk unnamed-chunk-51" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-51-1.png" alt="plot of chunk unnamed-chunk-51" />
 <p class="caption">plot of chunk unnamed-chunk-51</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-51-2.png" alt="plot of chunk unnamed-chunk-51" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-51-2.png" alt="plot of chunk unnamed-chunk-51" />
 <p class="caption">plot of chunk unnamed-chunk-51</p>
 </div>
 </div>
@@ -5056,12 +5056,12 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-52-1.png" alt="plot of chunk unnamed-chunk-52" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-52-1.png" alt="plot of chunk unnamed-chunk-52" />
 <p class="caption">plot of chunk unnamed-chunk-52</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-52-2.png" alt="plot of chunk unnamed-chunk-52" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-52-2.png" alt="plot of chunk unnamed-chunk-52" />
 <p class="caption">plot of chunk unnamed-chunk-52</p>
 </div>
 </div>
@@ -5070,7 +5070,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-53-1.png" alt="plot of chunk unnamed-chunk-53" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-53-1.png" alt="plot of chunk unnamed-chunk-53" />
 <p class="caption">plot of chunk unnamed-chunk-53</p>
 </div>
 </div>
@@ -5078,7 +5078,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-54-1.png" alt="plot of chunk unnamed-chunk-54" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-54-1.png" alt="plot of chunk unnamed-chunk-54" />
 <p class="caption">plot of chunk unnamed-chunk-54</p>
 </div>
 </div>
@@ -5086,7 +5086,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-55-1.png" alt="plot of chunk unnamed-chunk-55" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-55-1.png" alt="plot of chunk unnamed-chunk-55" />
 <p class="caption">plot of chunk unnamed-chunk-55</p>
 </div>
 </div>
@@ -5100,7 +5100,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
 <div class="figure">
-<img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-57-1.png" alt="plot of chunk unnamed-chunk-57" />
+<img src="2_krmh_main_models/figure/unnamed-chunk-57-1.png" alt="plot of chunk unnamed-chunk-57" />
 <p class="caption">plot of chunk unnamed-chunk-57</p>
 </div>
 </div>
@@ -5131,7 +5131,7 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 ## m2 - m3    -0.25   5.12
 ## m2 - m4    -2.39   5.80
 ## m3 - m4    -2.14   2.83</code></pre>
-<p><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-6-2.png" alt="plot of chunk unnamed-chunk-6" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-6-3.png" alt="plot of chunk unnamed-chunk-6" /><img src="/Users/rubenarslan/paternal_age_genealogies/2_krmh_main_models/figure/unnamed-chunk-6-4.png" alt="plot of chunk unnamed-chunk-6" /></p>
+<p><img src="2_krmh_main_models/figure/unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6" /><img src="2_krmh_main_models/figure/unnamed-chunk-6-2.png" alt="plot of chunk unnamed-chunk-6" /><img src="2_krmh_main_models/figure/unnamed-chunk-6-3.png" alt="plot of chunk unnamed-chunk-6" /><img src="2_krmh_main_models/figure/unnamed-chunk-6-4.png" alt="plot of chunk unnamed-chunk-6" /></p>
 <pre><code>##             WAIC     SE
 ## m1      30344.04 288.27
 ## m2      30407.17 292.54
