@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Plausibility Simulations</title>
+
+<script src="library/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
+<script src="library/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="library/datatables-binding-0.2/datatables.js"></script>
+<link href="library/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="library/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="library/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div id="plausibility-simulations" class="section level1 tab-content">
+<h1>Plausibility simulations</h1>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+<span class="kw">library</span>(brms)</code></pre></div>
+</div>
+<div id="quote-from-hayward-et-al-2015" class="section level2">
+<h2>Quote from Hayward et al (2015):</h2>
+<blockquote>
+<p>~4% reduction in fitness per generation in humans when the mean age of male ancestors of a given generation (e.g., father’s age, or mean age of two grandfathers or four great-grandfathers) changes from 30 to 40. The number of new mutations is increased by roughly one-third between father’s ages of 30 and 40 [5,10]. Assuming that their joint effect on fitness is increased similarly (i.e., no epistasis), and that all the observed fitness differences are due to new mutations, a 4% reduction in fitness in progeny of 40-year-old fathers, compared to the 30-year-olds, implies that the per-generation reduction in fitness due to new mutations under relaxed selection, ΔR is ~0.12 when males give birth at 30, and ~0.16 when they give birth at 40. The lower and upper boundaries of the 95% HPDI for the reduction in survival would yield ΔR of ~0.001 and ~0.25, respectively, when males give birth at 30. Are such high values of load associated with new mutations consistent with the available data? While de novo mutations are gradually becoming an acknowledged factor detrimental to fitness in humans, direct data on their population-level effect on fitness is lacking. Their effect on fitness is also hard to predict through their associations with disorders, because such associ- ations may be very diverse. For example, on the basis of the mutation rates in the father’s germ- line [10], the prevalence of diseases due to de novo loss-of-function single-nucleotide mutations in haploinsufficient genes has been estimated as ~100 to 1,000 per 100,000 births [71]. However, the contribution of recessive or non-coding mutations is unclear, as is how these values translate into population-level differences in fitness. ΔR can be also predicted indirectly as ΔR = Uhs, where U is the rate of deleterious mutations in a diploid genome per generation, and hs is the mean selection coefficient against a deleterious heterozygous mutation [72]. Unfortunately, both the fraction of the genome that is func- tional and the distribution of selection coefficients are known only very approximately. Consider first amino acid-changing mutations. The average de novo point mutation rate is 1.2 × 10-8 [10], the human genome carries ~3 × 107 coding sites, and approximately 75% of mutations at these sites change the encoded amino acid; therefore, a diploid genome acquires approximately 2 × 1.2 × 10-8 × 3 × 107 × 0.75 = 0.54 new amino acid-changing mutations per generation. The distribution of their fitness effects can be estimated from the distribution of allele frequencies at polymorphic sites; however, hs is very dependent on the fraction of strongly deleterious mutations, which is hard to estimate because such mutations contribute little to polymorphism [73,74]. For newly arising amino acid-changing mutations, the best-fitting gamma distribution of hs yielded hs = 0.043 (or less under a different choice of demographic model) [75]. More recent analyses using larger datasets, and accounting for complex demographic history, yielded hs = 0.029–0.058 in African Americans, and hs = 0.030 in European Americans. These data suggest that the reduction in fitness due to nonsynonymous mutations alone is ΔRP% 0.016–0.031. Predicting the contribution of non-coding mutations is complicated; assuming that 5% of the human genome is under selection [76,77], U ~= 2 × 1.2 × 10-8 × 3.2 × 109 × 0.05 = 3.84, with higher estimates for the fraction of genome under selection [78] yielding higher values of U. If mutations at functional sites in the entire genome are characterized by the same mean selection coefficients as nonsynonymous mutations at coding sites, these data imply ΔR as high as 0.11–0.22. This value is an overestimate if the mean selection against deleterious non-coding mutations is weaker; however, it doesn’t consider other mutation types such as indels, transposable elements insertions and microsatellite instabilities, which may contribute to fitness loss substantially [79]. Finally, ΔR can be also obtained, with many caveats, by extrapolating from mutation-accumu- lation experiments in model species [74]. This yields ΔR % 0.0013 (on the basis of experiments in nematodes), or ΔR % 0.018 (on the basis of experiments in Drosophila), assuming that the mean selection coefficient against deleterious mutations is the same in humans and in these species [74]. Altogether, our estimate of ΔR % 0.12 is probably too high to be solely explainable by the load of new mutations. For example, an increase in age from 30 to 40 corresponds to an expected increase of ~20 mutations [10]. If 5% of the genome is functional, then this corresponds to ~1 new deleterious mutation; 4% decrease in fitness over the same period yields the mean hs = 0.12 for this mutation, which seems too high. Still, the lower HDPI boundary ΔR % 0.001 would be compatible with the available data even if the effect comes exclusively from mutational sources, as it would imply mean hs = 0.001.</p>
+</blockquote>
+<p>Hayward et al. obtained values for ΔR ranging from 0.016-0.031 for nonsynonymous mutations alone and values of ΔR ranging from 0.11-0.22 for all mutations.</p>
+<p>Let the average paternal age at conception be <code>30</code>, the average number of de novo mutations at this age <code>60</code>, and the rate of increase be <code>2</code> mutations per year of paternal age. We can now estimate the per generation reduction in fitness, in the absence of selection as the change from a hypothetical individual with a paternal age of 0 (a mutation count of 0) and an individual with a paternal age of 30 (60 mutations).</p>
+</div>
+<div id="gratten-et-al-2016" class="section level2">
+<h2>Gratten et al (2016)</h2>
+<p>We have tried to build on Gratten et al. 2016’s model 4, adapting their model for psychiatric disease to infant mortality. We focused on a different parameter space than they, because e.g. the heritability of mortality and fertility is generally lower for fitness traits than for many psychiatric diseases (some of the correlations between number of siblings and number of children in our own data are almost zero, ranging from 0.02-0.10), and infant mortality incidence is of course much higher (in the pre-industrial populations) than the incidence of e.g. autism. Last but not least, we can set selection to 1, because the outcome is infant mortality. The obtained values are consistent with the obtained effects on infant mortality for some realistic regions of parameter space.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">KVals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.30</span>, <span class="fl">0.20</span>, <span class="fl">0.01</span>)            <span class="co"># prevalence</span>
+cFactor &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>)               <span class="co"># proportion of cases due to polygenic variation (distinct from c in models 1 and 2 where it is the proportion of non-genetic cases)</span>
+sVals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>)               <span class="co"># selection is 1, because the outcome is infant mortality</span>
+bVals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.05</span>)                  <span class="co"># penetrance </span>
+
+sim_results =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">prevalence =</span> <span class="kw">numeric</span>(<span class="dv">0</span>), <span class="dt">polygenic_prop =</span> <span class="kw">numeric</span>(<span class="dv">0</span>), <span class="dt">selection =</span> <span class="kw">numeric</span>(<span class="dv">0</span>), <span class="dt">penetrance =</span> <span class="kw">numeric</span>(<span class="dv">0</span>), <span class="dt">prob_lowPA =</span> <span class="kw">numeric</span>(<span class="dv">0</span>), <span class="dt">prob_highPA =</span> <span class="kw">numeric</span>(<span class="dv">0</span>), <span class="dt">pct_chg =</span> <span class="kw">numeric</span>(<span class="dv">0</span>))
+for(i in <span class="dv">1</span>:<span class="kw">length</span>(KVals)){
+    cVals &lt;-<span class="st"> </span>KVals[i]*cFactor
+    for(j in <span class="dv">1</span>:<span class="st"> </span><span class="kw">length</span>(cVals)){
+        for(k in <span class="dv">1</span>:<span class="kw">length</span>(sVals)){
+            for(l in <span class="dv">1</span>:<span class="kw">length</span>(bVals)){
+                    <span class="co"># Mutation component of the model</span>
+                    zm &lt;-<span class="st"> </span><span class="dv">1</span>-cVals[j]/KVals[i]                   <span class="co"># proportion of cases due to de novo mutations (distinct from z in Model 3 which is the normal density of the liability threshold)</span>
+                    qm &lt;-<span class="st"> </span>(KVals[i]*zm*bVals[l]*sVals[k])/<span class="dv">60</span>    <span class="co"># proportion of de novo mutations that contribute to risk (distinct from q in Model 3 which is the proportion of the genome contributing to the polygenic component of liability)</span>
+                    prob_lowPA =<span class="st"> </span><span class="dv">1</span>-KVals[i]
+                    prob_highPA =<span class="st"> </span><span class="dv">1</span>-(KVals[i]+(<span class="dv">60</span>*qm))
+                    pct_change =<span class="st"> </span>prob_highPA -<span class="st"> </span>prob_lowPA
+                    new_row =<span class="st"> </span><span class="kw">nrow</span>(sim_results)+<span class="dv">1</span>
+                    sim_results[new_row, <span class="st">&quot;prevalence&quot;</span>] =<span class="st"> </span>KVals[i]
+                    sim_results[new_row, <span class="st">&quot;polygenic_prop&quot;</span>] =<span class="st"> </span>cFactor[j]
+                    sim_results[new_row, <span class="st">&quot;selection&quot;</span>] =<span class="st"> </span>sVals[k]
+                    sim_results[new_row, <span class="st">&quot;penetrance&quot;</span>] =<span class="st"> </span>bVals[l]
+                    sim_results[new_row, <span class="st">&quot;prob_lowPA&quot;</span>] =<span class="st"> </span>prob_lowPA
+                    sim_results[new_row, <span class="st">&quot;prob_highPA&quot;</span>] =<span class="st"> </span>prob_highPA
+                    sim_results[new_row, <span class="st">&quot;pct_chg&quot;</span>] =<span class="st"> </span><span class="kw">round</span>(pct_change*<span class="dv">100</span>,<span class="dv">2</span>)
+            }
+        }
+    }
+}
+DT::<span class="kw">datatable</span>(sim_results)</code></pre></div>
+<div id="htmlwidget-9031846decd595bf03e5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9031846decd595bf03e5">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36"],[0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01],[0,0,0,0,0.1,0.1,0.1,0.1,0.3,0.3,0.3,0.3,0,0,0,0,0.1,0.1,0.1,0.1,0.3,0.3,0.3,0.3,0,0,0,0,0.1,0.1,0.1,0.1,0.3,0.3,0.3,0.3],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0.5,0.25,0.05,1,0.5,0.25,0.05,1,0.5,0.25,0.05,1,0.5,0.25,0.05,1,0.5,0.25,0.05,1,0.5,0.25,0.05,1,0.5,0.25,0.05,1,0.5,0.25,0.05,1,0.5,0.25,0.05],[0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.7,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99],[0.4,0.55,0.625,0.685,0.43,0.565,0.6325,0.6865,0.49,0.595,0.6475,0.6895,0.6,0.7,0.75,0.79,0.62,0.71,0.755,0.791,0.66,0.73,0.765,0.793,0.98,0.985,0.9875,0.9895,0.981,0.9855,0.98775,0.98955,0.983,0.9865,0.98825,0.98965],[-30,-15,-7.5,-1.5,-27,-13.5,-6.75,-1.35,-21,-10.5,-5.25,-1.05,-20,-10,-5,-1,-18,-9,-4.5,-0.9,-14,-7,-3.5,-0.7,-1,-0.5,-0.25,-0.05,-0.9,-0.45,-0.22,-0.04,-0.7,-0.35,-0.18,-0.03]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>prevalence\u003c/th>\n      <th>polygenic_prop\u003c/th>\n      <th>selection\u003c/th>\n      <th>penetrance\u003c/th>\n      <th>prob_lowPA\u003c/th>\n      <th>prob_highPA\u003c/th>\n      <th>pct_chg\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sim_results, <span class="kw">aes</span>(polygenic_prop, pct_chg)) +<span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> pct_chg), <span class="dt">size =</span> <span class="dv">3</span>) +<span class="st"> </span><span class="kw">facet_grid</span>(prevalence ~<span class="st"> </span>penetrance) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage change in infant mortality from 0 to 60 mutations&quot;</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Calculations of fitness effects of mutations according to&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;penetrance (left-to-right panels), prevalence (top-to-bottom panels)&quot;</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Polygenic proportion&quot;</span>) +<span class="st"> </span><span class="kw">theme_bw</span>(<span class="dt">base_size =</span> <span class="dv">12</span>)</code></pre></div>
+<p><img src="7_plausibility_simulations_files/figure-html/unnamed-chunk-28-2.png" width="1440px" height="900px" /></p>
+</div>
+<div id="our-estimates" class="section level2 tab-content">
+<h2>Our estimates</h2>
+<div id="survival-to-age-1-e1" class="section level3 tab-content">
+<h3>Survival to age 1 (<em>e1</em>)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bind_rows</span>(<span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> </span>
+<span class="kw">readRDS</span>(<span class="st">&quot;coefs/krmh/e1_survive1y.rds&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">effect_of_avg_nr_of_mutations</span>(),
+<span class="st">&quot;Québec&quot;</span> =<span class="st"> </span>
+<span class="kw">readRDS</span>(<span class="st">&quot;coefs/rpqa/e1_survive1y.rds&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">effect_of_avg_nr_of_mutations</span>(),
+<span class="st">&quot;Historical Sweden&quot;</span> =
+<span class="kw">readRDS</span>(<span class="st">&quot;coefs/ddb/e1_survive1y.rds&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">effect_of_avg_nr_of_mutations</span>(),
+<span class="st">&quot;20th-century Sweden&quot;</span> =
+<span class="kw">readRDS</span>(<span class="st">&quot;coefs/swed/e1_survive1y.rds&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">effect_of_avg_nr_of_mutations</span>(),
+<span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">filter</span>(effect %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;percentage change&quot;</span>))</code></pre></div>
+<pre><code>##            Population            effect median_estimate         ci_95
+## 1           Krummhörn percentage change           -3.81  [-6.55;-0.6]
+## 2              Québec percentage change           -2.28 [-3.07;-1.62]
+## 3   Historical Sweden percentage change           -3.02 [-4.53;-2.03]
+## 4 20th-century Sweden percentage change            -0.1 [-0.13;-0.07]
+##           ci_80
+## 1 [-5.58;-1.94]
+## 2 [-2.77;-1.84]
+## 3 [-3.98;-2.32]
+## 4 [-0.12;-0.08]</code></pre>
+</div>
+<div id="reproductive-successnumber-of-children-m3" class="section level3">
+<h3>Reproductive success/number of children (<em>m3</em>)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bind_rows</span>(<span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> </span>
+<span class="kw">readRDS</span>(<span class="st">&quot;coefs/krmh/m3_children_linear.rds&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">effect_of_avg_nr_of_mutations</span>(),
+<span class="st">&quot;Québec&quot;</span> =<span class="st"> </span>
+<span class="kw">readRDS</span>(<span class="st">&quot;coefs/rpqa/m3_children_linear.rds&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">effect_of_avg_nr_of_mutations</span>(),
+<span class="st">&quot;Historical Sweden&quot;</span> =
+<span class="kw">readRDS</span>(<span class="st">&quot;coefs/ddb/m3_children_linear.rds&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">effect_of_avg_nr_of_mutations</span>(),
+<span class="st">&quot;20th-century Sweden&quot;</span> =
+<span class="kw">readRDS</span>(<span class="st">&quot;coefs/swed/m3_children_linear.rds&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">effect_of_avg_nr_of_mutations</span>(),
+<span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">filter</span>(effect %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;percentage change&quot;</span>))</code></pre></div>
+<pre><code>##            Population            effect median_estimate          ci_95
+## 1           Krummhörn percentage change          -16.75 [-45.27;39.14]
+## 2              Québec percentage change           -7.29  [-14.37;1.22]
+## 3   Historical Sweden percentage change          -20.12 [-33.84;-2.99]
+## 4 20th-century Sweden percentage change           -7.79  [-14.11;-1.3]
+##            ci_80
+## 1 [-37.85;13.63]
+## 2 [-12.02;-1.85]
+## 3 [-29.23;-9.66]
+## 4 [-11.97;-3.35]</code></pre>
+</div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

@@ -10,35 +10,54 @@
 
 
 
-<title>Historical Sweden Massage</title>
+<title>Historical Sweden Data Wrangling</title>
 
-<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
-<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -81,37 +100,36 @@ img {
 <div id="description-of-data" class="section level3">
 <h3>description of data</h3>
 <p>This data retrieval is a modification of a previous dataset delivered to Kai Willführ in 2012 with contract number K12019. The basic changes from the previous dataset is that all couples are included in the couples file (previously called parents) while only couples with children were included in the earlier data. There are also more parishes included – 12 parishes in the Linköping region (this region was not included in the 2012 dataset) and a couple of new parishes in the Skellefteå region. The Sundsvall region and Northern inland region cover the same parishes as before.</p>
-<p>There are also a couple of changes in the Popum database at DDB that results in some differences between the two datasets. The Skellefteå region is now completely linked between parishes in the region, meaning that one individual has the same identity in all parishes he or she has been present in. The other regions are however unlinked or not completely linked, which means that there are separate records in each parish of presence. Another difference is that the death codes have now been updated and conforms to the official DDB classification (representing an historical adaptation of ICD10). The presence periods are furthermore better represented in the new version.</p>
+<p>There are also a couple of changes in the Popum database at DDB that results in some differences between the two datasets. The Skellefteå region is now completely linked between parishes in the region, meaning that one individual has the same identity in all parishes he or she has been present in. The other regions are however unlinked or not completely linked, which means that there are separate records in each parish of presence. Another difference is that the death codes have now been updated and conform to the official DDB classification (representing an historical adaptation of ICD10). The presence periods are furthermore better represented in the new version.</p>
 </div>
 <div id="loading-details" class="section level3 accordion">
 <h3>loading details</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(foreign); <span class="kw">library</span>(Hmisc); <span class="kw">library</span>(car); <span class="kw">library</span>(psych); <span class="kw">library</span>(QuantPsyc); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(lubridate); <span class="kw">library</span>(stringr); <span class="kw">library</span>(reshape2); <span class="kw">library</span>(plyr); <span class="kw">library</span>(knitr); <span class="kw">library</span>(formr); <span class="kw">library</span>(data.table)
-opts_chunk$<span class="kw">set</span>(<span class="dt">cache=</span><span class="ot">TRUE</span>,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">12</span>,<span class="dt">fig.height=</span><span class="fl">7.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">cache=</span><span class="ot">TRUE</span>,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">12</span>,<span class="dt">fig.height=</span><span class="fl">7.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
 opts_knit$<span class="kw">set</span>(<span class="dt">self.contained=</span>F)
-<span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)</code></pre>
+<span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)</code></pre></div>
 </div>
 <div id="transforming-data" class="section level2">
 <h2>Transforming data</h2>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.individuals =<span class="st"> </span><span class="kw">read.csv2</span>(<span class="st">&quot;data/DDB Sweden/march2015/Children.csv&quot;</span>,<span class="dt">fileEncoding=</span><span class="st">&quot;latin1&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.individuals =<span class="st"> </span><span class="kw">read.csv2</span>(<span class="st">&quot;data/DDB Sweden/march2015/Children.csv&quot;</span>,<span class="dt">fileEncoding=</span><span class="st">&quot;latin1&quot;</span>)
 ddb.unions =<span class="st"> </span><span class="kw">read.csv2</span>(<span class="st">&quot;data/DDB Sweden/march2015/Couples.csv&quot;</span>,<span class="dt">fileEncoding=</span><span class="st">&quot;latin1&quot;</span>)
 <span class="kw">names</span>(ddb.individuals) =<span class="st"> </span><span class="kw">tolower</span>(<span class="kw">names</span>(ddb.individuals))
 <span class="kw">names</span>(ddb.unions) =<span class="st"> </span><span class="kw">tolower</span>(<span class="kw">names</span>(ddb.unions))
-<span class="kw">length</span>(<span class="kw">intersect</span>(ddb.individuals$idPere, ddb.individuals$idIndividu))</code></pre>
+<span class="kw">length</span>(<span class="kw">intersect</span>(ddb.individuals$idPere, ddb.individuals$idIndividu))</code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">intersect</span>(ddb.individuals$id_m, ddb.individuals$id))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">intersect</span>(ddb.individuals$id_m, ddb.individuals$id))</code></pre></div>
 <pre><code>## [1] 21849</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions =<span class="st"> </span><span class="kw">data.table</span>(ddb.unions)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions =<span class="st"> </span><span class="kw">data.table</span>(ddb.unions)
 ddb.individuals =<span class="st"> </span><span class="kw">data.table</span>(ddb.individuals)
-<span class="kw">table</span>(<span class="kw">duplicated</span>(ddb.individuals$id))</code></pre>
+<span class="kw">table</span>(<span class="kw">duplicated</span>(ddb.individuals$id))</code></pre></div>
 <pre><code>## 
 ##  FALSE   TRUE 
 ## 258515  12744</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.individuals[, idIndividu :<span class="er">=</span><span class="st"> </span><span class="kw">str_c</span>(prefix,<span class="st">&quot;.&quot;</span>,id)]
-<span class="kw">table</span>(<span class="kw">duplicated</span>(ddb.individuals$idIndividu))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.individuals[, idIndividu :<span class="er">=</span><span class="st"> </span><span class="kw">str_c</span>(prefix,<span class="st">&quot;.&quot;</span>,id)]
+<span class="kw">table</span>(<span class="kw">duplicated</span>(ddb.individuals$idIndividu))</code></pre></div>
 <pre><code>## 
 ##  FALSE 
 ## 271259</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.individuals[, idPere :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(id_m), <span class="ot">NA</span>, <span class="kw">str_c</span>(prefix,<span class="st">&quot;.&quot;</span>,id_m))]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.individuals[, idPere :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(id_m), <span class="ot">NA</span>, <span class="kw">str_c</span>(prefix,<span class="st">&quot;.&quot;</span>,id_m))]
 ddb.individuals[, idMere :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(id_f), <span class="ot">NA</span>, <span class="kw">str_c</span>(prefix,<span class="st">&quot;.&quot;</span>,id_f))]
 ddb.unions[, idPere :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(id_m), <span class="ot">NA</span>, <span class="kw">str_c</span>(prefix,<span class="st">&quot;.&quot;</span>,id_m))]
 ddb.unions[, idMere :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(id_f), <span class="ot">NA</span>, <span class="kw">str_c</span>(prefix,<span class="st">&quot;.&quot;</span>,id_f))]
@@ -124,16 +142,17 @@ ddb.unions =<span class="st"> </span>ddb.unions[idMere !=<span class="st"> </spa
 
 ddb.individuals[, idParents :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(idMere) &amp;<span class="st"> </span><span class="kw">is.na</span>(idPere), <span class="ot">NA</span>, <span class="kw">str_c</span>(idMere, <span class="st">&quot;_&quot;</span>, idPere))]
 ddb.unions[, idParents :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(idMere) &amp;<span class="st"> </span><span class="kw">is.na</span>(idPere), <span class="ot">NA</span>, <span class="kw">str_c</span>(idMere, <span class="st">&quot;_&quot;</span>, idPere))]
+ddb.unions =<span class="st"> </span>ddb.unions[!<span class="kw">is.na</span>(idParents), ]
 
                  
 ddb =<span class="st"> </span>ddb.individuals
 ddb[, male :<span class="er">=</span><span class="st"> </span><span class="kw">Recode</span>(gender,<span class="st">&quot;1=1;2=0;0=NA&quot;</span>)]
 
-<span class="kw">library</span>(lubridate)</code></pre>
+<span class="kw">library</span>(lubridate)</code></pre></div>
 </div>
 <div id="do-the-kids" class="section level2">
 <h2>do the kids</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># xx = count(ddb$enddate_s); head(xx[rev(order(xx$freq)),])</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># xx = count(ddb$enddate_s); head(xx[rev(order(xx$freq)),])</span>
 ddb[, birth_date_s :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(birth_date_s %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>, birth_date_s)]
 ddb[, birth_date_c :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(birth_date_c %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>,  birth_date_c)]
 ddb[, death_date_s :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(death_date_s  %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>, death_date_s)]
@@ -147,40 +166,44 @@ ddb[, bdate :<span class="er">=</span><span class="st"> </span><span class="kw">
 ddb[, byear :<span class="er">=</span><span class="st"> </span><span class="kw">year</span>(bdate) ]
 ddb[, ddate :<span class="er">=</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="kw">dmy</span>(<span class="kw">ifelse</span>(!<span class="kw">is.na</span>(death_date_c), death_date_c, death_date_s))) ]
 ddb[, dyear :<span class="er">=</span><span class="st"> </span><span class="kw">year</span>(ddate) ]
-ddb[, startdate :<span class="er">=</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="kw">dmy</span>(<span class="kw">ifelse</span>(!<span class="kw">is.na</span>(startdate_c), startdate_c, startdate_s))) ]
-ddb[, enddate :<span class="er">=</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="kw">dmy</span>(<span class="kw">ifelse</span>(!<span class="kw">is.na</span>(enddate_c), enddate_c, enddate_s))) ]
+ddb[, startdate :<span class="er">=</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="kw">dmy</span>(<span class="kw">ifelse</span>(!<span class="kw">is.na</span>(startdate_c), startdate_c, startdate_s))) ]</code></pre></div>
+<pre><code>## Warning: 358 failed to parse.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb[, enddate :<span class="er">=</span><span class="st"> </span><span class="kw">as.Date</span>(<span class="kw">dmy</span>(<span class="kw">ifelse</span>(!<span class="kw">is.na</span>(enddate_c), enddate_c, enddate_s))) ]
 
 ddb[, age.days :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(ddate -<span class="st"> </span>bdate) ]
 ddb[ age.days &lt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>age.days &gt;<span class="st"> </span>-<span class="dv">365</span>, age.days :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
 ddb[ age.days &lt;<span class="st"> </span><span class="dv">0</span> , age.days :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
 
 ddb[, age.min.days :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(enddate -<span class="st"> </span>startdate) ]
-<span class="kw">qplot</span>(ddb$age.min.days /<span class="st"> </span><span class="dv">365</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-1-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb[ age.min.days &lt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>age.min.days &gt;<span class="st"> </span>-<span class="dv">365</span>, age.min.days :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
+<span class="kw">qplot</span>(ddb$age.min.days /<span class="st"> </span><span class="dv">365</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 19306 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-1-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb[ age.min.days &lt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>age.min.days &gt;<span class="st"> </span>-<span class="dv">365</span>, age.min.days :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
 ddb[ age.min.days &lt;<span class="st"> </span><span class="dv">0</span> , age.min.days :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
-<span class="kw">qplot</span>(ddb$age.min.days/<span class="dv">365</span>,ddb$age.days /<span class="dv">365</span>)</code></pre>
+<span class="kw">qplot</span>(ddb$age.min.days/<span class="dv">365</span>,ddb$age.days /<span class="dv">365</span>)</code></pre></div>
 <pre><code>## Warning: Removed 206308 rows containing missing values (geom_point).</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-1-2.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb[!<span class="kw">is.na</span>(age.days), age.min.days :<span class="er">=</span><span class="st"> </span>age.days ]
-<span class="kw">props</span>(~<span class="st"> </span><span class="kw">is.na</span>(age.days) +<span class="st"> </span><span class="kw">is.na</span>(age.min.days), <span class="dt">data =</span> ddb)</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-1-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb[!<span class="kw">is.na</span>(age.days), age.min.days :<span class="er">=</span><span class="st"> </span>age.days ]
+<span class="kw">props</span>(~<span class="st"> </span><span class="kw">is.na</span>(age.days) +<span class="st"> </span><span class="kw">is.na</span>(age.min.days), <span class="dt">data =</span> ddb)</code></pre></div>
 <pre><code>##                is.na(age.min.days)
-## is.na(age.days) FALSE  TRUE
-##           FALSE 0.289 0.000
-##           TRUE  0.689 0.022</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$age.min =<span class="st"> </span>ddb$age.min.days /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
+## is.na(age.days)   FALSE    TRUE
+##           FALSE 0.28901 0.00000
+##           TRUE  0.68938 0.02161</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$age.min =<span class="st"> </span>ddb$age.min.days /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
 ddb$age =<span class="st"> </span>ddb$age.days /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
-<span class="kw">qplot</span>(ddb$age *<span class="st"> </span><span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-1-3.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb$age.min *<span class="st"> </span><span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-1-4.png" title="" alt="" width="1440px" height="900px" /></p>
+<span class="kw">qplot</span>(ddb$age *<span class="st"> </span><span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 192863 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-1-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb$age.min *<span class="st"> </span><span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 5863 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-1-4.png" width="1440px" height="900px" /></p>
 </div>
 <div id="do-the-mothers" class="section level2">
 <h2>do the mothers</h2>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions[, f_birth_date_s :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(f_birth_date_s %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>, f_birth_date_s)]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions[, f_birth_date_s :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(f_birth_date_s %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>, f_birth_date_s)]
 ddb.unions[, f_birth_date_c :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(f_birth_date_c %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>,  f_birth_date_c)]
 ddb.unions[, f_death_date_s :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(f_death_date_s  %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>, f_death_date_s)]
 ddb.unions[, f_death_date_c :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(f_death_date_c %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>,  f_death_date_c)]
@@ -201,32 +224,35 @@ ddb.unions[ age.days.Mother &lt;<span class="st"> </span><span class="dv">0</spa
 ddb.unions[ age.days.Mother &lt;<span class="st"> </span><span class="dv">0</span> , age.days.Mother :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
 
 ddb.unions[, age.min.days.Mother :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(enddate.Mother -<span class="st"> </span>startdate.Mother) ]
-<span class="kw">qplot</span>(ddb.unions$age.min.days.Mother /<span class="st"> </span><span class="dv">365</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions[ age.min.days.Mother &lt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>age.min.days.Mother &gt;<span class="st"> </span>-<span class="dv">365</span>, age.min.days.Mother :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
+<span class="kw">qplot</span>(ddb.unions$age.min.days.Mother /<span class="st"> </span><span class="dv">365</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 6321 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-2-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions[ age.min.days.Mother &lt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>age.min.days.Mother &gt;<span class="st"> </span>-<span class="dv">365</span>, age.min.days.Mother :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
 ddb.unions[ age.min.days.Mother &lt;<span class="st"> </span><span class="dv">0</span> , age.min.days.Mother :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
-<span class="kw">qplot</span>(ddb.unions$age.min.days.Mother/<span class="dv">365</span>,ddb.unions$age.days.Mother /<span class="dv">365</span>)</code></pre>
-<pre><code>## Warning: Removed 71840 rows containing missing values (geom_point).</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-2-2.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions[!<span class="kw">is.na</span>(age.days.Mother), age.min.days.Mother :<span class="er">=</span><span class="st"> </span>age.days.Mother ]
-<span class="kw">props</span>(~<span class="st"> </span><span class="kw">is.na</span>(age.days.Mother) +<span class="st"> </span><span class="kw">is.na</span>(age.min.days.Mother), <span class="dt">data =</span> ddb.unions)</code></pre>
+<span class="kw">qplot</span>(ddb.unions$age.min.days.Mother/<span class="dv">365</span>,ddb.unions$age.days.Mother /<span class="dv">365</span>)</code></pre></div>
+<pre><code>## Warning: Removed 66554 rows containing missing values (geom_point).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-2-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions[!<span class="kw">is.na</span>(age.days.Mother), age.min.days.Mother :<span class="er">=</span><span class="st"> </span>age.days.Mother ]
+<span class="kw">props</span>(~<span class="st"> </span><span class="kw">is.na</span>(age.days.Mother) +<span class="st"> </span><span class="kw">is.na</span>(age.min.days.Mother), <span class="dt">data =</span> ddb.unions)</code></pre></div>
 <pre><code>##                       is.na(age.min.days.Mother)
-## is.na(age.days.Mother) FALSE  TRUE
-##                  FALSE 0.287 0.000
-##                  TRUE  0.651 0.063</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions$age.min.Mother =<span class="st"> </span>ddb.unions$age.min.days.Mother /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
+## is.na(age.days.Mother)   FALSE    TRUE
+##                  FALSE 0.28845 0.00000
+##                  TRUE  0.64504 0.06651</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions$age.min.Mother =<span class="st"> </span>ddb.unions$age.min.days.Mother /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
 ddb.unions$age.Mother =<span class="st"> </span>ddb.unions$age.days.Mother /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
-<span class="kw">qplot</span>(ddb.unions$age.Mother *<span class="st"> </span><span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-2-3.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb.unions$age.min.Mother *<span class="st"> </span><span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-2-4.png" title="" alt="" width="1440px" height="900px" /></p>
+<span class="kw">qplot</span>(ddb.unions$age.Mother *<span class="st"> </span><span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 66444 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-2-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb.unions$age.min.Mother *<span class="st"> </span><span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 6211 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-2-4.png" width="1440px" height="900px" /></p>
 </div>
 <div id="do-the-fathers" class="section level2">
 <h2>do the fathers</h2>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions[, m_birth_date_s :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(m_birth_date_s %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>, m_birth_date_s)]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions[, m_birth_date_s :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(m_birth_date_s %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>, m_birth_date_s)]
 ddb.unions[, m_birth_date_c :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(m_birth_date_c %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>,  m_birth_date_c)]
 ddb.unions[, m_death_date_s :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(m_death_date_s  %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>, m_death_date_s)]
 ddb.unions[, m_death_date_c :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(m_death_date_c %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;0&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="ot">NA</span>,  m_death_date_c)]
@@ -246,127 +272,135 @@ ddb.unions[ age.days.Father &lt;<span class="st"> </span><span class="dv">0</spa
 ddb.unions[ age.days.Father &lt;<span class="st"> </span><span class="dv">0</span> , age.days.Father :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
 
 ddb.unions[, age.min.days.Father :<span class="er">=</span><span class="st"> </span><span class="kw">as.numeric</span>(enddate.Father -<span class="st"> </span>startdate.Father) ]
-<span class="kw">qplot</span>(ddb.unions$age.min.days.Father /<span class="st"> </span><span class="dv">365</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-3-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions[ age.min.days.Father &lt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>age.min.days.Father &gt;<span class="st"> </span>-<span class="dv">365</span>, age.min.days.Father :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
+<span class="kw">qplot</span>(ddb.unions$age.min.days.Father /<span class="st"> </span><span class="dv">365</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 10721 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-3-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions[ age.min.days.Father &lt;<span class="st"> </span><span class="dv">0</span> &amp;<span class="st"> </span>age.min.days.Father &gt;<span class="st"> </span>-<span class="dv">365</span>, age.min.days.Father :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
 ddb.unions[ age.min.days.Father &lt;<span class="st"> </span><span class="dv">0</span> , age.min.days.Father :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
-<span class="kw">qplot</span>(ddb.unions$age.min.days.Father/<span class="dv">365</span>,ddb.unions$age.days.Father /<span class="dv">365</span>)</code></pre>
-<pre><code>## Warning: Removed 72327 rows containing missing values (geom_point).</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-3-2.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions[!<span class="kw">is.na</span>(age.days.Father), age.min.days.Father :<span class="er">=</span><span class="st"> </span>age.days.Father ]
-<span class="kw">props</span>(~<span class="st"> </span><span class="kw">is.na</span>(age.days.Father) +<span class="st"> </span><span class="kw">is.na</span>(age.min.days.Father), <span class="dt">data =</span> ddb.unions)</code></pre>
+<span class="kw">qplot</span>(ddb.unions$age.min.days.Father/<span class="dv">365</span>,ddb.unions$age.days.Father /<span class="dv">365</span>)</code></pre></div>
+<pre><code>## Warning: Removed 65199 rows containing missing values (geom_point).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-3-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions[!<span class="kw">is.na</span>(age.days.Father), age.min.days.Father :<span class="er">=</span><span class="st"> </span>age.days.Father ]
+<span class="kw">props</span>(~<span class="st"> </span><span class="kw">is.na</span>(age.days.Father) +<span class="st"> </span><span class="kw">is.na</span>(age.min.days.Father), <span class="dt">data =</span> ddb.unions)</code></pre></div>
 <pre><code>##                       is.na(age.min.days.Father)
-## is.na(age.days.Father) FALSE TRUE
-##                  FALSE  0.28 0.00
-##                  TRUE   0.54 0.18</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions$age.min.Father =<span class="st"> </span>ddb.unions$age.min.days.Father /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
+## is.na(age.days.Father)  FALSE   TRUE
+##                  FALSE 0.3030 0.0000
+##                  TRUE  0.5834 0.1136</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions$age.min.Father =<span class="st"> </span>ddb.unions$age.min.days.Father /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
 ddb.unions$age.Father =<span class="st"> </span>ddb.unions$age.days.Father /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
-<span class="kw">qplot</span>(ddb.unions$age.Father *<span class="st"> </span><span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-3-3.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb.unions$age.min.Father *<span class="st"> </span><span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-3-4.png" title="" alt="" width="1440px" height="900px" /></p>
+<span class="kw">qplot</span>(ddb.unions$age.Father *<span class="st"> </span><span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 65086 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-3-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb.unions$age.min.Father *<span class="st"> </span><span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 10610 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-3-4.png" width="1440px" height="900px" /></p>
 </div>
 <div id="unite-unions-and-individuals" class="section level2">
 <h2>unite unions and individuals</h2>
-<pre class="sourceCode r"><code class="sourceCode r">parents =<span class="st"> </span>ddb.unions[, <span class="kw">list</span>(idParents, bdate.Father, byear.Father, ddate.Father, dyear.Father, startdate.Father, enddate.Father, bdate.Mother, byear.Mother, ddate.Mother, dyear.Mother, startdate.Mother, enddate.Mother, age.Mother, age.Father, age.min.Mother, age.min.Father)]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parents =<span class="st"> </span>ddb.unions[!<span class="kw">is.na</span>(idParents), <span class="kw">list</span>(idParents, bdate.Father, byear.Father, ddate.Father, dyear.Father, startdate.Father, enddate.Father, bdate.Mother, byear.Mother, ddate.Mother, dyear.Mother, startdate.Mother, enddate.Mother, age.Mother, age.Father, age.min.Mother, age.min.Father)]
 
 ddb =<span class="st"> </span><span class="kw">merge</span>(ddb, parents, <span class="dt">by =</span> <span class="st">&quot;idParents&quot;</span>, <span class="dt">all.x =</span> T, <span class="dt">suffixes =</span> <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,<span class="st">&quot;.mieux&quot;</span>))
 
 ddb$paternalage =<span class="st"> </span><span class="kw">as.numeric</span>(ddb$bdate -<span class="st"> </span>ddb$bdate.Father)/<span class="dv">365</span>/<span class="dv">10</span>
 ddb[paternalage &lt;=<span class="st"> </span><span class="dv">1</span> |<span class="st"> </span>paternalage &gt;<span class="st"> </span><span class="dv">9</span>, paternalage :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span>]
-<span class="kw">qplot</span>(ddb$paternalage *<span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-4-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">sort</span>(ddb$paternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre>
-<pre><code>##  [1] 10 10 11 11 11 11 11 11 12 12 12 12 12 12 12 12 12 12 12 12</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(<span class="kw">sort</span>(ddb$paternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre>
-<pre><code>##  [1] 77 77 77 78 78 78 79 79 79 79 80 80 81 82 82 82 82 82 87 89</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$maternalage =<span class="st"> </span><span class="kw">as.numeric</span>(ddb$bdate -<span class="st"> </span>ddb$bdate.Mother)/<span class="dv">365</span>/<span class="dv">10</span>
-<span class="kw">qplot</span>(ddb$maternalage *<span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-4-2.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ddb$age.Mother &lt;<span class="st"> </span>(ddb$maternalage -<span class="st"> </span><span class="fl">0.1</span>)) <span class="co"># zombie moms</span></code></pre>
+<span class="kw">qplot</span>(ddb$paternalage *<span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 11200 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-4-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">sort</span>(ddb$paternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre></div>
+<pre><code>##  [1] 10.10 10.48 10.55 11.05 11.08 11.14 11.17 11.30 11.60 11.62 11.62
+## [12] 11.77 11.82 12.15 12.19 12.21 12.27 12.36 12.43 12.44</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(<span class="kw">sort</span>(ddb$paternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre></div>
+<pre><code>##  [1] 77.23 77.25 77.39 77.82 77.88 78.21 78.94 78.96 79.05 79.05 79.79
+## [12] 80.05 80.92 81.51 81.52 82.06 82.13 82.47 86.59 88.91</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$maternalage =<span class="st"> </span><span class="kw">as.numeric</span>(ddb$bdate -<span class="st"> </span>ddb$bdate.Mother)/<span class="dv">365</span>/<span class="dv">10</span>
+<span class="kw">qplot</span>(ddb$maternalage *<span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 11136 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-4-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ddb$age.Mother &lt;<span class="st"> </span>(ddb$maternalage -<span class="st"> </span><span class="fl">0.1</span>)) <span class="co"># zombie moms</span></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
-## 90698    44</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ddb$age.Father &lt;<span class="st"> </span>(ddb$paternalage -<span class="st"> </span><span class="fl">0.1</span>)) <span class="co"># zombie dads</span></code></pre>
+## 88176    43</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ddb$age.Father &lt;<span class="st"> </span>(ddb$paternalage -<span class="st"> </span><span class="fl">0.1</span>)) <span class="co"># zombie dads</span></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
 ## 94819    86</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># remove zombies!</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># remove zombies!</span>
 ddb =<span class="st"> </span>ddb[<span class="kw">is.na</span>(maternalage) |<span class="st"> </span><span class="kw">is.na</span>(age.Mother) |<span class="st"> </span>age.Mother &gt;=<span class="st"> </span>(maternalage -<span class="st"> </span><span class="fl">0.1</span>) , ]
 ddb =<span class="st"> </span>ddb[<span class="kw">is.na</span>(paternalage) |<span class="st"> </span><span class="kw">is.na</span>(age.Father) |<span class="st"> </span>age.Father &gt;=<span class="st"> </span>(paternalage -<span class="st"> </span><span class="fl">0.1</span>) , ]
 
-<span class="kw">head</span>(<span class="kw">sort</span>(ddb$maternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre>
-<pre><code>##  [1] -40.20 -25.02 -23.02  -5.75  -3.26  -2.05  -2.00  -1.76  -0.77   1.26
-## [11]   4.49   4.97   5.45   5.50   5.90   5.96   6.19   6.70   7.13   7.17</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(<span class="kw">sort</span>(ddb$maternalage *<span class="dv">10</span>),<span class="dv">40</span>) <span class="co"># but 69y old. something wrong with that.</span></code></pre>
-<pre><code>##  [1] 56 56 56 56 56 56 56 57 57 57 57 58 58 58 58 59 59 59 59 59 59 60 60
-## [24] 60 60 61 61 61 62 62 62 62 63 63 63 64 64 65 67 68</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb[maternalage &lt;<span class="st"> </span><span class="fl">1.0</span> |<span class="st"> </span>maternalage &gt;=<span class="st"> </span><span class="dv">6</span>, maternalage :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span> ]
-<span class="kw">qplot</span>(maternalage*<span class="dv">10</span>,paternalage*<span class="dv">10</span>,<span class="dt">data=</span>ddb,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.1</span>),<span class="dt">shape=</span><span class="kw">I</span>(<span class="st">&quot;.&quot;</span>)) +<span class="st"> </span><span class="kw">xlim</span>(<span class="dv">12</span>,<span class="dv">50</span>) +<span class="st"> </span><span class="kw">geom_smooth</span>()</code></pre>
-<pre><code>## geom_smooth: method=&quot;auto&quot; and size of largest group is &gt;=1000, so using gam with formula: y ~ s(x, bs = &quot;cs&quot;). Use &#39;method = x&#39; to change the smoothing method.</code></pre>
-<pre><code>## Warning: Removed 11954 rows containing missing values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 11954 rows containing missing values (geom_point).</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-4-3.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(ddb$maternalage,ddb$paternalage)</code></pre>
+<span class="kw">head</span>(<span class="kw">sort</span>(ddb$maternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre></div>
+<pre><code>##  [1] -40.200 -25.016 -23.016  -5.748  -2.003  -1.762   1.260   4.493
+##  [9]   4.973   5.499   5.899   5.959   6.195   6.701   7.126   7.170
+## [17]   7.290   7.630   7.805   7.874</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(<span class="kw">sort</span>(ddb$maternalage *<span class="dv">10</span>),<span class="dv">40</span>) <span class="co"># but 69y old. something wrong with that.</span></code></pre></div>
+<pre><code>##  [1] 53.92 54.04 54.48 54.49 54.56 54.59 54.77 54.83 55.04 55.04 55.30
+## [12] 55.34 55.66 55.82 55.87 56.06 56.14 57.20 58.00 58.04 58.21 58.97
+## [23] 59.04 59.44 59.45 59.89 60.27 60.95 60.95 61.04 62.18 62.27 62.27
+## [34] 63.07 63.30 64.02 64.04 65.18 67.31 67.62</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb[maternalage &lt;<span class="st"> </span><span class="fl">1.0</span> |<span class="st"> </span>maternalage &gt;=<span class="st"> </span><span class="dv">6</span>, maternalage :<span class="er">=</span><span class="st"> </span><span class="ot">NA</span> ]
+<span class="kw">qplot</span>(maternalage*<span class="dv">10</span>,paternalage*<span class="dv">10</span>,<span class="dt">data=</span>ddb,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.1</span>),<span class="dt">shape=</span><span class="kw">I</span>(<span class="st">&quot;.&quot;</span>)) +<span class="st"> </span><span class="kw">xlim</span>(<span class="dv">12</span>,<span class="dv">50</span>) +<span class="st"> </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<pre><code>## Warning: Removed 11955 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 11955 rows containing missing values (geom_point).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-4-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(ddb$maternalage,ddb$paternalage)</code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  ddb$maternalage and ddb$paternalage
-## t = 387, df = 259337, p-value &lt; 2.2e-16
+## t = 390, df = 260000, p-value &lt;2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.60 0.61
+##  0.6028 0.6077
 ## sample estimates:
-##  cor 
-## 0.61</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xtabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(idMere) +<span class="st"> </span><span class="kw">is.na</span>(idPere), <span class="dt">data =</span> ddb)</code></pre>
+##    cor 
+## 0.6053</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xtabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(idMere) +<span class="st"> </span><span class="kw">is.na</span>(idPere), <span class="dt">data =</span> ddb)</code></pre></div>
 <pre><code>##              is.na(idPere)
 ## is.na(idMere)  FALSE   TRUE
-##         FALSE 261198   9931</code></pre>
+##         FALSE 261198   9932</code></pre>
 </div>
 <div id="count-kids-and-spouses" class="section level2">
 <h2>count kids and spouses</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tail(ddb.unions) # already sorted by date</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tail(ddb.unions) # already sorted by date</span>
 
 ddb.unions =<span class="st"> </span>ddb.unions[<span class="kw">order</span>(ddb.unions$idPere,ddb.unions$marr_date_s),]
 ddb.unions$marriage.order.Father =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb.unions)), ddb.unions$idPere, <span class="dt">FUN =</span> seq_along)
 ddb.unions =<span class="st"> </span>ddb.unions[<span class="kw">order</span>(ddb.unions$idMere,ddb.unions$marr_date_s),]
-ddb.unions$marriage.order.Mother =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb.unions)), ddb.unions$idMere, <span class="dt">FUN =</span> seq_along)
-
-ddb =<span class="st"> </span><span class="kw">merge</span>(ddb, ddb.unions[,<span class="kw">list</span>(idParents,marriage.order.Mother,marriage.order.Father),],<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T)
-
-ddb$first.marriage =<span class="st"> </span>(ddb$marriage.order.Mother +<span class="st"> </span>ddb$marriage.order.Father) ==<span class="st"> </span><span class="dv">2</span>
-<span class="kw">table</span>(ddb$first.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+ddb.unions$marriage.order.Mother =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb.unions)), ddb.unions$idMere, <span class="dt">FUN =</span> seq_along)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span><span class="kw">merge</span>(ddb, ddb.unions[!<span class="kw">is.na</span>(idParents),<span class="kw">list</span>(idParents,marriage.order.Mother,marriage.order.Father),],<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$first.marriage =<span class="st"> </span>(ddb$marriage.order.Mother +<span class="st"> </span>ddb$marriage.order.Father) ==<span class="st"> </span><span class="dv">2</span>
+<span class="kw">table</span>(ddb$first.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
 ##  FALSE   TRUE   &lt;NA&gt; 
-##  31521 229677   9931</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">count_spouses =<span class="st"> </span>function(df, df2, what,  wt_var) {
+##  17668 243530   9932</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">count_spouses =<span class="st"> </span>function(df, df2, what,  wt_var) {
     df =<span class="st"> </span><span class="kw">data.frame</span>(df)
     df2 =<span class="st"> </span><span class="kw">data.frame</span>(df2)
     counted.husband =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> df2[,<span class="kw">c</span>(<span class="st">&#39;idPere&#39;</span>,wt_var)],<span class="dt">formula =</span> idPere ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> wt_var)
     counted.wive =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> df2[,<span class="kw">c</span>(<span class="st">&#39;idMere&#39;</span>,wt_var)],<span class="dt">formula =</span> idMere ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> wt_var)
     <span class="kw">names</span>(counted.husband) =<span class="st"> </span><span class="kw">names</span>(counted.wive) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idIndividu&#39;</span>,what)
     counted =<span class="st"> </span><span class="kw">rbind</span>(counted.husband,counted.wive)
+    counted =<span class="st"> </span>counted[!<span class="kw">is.na</span>(counted$idIndividu), ]
     df =<span class="st"> </span><span class="kw">merge</span>(df,counted,<span class="dt">by=</span><span class="st">&#39;idIndividu&#39;</span>,<span class="dt">all.x=</span>T)
     df[,what] =<span class="st"> </span><span class="kw">Recode</span>(df[,what],<span class="st">&#39;NA=0&#39;</span>)
     <span class="kw">data.table</span>(df)
 }
 ddb$born =<span class="st"> </span><span class="dv">1</span>; ddb.unions$born =<span class="st"> </span><span class="dv">1</span>
-ddb =<span class="st"> </span><span class="kw">count_spouses</span>(ddb,ddb.unions, <span class="st">&#39;spouses&#39;</span>, <span class="st">&quot;born&quot;</span>)
-
-ddb$survive1d =<span class="st"> </span><span class="kw">ifelse</span>(ddb$age.min.days &gt;<span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)
-<span class="kw">crosstabs</span>(<span class="dt">data=</span>ddb, ~<span class="st"> </span>survive1d +<span class="st"> </span>stillborn)</code></pre>
+ddb =<span class="st"> </span><span class="kw">count_spouses</span>(ddb,ddb.unions, <span class="st">&#39;spouses&#39;</span>, <span class="st">&quot;born&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$survive1d =<span class="st"> </span><span class="kw">ifelse</span>(ddb$age.min.days &gt;<span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+<span class="kw">crosstabs</span>(<span class="dt">data=</span>ddb, ~<span class="st"> </span>survive1d +<span class="st"> </span>stillborn)</code></pre></div>
 <pre><code>##          stillborn
 ## survive1d      0      1
-##      0      2364   5067
+##      0      2364   5068
 ##      1    257843      0
 ##      &lt;NA&gt;   5855      0</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$survive1m =<span class="st"> </span><span class="kw">ifelse</span>(ddb$age.min.days &gt;<span class="st"> </span><span class="dv">28</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$survive1m =<span class="st"> </span><span class="kw">ifelse</span>(ddb$age.min.days &gt;<span class="st"> </span><span class="dv">28</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 ddb$dead1m =<span class="st"> </span><span class="kw">ifelse</span>(ddb$age.min.days &gt;<span class="st"> </span><span class="dv">28</span>, <span class="dv">0</span>, <span class="dv">1</span>)
 ddb$dead1y =<span class="st"> </span><span class="kw">ifelse</span>(ddb$age.min &gt;<span class="st"> </span><span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">1</span>)
 ddb$dead5y =<span class="st"> </span><span class="kw">ifelse</span>(ddb$age.min &gt;<span class="st"> </span><span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">1</span>)
@@ -375,24 +409,25 @@ ddb[, survive1y :<span class="er">=</span><span class="st"> </span><span class="
 ddb[, survive5y :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(age.min &gt;<span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="kw">ifelse</span>(age &gt;<span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>))]
 ddb[, surviveR :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(age.min &gt;<span class="st"> </span><span class="fl">1.5</span>, <span class="dv">1</span>, <span class="kw">ifelse</span>(age &gt;<span class="st"> </span><span class="fl">1.5</span>, <span class="dv">1</span>, <span class="dv">0</span>))]
 
-<span class="kw">table</span>(ddb$survive1m,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<span class="kw">table</span>(ddb$survive1m,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
 ##      0      1   &lt;NA&gt; 
-##  14821 250453   5855</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;children&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&quot;born&quot;</span>)
+##  14822 250453   5855</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;children&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&quot;born&quot;</span>)
 ddb[<span class="kw">is.na</span>(survive1d), survive1d :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(spouses &gt;<span class="st"> </span><span class="dv">0</span> |<span class="st"> </span>children &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="ot">NA</span>)]
 ddb[<span class="kw">is.na</span>(survive1y), survive1y :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(spouses &gt;<span class="st"> </span><span class="dv">0</span> |<span class="st"> </span>children &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="ot">NA</span>)]
 ddb[<span class="kw">is.na</span>(survive5y), survive5y :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(spouses &gt;<span class="st"> </span><span class="dv">0</span> |<span class="st"> </span>children &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="ot">NA</span>)]
 ddb[<span class="kw">is.na</span>(surviveR), surviveR :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(spouses &gt;<span class="st"> </span><span class="dv">0</span> |<span class="st"> </span>children &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="ot">NA</span>)]
 
-<span class="kw">qplot</span>(ddb$children,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-5-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$children.per.spouse =<span class="st"> </span>ddb$children/ddb$spouses
+<span class="kw">qplot</span>(ddb$children,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-8-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$children.per.spouse =<span class="st"> </span>ddb$children/ddb$spouses
 ddb$children.per.spouse[<span class="kw">which</span>(ddb$spouses==<span class="dv">0</span>)] =<span class="st"> </span><span class="ot">NA</span>
-<span class="kw">qplot</span>(ddb$children.per.spouse)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-5-2.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;children.stillborn&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;stillborn&#39;</span>)
+<span class="kw">qplot</span>(ddb$children.per.spouse)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 220804 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-8-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;children.stillborn&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;stillborn&#39;</span>)
 ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;children.surviving1d&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive1d&#39;</span>)
 ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;children.surviving1m&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive1m&#39;</span>)
 ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;children.surviving1y&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;survive1y&#39;</span>)
@@ -414,12 +449,12 @@ ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span
 ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;grandchildren.survivingR&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.survivingR&#39;</span>)
 ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span class="st">&#39;grandchildren.dead1m&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.dead1m&#39;</span>)
 
-<span class="kw">xtabs</span>(~<span class="st"> </span>(grandchildren&gt;<span class="dv">0</span>) +(children&gt;<span class="dv">0</span>) +<span class="st"> </span>(spouses&gt;<span class="dv">0</span>) +<span class="st"> </span>surviveR,<span class="dt">data=</span>ddb,<span class="dt">exclude=</span><span class="ot">NULL</span>, <span class="dt">na.action=</span> na.pass)</code></pre>
+<span class="kw">xtabs</span>(~<span class="st"> </span>(grandchildren&gt;<span class="dv">0</span>) +(children&gt;<span class="dv">0</span>) +<span class="st"> </span>(spouses&gt;<span class="dv">0</span>) +<span class="st"> </span>surviveR,<span class="dt">data=</span>ddb,<span class="dt">exclude=</span><span class="ot">NULL</span>, <span class="dt">na.action=</span> na.pass)</code></pre></div>
 <pre><code>## , , spouses &gt; 0 = FALSE, surviveR = 0
 ## 
 ##                  children &gt; 0
 ## grandchildren &gt; 0  FALSE   TRUE
-##             FALSE  57199      0
+##             FALSE  57200      0
 ##             TRUE       0      0
 ## 
 ## , , spouses &gt; 0 = TRUE, surviveR = 0
@@ -433,15 +468,15 @@ ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span
 ## 
 ##                  children &gt; 0
 ## grandchildren &gt; 0  FALSE   TRUE
-##             FALSE  55283      0
-##             TRUE       0      0
+##             FALSE  55283    659
+##             TRUE       0     64
 ## 
 ## , , spouses &gt; 0 = TRUE, surviveR = 1
 ## 
 ##                  children &gt; 0
 ## grandchildren &gt; 0  FALSE   TRUE
-##             FALSE   9224  28416
-##             TRUE       0  13408
+##             FALSE   9224  27757
+##             TRUE       0  13344
 ## 
 ## , , spouses &gt; 0 = FALSE, surviveR = NA
 ## 
@@ -456,17 +491,17 @@ ddb =<span class="st"> </span><span class="kw">count_and_merge</span>(ddb, <span
 ## grandchildren &gt; 0  FALSE   TRUE
 ##             FALSE      0      0
 ##             TRUE       0      0</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">counted.parents =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> ddb[,<span class="kw">list</span>(idParents,born)],<span class="dt">formula =</span> idParents ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> <span class="st">&quot;born&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">counted.parents =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> ddb[,<span class="kw">list</span>(idParents,born)],<span class="dt">formula =</span> idParents ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> <span class="st">&quot;born&quot;</span>)
 <span class="kw">names</span>(counted.parents) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idParents&#39;</span>,<span class="st">&quot;children&quot;</span>)
 ddb.unions =<span class="st"> </span><span class="kw">merge</span>(ddb.unions, counted.parents,<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T) <span class="co"># find childless marriages</span>
 
-<span class="kw">table</span>(ddb.unions$children,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<span class="kw">table</span>(ddb.unions$children,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
 ##     1     2     3     4     5     6     7     8     9    10    11    12 
-## 19498 13372 10611  8528  6685  5189  3927  2946  1929  1170   620   315 
+## 14088 12280 10235  8401  6614  5163  3910  2940  1928  1170   619   315 
 ##    13    14    15    16    17    18    19    21  &lt;NA&gt; 
-##   138    65    37    14     6     1     2     1 25453</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.unions =<span class="st"> </span>ddb.unions[children &gt;<span class="st"> </span><span class="dv">0</span>, ]
+##   138    65    37    14     6     1     2     1 25452</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb.unions =<span class="st"> </span>ddb.unions[children &gt;<span class="st"> </span><span class="dv">0</span>, ]
 ddb.unions =<span class="st"> </span>ddb.unions[<span class="kw">order</span>(id_m,marr_date_s),]
 ddb.unions$fertile.marriage.order.Father =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb.unions)), ddb.unions$id_m, <span class="dt">FUN =</span> seq_along)
 ddb.unions =<span class="st"> </span>ddb.unions[<span class="kw">order</span>(id_f,marr_date_s),]
@@ -474,27 +509,27 @@ ddb.unions$fertile.marriage.order.Mother =<span class="st"> </span><span class="
 
 ddb =<span class="st"> </span><span class="kw">merge</span>(ddb, ddb.unions[,<span class="kw">list</span>(idParents,fertile.marriage.order.Mother,fertile.marriage.order.Father),],<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T)
 ddb$first.fertile.marriage =<span class="st"> </span>(ddb$fertile.marriage.order.Mother +<span class="st"> </span>ddb$fertile.marriage.order.Father) ==<span class="st"> </span><span class="dv">2</span>
-<span class="kw">table</span>(ddb$first.fertile.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<span class="kw">table</span>(ddb$first.fertile.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
 ##  FALSE   TRUE   &lt;NA&gt; 
-##  48423 212775   9931</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb[spouses&gt;<span class="dv">0</span>,]$children, <span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-5-3.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb$grandchildren)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-5-4.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb[children&gt;<span class="dv">0</span>,]$grandchildren )</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-5-5.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb[children &gt;<span class="st"> </span><span class="dv">0</span>, ]$children.surviving1m)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-5-6.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb$spouses)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-5-7.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(children,children.surviving1m, <span class="dt">data=</span>ddb,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.02</span>))</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-5-8.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb %&gt;%<span class="st"> </span><span class="kw">group_by</span>(region) %&gt;%<span class="st"> </span>
+##  33755 227443   9932</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb[spouses&gt;<span class="dv">0</span>,]$children, <span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-8-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb$grandchildren)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-8-4.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb[children&gt;<span class="dv">0</span>,]$grandchildren )</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-8-5.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb[children &gt;<span class="st"> </span><span class="dv">0</span>, ]$children.surviving1m)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-8-6.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb$spouses)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-8-7.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(children,children.surviving1m, <span class="dt">data=</span>ddb,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.02</span>))</code></pre></div>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-8-8.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb %&gt;%<span class="st"> </span><span class="kw">group_by</span>(region) %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">summarise</span>(
         <span class="dt">surviveR_min =</span> <span class="kw">mean</span>(surviveR,<span class="dt">na.rm=</span>T),
 <span class="co">#       min_N = sum(!is.na(age.min)), </span>
@@ -509,62 +544,72 @@ ddb$first.fertile.marriage =<span class="st"> </span>(ddb$fertile.marriage.order
         <span class="dt">nm_prop_surviveR_m =</span> <span class="kw">sum</span>(age.min &gt;<span class="st"> </span><span class="fl">1.5</span>,<span class="dt">na.rm=</span>T)/<span class="kw">sum</span>(endtype!=<span class="dv">3</span> &amp;<span class="st"> </span>!<span class="kw">is.na</span>(age.min)),
         <span class="co"># nm_prop_staid = sum(endtype==1)/sum(endtype!=3),</span>
         <span class="dt">nm_prop_dead =</span> <span class="kw">sum</span>(endtype==<span class="dv">2</span>)/<span class="kw">sum</span>(endtype!=<span class="dv">3</span>)
-        )</code></pre>
+        )</code></pre></div>
 <pre><code>## Source: local data table [4 x 8]
 ## 
+## # tbl_dt [4 × 8]
 ##                  region surviveR_min surviveR prop_dead prop_migrated
-## 1    Sundsvallsregionen         0.61     0.20      0.21          0.33
-## 2    Linköpingsregionen         0.64     0.22      0.20          0.59
-## 3    Skellefteåregionen         0.72     0.34      0.25          0.15
-## 4 Norra inlandsregionen         0.65     0.34      0.29          0.13
-## Variables not shown: nm_prop_surviveR (dbl), nm_prop_surviveR_m (dbl),
-##   nm_prop_dead (dbl)</code></pre>
+##                   &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+## 1    Sundsvallsregionen       0.6063   0.2016    0.2136        0.3255
+## 2    Linköpingsregionen       0.6404   0.2223    0.1993        0.5896
+## 3    Skellefteåregionen       0.7165   0.3393    0.2529        0.1549
+## 4 Norra inlandsregionen       0.6487   0.3393    0.2888        0.1299
+## # ... with 3 more variables: nm_prop_surviveR &lt;dbl&gt;,
+## #   nm_prop_surviveR_m &lt;dbl&gt;, nm_prop_dead &lt;dbl&gt;</code></pre>
 </div>
 <div id="pre-calculate-some-predictors" class="section level2">
 <h2>pre-calculate some predictors</h2>
-<pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span>ddb[<span class="kw">order</span>(ddb$idPere,ddb$bdate), ]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span>ddb[<span class="kw">order</span>(ddb$idParents,ddb$bdate,ddb$parity_b_migr), ]
 ddb &lt;-<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">siblings =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb)), ddb$idParents, <span class="dt">FUN =</span> length)-<span class="dv">1</span>) <span class="co"># sibling count</span>
-ddb &lt;-<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">birthorder =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb)), ddb$idPere, <span class="dt">FUN =</span> seq_along)) <span class="co"># old trick to get birth order, don&#39;t know what this does to those with missings for father though</span>
-ddb$birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(ddb$birthorder,ddb$idPere,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
+ddb &lt;-<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">birthorder =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb)), ddb$idParents, <span class="dt">FUN =</span> seq_along)) <span class="co"># get birth order</span>
+<span class="kw">xtabs</span>(~<span class="st"> </span>parity_b_migr !=<span class="st"> </span>birthorder, <span class="dt">data =</span> ddb)</code></pre></div>
+<pre><code>## parity_b_migr != birthorder
+##  FALSE   TRUE 
+## 203636  27938</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(ddb$birthorder,ddb$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
 ddb$birthorder.diff =<span class="st"> </span>ddb$birthorder -<span class="st"> </span>ddb$birthorder.mean
-<span class="kw">qplot</span>(ddb$birthorder)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$age.years =<span class="st"> </span>ddb$dyear-<span class="st"> </span>ddb$byear
+<span class="kw">qplot</span>(ddb$birthorder)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 9932 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$age.years =<span class="st"> </span>ddb$dyear-<span class="st"> </span>ddb$byear
 
 ddb =<span class="st"> </span>ddb[<span class="kw">order</span>(ddb$idPere,ddb$birthorder), ]
 
 ddb &lt;-<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">min15.birthorder =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span>function(x) { x[<span class="kw">is.na</span>(x)] =<span class="st"> </span><span class="dv">0</span>
 <span class="kw">cumsum</span>(x)
 } ))
-<span class="kw">xtabs</span>(<span class="dt">data=</span>ddb, ~<span class="kw">is.na</span>(birthorder) +<span class="st"> </span><span class="kw">is.na</span>(min15.birthorder))</code></pre>
+<span class="kw">xtabs</span>(<span class="dt">data=</span>ddb, ~<span class="kw">is.na</span>(birthorder) +<span class="st"> </span><span class="kw">is.na</span>(min15.birthorder))</code></pre></div>
 <pre><code>##                  is.na(min15.birthorder)
 ## is.na(birthorder)  FALSE   TRUE
 ##             FALSE 261198      0
-##             TRUE    5609   4322</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(ddb$min15.birthorder)</code></pre>
+##             TRUE    5610   4322</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(ddb$min15.birthorder)</code></pre></div>
 <pre><code>## ddb$min15.birthorder
 ##      0      1      2      3      4      5      6      7      8      9 
-## 105853  55951  36602  25423  17537  11148   6844   3830   1992    927 
+## 105985  56184  36500  25319  17492  11071   6806   3806   1997    929 
 ##     10     11     12     13     14     15     16     17     18   &lt;NA&gt; 
-##    386    161     82     38     20      7      4      1      1   4322</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$min15.birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(ddb$min15.birthorder,ddb$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
+##    406    165     83     36     16      7      4      1      1   4322</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$min15.birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(ddb$min15.birthorder,ddb$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
 ddb$min15.birthorder.diff =<span class="st"> </span>ddb$min15.birthorder -<span class="st"> </span>ddb$min15.birthorder.mean
 
 ddb$nr.siblings =<span class="st"> </span><span class="kw">ave</span>(ddb$born,ddb$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } ) -<span class="dv">1</span> <span class="co"># dont count self</span>
-<span class="kw">qplot</span>(ddb$nr.siblings,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-2.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$nr.dead.siblings1m =<span class="st"> </span><span class="kw">ave</span>(ddb$dead1m,ddb$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } )  -<span class="st"> </span>ddb$dead1m
-<span class="kw">qplot</span>(ddb$nr.dead.siblings1m,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-3.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$infant.death.cluster =<span class="st"> </span>ddb$nr.dead.siblings1m/ddb$nr.siblings <span class="co"># dont count self</span>
-<span class="kw">qplot</span>(ddb$infant.death.cluster)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-4.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb[<span class="kw">which</span>(ddb$nr.siblings&gt;<span class="dv">1</span>),]$infant.death.cluster)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-5.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">lag<span class="fl">.0</span> =<span class="st"> </span>function(x) {   
+<span class="kw">qplot</span>(ddb$nr.siblings,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$nr.dead.siblings1m =<span class="st"> </span><span class="kw">ave</span>(ddb$dead1m,ddb$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } )  -<span class="st"> </span>ddb$dead1m
+<span class="kw">qplot</span>(ddb$nr.dead.siblings1m,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre></div>
+<pre><code>## Warning: Removed 5855 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$infant.death.cluster =<span class="st"> </span>ddb$nr.dead.siblings1m/ddb$nr.siblings <span class="co"># dont count self</span>
+<span class="kw">qplot</span>(ddb$infant.death.cluster)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 28667 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-4.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(ddb[<span class="kw">which</span>(ddb$nr.siblings&gt;<span class="dv">1</span>),]$infant.death.cluster)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 3710 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/add.some.indicators-5.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lag<span class="fl">.0</span> =<span class="st"> </span>function(x) {   
     if(<span class="kw">length</span>(x)==<span class="dv">1</span>) <span class="dv">0</span>
     else <span class="kw">c</span>(<span class="dv">0</span>,x[ <span class="dv">1</span>:(<span class="kw">length</span>(x)-<span class="dv">1</span>)]) 
 }
@@ -572,34 +617,86 @@ inv.lag<span class="fl">.0</span> =<span class="st"> </span>function(x) {
     if(<span class="kw">length</span>(x)==<span class="dv">1</span>) <span class="dv">0</span>
     else <span class="kw">c</span>(x[ <span class="dv">2</span>:<span class="kw">length</span>(x)],<span class="dv">0</span>) 
 }
-ddb =<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">older.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span> lag<span class="fl">.0</span>))
-ddb =<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">younger.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span> inv.lag<span class="fl">.0</span>))</code></pre>
+ddb =<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">older.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idParents, <span class="dt">FUN =</span> lag<span class="fl">.0</span>))
+ddb =<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">younger.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idParents, <span class="dt">FUN =</span> inv.lag<span class="fl">.0</span>))</code></pre></div>
 </div>
 <div id="get-grandparents" class="section level2">
 <h2>Get grandparents</h2>
-<pre class="sourceCode r"><code class="sourceCode r">grandparents =<span class="st"> </span>ddb[, <span class="kw">list</span>(idIndividu,idPere,idMere, paternalage, maternalage)]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">grandparents =<span class="st"> </span>ddb[, <span class="kw">list</span>(idIndividu,idPere,idMere, paternalage, maternalage)]
 <span class="kw">names</span>(grandparents) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idMere&#39;</span>, <span class="st">&#39;idMaternalGrandfather&#39;</span>, <span class="st">&#39;idMaternalGrandmother&#39;</span>, <span class="st">&#39;maternal.grandpaternalage&#39;</span>,  <span class="st">&#39;maternal.grandmaternalage&#39;</span>)
 ddb =<span class="st"> </span><span class="kw">merge</span>(ddb, grandparents, <span class="dt">by =</span> <span class="st">&quot;idMere&quot;</span>, <span class="dt">all.x =</span>T)
 <span class="kw">names</span>(grandparents) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idPere&#39;</span>, <span class="st">&#39;idPaternalGrandfather&#39;</span>, <span class="st">&#39;idPaternalGrandmother&#39;</span>, <span class="st">&#39;paternal.grandpaternalage&#39;</span>,  <span class="st">&#39;paternal.grandmaternalage&#39;</span>)
-ddb =<span class="st"> </span><span class="kw">merge</span>(ddb, grandparents, <span class="dt">by =</span> <span class="st">&quot;idPere&quot;</span>, <span class="dt">all.x =</span>T)</code></pre>
-</div>
-<div id="make-pedigree-calculate-inbreeding" class="section level2">
-<h2>Make pedigree, calculate inbreeding</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(data.table)</span>
-<span class="co"># ddb = as.data.table(ddb)</span>
-<span class="co"># library(pedigreemm)</span>
-<span class="co"># ddb_pedigree = editPed(sire = ddb$idPere, dam = ddb$idMere, label = ddb$idIndividu)</span>
-<span class="co"># names(ddb_pedigree) = c(&quot;animal&quot;,&quot;sire&quot;,&quot;dam&quot;,&quot;gene&quot;)</span>
-<span class="co"># ddb_pedigree$inbreeding = pedigree::calcInbreeding(ddb_pedigree[,c(&quot;animal&quot;,&quot;dam&quot;, &quot;sire&quot;)])</span>
-<span class="co"># qplot(ddb_pedigree$inbreeding)+xlim(c(0.001,0.3))</span>
-<span class="co"># table(round(ddb_pedigree$inbreeding,2))</span>
-<span class="co"># ddb[ , animal := as.character(idIndividu)]</span>
-<span class="co"># ddb_pedigree = as.data.table(ddb_pedigree)</span>
-<span class="co"># ddb = merge.data.frame(ddb, ddb_pedigree[,list(animal,inbreeding)], by = &quot;animal&quot;)</span></code></pre>
+ddb =<span class="st"> </span><span class="kw">merge</span>(ddb, grandparents, <span class="dt">by =</span> <span class="st">&quot;idPere&quot;</span>, <span class="dt">all.x =</span>T)</code></pre></div>
 </div>
 <div id="compute-high-level-predictors" class="section level2">
 <h2>compute high-level predictors</h2>
-<pre class="sourceCode r"><code class="sourceCode r">min_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">min</span>(x,<span class="dt">na.rm=</span>T) ) }
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">year_bins</span>(byear)]
+ddb[byear &lt;<span class="st"> </span><span class="dv">1750</span>, birth.cohort :<span class="er">=</span><span class="st"> &quot;1735-1750&quot;</span>]
+ddb[byear &gt;=<span class="st"> </span><span class="dv">1885</span>, birth.cohort :<span class="er">=</span><span class="st"> &quot;1885-1905&quot;</span>]
+<span class="kw">table</span>(ddb$birth.cohort)</code></pre></div>
+<pre><code>## 
+## 1735-1750 1750-1755 1755-1760 1760-1765 1765-1770 1770-1775 1775-1780 
+##       297       188       333       607       577       514       729 
+## 1780-1785 1785-1790 1790-1795 1795-1800 1800-1805 1805-1810 1810-1815 
+##       786      1131      2268      2992      3354      4365      5022 
+## 1815-1820 1820-1825 1825-1830 1830-1835 1835-1840 1840-1845 1845-1850 
+##      8006      8900      9614      9422      9167      9741     10574 
+## 1850-1855 1855-1860 1860-1865 1865-1870 1870-1875 1875-1880 1880-1885 
+##     11880     13773     16929     16544     19908     23111     24679 
+## 1885-1905 
+##     55719</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb %&gt;%<span class="st"> </span>
+<span class="kw">mutate</span>(
+    <span class="dt">maternal_loss_age =</span> dyear.Mother -<span class="st"> </span>byear,
+    <span class="dt">last_alive_year.Mother =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(ddate.Mother), <span class="kw">year</span>(enddate.Mother), <span class="kw">year</span>(ddate.Mother)),
+    <span class="dt">mother_last_recorded_at_age =</span> last_alive_year.Mother -<span class="st"> </span>byear
+                 ,<span class="dt">maternal_loss_age =</span> <span class="kw">as.numeric</span>(<span class="kw">ifelse</span>(maternal_loss_age &gt;=<span class="st"> </span>-<span class="dv">1</span> &amp;<span class="st"> </span>maternal_loss_age &lt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">0</span>, maternal_loss_age))
+                 ,<span class="dt">maternal_loss  =</span> <span class="kw">as.character</span>(<span class="kw">cut</span>(maternal_loss_age, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">35</span>,<span class="dv">40</span>,<span class="dv">45</span>), <span class="dt">include.lowest =</span> T ))
+                 ,<span class="dt">maternal_loss =</span> <span class="kw">ifelse</span>(mother_last_recorded_at_age &gt;=<span class="st"> </span><span class="dv">45</span>, <span class="st">&quot;later&quot;</span>, maternal_loss)
+                 ,<span class="dt">maternal_loss =</span> <span class="kw">if_else</span>(maternal_loss_age &lt;<span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;unclear&quot;</span>, maternal_loss, <span class="dt">missing =</span> maternal_loss)
+                 ,<span class="dt">maternal_loss =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(maternal_loss), <span class="st">&quot;unclear&quot;</span>, maternal_loss)
+                 ,<span class="dt">maternal_loss =</span> <span class="kw">factor</span>(maternal_loss, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;later&quot;</span>,<span class="st">&quot;[0,1]&quot;</span>, <span class="st">&quot;(1,5]&quot;</span>, <span class="st">&quot;(5,10]&quot;</span>, <span class="st">&quot;(10,15]&quot;</span>, <span class="st">&quot;(15,20]&quot;</span>, <span class="st">&quot;(20,25]&quot;</span>, <span class="st">&quot;(25,30]&quot;</span>, <span class="st">&quot;(30,35]&quot;</span>,  <span class="st">&quot;(35,40]&quot;</span>, <span class="st">&quot;(40,45]&quot;</span>, <span class="st">&quot;unclear&quot;</span>))
+        
+    ,<span class="dt">paternal_loss_age =</span> dyear.Father -<span class="st"> </span>byear
+        ,<span class="dt">last_alive_year.Father =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(ddate.Father), <span class="kw">year</span>(enddate.Father), <span class="kw">year</span>(ddate.Father))
+                 ,<span class="dt">father_last_recorded_at_age =</span> last_alive_year.Father -<span class="st"> </span>byear
+                 ,<span class="dt">paternal_loss_age =</span> <span class="kw">as.numeric</span>(<span class="kw">ifelse</span>(paternal_loss_age &gt;=<span class="st"> </span>-<span class="dv">1</span> &amp;<span class="st"> </span>paternal_loss_age &lt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">0</span>, paternal_loss_age))
+                 ,<span class="dt">paternal_loss  =</span> <span class="kw">as.character</span>(<span class="kw">cut</span>(paternal_loss_age, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">35</span>,<span class="dv">40</span>,<span class="dv">45</span>), <span class="dt">include.lowest =</span> T ))
+                 ,<span class="dt">paternal_loss =</span> <span class="kw">ifelse</span>(father_last_recorded_at_age &gt;=<span class="st"> </span><span class="dv">45</span>, <span class="st">&quot;later&quot;</span>, paternal_loss)
+                 ,<span class="dt">paternal_loss =</span> <span class="kw">if_else</span>(paternal_loss_age &lt;<span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;unclear&quot;</span>, paternal_loss, paternal_loss)
+                 ,<span class="dt">paternal_loss =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(paternal_loss), <span class="st">&quot;unclear&quot;</span>, paternal_loss)
+                 ,<span class="dt">paternal_loss =</span> <span class="kw">factor</span>(paternal_loss, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;later&quot;</span>,<span class="st">&quot;[0,1]&quot;</span>, <span class="st">&quot;(1,5]&quot;</span>,  <span class="st">&quot;(5,10]&quot;</span>, <span class="st">&quot;(10,15]&quot;</span>, <span class="st">&quot;(15,20]&quot;</span>, <span class="st">&quot;(20,25]&quot;</span>, <span class="st">&quot;(25,30]&quot;</span>, <span class="st">&quot;(30,35]&quot;</span>,  <span class="st">&quot;(35,40]&quot;</span>, <span class="st">&quot;(40,45]&quot;</span>, <span class="st">&quot;unclear&quot;</span>))
+                 ) %&gt;%
+<span class="st">    </span><span class="kw">data.table</span>() -&gt;
+<span class="st">    </span>ddb
+<span class="kw">crosstabs</span>(ddb$maternal_loss)</code></pre></div>
+<pre><code>## ddb$maternal_loss
+##   later   [0,1]   (1,5]  (5,10] (10,15] (15,20] (20,25] (25,30] (30,35] 
+##   21855    3003    6284    7671    7070    6976    7257    7912    8765 
+## (35,40] (40,45] unclear 
+##    9155    6978  178204</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(ddb$paternal_loss)</code></pre></div>
+<pre><code>## ddb$paternal_loss
+##   later   [0,1]   (1,5]  (5,10] (10,15] (15,20] (20,25] (25,30] (30,35] 
+##   14185    2968    6848    9129    9659    9959   10186   10070    9818 
+## (35,40] (40,45] unclear 
+##    8932    6027  173349</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>maternal_loss +<span class="st"> </span><span class="kw">I</span>(mother_last_recorded_at_age &gt;<span class="dv">45</span>) , <span class="dt">data =</span> ddb)</code></pre></div>
+<pre><code>##              I(mother_last_recorded_at_age &gt; 45)
+## maternal_loss  FALSE   TRUE   &lt;NA&gt;
+##       later     2219  19636      0
+##       [0,1]     3003      0      0
+##       (1,5]     6284      0      0
+##       (5,10]    7671      0      0
+##       (10,15]   7070      0      0
+##       (15,20]   6976      0      0
+##       (20,25]   7257      0      0
+##       (25,30]   7912      0      0
+##       (30,35]   8765      0      0
+##       (35,40]   9155      0      0
+##       (40,45]   6978      0      0
+##       unclear 166678      0  11526</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">min_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">min</span>(x,<span class="dt">na.rm=</span>T) ) }
 max_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">max</span>(x,<span class="dt">na.rm=</span>T) ) }
 ddb =<span class="st"> </span>ddb[<span class="kw">order</span>(idPere),]
 ddb[, paternalage_at_1st_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(paternalage, idPere, <span class="dt">FUN =</span> min_na)]
@@ -615,146 +712,10 @@ parents =<span class="st"> </span><span class="kw">rbind</span>(fathers, mothers
 ddb =<span class="st"> </span><span class="kw">merge</span>(ddb, parents, <span class="dt">by =</span> <span class="st">&quot;idIndividu&quot;</span>, <span class="dt">all.x =</span> T)
 
 
-<span class="kw">library</span>(dplyr)
 ddb[, born :<span class="er">=</span><span class="st"> </span><span class="ot">NULL</span>] <span class="co"># was just an aid</span>
-<span class="kw">miss_frac</span>(ddb)</code></pre>
-<pre><code>##                    idIndividu                        idPere 
-##                      0.000000                      0.036628 
-##                        idMere                     idParents 
-##                      0.000000                      0.000000 
-##                        region                        prefix 
-##                      0.000000                      0.000000 
-##                   parish_code                  parish_birth 
-##                      0.000000                      0.000000 
-##             parish_home_birth                 parish_home_m 
-##                      0.000000                      0.036628 
-##                 parish_home_f                       marr_id 
-##                      0.000000                      0.000000 
-##                            id                          id_f 
-##                      0.000000                      0.000000 
-##                          id_m                        gender 
-##                      0.036628                      0.000000 
-##                  birth_date_s                  birth_date_c 
-##                      0.000000                      0.980482 
-##                    legitimacy                     stillborn 
-##                      0.000000                      0.000000 
-##                      parity_b                 parity_b_migr 
-##                      0.301274                      0.145890 
-##                    parity_tot               parity_tot_migr 
-##                      0.226951                      0.000000 
-##                    mult_birth                  death_date_s 
-##                      0.000000                      0.711019 
-##                  death_date_c                  death_parish 
-##                      0.989120                      0.000000 
-##                   death_cause                  death_code_1 
-##                      0.000000                      0.841953 
-##                  death_code_2                  death_code_3 
-##                      0.841953                      0.841953 
-##                   startdate_s                   startdate_c 
-##                      0.047133                      0.915841 
-##                     starttype                     enddate_s 
-##                      0.000000                      0.071140 
-##                     enddate_c                       endtype 
-##                      0.550919                      0.000000 
-##                      m_occ_cb                m_occ_valid_cb 
-##                      0.215809                      0.215809 
-##                      f_occ_cb                f_occ_valid_cb 
-##                      0.800553                      0.800553 
-##                          male                         bdate 
-##                      0.001903                      0.000000 
-##                         byear                         ddate 
-##                      0.000000                      0.711019 
-##                         dyear                     startdate 
-##                      0.711019                      0.047133 
-##                       enddate                      age.days 
-##                      0.071140                      0.711034 
-##                  age.min.days                       age.min 
-##                      0.021595                      0.021595 
-##                           age                  bdate.Father 
-##                      0.711034                      0.041187 
-##                  byear.Father                  ddate.Father 
-##                      0.041187                      0.649326 
-##                  dyear.Father              startdate.Father 
-##                      0.649326                      0.045340 
-##                enddate.Father                  bdate.Mother 
-##                      0.045536                      0.004632 
-##                  byear.Mother                  ddate.Mother 
-##                      0.004632                      0.664713 
-##                  dyear.Mother              startdate.Mother 
-##                      0.664713                      0.007196 
-##                enddate.Mother                    age.Mother 
-##                      0.007270                      0.665602 
-##                    age.Father                age.min.Mother 
-##                      0.650307                      0.006657 
-##                age.min.Father                   paternalage 
-##                      0.044990                      0.041305 
-##                   maternalage         marriage.order.Mother 
-##                      0.004869                      0.000011 
-##         marriage.order.Father                first.marriage 
-##                      0.036628                      0.036628 
-##                       spouses                     survive1d 
-##                      0.000000                      0.021023 
-##                     survive1m                        dead1m 
-##                      0.021595                      0.021595 
-##                        dead1y                        dead5y 
-##                      0.021595                      0.021595 
-##                         deadR                     survive1y 
-##                      0.021595                      0.061982 
-##                     survive5y                      surviveR 
-##                      0.208576                      0.396852 
-##                      children           children.per.spouse 
-##                      0.000000                      0.811717 
-##            children.stillborn          children.surviving1d 
-##                      0.000000                      0.000000 
-##          children.surviving1m          children.surviving1y 
-##                      0.000000                      0.000000 
-##          children.surviving5y           children.survivingR 
-##                      0.000000                      0.000000 
-##               children.dead1m               children.dead1y 
-##                      0.000000                      0.000000 
-##               children.dead5y                children.deadR 
-##                      0.000000                      0.000000 
-##              children.spouses      grandchildren.per.spouse 
-##                      0.000000                      0.000000 
-##                 grandchildren     grandchildren.surviving1d 
-##                      0.000000                      0.000000 
-##     grandchildren.surviving1m     grandchildren.surviving1y 
-##                      0.000000                      0.000000 
-##     grandchildren.surviving5y      grandchildren.survivingR 
-##                      0.000000                      0.000000 
-##          grandchildren.dead1m fertile.marriage.order.Mother 
-##                      0.000000                      0.000011 
-## fertile.marriage.order.Father        first.fertile.marriage 
-##                      0.036628                      0.036628 
-##                      siblings                    birthorder 
-##                      0.000000                      0.036628 
-##               birthorder.mean               birthorder.diff 
-##                      0.036628                      0.036628 
-##                     age.years              min15.birthorder 
-##                      0.711019                      0.015941 
-##         min15.birthorder.mean         min15.birthorder.diff 
-##                      0.012669                      0.015941 
-##                   nr.siblings            nr.dead.siblings1m 
-##                      0.000000                      0.021595 
-##          infant.death.cluster            older.sib.made.15y 
-##                      0.089478                      0.268448 
-##          younger.sib.made.15y         idMaternalGrandfather 
-##                      0.291227                      0.647799 
-##         idMaternalGrandmother     maternal.grandpaternalage 
-##                      0.638707                      0.648739 
-##     maternal.grandmaternalage         idPaternalGrandfather 
-##                      0.639736                      0.661515 
-##         idPaternalGrandmother     paternal.grandpaternalage 
-##                      0.652704                      0.662961 
-##     paternal.grandmaternalage        paternalage_at_1st_sib 
-##                      0.653903                      0.041246 
-##       paternalage_at_last_sib        maternalage_at_1st_sib 
-##                      0.041246                      0.004680 
-##       maternalage_at_last_sib              age_at_1st_child 
-##                      0.004680                      0.845760 
-##             age_at_last_child 
-##                      0.845760</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb[, mother_survived_1y :<span class="er">=</span><span class="st"> </span>((bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)) &lt;<span class="st"> </span>ddate.Mother) ]
+<span class="kw">miss_frac</span>(ddb)</code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb[, mother_survived_1y :<span class="er">=</span><span class="st"> </span>((bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)) &lt;<span class="st"> </span>ddate.Mother) ]
 ddb[, mother_survived_5y :<span class="er">=</span><span class="st"> </span>((bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>)) &lt;<span class="st"> </span>ddate.Mother) ]
 
 ddb =<span class="st"> </span>ddb %&gt;%
@@ -765,82 +726,63 @@ ddb =<span class="st"> </span>ddb %&gt;%
         <span class="dt">dependent_sibs_f5y =</span> <span class="kw">dependent_sibs_f5y</span>(<span class="dt">survive1y=</span>survive1y, <span class="dt">byear=</span>byear, <span class="dt">dyear=</span>dyear)
     ) %&gt;%<span class="st"> </span><span class="kw">data.table</span>()
 
-ddb$paternalloss_old =<span class="st"> </span>ddb$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>) &gt;<span class="st"> </span>ddb$ddate.Father
-<span class="kw">crosstabs</span>(ddb$paternalloss_old)</code></pre>
-<pre><code>## ddb$paternalloss_old
-##  FALSE   TRUE   &lt;NA&gt; 
-##  86157   8865 176107</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$paternalloss =<span class="st"> </span><span class="kw">ifelse</span>(ddb$paternalage +<span class="st"> </span><span class="fl">0.5</span> &gt;<span class="st"> </span>ddb$age.min.Father, <span class="dv">1</span>,<span class="dv">0</span>)
-<span class="kw">crosstabs</span>(ddb$paternalloss_old+<span class="st"> </span>ddb$paternalloss)</code></pre>
-<pre><code>##                     ddb$paternalloss
-## ddb$paternalloss_old      0      1   &lt;NA&gt;
-##                FALSE  85969      0    188
-##                TRUE      13   8761     91
-##                &lt;NA&gt;   55057 108678  12372</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$maternalloss_old =<span class="st"> </span>ddb$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>) &gt;<span class="st"> </span>ddb$ddate.Mother
-ddb[, maternalloss :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(maternalage +<span class="st"> </span><span class="fl">0.5</span> &gt;<span class="st"> </span>age.min.Mother,<span class="dv">1</span>,<span class="dv">0</span>)]
-
 ddb$nr.siblings =<span class="st"> </span>ddb$siblings
 
-<span class="kw">table</span>(ddb$paternalloss)</code></pre>
-<pre><code>## 
-##      0      1 
-## 141039 117439</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ddb$paternalloss_by_35)</code></pre>
+<span class="kw">table</span>(ddb$paternalloss)</code></pre></div>
 <pre><code>## &lt; table of extent 0 &gt;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$paternal_alive =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">new_interval</span>(ddb$bdate, ddb$ddate.Father))/<span class="dv">3600</span>/<span class="dv">24</span>/<span class="dv">365</span>/<span class="dv">10</span></code></pre>
-<pre><code>## coercing interval to duration</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb$paternal_alive_c =<span class="st"> </span><span class="kw">meanCenter</span>(ddb$paternal_alive)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ddb$paternalloss_by_35)</code></pre></div>
+<pre><code>## &lt; table of extent 0 &gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$paternal_alive =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">new_interval</span>(ddb$bdate, ddb$ddate.Father))/<span class="dv">3600</span>/<span class="dv">24</span>/<span class="dv">365</span>/<span class="dv">10</span></code></pre></div>
+<pre><code>## Warning: &#39;new_interval&#39; is deprecated; use &#39;interval&#39; instead. Deprecated
+## in version &#39;1.5.0&#39;.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$paternal_alive_c =<span class="st"> </span><span class="kw">meanCenter</span>(ddb$paternal_alive)
 
 recenter_all =<span class="st"> </span>function(x) { <span class="kw">recenter.pat</span>( <span class="kw">recenter.pat</span>( x, <span class="dt">among_who=</span><span class="st">&quot;idParents&quot;</span>), <span class="dt">what =</span> <span class="st">&quot;maternalage&quot;</span>, <span class="dt">among_who =</span> <span class="st">&quot;idParents&quot;</span>) }
 
 ddb[, ever_married :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(spouses &gt;<span class="st"> </span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>) ]
 
-(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(<span class="kw">year</span>(ddb$bdate), <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>), <span class="dt">na.rm=</span>T))</code></pre>
-<pre><code>##   0%  20%  40%  60%  80% 100% 
-## 1737 1832 1858 1873 1885 1903</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
-ddb[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(<span class="kw">year</span>(bdate),<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
-<span class="kw">props</span>(~<span class="st"> </span>ddb$birth.cohort)</code></pre>
-<pre><code>## ddb$birth.cohort
-## (1736,1832] (1832,1858] (1858,1873] (1873,1885] (1885,1903] 
-##        0.20        0.21        0.19        0.21        0.19</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb[, region :<span class="er">=</span><span class="st"> </span><span class="kw">str_replace</span>(region, <span class="st">&quot;regionen&quot;</span>, <span class="st">&quot;&quot;</span>)]
+ddb[, region :<span class="er">=</span><span class="st"> </span><span class="kw">str_replace</span>(region, <span class="st">&quot;regionen&quot;</span>, <span class="st">&quot;&quot;</span>)]
 ddb[, region :<span class="er">=</span><span class="st"> </span><span class="kw">str_replace</span>(region, <span class="st">&quot;å&quot;</span>, <span class="st">&quot;a&quot;</span>)]
 ddb[, region :<span class="er">=</span><span class="st"> </span><span class="kw">str_replace</span>(region, <span class="st">&quot;ö&quot;</span>, <span class="st">&quot;o&quot;</span>)]
-ddb[, region :<span class="er">=</span><span class="st"> </span><span class="kw">relevel</span>(<span class="kw">factor</span>(region), <span class="dt">ref =</span> <span class="st">&quot;Skelleftea&quot;</span>)]</code></pre>
+ddb[, region :<span class="er">=</span><span class="st"> </span><span class="kw">relevel</span>(<span class="kw">factor</span>(region), <span class="dt">ref =</span> <span class="st">&quot;Skelleftea&quot;</span>)]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$older_siblings =<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>((ddb$birthorder -<span class="st"> </span><span class="dv">1</span>) &gt;<span class="st"> </span><span class="dv">4</span>,<span class="st">&quot;5+&quot;</span>, ddb$birthorder -<span class="st"> </span><span class="dv">1</span>))
+ddb$last_born =<span class="st"> </span><span class="kw">ifelse</span>(ddb$birthorder ==<span class="st"> </span>ddb$nr.siblings, <span class="dv">1</span>, <span class="dv">0</span>)
+
+ddb =<span class="st"> </span>ddb[<span class="kw">order</span>(ddb$idParents,ddb$bdate), ]
+ddb &lt;-<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">siblings =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb)), ddb$idParents, <span class="dt">FUN =</span> length)-<span class="dv">1</span>) <span class="co"># sibling count</span>
+ddb &lt;-<span class="st"> </span><span class="kw">transform</span>(ddb, <span class="dt">birthorder =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb)), ddb$idParents, <span class="dt">FUN =</span> seq_along)) <span class="co"># old trick to get birth order</span>
+<span class="kw">qplot</span>(ddb$birthorder)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 9932 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-13-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$younger_siblings =<span class="st"> </span>ddb$siblings +<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>ddb$birthorder</code></pre></div>
 </div>
 <div id="subset-and-save" class="section level2">
 <h2>subset and save</h2>
-<pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span><span class="kw">recenter_all</span>(ddb)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb =<span class="st"> </span><span class="kw">recenter_all</span>(ddb)
 ddb[, any_surviving_children :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(children.survivingR &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
 ddb[, children.wddate :<span class="er">=</span><span class="st"> </span>children.dead1y +<span class="st"> </span>children.surviving1y] 
 ddb[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>((<span class="dv">10</span>*maternalage), <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">35</span>, <span class="dv">59</span>))]
 ddb$maternalage.factor =<span class="st"> </span><span class="kw">relevel</span>(ddb$maternalage.factor, <span class="dt">ref =</span> <span class="st">&quot;(20,35]&quot;</span>)
 
-<span class="kw">crosstabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(paternalage) +<span class="st"> </span><span class="kw">is.na</span>(bdate.Father),<span class="dt">data=</span>ddb)</code></pre>
+<span class="kw">crosstabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(paternalage) +<span class="st"> </span><span class="kw">is.na</span>(bdate.Father),<span class="dt">data=</span>ddb)</code></pre></div>
 <pre><code>##                   is.na(bdate.Father)
 ## is.na(paternalage)  FALSE   TRUE
 ##              FALSE 259930      0
-##              TRUE      32  11167</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">ddb.with.paternalage =<span class="st"> </span><span class="kw">subset</span>(ddb, <span class="dt">subset =</span> !<span class="kw">is.na</span>(paternalage) )
+##              TRUE      32  11168</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddb$birth_cohort =<span class="st"> </span><span class="kw">factor</span>(ddb$birth.cohort)
+ddb$male =<span class="st"> </span><span class="kw">factor</span>(ddb$male)
+ddb$last_born =<span class="st"> </span><span class="kw">factor</span>(ddb$last_born)
 
-ddb<span class="fl">.1</span> =<span class="st"> </span><span class="kw">subset</span>(ddb.with.paternalage, <span class="dt">subset =</span> byear &lt;=<span class="st"> </span><span class="dv">1880</span>)
+ddb.with.paternalage =<span class="st"> </span><span class="kw">subset</span>(ddb, <span class="dt">subset =</span> !<span class="kw">is.na</span>(paternalage) )
 
-(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(<span class="kw">year</span>(ddb<span class="fl">.1</span>$bdate), <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>), <span class="dt">na.rm=</span>T))</code></pre>
-<pre><code>##   0%  20%  40%  60%  80% 100% 
-## 1737 1824 1845 1860 1872 1880</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
-ddb<span class="fl">.1</span>[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(<span class="kw">year</span>(bdate),<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
-<span class="kw">props</span>(~<span class="st"> </span>ddb<span class="fl">.1</span>$birth.cohort)</code></pre>
-<pre><code>## ddb.1$birth.cohort
-## (1736,1824] (1824,1845] (1845,1860] (1860,1872] (1872,1880] 
-##        0.20        0.21        0.19        0.21        0.18</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using ALL data</span>
-<span class="kw">qplot</span>(ddb<span class="fl">.1</span>$bdate,<span class="dt">binwidth=</span><span class="dv">365</span>)</code></pre>
-<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(ddb,ddb<span class="fl">.1</span>, <span class="dt">file=</span><span class="st">&quot;ddb.rdata&quot;</span>)
-<span class="co"># save(ddb,ddb.1, ddb_pedigree,file=&quot;ddb.rdata&quot;)</span></code></pre>
+ddb<span class="fl">.1</span> =<span class="st"> </span><span class="kw">subset</span>(ddb.with.paternalage, <span class="dt">subset =</span> byear &lt;<span class="st"> </span><span class="dv">1850</span> &amp;<span class="st"> </span>paternal_loss !=<span class="st"> &quot;unclear&quot;</span> &amp;<span class="st"> </span>maternal_loss !=<span class="st"> &quot;unclear&quot;</span>)
+
+<span class="co"># using ALL data</span>
+<span class="kw">qplot</span>(ddb<span class="fl">.1</span>$bdate,<span class="dt">binwidth=</span><span class="dv">365</span>)</code></pre></div>
+<p><img src="0_ddb_massage_files/figure-html/unnamed-chunk-14-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(ddb,ddb<span class="fl">.1</span>, <span class="dt">file=</span><span class="st">&quot;ddb.rdata&quot;</span>)
+<span class="co"># save(ddb,ddb.1, ddb_pedigree,file=&quot;ddb.rdata&quot;)</span></code></pre></div>
 </div>
 </div>
 

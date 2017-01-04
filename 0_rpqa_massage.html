@@ -12,33 +12,52 @@
 
 <title>Québec Data Wrangling</title>
 
-<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
-<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -78,8 +97,8 @@ img {
 
 <div id="rpqa-data-wrangling" class="section level1 tab-content">
 <h1>RPQA Data wrangling</h1>
-<div id="description-of-data" class="section level3">
-<h3>description of data</h3>
+<div id="description-of-data" class="section level2">
+<h2>description of data</h2>
 <p>Data from the « Registre de la Population du Québec Ancien » of the Programme de Recherche en Démographie Historique, Demography Department, Université de Montréal</p>
 <p>January 2012</p>
 <p>The data is «Family reconstitution data» based on the systematic transcription of names, place and dates of catholic Baptisms, Marriages and Burials registered in Quebec for the period 1621-1799. Data also include death information of the 1800-1850 for people born before 1750. There are two distinct numerotations: one for couples, one for individuals.</p>
@@ -104,13 +123,10 @@ img {
 <li>Flag identifying among those who married those who could sign (= 1) and those who could not (= 2)</li>
 </ul>
 <p>For all place codes: numbers from 0000 to 6909 correspond to Quebec parishes. 3901 = Montreal; 4501 = Quebec city; 6001 = Trois-Rivieres. They are the only urban areas, with Trois-Rivieres being more a village than a town. The Administration and the merchants and such lived either in Montreal or Quebec. All other parishes are rural. 5 digit codes (10011…) correspond to places in France. 7801 to 789 to areas out West (“Pays-d’en-Haut”, outposts for military reasons and fur trade).</p>
-</div>
 <div id="loading-details" class="section level3 accordion">
 <h3>Loading details</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(<span class="dt">list=</span><span class="kw">ls</span>());
-<span class="kw">library</span>(foreign); <span class="kw">library</span>(Hmisc); <span class="kw">library</span>(car); <span class="kw">library</span>(psych); <span class="kw">library</span>(QuantPsyc); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(lubridate); <span class="kw">library</span>(stringr); <span class="kw">library</span>(reshape2); <span class="kw">library</span>(plyr); <span class="kw">library</span>(knitr); <span class="kw">library</span>(data.table)
-opts_chunk$<span class="kw">set</span>(<span class="dt">cache=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">fig.width=</span><span class="dv">12</span>,<span class="dt">fig.height=</span><span class="fl">7.5</span>)
-miss.frac =<span class="st"> </span>function(df,<span class="dt">vars=</span><span class="dv">1</span>:<span class="kw">ncol</span>(df)) { <span class="kw">round</span>(<span class="kw">colSums</span>(plyr::<span class="kw">colwise</span>(is.na)(df[,vars]))/<span class="kw">nrow</span>(df),<span class="dv">2</span>) } <span class="co"># missing fraction</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+opts_chunk$<span class="kw">set</span>(<span class="dt">cache=</span><span class="ot">FALSE</span>,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">fig.width=</span><span class="dv">12</span>,<span class="dt">fig.height=</span><span class="fl">7.5</span>)
 
 <span class="co"># rpqa_fam</span>
 <span class="co"># gebkk 1, 2 gebfk, gebmk. 1 datum genau bekannt, 2 = 15. juni eines jahrs, jahrgenau</span>
@@ -119,36 +135,27 @@ miss.frac =<span class="st"> </span>function(df,<span class="dt">vars=</span><sp
 <span class="co">#eheF == 1 und eheM == 1 erstehen</span>
 <span class="co"># auswahl_id_f == alle ehen der frau, vv</span>
 <span class="co"># ehebekannt: kennen anfang und ende der ehe, bei ehebekannt==1 mehr geburten pro ehe</span>
-<span class="co"># 1670-1750</span></code></pre>
+<span class="co"># 1670-1750</span></code></pre></div>
+</div>
 </div>
 <div id="transforming-data" class="section level2">
 <h2>Transforming data</h2>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa.individuals =<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&quot;data/RPQA_29Oct2014/RPQA-family.dta&quot;</span>)
-rpqa.unions =<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&quot;data/RPQA_29Oct2014/RPQA-union4.dta&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa.individuals =<span class="st"> </span>foreign::<span class="kw">read.dta</span>(<span class="st">&quot;data/RPQA_29Oct2014/RPQA-family.dta&quot;</span>)
+rpqa.unions =<span class="st"> </span>foreign::<span class="kw">read.dta</span>(<span class="st">&quot;data/RPQA_29Oct2014/RPQA-union4.dta&quot;</span>)
+rpqa.unions =<span class="st"> </span>rpqa.unions %&gt;%<span class="st"> </span><span class="kw">select</span>(id, id_m, id_f, dat, dateMannee, dateMmois, dateMjour, qualiteDateM, codeLieuM, ehebekannt)
 
 rpqa.unions$idParents =<span class="st"> </span><span class="kw">str_c</span>(rpqa.unions$id_m, <span class="st">&#39;_&#39;</span>, rpqa.unions$id_f)
 rpqa.unions$idParents[<span class="kw">which</span>(rpqa.unions$idParents==<span class="st">&quot;NA_NA&quot;</span>)] =<span class="st"> </span><span class="ot">NA</span>
 rpqa.individuals$idParents =<span class="st"> </span><span class="kw">str_c</span>(rpqa.individuals$idPere, <span class="st">&#39;_&#39;</span>, rpqa.individuals$idMere)
 rpqa.individuals$idParents[<span class="kw">which</span>(rpqa.individuals$idParents==<span class="st">&quot;NA_NA&quot;</span>)] =<span class="st"> </span><span class="ot">NA</span>
 
-<span class="co"># tail(na.omit(rpqa.individuals$idParents[which(is.na(rpqa.individuals$idMere))]))</span>
-
-<span class="kw">library</span>(formr)
-moms =<span class="st"> </span>rpqa.unions[!<span class="kw">is.na</span>(rpqa.unions$auswahl_id_f),<span class="kw">c</span>(<span class="st">&#39;id_f&#39;</span>,<span class="kw">names</span>(rpqa.unions)[<span class="kw">names</span>(rpqa.unions) %ends_with%<span class="st"> &quot;_id_f&quot;</span>])]
-dads =<span class="st"> </span>rpqa.unions[!<span class="kw">is.na</span>(rpqa.unions$auswahl_id_m),<span class="kw">c</span>(<span class="st">&#39;id_m&#39;</span>,<span class="kw">names</span>(rpqa.unions)[<span class="kw">names</span>(rpqa.unions) %ends_with%<span class="st"> &quot;_id_m&quot;</span>])]
-<span class="kw">names</span>(dads) =<span class="st"> </span><span class="kw">str_sub</span>(<span class="kw">names</span>(dads),<span class="dv">1</span>,-<span class="dv">6</span>); <span class="kw">names</span>(dads)[<span class="dv">1</span>] =<span class="st"> &quot;id&quot;</span>
-<span class="kw">names</span>(moms) =<span class="st"> </span><span class="kw">str_sub</span>(<span class="kw">names</span>(moms),<span class="dv">1</span>,-<span class="dv">6</span>); <span class="kw">names</span>(moms)[<span class="dv">1</span>] =<span class="st"> &quot;id&quot;</span>
-dads =<span class="st"> </span>dads[, <span class="kw">names</span>(moms)]
-spouses =<span class="st"> </span><span class="kw">rbind</span>(dads,moms)
-
 rpqa =<span class="st"> </span>rpqa.individuals
 rpqa$immigrant =<span class="st"> </span><span class="kw">factor</span>(rpqa$immigrant,<span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&#39;NO&#39;</span>,<span class="st">&#39;&#39;</span>))
 rpqa$emigrant =<span class="st"> </span><span class="kw">factor</span>(rpqa$emigrant,<span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&#39;NO&#39;</span>,<span class="st">&#39;&#39;</span>))
 rpqa$amerindien =<span class="st"> </span><span class="kw">factor</span>(rpqa$amerindien,<span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&#39;NO&#39;</span>,<span class="st">&#39;&#39;</span>))
-rpqa$sexe =<span class="st"> </span><span class="kw">Recode</span>(rpqa$sexe,<span class="st">&quot;&#39;M&#39;=&#39;m&#39;;&#39;x&#39;=NA&quot;</span>)
+rpqa$sexe =<span class="st"> </span>car::<span class="kw">Recode</span>(rpqa$sexe,<span class="st">&quot;&#39;M&#39;=&#39;m&#39;;&#39;x&#39;=NA&quot;</span>)
 rpqa$male =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$sexe ==<span class="st"> &#39;m&#39;</span>,<span class="dv">1</span>,<span class="dv">0</span>)
 
-<span class="kw">library</span>(lubridate)
 rpqa$bdate =<span class="st"> </span><span class="kw">as.Date</span>(rpqa$gebk)
 rpqa$byear =<span class="st"> </span><span class="kw">year</span>(rpqa$bdate)
 rpqa$ddate =<span class="st"> </span><span class="kw">as.Date</span>(rpqa$todk)
@@ -165,129 +172,97 @@ rpqa$ddate.Mother =<span class="st"> </span><span class="kw">as.Date</span>(rpqa
 rpqa$dyear.Mother =<span class="st"> </span><span class="kw">year</span>(rpqa$ddate.Mother)
 
 rpqa$age.days =<span class="st"> </span><span class="kw">as.numeric</span>(rpqa$ddate -<span class="st"> </span>rpqa$bdate)
+rpqa$age.days =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$age.days &lt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">0</span>, rpqa$age.days)
 <span class="co"># head(data.frame(as.numeric(rpqa$ddate - rpqa$bdate)/365, rpqa$ddate, rpqa$bdate))</span>
 rpqa$age.days.Father =<span class="st"> </span><span class="kw">as.numeric</span>(rpqa$ddate.Father -<span class="st"> </span>rpqa$bdate.Father)
 rpqa$age.days.Mother =<span class="st"> </span><span class="kw">as.numeric</span>(rpqa$ddate.Mother -<span class="st"> </span>rpqa$bdate.Mother)
 rpqa$age =<span class="st"> </span>rpqa$age.days /<span class="st"> </span><span class="dv">365</span>/<span class="dv">10</span>
-<span class="kw">qplot</span>(rpqa$age *<span class="st"> </span><span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/transform.data-1.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$age *<span class="st"> </span><span class="dv">10</span>)+<span class="kw">xlim</span>(<span class="fl">0.1</span>,<span class="ot">NA</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/transform.data-2.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># qplot(rpqa.individuals$age.days)</span>
+<span class="kw">qplot</span>(rpqa$age *<span class="st"> </span><span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/transform.data-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$age *<span class="st"> </span><span class="dv">10</span>) +<span class="st"> </span><span class="kw">xlim</span>(<span class="dv">1</span>,<span class="ot">NA</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/transform.data-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># qplot(rpqa.individuals$age.days)</span>
 rpqa$paternalage =<span class="st"> </span><span class="kw">as.numeric</span>(rpqa$bdate -<span class="st"> </span>rpqa$bdate.Father)/<span class="dv">365</span>/<span class="dv">10</span>
-<span class="kw">qplot</span>(rpqa$paternalage *<span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/transform.data-3.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">sort</span>(rpqa$paternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre>
+<span class="kw">qplot</span>(rpqa$paternalage *<span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/transform.data-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">sort</span>(rpqa$paternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre></div>
 <pre><code>##  [1] 14.84 15.05 15.47 15.90 15.92 15.92 16.01 16.01 16.13 16.18 16.30
 ## [12] 16.33 16.35 16.45 16.45 16.52 16.57 16.60 16.60 16.61</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(<span class="kw">sort</span>(rpqa$paternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(<span class="kw">sort</span>(rpqa$paternalage *<span class="dv">10</span>),<span class="dv">20</span>)</code></pre></div>
 <pre><code>##  [1] 78.92 79.98 80.00 80.00 80.76 80.87 81.08 81.18 81.20 81.76 81.91
 ## [12] 81.99 82.00 82.69 83.04 83.43 83.46 84.79 85.20 85.44</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$maternalage =<span class="st"> </span><span class="kw">as.numeric</span>(rpqa$bdate -<span class="st"> </span>rpqa$bdate.Mother)/<span class="dv">365</span>/<span class="dv">10</span>
-<span class="kw">qplot</span>(rpqa$maternalage *<span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/transform.data-4.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$age.Mother &lt;<span class="st"> </span>(rpqa$maternalage -<span class="st"> </span><span class="fl">0.1</span>)) <span class="co"># zombie moms</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$maternalage =<span class="st"> </span><span class="kw">as.numeric</span>(rpqa$bdate -<span class="st"> </span>rpqa$bdate.Mother)/<span class="dv">365</span>/<span class="dv">10</span>
+<span class="kw">qplot</span>(rpqa$maternalage *<span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/transform.data-4.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$age.Mother &lt;<span class="st"> </span>(rpqa$maternalage -<span class="st"> </span><span class="fl">0.1</span>)) <span class="co"># zombie moms</span></code></pre></div>
 <pre><code>## &lt; table of extent 0 &gt;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$age.Father &lt;<span class="st"> </span>(rpqa$paternalage -<span class="st"> </span><span class="fl">0.1</span>)) <span class="co"># zombie dads</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$age.Father &lt;<span class="st"> </span>(rpqa$paternalage -<span class="st"> </span><span class="fl">0.1</span>)) <span class="co"># zombie dads</span></code></pre></div>
 <pre><code>## &lt; table of extent 0 &gt;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">sort</span>(rpqa$maternalage *<span class="dv">10</span>),<span class="dv">20</span>) <span class="co"># 9y old may be possible</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">sort</span>(rpqa$maternalage *<span class="dv">10</span>),<span class="dv">20</span>) <span class="co"># 10y old may be possible</span></code></pre></div>
 <pre><code>##  [1]  9.953 12.008 12.482 13.008 13.049 13.140 13.156 13.238 13.247 13.247
 ## [11] 13.299 13.337 13.381 13.405 13.408 13.441 13.458 13.510 13.559 13.581</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(<span class="kw">sort</span>(rpqa$maternalage *<span class="dv">10</span>),<span class="dv">40</span>) <span class="co"># but 69y old. something wrong with that.</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(<span class="kw">sort</span>(rpqa$maternalage *<span class="dv">10</span>),<span class="dv">40</span>) <span class="co"># but 69y old. something wrong with that.</span></code></pre></div>
 <pre><code>##  [1] 51.01 51.03 51.04 51.05 51.09 51.16 51.24 51.40 51.56 51.62 51.63
 ## [12] 51.72 51.72 51.92 52.03 52.12 52.12 52.16 52.35 52.35 52.38 52.49
 ## [23] 52.85 52.92 53.03 53.23 53.60 54.35 54.73 54.85 54.90 55.03 55.04
 ## [34] 55.68 55.93 56.04 56.70 57.58 59.60 69.27</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(maternalage*<span class="dv">10</span>,paternalage*<span class="dv">10</span>,<span class="dt">data=</span>rpqa,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.1</span>),<span class="dt">shape=</span><span class="kw">I</span>(<span class="st">&quot;.&quot;</span>)) +<span class="st"> </span><span class="kw">xlim</span>(<span class="dv">12</span>,<span class="dv">50</span>) +<span class="st"> </span><span class="kw">geom_smooth</span>()</code></pre>
-<pre><code>## geom_smooth: method=&quot;auto&quot; and size of largest group is &gt;=1000, so using gam with formula: y ~ s(x, bs = &quot;cs&quot;). Use &#39;method = x&#39; to change the smoothing method.</code></pre>
-<pre><code>## Warning: Removed 70024 rows containing missing values (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 70024 rows containing missing values (geom_point).</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/transform.data-5.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(rpqa$maternalage,rpqa$paternalage)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(maternalage*<span class="dv">10</span>,paternalage*<span class="dv">10</span>,<span class="dt">data=</span>rpqa,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.1</span>),<span class="dt">shape=</span><span class="kw">I</span>(<span class="st">&quot;.&quot;</span>)) +<span class="st"> </span><span class="kw">xlim</span>(<span class="dv">12</span>,<span class="dv">50</span>) +<span class="st"> </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/transform.data-5.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(rpqa$maternalage,rpqa$paternalage)</code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  rpqa$maternalage and rpqa$paternalage
-## t = 510.1, df = 389608, p-value &lt; 2.2e-16
+## t = 510, df = 390000, p-value &lt;2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  0.6309 0.6346
 ## sample estimates:
 ##    cor 
 ## 0.6328</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xtabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(idMere) +<span class="st"> </span><span class="kw">is.na</span>(idPere), <span class="dt">data =</span> rpqa.individuals)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xtabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(idMere) +<span class="st"> </span><span class="kw">is.na</span>(idPere), <span class="dt">data =</span> rpqa.individuals)</code></pre></div>
 <pre><code>##              is.na(idPere)
 ## is.na(idMere)  FALSE   TRUE
 ##         FALSE 427016    509
 ##         TRUE     265  31801</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, spouses, <span class="dt">by.x =</span> <span class="st">&quot;idIndividu&quot;</span>,<span class="dt">by.y=</span><span class="st">&quot;id&quot;</span>, <span class="dt">all.x =</span>T)
-<span class="co"># rpqa[which(rpqa$children==11 &amp; rpqa$Nbirths == 1), ]</span>
-<span class="co"># rpqa[which(rpqa$children==11 &amp; rpqa$Nbirths == 10), c(&#39;idIndividu&#39;,&#39;sexe&#39;, &#39;children&#39;,&#39;Nbirths&#39;)]</span>
-<span class="co"># rpqa[which(rpqa$children==11 &amp; rpqa$Nbirths == 10), c(&#39;idIndividu&#39;,&#39;sexe&#39;, &#39;children&#39;,&#39;Nbirths&#39;)]</span>
-<span class="co"># rpqa[which(rpqa$children==11 &amp; rpqa$Nbirths == 10), c(&#39;idIndividu&#39;,&#39;sexe&#39;, &#39;children&#39;,&#39;Nbirths&#39;)]</span>
-<span class="co"># </span>
-<span class="co"># length(setdiff(spouses$id, rpqa$idIndividu))</span>
-<span class="co"># length(setdiff(rpqa$idIndividu,spouses$id))</span>
-<span class="co"># table(rpqa$children==rpqa$Nbirths)</span>
-<span class="co"># rpqa.unions[which(rpqa.unions$id_f==90955),]</span>
-<span class="co"># rpqa.unions[which(rpqa.unions$id_m==159925),]</span>
-<span class="co"># spouses[which(spouses$id==90955),]</span>
-<span class="co"># rpqa.unions[which(rpqa.unions$id==90774),]</span>
-<span class="co"># rpqa[which(rpqa$idMere == 90955), ]</span>
-<span class="co"># rpqa[which(rpqa$idPere == 159925), ]</span>
-<span class="co"># rpqa[which(rpqa$idIndividu == 90403), ]</span>
-<span class="co"># </span>
-<span class="co"># rpqa[which(rpqa$idPere == 90774), ]</span>
-<span class="co"># rpqa.unions[which(rpqa.unions$id_m==90774), ]</span>
-<span class="co"># </span>
-<span class="co"># sum(rpqa$children[rpqa$children!=rpqa$Nbirths],na.rm=T)</span>
-<span class="co"># qplot(rpqa$children[rpqa$children!=rpqa$Nbirths])</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rpqa = merge(rpqa, spouses, by.x = &quot;idIndividu&quot;,by.y=&quot;id&quot;, all.x =T)</span></code></pre></div>
 </div>
 <div id="count-kids-and-spouses" class="section level2">
 <h2>count kids and spouses</h2>
-<pre class="sourceCode r"><code class="sourceCode r">count_and_merge =<span class="st"> </span>function(df, what, wt_var) {
-    <span class="kw">library</span>(reshape2)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">count_and_merge =<span class="st"> </span>function(df, what, wt_var) {
     counted.dad =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> df[,<span class="kw">c</span>(<span class="st">&#39;idPere&#39;</span>,wt_var)],<span class="dt">formula =</span> idPere ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T,<span class="dt">value.var =</span> wt_var)
     counted.mom =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> df[,<span class="kw">c</span>(<span class="st">&#39;idMere&#39;</span>,wt_var)],<span class="dt">formula =</span> idMere ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> wt_var)
     <span class="kw">names</span>(counted.dad) =<span class="st"> </span><span class="kw">names</span>(counted.mom) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idIndividu&#39;</span>,what)
     counted =<span class="st"> </span><span class="kw">rbind</span>(counted.dad,counted.mom)
     df =<span class="st"> </span><span class="kw">merge</span>(df,counted,<span class="dt">by=</span><span class="st">&#39;idIndividu&#39;</span>,<span class="dt">all.x=</span>T)
-    df[,what] =<span class="st"> </span><span class="kw">Recode</span>(df[,what],<span class="st">&#39;NA=0&#39;</span>)
+    df[,what] =<span class="st"> </span>car::<span class="kw">Recode</span>(df[,what],<span class="st">&#39;NA=0&#39;</span>)
     df
 }
-
-<span class="co"># tail(rpqa.unions) # already sorted by date</span>
-
-<span class="co">#df = rpqa[which(rpqa$idPere==59192 | rpqa$idIndividu==59192),]</span>
-<span class="co">#count_and_merge(df,&quot;children.surviving1d&quot;,survive1d)[,c(&#39;idIndividu&#39;,&quot;children.surviving1d&quot;,&#39;survive1d&#39;)]</span>
-<span class="co"># df$survive1d[is.na(df$survive1d)] = 0</span>
-<span class="co">#plyr::count(df,vars=&#39;idPere&#39;,wt_var=&quot;survive1d&quot;)</span>
-<span class="co">#ddply(df, .(idPere), summarise, survive1d = sum(survive1d, na.rm=T))</span>
 
 rpqa.unions =<span class="st"> </span>rpqa.unions[<span class="kw">order</span>(rpqa.unions$id_m,rpqa.unions$dat),]
 rpqa.unions$marriage.order.Father =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(rpqa.unions)), rpqa.unions$id_m, <span class="dt">FUN =</span> seq_along)
 rpqa.unions =<span class="st"> </span>rpqa.unions[<span class="kw">order</span>(rpqa.unions$id_f,rpqa.unions$dat),]
 rpqa.unions$marriage.order.Mother =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(rpqa.unions)), rpqa.unions$id_f, <span class="dt">FUN =</span> seq_along)
 
-rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, rpqa.unions[,<span class="kw">c</span>(<span class="st">&#39;idParents&#39;</span>,<span class="st">&#39;marriage.order.Mother&#39;</span>,<span class="st">&#39;marriage.order.Father&#39;</span>),],<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T)
-rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, rpqa.unions[,<span class="kw">c</span>(<span class="st">&#39;idParents&#39;</span>,<span class="st">&#39;ehebekannt&#39;</span>),],<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T)
+rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, rpqa.unions, <span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T, <span class="dt">suffixes =</span> <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;.Parents&quot;</span>))
 rpqa$ehebekannt =<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(rpqa$ehebekannt), <span class="dv">0</span>, <span class="dv">1</span>)
 rpqa$first.marriage =<span class="st"> </span>(rpqa$marriage.order.Mother +<span class="st"> </span>rpqa$marriage.order.Father) ==<span class="st"> </span><span class="dv">2</span>
-<span class="kw">table</span>(rpqa$first.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<span class="kw">table</span>(rpqa$first.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
 ##  FALSE   TRUE   &lt;NA&gt; 
 ##  63206 350838  45547</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">count_spouses =<span class="st"> </span>function(df, df2, what,  wt_var) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">count_spouses =<span class="st"> </span>function(df, df2, what,  wt_var) {
     counted.husband =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> df2[,<span class="kw">c</span>(<span class="st">&#39;id_m&#39;</span>,wt_var)],<span class="dt">formula =</span> id_m ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> wt_var)
     counted.wive =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> df2[,<span class="kw">c</span>(<span class="st">&#39;id_f&#39;</span>,wt_var)],<span class="dt">formula =</span> id_f ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> wt_var)
     <span class="kw">names</span>(counted.husband) =<span class="st"> </span><span class="kw">names</span>(counted.wive) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idIndividu&#39;</span>,what)
     counted =<span class="st"> </span><span class="kw">rbind</span>(counted.husband,counted.wive)
     df =<span class="st"> </span><span class="kw">merge</span>(df,counted,<span class="dt">by=</span><span class="st">&#39;idIndividu&#39;</span>,<span class="dt">all.x=</span>T)
-    df[,what] =<span class="st"> </span><span class="kw">Recode</span>(df[,what],<span class="st">&#39;NA=0&#39;</span>)
+    df[,what] =<span class="st"> </span>car::<span class="kw">Recode</span>(df[,what],<span class="st">&#39;NA=0&#39;</span>)
     df
 }
 rpqa$born =<span class="st"> </span><span class="dv">1</span>; rpqa.unions$born =<span class="st"> </span><span class="dv">1</span>
@@ -304,139 +279,19 @@ rpqa$survive1y =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$age
 rpqa$surviveR =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$age &gt;<span class="st"> </span><span class="fl">1.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 
 
-<span class="co"># rpqa$survive1m = Recode(rpqa$survive1m, &#39;NA=0&#39;)</span>
-<span class="kw">table</span>(rpqa$survive1m,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<span class="co"># rpqa$survive1m = car::Recode(rpqa$survive1m, &#39;NA=0&#39;)</span>
+<span class="kw">table</span>(rpqa$survive1m,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
 ##      0      1   &lt;NA&gt; 
 ##  41499 198139 219953</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;children&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&quot;born&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;children&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&quot;born&quot;</span>)
 
-<span class="kw">xtabs</span>(~<span class="st"> </span>children +<span class="st"> </span>Nbirths, <span class="dt">data =</span> rpqa)</code></pre>
-<pre><code>##         Nbirths
-## children     1     2     3     4     5     6     7     8     9    10    11
-##       1  10692     0     0     0     0     0     0     0     0     0     0
-##       2     61  9368     0     0     0     0     0     0     0     0     0
-##       3     17    71  9240     0     0     0     0     0     0     0     0
-##       4      7     8    59  8806     0     0     0     0     0     0     0
-##       5      2     6    10    66  8562     0     0     0     0     0     0
-##       6      2     4     1    13    61  8319     0     0     0     0     0
-##       7      2     2     2     5     9    60  8096     0     0     0     0
-##       8      0     0     1     1     2     9    55  8119     0     0     0
-##       9      0     3     0     1     3     4     8    43  8204     0     0
-##       10     1     0     0     0     0     0     3     7    51  7961     0
-##       11     1     0     0     0     0     1     2     2     3    48  7253
-##       12     0     0     1     0     0     1     0     0     1     7    38
-##       13     0     0     0     0     0     1     0     0     2     0     2
-##       14     0     0     0     0     0     0     1     0     0     1     1
-##       15     0     0     0     0     0     0     0     0     0     0     0
-##       16     0     0     0     0     0     0     0     0     0     0     0
-##       17     0     0     0     0     0     0     0     0     0     0     0
-##       18     0     0     0     0     0     0     0     0     0     0     0
-##       19     0     0     0     0     0     0     0     0     0     0     0
-##       20     0     0     0     0     0     0     0     0     0     0     0
-##       21     0     0     0     0     0     0     0     0     0     0     0
-##       22     0     0     0     0     0     0     0     0     0     0     0
-##       23     0     0     0     0     0     0     0     0     0     0     0
-##       24     0     0     0     0     0     0     0     0     0     0     0
-##       25     0     0     0     0     0     0     0     0     0     0     0
-##       26     0     0     0     0     0     0     0     0     0     0     0
-##       27     0     0     0     0     0     0     0     0     0     0     0
-##       29     0     0     0     0     0     0     0     0     0     0     0
-##       30     0     0     0     0     0     0     0     0     0     0     0
-##       31     0     0     0     0     0     0     0     0     0     0     0
-##         Nbirths
-## children    12    13    14    15    16    17    18    19    20    21    22
-##       1      0     0     0     0     0     0     0     0     0     0     0
-##       2      0     0     0     0     0     0     0     0     0     0     0
-##       3      0     0     0     0     0     0     0     0     0     0     0
-##       4      0     0     0     0     0     0     0     0     0     0     0
-##       5      0     0     0     0     0     0     0     0     0     0     0
-##       6      0     0     0     0     0     0     0     0     0     0     0
-##       7      0     0     0     0     0     0     0     0     0     0     0
-##       8      0     0     0     0     0     0     0     0     0     0     0
-##       9      0     0     0     0     0     0     0     0     0     0     0
-##       10     0     0     0     0     0     0     0     0     0     0     0
-##       11     0     0     0     0     0     0     0     0     0     0     0
-##       12  5946     0     0     0     0     0     0     0     0     0     0
-##       13    30  4557     0     0     0     0     0     0     0     0     0
-##       14     2    23  3373     0     0     0     0     0     0     0     0
-##       15     0     1    18  2349     0     0     0     0     0     0     0
-##       16     1     0     2    14  1543     0     0     0     0     0     0
-##       17     0     0     0     0     4   959     0     0     0     0     0
-##       18     0     1     0     0     1     2   633     0     0     0     0
-##       19     0     0     0     0     0     1     1   337     0     0     0
-##       20     0     0     0     0     0     0     0     0   203     0     0
-##       21     0     0     0     0     0     0     0     0     1   102     0
-##       22     0     0     0     0     0     0     0     0     0     0    72
-##       23     0     0     0     0     0     0     0     0     0     0     0
-##       24     0     0     0     0     0     0     0     0     0     0     0
-##       25     0     0     0     0     0     0     0     0     0     0     0
-##       26     0     0     0     0     0     0     0     0     0     0     0
-##       27     0     0     0     0     0     0     0     0     0     0     0
-##       29     0     0     0     0     0     0     0     0     0     0     0
-##       30     0     0     0     0     0     0     0     0     0     0     0
-##       31     0     0     0     0     0     0     0     0     0     0     0
-##         Nbirths
-## children    23    24    25    26    27    29    30    31
-##       1      0     0     0     0     0     0     0     0
-##       2      0     0     0     0     0     0     0     0
-##       3      0     0     0     0     0     0     0     0
-##       4      0     0     0     0     0     0     0     0
-##       5      0     0     0     0     0     0     0     0
-##       6      0     0     0     0     0     0     0     0
-##       7      0     0     0     0     0     0     0     0
-##       8      0     0     0     0     0     0     0     0
-##       9      0     0     0     0     0     0     0     0
-##       10     0     0     0     0     0     0     0     0
-##       11     0     0     0     0     0     0     0     0
-##       12     0     0     0     0     0     0     0     0
-##       13     0     0     0     0     0     0     0     0
-##       14     0     0     0     0     0     0     0     0
-##       15     0     0     0     0     0     0     0     0
-##       16     0     0     0     0     0     0     0     0
-##       17     0     0     0     0     0     0     0     0
-##       18     0     0     0     0     0     0     0     0
-##       19     0     0     0     0     0     0     0     0
-##       20     0     0     0     0     0     0     0     0
-##       21     0     0     0     0     0     0     0     0
-##       22     0     0     0     0     0     0     0     0
-##       23    49     0     0     0     0     0     0     0
-##       24     0    29     0     0     0     0     0     0
-##       25     0     0    14     0     0     0     0     0
-##       26     0     0     1    12     0     0     0     0
-##       27     0     0     0     1     9     0     0     0
-##       29     0     0     0     0     0     2     0     0
-##       30     0     0     0     0     0     0     3     0
-##       31     0     0     0     0     0     0     0     1</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tail(rpqa[rpqa$children!=rpqa$Nbirths,])</span>
-<span class="kw">table</span>(rpqa$children==rpqa$Nbirths)</code></pre>
-<pre><code>## 
-##  FALSE   TRUE 
-##    877 114813</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(rpqa$children,rpqa$Nbirths)</code></pre>
-<pre><code>## 
-##  Pearson&#39;s product-moment correlation
-## 
-## data:  rpqa$children and rpqa$Nbirths
-## t = 10136, df = 115688, p-value &lt; 2.2e-16
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.9994 0.9994
-## sample estimates:
-##    cor 
-## 0.9994</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$children,rpqa$Nbirths, <span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>)</code></pre>
-<pre><code>## Warning: Removed 343901 rows containing missing values (geom_point).</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-1.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$Nbirths,rpqa$children, <span class="dt">geom =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre>
-<pre><code>## Warning: Removed 343901 rows containing missing values (geom_point).</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-2.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$children.per.spouse =<span class="st"> </span>rpqa$children/rpqa$spouses
+rpqa$children.per.spouse =<span class="st"> </span>rpqa$children/rpqa$spouses
 rpqa$children.per.spouse[<span class="kw">which</span>(rpqa$spouses==<span class="dv">0</span>)] =<span class="st"> </span><span class="ot">NA</span>
-<span class="kw">qplot</span>(rpqa$children.per.spouse)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-3.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># well we know that people who reproduced or married usually made 15</span>
+<span class="kw">qplot</span>(rpqa$children.per.spouse)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># well we know that people who reproduced or married usually made 15</span>
 changeNAto1 =<span class="st"> </span>function(x) { <span class="kw">colwise</span>(function(x) { <span class="kw">ifelse</span>(<span class="kw">is.na</span>(x), <span class="dv">1</span>, x)})(x) }
 rpqa[<span class="kw">which</span>(rpqa$children&gt;<span class="dv">0</span> |<span class="st"> </span>rpqa$spouses&gt;<span class="dv">0</span>), <span class="kw">c</span>(<span class="st">&#39;surviveR&#39;</span>, <span class="st">&#39;survive1y&#39;</span>, <span class="st">&#39;survive1m&#39;</span>, <span class="st">&#39;survive1d&#39;</span>)] =<span class="st"> </span><span class="kw">changeNAto1</span>(rpqa[<span class="kw">which</span>(rpqa$children&gt;<span class="dv">0</span> |<span class="st"> </span>rpqa$spouses&gt;<span class="dv">0</span>), <span class="kw">c</span>(<span class="st">&#39;surviveR&#39;</span>, <span class="st">&#39;survive1y&#39;</span>, <span class="st">&#39;survive1m&#39;</span>, <span class="st">&#39;survive1d&#39;</span>)])
 
@@ -452,81 +307,7 @@ rpqa$children.surviving5y =<span class="st"> </span>rpqa$children -<span class="
 rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;children.deadR&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;deadR&#39;</span>)
 rpqa$children.survivingR =<span class="st"> </span>rpqa$children -<span class="st"> </span>rpqa$children.deadR
 
-<span class="kw">table</span>(rpqa$children.deadR -<span class="st"> </span>rpqa$children.dead1y ==<span class="st"> </span>rpqa$NchildD)</code></pre>
-<pre><code>## 
-##  FALSE   TRUE 
-##     85 115605</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xtabs</span>(~<span class="st"> </span><span class="kw">I</span>(rpqa$children.deadR -<span class="st"> </span>rpqa$children.dead1y) +<span class="st"> </span>rpqa$NchildD, <span class="dt">exclude =</span> <span class="ot">NULL</span>, <span class="dt">na.action =</span> na.pass)</code></pre>
-<pre><code>##                                              rpqa$NchildD
-## I(rpqa$children.deadR - rpqa$children.dead1y)      0      1      2      3
-##                                            0   65429      4      0      0
-##                                            1      34  29207      9      0
-##                                            2       4     20  13044      1
-##                                            3       0      2      4   5112
-##                                            4       0      0      1      1
-##                                            5       0      0      0      0
-##                                            6       0      0      0      0
-##                                            7       0      0      0      0
-##                                            8       0      0      0      0
-##                                            9       0      0      0      0
-##                                            10      0      0      0      0
-##                                              rpqa$NchildD
-## I(rpqa$children.deadR - rpqa$children.dead1y)      4      5      6      7
-##                                            0       0      0      0      0
-##                                            1       0      0      0      0
-##                                            2       0      0      0      0
-##                                            3       0      0      0      0
-##                                            4    1906      0      0      0
-##                                            5       4    625      0      0
-##                                            6       0      1    211      0
-##                                            7       0      0      0     51
-##                                            8       0      0      0      0
-##                                            9       0      0      0      0
-##                                            10      0      0      0      0
-##                                              rpqa$NchildD
-## I(rpqa$children.deadR - rpqa$children.dead1y)      8      9     10   &lt;NA&gt;
-##                                            0       0      0      0 343718
-##                                            1       0      0      0    149
-##                                            2       0      0      0     21
-##                                            3       0      0      0      8
-##                                            4       0      0      0      3
-##                                            5       0      0      0      2
-##                                            6       0      0      0      0
-##                                            7       0      0      0      0
-##                                            8      16      0      0      0
-##                                            9       0      2      0      0
-##                                            10      0      0      2      0</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">changeNAto0 =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">is.na</span>(x), <span class="dv">0</span>, x) }
-rpqa$children.unknown_fate =<span class="st"> </span>rpqa$Nbirths -<span class="st"> </span>rpqa$NchildD -<span class="st"> </span>rpqa$NinfantD -<span class="st"> </span>rpqa$NadultD
-<span class="kw">qplot</span>(rpqa$children.unknown_fate)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-4.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(byear, children.unknown_fate, <span class="dt">data=</span>rpqa, <span class="dt">stat=</span> <span class="st">&#39;summary&#39;</span>, <span class="dt">fun.data=</span> <span class="st">&#39;mean_cl_boot&#39;</span>, <span class="dt">geom =</span> <span class="st">&#39;pointrange&#39;</span>)</code></pre>
-<pre><code>## Warning: Removed 349229 rows containing missing values (stat_summary).</code></pre>
-<pre><code>## Warning: Removed 5 rows containing missing values (geom_segment).</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-5.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$children.unknown_fate)</code></pre>
-<pre><code>## 
-##      0      1 
-## 115648     42</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># qplot(rpqa$NchildD,rpqa$children.dead5y, geom = &quot;jitter&quot;)</span>
-<span class="kw">cor.test</span>(rpqa$NinfantD,rpqa$children.dead1y, <span class="dt">geom =</span> <span class="st">&quot;jitter&quot;</span>)</code></pre>
-<pre><code>## 
-##  Pearson&#39;s product-moment correlation
-## 
-## data:  rpqa$NinfantD and rpqa$children.dead1y
-## t = 12880, df = 115688, p-value &lt; 2.2e-16
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.9996 0.9997
-## sample estimates:
-##    cor 
-## 0.9997</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$NinfantD==rpqa$children.dead1y)</code></pre>
-<pre><code>## 
-##  FALSE   TRUE 
-##    256 115434</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># qplot(rpqa$NchildD,rpqa$children.dead5y-rpqa$children.dead1y, geom = &quot;jitter&quot;)</span>
+changeNAto0 =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">is.na</span>(x), <span class="dv">0</span>, x) }
 rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;children.spouses&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;spouses&#39;</span>)
 rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;grandchildren.per.spouse&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.per.spouse&#39;</span>)
 
@@ -538,7 +319,7 @@ rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <sp
 rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;grandchildren.survivingR&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.survivingR&#39;</span>)
 rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;grandchildren.dead1m&#39;</span>, <span class="dt">wt_var =</span> <span class="st">&#39;children.dead1m&#39;</span>)
 
-<span class="kw">xtabs</span>(~<span class="st"> </span>(grandchildren&gt;<span class="dv">0</span>) +(children&gt;<span class="dv">0</span>) +<span class="st"> </span>(spouses&gt;<span class="dv">0</span>) +<span class="st"> </span>surviveR,<span class="dt">data=</span>rpqa,<span class="dt">exclude=</span><span class="ot">NULL</span>, <span class="dt">na.action=</span> na.pass)</code></pre>
+<span class="kw">xtabs</span>(~<span class="st"> </span>(grandchildren&gt;<span class="dv">0</span>) +(children&gt;<span class="dv">0</span>) +<span class="st"> </span>(spouses&gt;<span class="dv">0</span>) +<span class="st"> </span>surviveR,<span class="dt">data=</span>rpqa,<span class="dt">exclude=</span><span class="ot">NULL</span>, <span class="dt">na.action=</span> na.pass)</code></pre></div>
 <pre><code>## , , spouses &gt; 0 = FALSE, surviveR = 0
 ## 
 ##                  children &gt; 0
@@ -580,17 +361,17 @@ rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <sp
 ## grandchildren &gt; 0  FALSE   TRUE
 ##             FALSE      0      0
 ##             TRUE       0      0</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">counted.parents =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> rpqa[,<span class="kw">c</span>(<span class="st">&#39;idParents&#39;</span>,<span class="st">&quot;born&quot;</span>)],<span class="dt">formula =</span> idParents ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> <span class="st">&quot;born&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">counted.parents =<span class="st"> </span><span class="kw">dcast</span>(<span class="dt">data=</span> rpqa[,<span class="kw">c</span>(<span class="st">&#39;idParents&#39;</span>,<span class="st">&quot;born&quot;</span>)],<span class="dt">formula =</span> idParents ~<span class="st"> </span>.,<span class="dt">fun.aggregate =</span> sum, <span class="dt">na.rm=</span>T, <span class="dt">value.var =</span> <span class="st">&quot;born&quot;</span>)
 <span class="kw">names</span>(counted.parents) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idParents&#39;</span>,<span class="st">&quot;children&quot;</span>)
 rpqa.unions =<span class="st"> </span><span class="kw">merge</span>(rpqa.unions, counted.parents,<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T) <span class="co"># find childless marriages</span>
 
-<span class="kw">table</span>(rpqa.unions$children,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<span class="kw">table</span>(rpqa.unions$children,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
 ##    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
 ## 7252 6086 5806 5378 5093 4738 4518 4310 4193 3999 3524 2818 2076 1493  990 
 ##   16   17   18   19   20   21   22   23 &lt;NA&gt; 
 ##  623  342  205   90   45   16    4    6 9535</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa.unions =<span class="st"> </span>rpqa.unions[<span class="kw">which</span>(rpqa.unions$children &gt;<span class="st"> </span><span class="dv">0</span>), ]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa.unions =<span class="st"> </span>rpqa.unions[<span class="kw">which</span>(rpqa.unions$children &gt;<span class="st"> </span><span class="dv">0</span>), ]
 rpqa.unions =<span class="st"> </span>rpqa.unions[<span class="kw">order</span>(rpqa.unions$id_m,rpqa.unions$dat),]
 rpqa.unions$fertile.marriage.order.Father =<span class="st"> </span><span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(rpqa.unions)), rpqa.unions$id_m, <span class="dt">FUN =</span> seq_along)
 rpqa.unions =<span class="st"> </span>rpqa.unions[<span class="kw">order</span>(rpqa.unions$id_f,rpqa.unions$dat),]
@@ -598,224 +379,91 @@ rpqa.unions$fertile.marriage.order.Mother =<span class="st"> </span><span class=
 
 rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, rpqa.unions[,<span class="kw">c</span>(<span class="st">&#39;idParents&#39;</span>,<span class="st">&#39;fertile.marriage.order.Mother&#39;</span>,<span class="st">&#39;fertile.marriage.order.Father&#39;</span>),],<span class="dt">by=</span><span class="st">&quot;idParents&quot;</span>,<span class="dt">all.x=</span>T)
 rpqa$first.fertile.marriage =<span class="st"> </span>(rpqa$fertile.marriage.order.Mother +<span class="st"> </span>rpqa$fertile.marriage.order.Father) ==<span class="st"> </span><span class="dv">2</span>
-<span class="kw">table</span>(rpqa$first.fertile.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
+<span class="kw">table</span>(rpqa$first.fertile.marriage,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
 ##  FALSE   TRUE   &lt;NA&gt; 
 ##  56874 357170  45547</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$children)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-6.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa[<span class="kw">which</span>(rpqa$age &gt;<span class="st"> </span><span class="fl">1.5</span>),]$children )</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-7.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$grandchildren)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-8.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa[<span class="kw">which</span>(rpqa$age &gt;<span class="st"> </span><span class="fl">1.5</span>),]$grandchildren )</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-9.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$children.surviving1m)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-10.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$children.dead1m)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-11.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$spouses)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-12.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(children,children.surviving1m, <span class="dt">data=</span>rpqa,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.02</span>))</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-13.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(children.surviving1d, children.surviving1m, <span class="dt">data=</span>rpqa,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.2</span>))</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-1-14.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span>rpqa[<span class="kw">order</span>(rpqa$idParents),]
-rpqa$paternalage.mean =<span class="st"> </span><span class="kw">ave</span>(rpqa$paternalage,rpqa$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$children)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa[<span class="kw">which</span>(rpqa$age &gt;<span class="st"> </span><span class="fl">1.5</span>),]$children )</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$grandchildren)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-4.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa[<span class="kw">which</span>(rpqa$age &gt;<span class="st"> </span><span class="fl">1.5</span>),]$grandchildren )</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-5.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$children.surviving1m)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-6.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$children.dead1m)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-7.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$spouses)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-8.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(children,children.surviving1m, <span class="dt">data=</span>rpqa,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.02</span>))</code></pre></div>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-9.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(children.surviving1d, children.surviving1m, <span class="dt">data=</span>rpqa,<span class="dt">geom=</span><span class="st">&quot;jitter&quot;</span>,<span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.2</span>))</code></pre></div>
+<p><img src="0_rpqa_massage_files/figure-html/kids.and.spouses-10.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span>rpqa[<span class="kw">order</span>(rpqa$idParents),]
+rpqa$paternalage.mean =<span class="st"> </span><span class="kw">ave</span>(rpqa$paternalage ,rpqa$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
 rpqa$paternalage.diff =<span class="st"> </span>rpqa$paternalage -<span class="st"> </span>rpqa$paternalage.mean
 
-<span class="co"># rpqa = rpqa[order(rpqa$idPere),]</span>
-<span class="co"># rpqa$paternalage.mean = ave(rpqa$paternalage,rpqa$idPere,FUN= function(x) { mean(x,na.rm=T) } )</span>
-<span class="co"># rpqa$paternalage.diff = rpqa$paternalage - rpqa$paternalage.mean</span>
 rpqa$maternalage.mean =<span class="st"> </span><span class="kw">ave</span>(rpqa$maternalage,rpqa$idMere,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
 rpqa$maternalage.diff =<span class="st"> </span>rpqa$maternalage -<span class="st"> </span>rpqa$maternalage.mean
 
-rpqa$urban =<span class="st"> </span><span class="kw">factor</span>(rpqa$codeLieuNaiss %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">3901</span>, <span class="dv">4501</span>),<span class="kw">c</span>(<span class="st">&quot;FALSE&quot;</span>,<span class="st">&quot;TRUE&quot;</span>),<span class="kw">c</span>(<span class="st">&#39;NO&#39;</span>,<span class="st">&#39;&#39;</span>))
-<span class="kw">table</span>(rpqa$urban)</code></pre>
+rpqa$urban =<span class="st"> </span><span class="kw">factor</span>(rpqa$codeLieuNaiss %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">3901</span>, <span class="dv">4501</span>),<span class="kw">c</span>(<span class="st">&quot;FALSE&quot;</span>,<span class="st">&quot;TRUE&quot;</span>),<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))
+<span class="kw">table</span>(rpqa$urban)</code></pre></div>
 <pre><code>## 
-##     NO        
+##      0      1 
 ## 400287  59304</code></pre>
 </div>
 <div id="calculate-predictors" class="section level2">
 <h2>calculate predictors</h2>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span>rpqa[<span class="kw">order</span>(rpqa$idPere,rpqa$bdate), ]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span>rpqa[<span class="kw">order</span>(rpqa$idParents,rpqa$bdate), ]
 rpqa &lt;-<span class="st"> </span><span class="kw">transform</span>(rpqa, <span class="dt">siblings =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(rpqa)), rpqa$idParents, <span class="dt">FUN =</span> length)-<span class="dv">1</span>) <span class="co"># sibling count</span>
-rpqa &lt;-<span class="st"> </span><span class="kw">transform</span>(rpqa, <span class="dt">birthorder =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(rpqa)), rpqa$idPere, <span class="dt">FUN =</span> seq_along)) <span class="co"># old trick to get birth order, don&#39;t know what this does to those with missings for father though</span>
-rpqa$birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(rpqa$birthorder,rpqa$idPere,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
-rpqa$birthorder.diff =<span class="st"> </span>rpqa$birthorder -<span class="st"> </span>rpqa$birthorder.mean
-<span class="kw">qplot</span>(rpqa$birthorder)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-1.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>( rpqa$qualiteDateNaiss ==<span class="st"> </span><span class="dv">3</span> ) <span class="co"># born dead or died before baptism</span></code></pre>
+rpqa &lt;-<span class="st"> </span><span class="kw">transform</span>(rpqa, <span class="dt">birthorder =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(rpqa)), rpqa$idParents, <span class="dt">FUN =</span> seq_along)) <span class="co"># old trick to get birth order, don&#39;t know what this does to those with missings for father though</span>
+<span class="kw">qplot</span>(rpqa$birthorder)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$younger_siblings =<span class="st"> </span>rpqa$siblings +<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>rpqa$birthorder
+<span class="kw">table</span>(rpqa$younger_siblings)</code></pre></div>
+<pre><code>## 
+##     0     1     2     3     4     5     6     7     8     9    10    11 
+## 74394 57339 50743 44738 39259 34103 29321 24777 20447 16242 12237  8710 
+##    12    13    14    15    16    17    18    19    20    21    22 
+##  5891  3815  2321  1331   708   366   161    71    26    10     6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>( rpqa$qualiteDateNaiss ==<span class="st"> </span><span class="dv">3</span> ) <span class="co"># born dead or died before baptism</span></code></pre></div>
 <pre><code>## 
 ##  FALSE   TRUE 
 ## 450756   8835</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$qualiteDateNaiss ==<span class="st"> </span><span class="dv">3</span>, rpqa$age, <span class="dt">stat=</span><span class="st">&#39;summary&#39;</span>,<span class="dt">fun.data=</span><span class="st">&#39;mean_sdl&#39;</span>)</code></pre>
-<pre><code>## Warning: Removed 219953 rows containing missing values (stat_summary).</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-2.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$age[rpqa$qualiteDateNaiss ==<span class="st"> </span><span class="dv">3</span>] *<span class="dv">10</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-3.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$age[rpqa$qualiteDateNaiss !=<span class="st"> </span><span class="dv">3</span>] *<span class="dv">10</span>) +<span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">1</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-4.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$bdate.Father)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-5.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(<span class="kw">year</span>(rpqa$bdate.Father),<span class="dt">na.rm=</span>T)</code></pre>
-<pre><code>##   0%  25%  50%  75% 100% 
-## 1583 1710 1735 1752 1782</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$cohort =<span class="st"> </span><span class="ot">NA</span>
-rpqa$cohort[<span class="kw">which</span>(<span class="kw">year</span>(rpqa$bdate.Father)&gt;<span class="dv">1572</span>)] =<span class="st"> &#39;1572-1710&#39;</span>
-rpqa$cohort[<span class="kw">which</span>(<span class="kw">year</span>(rpqa$bdate.Father)&gt;<span class="dv">1710</span>)] =<span class="st"> &#39;1710-1735&#39;</span>
-rpqa$cohort[<span class="kw">which</span>(<span class="kw">year</span>(rpqa$bdate.Father)&gt;<span class="dv">1735</span>)] =<span class="st"> &#39;1735-1752&#39;</span>
-rpqa$cohort[<span class="kw">which</span>(<span class="kw">year</span>(rpqa$bdate.Father)&gt;<span class="dv">1752</span>)] =<span class="st"> &#39;1752-1782&#39;</span>
-<span class="kw">table</span>(rpqa$cohort,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
-<pre><code>## 
-## 1572-1710 1710-1735 1735-1752 1752-1782      &lt;NA&gt; 
-##    100808    104223    101341     95386     57833</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data=</span><span class="kw">melt</span>(<span class="kw">numcolwise</span>(identity)(rpqa.individuals),<span class="dt">id.vars=</span><span class="kw">c</span>(<span class="st">&#39;idIndividu&#39;</span>,<span class="st">&#39;idPere&#39;</span>,<span class="st">&#39;idMere&#39;</span>)),value) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>variable,<span class="dt">scales=</span><span class="st">&#39;free&#39;</span>)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.
-## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<pre><code>## Warning: position_stack requires constant width: output may be incorrect</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-6.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(<span class="dt">data=</span><span class="kw">melt</span>(<span class="kw">catcolwise</span>(identity)(rpqa.individuals),<span class="dt">id.vars=</span><span class="kw">c</span>(<span class="st">&#39;idParents&#39;</span>)),value) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>variable,<span class="dt">scales=</span><span class="st">&#39;free&#39;</span>)</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-7.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$age.years =<span class="st"> </span>rpqa$dyear-<span class="st"> </span>rpqa$byear
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$age[rpqa$qualiteDateNaiss ==<span class="st"> </span><span class="dv">3</span>] *<span class="dv">10</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-2.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$age[rpqa$qualiteDateNaiss !=<span class="st"> </span><span class="dv">3</span>] *<span class="dv">10</span>) +<span class="st"> </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">1</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-3.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$age.years =<span class="st"> </span>rpqa$dyear-<span class="st"> </span>rpqa$byear
 
-rpqa =<span class="st"> </span>rpqa[<span class="kw">order</span>(rpqa$idPere,rpqa$birthorder), ]
+rpqa =<span class="st"> </span>rpqa[<span class="kw">order</span>(rpqa$idParents,rpqa$birthorder), ]
 
-<span class="kw">transform</span>(rpqa[<span class="dv">1</span>:<span class="dv">40</span>,<span class="kw">c</span>(<span class="st">&quot;idParents&quot;</span>,<span class="st">&quot;byear&quot;</span>,<span class="st">&quot;birthorder&quot;</span>,<span class="st">&quot;surviveR&quot;</span>)], <span class="dt">min15.birthorder =</span> <span class="kw">ave</span>(surviveR, idParents, <span class="dt">FUN =</span>function(x) { x[<span class="kw">is.na</span>(x)] =<span class="st"> </span><span class="dv">0</span>
-<span class="kw">cumsum</span>(x)
-} )) <span class="co"># NAs propagate problematically...</span></code></pre>
-<pre><code>##        idParents byear birthorder surviveR min15.birthorder
-## 306765   3_47588  1676          1        1                1
-## 306774   3_47588  1681          2        1                2
-## 306764   3_47588  1683          3        1                3
-## 306767   3_47588  1686          4        0                3
-## 306771   3_47588  1686          5        0                3
-## 306770   3_47588  1687          6       NA                3
-## 306766   3_47588  1690          7       NA                3
-## 306773   3_47588  1692          8        1                4
-## 306769   3_47588  1694          9       NA                4
-## 306768   3_47588  1696         10        0                4
-## 306772   3_47588  1699         11       NA                4
-## 411626   9_69339  1696          1        1                1
-## 411624   9_69339  1711          2        1                2
-## 411623   9_69339    NA          3        1                3
-## 411625   9_69339    NA          4        1                4
-## 21033  11_365860    NA          1        1                1
-## 119548     15_16  1721          1       NA                0
-## 119546     15_16  1723          2        0                0
-## 119545     15_16  1724          3        1                1
-## 119547     15_16  1726          4       NA                1
-## 119544     15_16  1728          5       NA                1
-## 119543     15_16  1729          6        0                1
-## 119549     15_16  1733          7        0                1
-## 236097     21_22  1629          1        1                1
-## 272802     23_24  1642          1        1                1
-## 304805 29_114174  1744          1        1                1
-## 304806 29_114174  1746          2        1                2
-## 304804 29_114174  1747          3       NA                2
-## 304801 29_114174  1748          4        0                2
-## 304807 29_114174  1750          5        1                3
-## 304800 29_114174  1752          6        0                3
-## 304808 29_114174  1753          7        0                3
-## 304803 29_114174  1755          8       NA                3
-## 304802 29_114174  1757          9        0                3
-## 314404  34_68799  1717          1        1                1
-## 314405  34_68799  1718          2        0                1
-## 314406  34_68799  1718          3        1                2
-## 314407  34_68799  1720          4        1                3
-## 314403  34_68799  1722          5        0                3
-## 314408  34_68799  1723          6        1                4</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa &lt;-<span class="st"> </span><span class="kw">transform</span>(rpqa, <span class="dt">min15.birthorder =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span>function(x) { x[<span class="kw">is.na</span>(x)] =<span class="st"> </span><span class="dv">0</span>
-<span class="kw">cumsum</span>(x)
-} ))
-<span class="kw">xtabs</span>(<span class="dt">data=</span>rpqa, ~<span class="kw">is.na</span>(birthorder) +<span class="st"> </span><span class="kw">is.na</span>(min15.birthorder))</code></pre>
-<pre><code>##                  is.na(min15.birthorder)
-## is.na(birthorder)  FALSE   TRUE
-##             FALSE 427281      0
-##             TRUE   27519   4791</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$min15.birthorder,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
-<pre><code>## 
-##      0      1      2      3      4      5      6      7      8      9 
-## 158398 109005  53358  40700  29757  22097  15542  10674   6743   3904 
-##     10     11     12     13     14     15     16     17     18     19 
-##   2286   1157    595    299    136     72     32     21     11      7 
-##     20     21     22     23     24   &lt;NA&gt; 
-##      2      1      1      1      1   4791</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$min15.birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(rpqa$min15.birthorder,rpqa$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T) } )
-rpqa$min15.birthorder.diff =<span class="st"> </span>rpqa$min15.birthorder -<span class="st"> </span>rpqa$min15.birthorder.mean
-
-rpqa$nr.siblings =<span class="st"> </span><span class="kw">ave</span>(rpqa$born,rpqa$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } ) -<span class="dv">1</span> <span class="co"># dont count self</span>
-<span class="kw">qplot</span>(rpqa$nr.siblings,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-8.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$nr.dead.siblings1m =<span class="st"> </span><span class="kw">ave</span>(rpqa$dead1m,rpqa$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } )  -<span class="st"> </span>rpqa$dead1m
-<span class="kw">qplot</span>(rpqa$nr.dead.siblings1m,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-9.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$infant.death.cluster =<span class="st"> </span>rpqa$nr.dead.siblings1m/rpqa$nr.siblings <span class="co"># dont count self</span>
-<span class="kw">qplot</span>(rpqa$infant.death.cluster)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-10.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa[<span class="kw">which</span>(rpqa$nr.siblings&gt;<span class="dv">1</span>),]$infant.death.cluster)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-11.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">lag<span class="fl">.0</span> =<span class="st"> </span>function(x) {   
+rpqa$nr.siblings =<span class="st"> </span><span class="kw">ave</span>(rpqa$born,rpqa$idParents, <span class="dt">FUN =</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } ) -<span class="dv">1</span> <span class="co"># dont count self</span>
+<span class="kw">qplot</span>(rpqa$nr.siblings,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-4.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$nr.dead.siblings1m =<span class="st"> </span><span class="kw">ave</span>(rpqa$dead1m,rpqa$idParents,<span class="dt">FUN=</span> function(x) { <span class="kw">sum</span>(x,<span class="dt">na.rm=</span>T) } )  -<span class="st"> </span>rpqa$dead1m
+<span class="kw">qplot</span>(rpqa$nr.dead.siblings1m,<span class="dt">binwidth=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-5.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$infant.death.cluster =<span class="st"> </span>rpqa$nr.dead.siblings1m/rpqa$nr.siblings <span class="co"># dont count self</span>
+<span class="kw">qplot</span>(rpqa$infant.death.cluster)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-6.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa[<span class="kw">which</span>(rpqa$nr.siblings&gt;<span class="dv">1</span>),]$infant.death.cluster)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="0_rpqa_massage_files/figure-html/add.some.indicators-7.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lag<span class="fl">.0</span> =<span class="st"> </span>function(x) {   
     if(<span class="kw">length</span>(x)==<span class="dv">1</span>) <span class="dv">0</span>
     else <span class="kw">c</span>(<span class="dv">0</span>,x[ <span class="dv">1</span>:(<span class="kw">length</span>(x)-<span class="dv">1</span>)]) 
 }
@@ -824,180 +472,50 @@ inv.lag<span class="fl">.0</span> =<span class="st"> </span>function(x) {
     else <span class="kw">c</span>(x[ <span class="dv">2</span>:<span class="kw">length</span>(x)],<span class="dv">0</span>) 
 }
 rpqa =<span class="st"> </span><span class="kw">transform</span>(rpqa, <span class="dt">older.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span> lag<span class="fl">.0</span>))
-rpqa =<span class="st"> </span><span class="kw">transform</span>(rpqa, <span class="dt">younger.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span> inv.lag<span class="fl">.0</span>))</code></pre>
+rpqa =<span class="st"> </span><span class="kw">transform</span>(rpqa, <span class="dt">younger.sib.made.15y =</span> <span class="kw">ave</span>(surviveR, idPere, <span class="dt">FUN =</span> inv.lag<span class="fl">.0</span>))
+
+rpqa$older_siblings =<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>((rpqa$birthorder -<span class="st"> </span><span class="dv">1</span>) &gt;<span class="st"> </span><span class="dv">4</span>,<span class="st">&quot;5+&quot;</span>, rpqa$birthorder -<span class="st"> </span><span class="dv">1</span>))
+rpqa$last_born =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$birthorder ==<span class="st"> </span>rpqa$nr.siblings, <span class="dv">1</span>, <span class="dv">0</span>)</code></pre></div>
 </div>
 <div id="get-grandparents" class="section level2">
 <h2>Get grandparents</h2>
-<pre class="sourceCode r"><code class="sourceCode r">grandparents =<span class="st"> </span>rpqa[, <span class="kw">c</span>(<span class="st">&#39;idIndividu&#39;</span>,<span class="st">&#39;idPere&#39;</span>,<span class="st">&#39;idMere&#39;</span>, <span class="st">&#39;paternalage&#39;</span>, <span class="st">&#39;maternalage&#39;</span>)]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">grandparents =<span class="st"> </span>rpqa[, <span class="kw">c</span>(<span class="st">&#39;idIndividu&#39;</span>,<span class="st">&#39;idPere&#39;</span>,<span class="st">&#39;idMere&#39;</span>, <span class="st">&#39;paternalage&#39;</span>, <span class="st">&#39;maternalage&#39;</span>)]
 <span class="kw">names</span>(grandparents) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idMere&#39;</span>, <span class="st">&#39;idMaternalGrandfather&#39;</span>, <span class="st">&#39;idMaternalGrandmother&#39;</span>, <span class="st">&#39;maternal.grandpaternalage&#39;</span>,  <span class="st">&#39;maternal.grandmaternalage&#39;</span>)
 rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, grandparents, <span class="dt">by =</span> <span class="st">&quot;idMere&quot;</span>, <span class="dt">all.x =</span>T)
 <span class="kw">names</span>(grandparents) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;idPere&#39;</span>, <span class="st">&#39;idPaternalGrandfather&#39;</span>, <span class="st">&#39;idPaternalGrandmother&#39;</span>, <span class="st">&#39;paternal.grandpaternalage&#39;</span>,  <span class="st">&#39;paternal.grandmaternalage&#39;</span>)
-rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, grandparents, <span class="dt">by =</span> <span class="st">&quot;idPere&quot;</span>, <span class="dt">all.x =</span>T)</code></pre>
-</div>
-<div id="cohorts-and-death-rates-as-moderators" class="section level2">
-<h2>Cohorts and death rates as moderators</h2>
-<p>epidemics: typhoid 1687 smallpox 1702-3, 1733</p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$father.birth.decade =<span class="st"> </span><span class="kw">round</span>(rpqa$byear.Father/<span class="dv">10</span>)*<span class="dv">10</span>
-<span class="kw">table</span>(rpqa$father.birth.decade,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
-<pre><code>## 
-##  1580  1590  1600  1610  1620  1630  1640  1650  1660  1670  1680  1690 
-##     4    72   144   338  1099  2321  6457  4426  7293 10140 13586 13716 
-##  1700  1710  1720  1730  1740  1750  1760  1770  1780  &lt;NA&gt; 
-## 26275 26821 42700 43649 64272 57104 57709 22298  1334 57833</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rule: at least 1500 obs per group, then smallest decade range possible</span>
-rpqa$paternal.cohort =<span class="st"> </span>rpqa$father.birth.decade
-rpqa$paternal.cohort =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$paternal.cohort &gt;<span class="st"> </span><span class="dv">1620</span>, rpqa$paternal.cohort, <span class="st">&quot;1580-1620&quot;</span>) 
-rpqa$paternal.cohort =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$paternal.cohort &lt;<span class="st"> </span><span class="dv">1770</span>, rpqa$paternal.cohort, <span class="st">&quot;1770-1780&quot;</span>) 
-rpqa$paternal.cohort =<span class="st"> </span><span class="kw">factor</span>(rpqa$paternal.cohort)
-<span class="kw">table</span>(rpqa$paternal.cohort,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
-<pre><code>## 
-## 1580-1620      1630      1640      1650      1660      1670      1680 
-##      1657      2321      6457      4426      7293     10140     13586 
-##      1690      1700      1710      1720      1730      1740      1750 
-##     13716     26275     26821     42700     43649     64272     57104 
-##      1760 1770-1780      &lt;NA&gt; 
-##     57709     23632     57833</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$birth.decade =<span class="st"> </span><span class="kw">round</span>(rpqa$byear/<span class="dv">10</span>)*<span class="dv">10</span>
-<span class="kw">table</span>(rpqa$birth.decade,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
-<pre><code>## 
-##  1580  1590  1600  1610  1620  1630  1640  1650  1660  1670  1680  1690 
-##     4    39   100   155   380   670  1880  1535  2382  3951  5858  5779 
-##  1700  1710  1720  1730  1740  1750  1760  1770  1780  1790  1800  &lt;NA&gt; 
-## 10832 11191 17658 20471 29879 31459 48033 48660 69864 69742 47163 31906</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$own.cohort =<span class="st"> </span>rpqa$birth.decade
-rpqa$own.cohort =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$own.cohort &gt;<span class="st"> </span><span class="dv">1660</span>, rpqa$own.cohort, <span class="st">&quot;1600-1660&quot;</span>) 
-rpqa$own.cohort =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$own.cohort &lt;<span class="st"> </span><span class="dv">1780</span>, rpqa$own.cohort, <span class="st">&quot;1780-1800&quot;</span>) 
-rpqa$own.cohort =<span class="st"> </span><span class="kw">factor</span>(rpqa$own.cohort)
-<span class="kw">table</span>(rpqa$own.cohort,<span class="dt">exclude=</span><span class="ot">NULL</span>)</code></pre>
-<pre><code>## 
-## 1600-1660      1670      1680      1690      1700      1710      1720 
-##      7145      3951      5858      5779     10832     11191     17658 
-##      1730      1740      1750      1760      1770 1780-1800      &lt;NA&gt; 
-##     20471     29879     31459     48033     48660    186769     31906</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">epidemics =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1687</span>, <span class="dv">1702</span>, <span class="dv">1703</span>, <span class="dv">1733</span>)
-parish.pop =<span class="st"> </span><span class="kw">aggregate</span>(rpqa$idIndividu,<span class="dt">by=</span><span class="kw">list</span>(rpqa$birth.decade,rpqa$codeLieuNaiss),<span class="dt">FUN=</span>length)
-bigger.parishes =<span class="st"> </span><span class="kw">unique</span>(parish.pop[<span class="kw">which</span>(parish.pop$x &gt;<span class="st"> </span><span class="dv">600</span>), <span class="st">&#39;Group.2&#39;</span>])
-<span class="kw">qplot</span>(Group<span class="fl">.1</span>, x, <span class="dt">data=</span> parish.pop[<span class="kw">which</span>(parish.pop$Group<span class="fl">.2</span> %in%<span class="st"> </span>bigger.parishes), ]) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Group<span class="fl">.2</span>,<span class="dt">scales=</span><span class="st">&quot;free_y&quot;</span>) </code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-3-1.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(Group<span class="fl">.1</span>, x, <span class="dt">data=</span> parish.pop, <span class="dt">group =</span> Group<span class="fl">.2</span>, <span class="dt">geom=</span><span class="st">&quot;line&quot;</span>, <span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.2</span>))</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-3-2.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># I conclude: fairly uniform pattern of increase. using a parish-specific population semes wrong, as I have no data to compare parish sizes and thus compute population density</span>
+rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, grandparents, <span class="dt">by =</span> <span class="st">&quot;idPere&quot;</span>, <span class="dt">all.x =</span>T)
+rpqa$idPaternalGrandparents =<span class="st"> </span><span class="kw">paste</span>(rpqa$idPaternalGrandfather, rpqa$idPaternalGrandmother)
+rpqa$idMaternalGrandparents =<span class="st"> </span><span class="kw">paste</span>(rpqa$idMaternalGrandfather, rpqa$idMaternalGrandmother)
 
-<span class="kw">library</span>(grid)
-births =<span class="st"> </span><span class="kw">na.omit</span>( <span class="kw">ddply</span>(rpqa, .(byear), summarise, <span class="dt">births =</span> <span class="kw">length</span>(idIndividu)) )
-<span class="kw">qplot</span>(byear, births, <span class="dt">data=</span> births,<span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Births&quot;</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Birth year&quot;</span>) +
-<span class="st">    </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">1</span>],<span class="dt">xend=</span>epidemics[<span class="dv">1</span>],<span class="dt">y=</span><span class="dv">1900</span>,<span class="dt">yend=</span><span class="dv">900</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>) +
-<span class="st"> </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">3</span>],<span class="dt">xend=</span>epidemics[<span class="dv">3</span>],<span class="dt">y=</span><span class="dv">2500</span>,<span class="dt">yend=</span><span class="dv">1500</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>) +
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">4</span>],<span class="dt">xend=</span>epidemics[<span class="dv">4</span>],<span class="dt">y=</span><span class="dv">3800</span>,<span class="dt">yend=</span><span class="dv">2800</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>)</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-3-3.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$death.decade =<span class="st"> </span><span class="kw">round</span>(rpqa$dyear/<span class="dv">10</span>)*<span class="dv">10</span>
-deaths =<span class="st"> </span><span class="kw">na.omit</span>( <span class="kw">ddply</span>(rpqa, .(dyear), summarise, <span class="dt">deaths =</span> <span class="kw">length</span>(idIndividu)) )
-<span class="kw">qplot</span>(dyear, deaths, <span class="dt">data=</span> deaths,<span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Deaths&quot;</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Death year&quot;</span>) +
-<span class="st">    </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">1</span>],<span class="dt">xend=</span>epidemics[<span class="dv">1</span>],<span class="dt">y=</span><span class="dv">1800</span>,<span class="dt">yend=</span><span class="dv">800</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>) +
-<span class="st"> </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">3</span>],<span class="dt">xend=</span>epidemics[<span class="dv">3</span>],<span class="dt">y=</span><span class="dv">2200</span>,<span class="dt">yend=</span><span class="dv">1200</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>) +
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">4</span>],<span class="dt">xend=</span>epidemics[<span class="dv">4</span>],<span class="dt">y=</span><span class="dv">3300</span>,<span class="dt">yend=</span><span class="dv">2300</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>)</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-3-4.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">birthdeaths =<span class="st"> </span><span class="kw">merge</span>(births,deaths,<span class="dt">by.x=</span><span class="st">&quot;byear&quot;</span>,<span class="dt">by.y=</span><span class="st">&quot;dyear&quot;</span>,<span class="dt">all=</span>T)
-birthdeaths$deaths.per.birth =<span class="st"> </span>birthdeaths$deaths /<span class="st"> </span>birthdeaths$births
-<span class="kw">qplot</span>(byear, deaths.per.birth, <span class="dt">data=</span> birthdeaths,<span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Number of deaths per birth&quot;</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) +
-<span class="st">    </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">1</span>],<span class="dt">xend=</span>epidemics[<span class="dv">1</span>],<span class="dt">y=</span><span class="fl">1.5</span>,<span class="dt">yend=</span><span class="dv">1</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>) +
-<span class="st"> </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">3</span>],<span class="dt">xend=</span>epidemics[<span class="dv">3</span>],<span class="dt">y=</span><span class="dv">2</span>,<span class="dt">yend=</span><span class="fl">1.5</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>) +
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">4</span>],<span class="dt">xend=</span>epidemics[<span class="dv">4</span>],<span class="dt">y=</span><span class="fl">1.5</span>,<span class="dt">yend=</span><span class="dv">1</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>)</code></pre>
-<pre><code>## Warning: Removed 81 rows containing missing values (geom_path).</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-3-5.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">birthdeaths =<span class="st"> </span>birthdeaths[<span class="kw">order</span>(birthdeaths$byear), ]
-<span class="kw">library</span>(zoo)
-birthdeaths_sm =<span class="st"> </span><span class="kw">na.omit</span>(birthdeaths)
-birthdeaths_sm$deaths.per.birth_smoothed =<span class="st"> </span><span class="kw">rollmean</span>(birthdeaths_sm$deaths.per.birth, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">fill =</span> <span class="ot">NA</span>, <span class="dt">align =</span> <span class="st">&quot;right&quot;</span>)
-birthdeaths_sm =<span class="st"> </span>birthdeaths_sm[,<span class="kw">c</span>(<span class="st">&#39;byear&#39;</span>,<span class="st">&#39;deaths.per.birth_smoothed&#39;</span>)]
+grandparent =<span class="st"> </span>rpqa[, <span class="kw">c</span>(<span class="st">&#39;idIndividu&#39;</span>, <span class="st">&#39;ddate&#39;</span>, <span class="st">&#39;bdate&#39;</span>)]
+<span class="kw">names</span>(grandparent) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idPaternalGrandfather&quot;</span>, <span class="st">&quot;ddate.paternalGrandfather&quot;</span>, <span class="st">&quot;bdate.paternalGrandfather&quot;</span>)
+rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, grandparent, <span class="dt">by =</span> <span class="st">&quot;idPaternalGrandfather&quot;</span>, <span class="dt">all.x =</span> T)
+<span class="kw">names</span>(grandparent) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idMaternalGrandfather&quot;</span>, <span class="st">&quot;ddate.maternalGrandfather&quot;</span>, <span class="st">&quot;bdate.maternalGrandfather&quot;</span>)
+rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, grandparent, <span class="dt">by =</span> <span class="st">&quot;idMaternalGrandfather&quot;</span>, <span class="dt">all.x =</span> T)
+<span class="kw">names</span>(grandparent) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idPaternalGrandmother&quot;</span>, <span class="st">&quot;ddate.paternalGrandmother&quot;</span>, <span class="st">&quot;bdate.paternalGrandmother&quot;</span>)
+rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, grandparent, <span class="dt">by =</span> <span class="st">&quot;idPaternalGrandmother&quot;</span>, <span class="dt">all.x =</span> T)
+<span class="kw">names</span>(grandparent) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;idMaternalGrandmother&quot;</span>, <span class="st">&quot;ddate.maternalGrandmother&quot;</span>, <span class="st">&quot;bdate.maternalGrandmother&quot;</span>)
+rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, grandparent, <span class="dt">by =</span> <span class="st">&quot;idMaternalGrandmother&quot;</span>, <span class="dt">all.x =</span> T)
 
-<span class="kw">qplot</span>(byear, deaths.per.birth_smoothed, <span class="dt">data=</span> birthdeaths_sm,<span class="dt">geom=</span><span class="st">&quot;line&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Number of deaths per birth&quot;</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) +
-<span class="st">    </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">1</span>],<span class="dt">xend=</span>epidemics[<span class="dv">1</span>],<span class="dt">y=</span><span class="fl">1.5</span>,<span class="dt">yend=</span><span class="dv">1</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>) +
-<span class="st"> </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">3</span>],<span class="dt">xend=</span>epidemics[<span class="dv">3</span>],<span class="dt">y=</span><span class="dv">2</span>,<span class="dt">yend=</span><span class="fl">1.5</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>) +
-<span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x=</span>epidemics[<span class="dv">4</span>],<span class="dt">xend=</span>epidemics[<span class="dv">4</span>],<span class="dt">y=</span><span class="fl">1.5</span>,<span class="dt">yend=</span><span class="dv">1</span>),<span class="dt">lineend=</span><span class="st">&quot;round&quot;</span>,<span class="dt">arrow=</span><span class="kw">arrow</span>(<span class="dt">length=</span><span class="kw">unit</span>(<span class="fl">0.3</span>,<span class="st">&#39;cm&#39;</span>)), <span class="dt">color=</span><span class="st">&quot;red&quot;</span>,<span class="dt">size=</span><span class="fl">0.02</span>)</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-3-6.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, birthdeaths, <span class="dt">by=</span><span class="st">&quot;byear&quot;</span>, <span class="dt">all.x=</span>T)
-rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, birthdeaths_sm, <span class="dt">by=</span><span class="st">&quot;byear&quot;</span>, <span class="dt">all.x=</span>T)
-<span class="co"># rpqa = merge(rpqa, birthdeaths[,c(&#39;byear&#39;,&#39;deaths.per.birth_smoothed&#39;)], by=&quot;byear&quot;, all.x=T)</span>
-
-
-infant.mortality =<span class="st"> </span><span class="kw">na.omit</span>( <span class="kw">ddply</span>(rpqa, .(byear), summarise, 
-                                                <span class="dt">infant.mortality =</span> <span class="kw">sum</span>(!survive1y, <span class="dt">na.rm=</span>T) /<span class="st"> </span><span class="kw">length</span>(idIndividu) *<span class="st"> </span><span class="dv">1000</span>, 
-                                                <span class="dt">neonatal.deaths =</span> <span class="kw">sum</span>(!survive1m, <span class="dt">na.rm=</span>T) /<span class="st"> </span><span class="kw">length</span>(idIndividu) *<span class="st"> </span><span class="dv">1000</span>, 
-                                                <span class="dt">perinatal.deaths =</span> <span class="kw">sum</span>(!survive1d, <span class="dt">na.rm=</span>T)  /<span class="st"> </span><span class="kw">length</span>(idIndividu) *<span class="st"> </span><span class="dv">1000</span>, 
-                                                <span class="dt">postneonatal.deaths =</span> <span class="kw">sum</span>(survive1m &amp;<span class="st"> </span>!survive1y, <span class="dt">na.rm=</span>T)  /<span class="st"> </span><span class="kw">length</span>(idIndividu) *<span class="st"> </span><span class="dv">1000</span>
-))
-infant.mortality$infant.mortality =<span class="st"> </span><span class="kw">rollmean</span>(infant.mortality$infant.mortality, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">na.pad =</span> T)
-infant.mortality$neonatal.deaths =<span class="st"> </span><span class="kw">rollmean</span>(infant.mortality$neonatal.deaths, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">na.pad =</span> T)
-infant.mortality$perinatal.deaths =<span class="st"> </span><span class="kw">rollmean</span>(infant.mortality$perinatal.deaths, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">na.pad =</span> T)
-infant.mortality$postneonatal.deaths =<span class="st"> </span><span class="kw">rollmean</span>(infant.mortality$postneonatal.deaths, <span class="dt">k=</span><span class="dv">3</span>, <span class="dt">na.pad =</span> T)
-<span class="kw">qplot</span>(<span class="dt">data=</span><span class="kw">melt</span>(infant.mortality,<span class="dt">id.vars=</span><span class="st">&#39;byear&#39;</span>), byear, value, <span class="dt">geom=</span><span class="st">&#39;line&#39;</span>) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>variable)</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_path).</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/unnamed-chunk-3-7.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, infant.mortality, <span class="dt">by=</span><span class="st">&quot;byear&quot;</span>, <span class="dt">all.x=</span>T)</code></pre>
-</div>
-<div id="make-pedigree-calculate-inbreeding" class="section level2">
-<h2>Make pedigree, calculate inbreeding</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table)
-rpqa =<span class="st"> </span><span class="kw">data.table</span>(rpqa)
-<span class="co"># library(pedigreemm)</span>
-<span class="co"># rpqa_pedigree = editPed(sire = rpqa$idPere, dam = rpqa$idMere, label = rpqa$idIndividu)</span>
-<span class="co"># names(rpqa_pedigree) = c(&quot;animal&quot;,&quot;sire&quot;,&quot;dam&quot;,&quot;gene&quot;)</span>
-<span class="co"># rpqa_pedigree$inbreeding = pedigree::calcInbreeding(rpqa_pedigree[,c(&quot;animal&quot;,&quot;dam&quot;, &quot;sire&quot;)])</span>
-<span class="co"># qplot(rpqa_pedigree$inbreeding)+xlim(c(0.001,0.3))</span>
-<span class="co"># table(round(rpqa_pedigree$inbreeding,2))</span>
-<span class="co"># rpqa[ , animal := as.character(idIndividu)]</span>
-<span class="co"># rpqa_pedigree = as.data.table(rpqa_pedigree)</span>
-<span class="co"># rpqa = merge.data.frame(rpqa, rpqa_pedigree[,list(animal,inbreeding)], by = &quot;animal&quot;)</span></code></pre>
+<span class="kw">library</span>(lubridate)
+rpqa$maternalgrandfatherloss =<span class="st"> </span><span class="kw">factor</span>(rpqa$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>) &gt;<span class="st"> </span>rpqa$ddate.maternalGrandfather,<span class="dt">exclude =</span> <span class="ot">NULL</span>)
+rpqa$paternalgrandfatherloss =<span class="st"> </span><span class="kw">factor</span>(rpqa$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>) &gt;<span class="st"> </span>rpqa$ddate.paternalGrandfather,<span class="dt">exclude =</span> <span class="ot">NULL</span>)
+rpqa$maternalgrandmotherloss =<span class="st"> </span><span class="kw">factor</span>(rpqa$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>) &gt;<span class="st"> </span>rpqa$ddate.maternalGrandmother,<span class="dt">exclude =</span> <span class="ot">NULL</span>)
+rpqa$paternalgrandmotherloss =<span class="st"> </span><span class="kw">factor</span>(rpqa$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>) &gt;<span class="st"> </span>rpqa$ddate.paternalGrandmother,<span class="dt">exclude =</span> <span class="ot">NULL</span>)</code></pre></div>
 </div>
 <div id="compute-high-level-predictors" class="section level2">
 <h2>compute high-level predictors</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
-<span class="kw">library</span>(dplyr)
-rpqa$born =<span class="st"> </span><span class="ot">NULL</span> <span class="co"># was just an aid</span></code></pre>
-<pre><code>## Warning in alloc.col(x): Attempt to reduce allocation from 239 to 238
-## ignored. Can only increase allocation via shallow copy.</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">miss_frac</span>(rpqa)</code></pre>
-<pre><code>## [1] 0</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$byear.years =<span class="st"> </span><span class="kw">year</span>(rpqa$bdate)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$born =<span class="st"> </span><span class="ot">NULL</span> <span class="co"># was just an aid</span>
+rpqa$byear.years =<span class="st"> </span><span class="kw">year</span>(rpqa$bdate)
 rpqa$dyear.years =<span class="st"> </span><span class="kw">year</span>(rpqa$ddate)
-rpqa[, mother_survived_1y :<span class="er">=</span><span class="st"> </span>((bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)) &lt;<span class="st"> </span>ddate.Mother) ]
-rpqa[, mother_survived_5y :<span class="er">=</span><span class="st"> </span>((bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>)) &lt;<span class="st"> </span>ddate.Mother) ]
 rpqa =<span class="st"> </span>rpqa %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(idParents) %&gt;%
 <span class="st">    </span><span class="kw">mutate</span>(
         <span class="dt">younger_sibs_ad_5y =</span> <span class="kw">younger_sibs_alive_and_dependent</span>(<span class="dt">survive5y=</span>survive5y, <span class="dt">byear=</span>byear.years, <span class="dt">dyear=</span>dyear.years) ,
         <span class="dt">older_sibs_ad_5y =</span> <span class="kw">older_sibs_alive_and_dependent</span>(<span class="dt">survive5y=</span>survive5y, <span class="dt">byear=</span>byear.years, <span class="dt">dyear=</span>dyear.years),
         <span class="dt">dependent_sibs_f5y =</span> <span class="kw">dependent_sibs_f5y</span>(<span class="dt">survive1y=</span>survive1y, <span class="dt">byear=</span>byear, <span class="dt">dyear=</span>dyear)
-    ) %&gt;%<span class="st"> </span><span class="kw">data.table</span>()
-
-<span class="co"># tdata = na.omit(rpqa)[1:20,]</span>
-<span class="co"># tdata$byear.years = year(tdata$bdate)</span>
-<span class="co"># tdata$dyear.years = year(tdata$ddate)</span>
-<span class="co"># as.numeric(tdata$bdate) * 60 *60 *24 * 365</span>
-<span class="co"># tdata$byear = year(tdata$bdate)</span>
-<span class="co"># tdata$age = round(tdata$age * 10)</span>
-<span class="co"># system.time({</span>
-<span class="co">#   as.data.table(</span>
-<span class="co">#       tdata %&gt;%</span>
-<span class="co">#   group_by(idParents) %&gt;%</span>
-<span class="co">#   mutate(</span>
-<span class="co">#       younger_sibs_ad_5y = younger_sibs_alive_and_dependent(survive5y=survive5y, byear=byear.years, dyear=dyear.years) ,</span>
-<span class="co">#       older_sibs_ad_5y = older_sibs_alive_and_dependent(survive5y=survive5y, byear=byear.years, dyear=dyear.years)</span>
-<span class="co">#   ))[, list(idParents, byear,dyear,age,younger_sibs_ad_5y,older_sibs_ad_5y)]</span>
-<span class="co"># })</span>
-<span class="co"># nrow(rpqa)/2000 * 0.064 / 60</span>
-<span class="co"># # dput (as.data.frame(tdata)[2:5, c(&quot;survive5y&quot;, &quot;bdate&quot;, &quot;ddate&quot;)])</span>
-<span class="co"># # survive5y = c(1, 1, 1, 1)</span>
-<span class="co"># # bdate = structure(c(-8217244800, </span>
-<span class="co"># # -7867929600, -7824556800, -7746883200), class = c(&quot;POSIXct&quot;, </span>
-<span class="co"># # &quot;POSIXt&quot;), tzone = &quot;UTC&quot;)</span>
-<span class="co"># # ddate = structure(c(-6005577600, -5122569600, -6930576000, -5193417600), class = c(&quot;POSIXct&quot;, &quot;POSIXt&quot;), tzone = &quot;UTC&quot;)</span>
-min_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">min</span>(x, <span class="dt">na.rm=</span>T) ) }
+    ) %&gt;%<span class="st"> </span><span class="kw">data.table</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">min_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">min</span>(x, <span class="dt">na.rm=</span>T) ) }
 max_na =<span class="st"> </span>function(x) { <span class="kw">ifelse</span>(<span class="kw">all</span>(<span class="kw">is.na</span>(x)), <span class="ot">NA</span>, <span class="kw">max</span>(x, <span class="dt">na.rm=</span>T) ) }
 rpqa[, paternalage_at_1st_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(paternalage, idPere, <span class="dt">FUN =</span> min_na)]
 rpqa[, paternalage_at_last_sib :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>(paternalage, idPere, <span class="dt">FUN =</span> max_na)]
@@ -1010,72 +528,212 @@ mothers =<span class="st"> </span>rpqa[!<span class="kw">duplicated</span>(idMer
 parents =<span class="st"> </span><span class="kw">rbind</span>(fathers, mothers)
 rpqa =<span class="st"> </span><span class="kw">merge</span>(rpqa, parents, <span class="dt">by =</span> <span class="st">&quot;idIndividu&quot;</span>, <span class="dt">all.x =</span> T)
 
-rpqa$paternalloss =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>) &gt;<span class="st"> </span>rpqa$ddate.Father, <span class="dv">1</span>, <span class="dv">0</span>)
-rpqa$maternalloss =<span class="st"> </span><span class="kw">ifelse</span>(rpqa$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">5</span>) &gt;<span class="st"> </span>rpqa$ddate.Mother, <span class="dv">1</span>, <span class="dv">0</span>)
-rpqa$paternalloss_by_35 =<span class="st"> </span>rpqa$bdate +<span class="st"> </span><span class="kw">years</span>(<span class="dv">35</span>) &gt;<span class="st"> </span>rpqa$ddate.Father
 
-rpqa$maternalage_c =<span class="st"> </span><span class="kw">meanCenter</span>(rpqa$maternalage)
-rpqa$paternalage_c =<span class="st"> </span><span class="kw">meanCenter</span>(rpqa$paternalage)
+rpqa$maternalage_c =<span class="st"> </span>QuantPsyc::<span class="kw">meanCenter</span>(rpqa$maternalage)
+rpqa$paternalage_c =<span class="st"> </span>QuantPsyc::<span class="kw">meanCenter</span>(rpqa$paternalage)
 rpqa$nr.siblings =<span class="st"> </span>rpqa$siblings
 
-rpqa$deaths.per.birth =<span class="st"> </span><span class="kw">scale</span>(rpqa$deaths.per.birth_smoothed)
-<span class="kw">table</span>(rpqa$paternalloss)</code></pre>
+rpqa %&gt;%<span class="st"> </span>
+<span class="kw">mutate</span>(<span class="dt">maternal_loss_age =</span> dyear.Mother -<span class="st"> </span>byear
+                 ,<span class="dt">maternal_loss_age =</span> <span class="kw">as.numeric</span>(<span class="kw">ifelse</span>(maternal_loss_age &gt;=<span class="st"> </span>-<span class="dv">1</span> &amp;<span class="st"> </span>maternal_loss_age &lt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">0</span>, maternal_loss_age))
+                 ,<span class="dt">maternal_loss  =</span> <span class="kw">as.character</span>(<span class="kw">cut</span>(maternal_loss_age, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">35</span>,<span class="dv">40</span>,<span class="dv">45</span>), <span class="dt">include.lowest =</span> T ))
+                 ,<span class="dt">maternal_loss =</span> <span class="kw">ifelse</span>( maternal_loss_age &gt;=<span class="st"> </span><span class="dv">45</span>, <span class="st">&quot;later&quot;</span>, maternal_loss)
+                 ,<span class="dt">maternal_loss =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(maternal_loss_age) |<span class="st"> </span>maternal_loss_age &lt;<span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;unclear&quot;</span>, maternal_loss)
+                 ,<span class="dt">maternal_loss =</span> <span class="kw">factor</span>(maternal_loss, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;later&quot;</span>,<span class="st">&quot;[0,1]&quot;</span>, <span class="st">&quot;(1,5]&quot;</span>, <span class="st">&quot;(5,10]&quot;</span>, <span class="st">&quot;(10,15]&quot;</span>, <span class="st">&quot;(15,20]&quot;</span>, <span class="st">&quot;(20,25]&quot;</span>, <span class="st">&quot;(25,30]&quot;</span>, <span class="st">&quot;(30,35]&quot;</span>,  <span class="st">&quot;(35,40]&quot;</span>, <span class="st">&quot;(40,45]&quot;</span>, <span class="st">&quot;unclear&quot;</span>))
+                 
+                 ,<span class="dt">paternal_loss_age =</span> dyear.Father -<span class="st"> </span>byear
+                 ,<span class="dt">paternal_loss_age =</span> <span class="kw">as.numeric</span>(<span class="kw">ifelse</span>(paternal_loss_age &gt;=<span class="st"> </span>-<span class="dv">1</span> &amp;<span class="st"> </span>paternal_loss_age &lt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">0</span>, paternal_loss_age))
+                 ,<span class="dt">paternal_loss  =</span> <span class="kw">as.character</span>(<span class="kw">cut</span>(paternal_loss_age, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">25</span>,<span class="dv">30</span>,<span class="dv">35</span>,<span class="dv">40</span>,<span class="dv">45</span>), <span class="dt">include.lowest =</span> T ))
+                 ,<span class="dt">paternal_loss =</span> <span class="kw">ifelse</span>( paternal_loss_age &gt;=<span class="st"> </span><span class="dv">45</span>, <span class="st">&quot;later&quot;</span>, paternal_loss)
+                 ,<span class="dt">paternal_loss =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(paternal_loss_age) |<span class="st"> </span>paternal_loss_age &lt;<span class="st"> </span><span class="dv">0</span>, <span class="st">&quot;unclear&quot;</span>, paternal_loss)
+                 ,<span class="dt">paternal_loss =</span> <span class="kw">factor</span>(paternal_loss, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;later&quot;</span>,<span class="st">&quot;[0,1]&quot;</span>, <span class="st">&quot;(1,5]&quot;</span>,  <span class="st">&quot;(5,10]&quot;</span>, <span class="st">&quot;(10,15]&quot;</span>, <span class="st">&quot;(15,20]&quot;</span>, <span class="st">&quot;(20,25]&quot;</span>, <span class="st">&quot;(25,30]&quot;</span>, <span class="st">&quot;(30,35]&quot;</span>,  <span class="st">&quot;(35,40]&quot;</span>, <span class="st">&quot;(40,45]&quot;</span>, <span class="st">&quot;unclear&quot;</span>))
+                 ) %&gt;%
+<span class="st">    </span><span class="kw">data.table</span>() -&gt;
+<span class="st">    </span>rpqa
+
+<span class="kw">table</span>(rpqa$maternal_loss, <span class="dt">exclude =</span> <span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
-##      0      1 
-## 307038  16878</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$paternalloss_by_35)</code></pre>
+##   later   [0,1]   (1,5]  (5,10] (10,15] (15,20] (20,25] (25,30] (30,35] 
+##   96785    8922   17870   19592   18031   18390   21247   25498   29276 
+## (35,40] (40,45] unclear    &lt;NA&gt; 
+##   32748   27878  143354       0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(rpqa$paternal_loss, <span class="dt">exclude =</span> <span class="ot">NULL</span>)</code></pre></div>
 <pre><code>## 
-##  FALSE   TRUE 
-## 137203 186713</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$paternal_alive =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">new_interval</span>(rpqa$bdate, rpqa$ddate.Father))/<span class="dv">3600</span>/<span class="dv">24</span>/<span class="dv">365</span>/<span class="dv">10</span></code></pre>
-<pre><code>## coercing interval to duration</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa$paternal_alive_c =<span class="st"> </span><span class="kw">meanCenter</span>(rpqa$paternal_alive)
-rpqa$deaths.per.birth =<span class="st"> </span><span class="kw">scale</span>(rpqa$deaths.per.birth)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">recenter_all =<span class="st"> </span>function(x) { <span class="kw">recenter.pat</span>( <span class="kw">recenter.pat</span>( x, <span class="dt">among_who=</span><span class="st">&quot;idParents&quot;</span>), <span class="dt">what =</span> <span class="st">&quot;maternalage&quot;</span>, <span class="dt">among_who =</span> <span class="st">&quot;idParents&quot;</span>) }
+##   later   [0,1]   (1,5]  (5,10] (10,15] (15,20] (20,25] (25,30] (30,35] 
+##   67685    5903   12520   17507   21294   26344   32911   36337   37820 
+## (35,40] (40,45] unclear    &lt;NA&gt; 
+##   37750   28036  135484       0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">recenter_all =<span class="st"> </span>function(x) { <span class="kw">recenter.pat</span>( <span class="kw">recenter.pat</span>( x, <span class="dt">among_who=</span><span class="st">&quot;idParents&quot;</span>), <span class="dt">what =</span> <span class="st">&quot;maternalage&quot;</span>, <span class="dt">among_who =</span> <span class="st">&quot;idParents&quot;</span>) }
 
 rpqa[, ever_married :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(spouses &gt;<span class="st"> </span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>) ]
 
-<span class="co"># rpqa[, birth.cohort := as.character(round_any(byear, 5))]</span>
-<span class="co"># rpqa[as.numeric(birth.cohort) &lt;= 1645, birth.cohort := &quot;1630-1645&quot;]</span>
-
-(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(<span class="kw">year</span>(rpqa$bdate), <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>), <span class="dt">na.rm=</span>T))</code></pre>
-<pre><code>##   0%  20%  40%  60%  80% 100% 
-## 1583 1736 1761 1777 1790 1799</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
-rpqa[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(<span class="kw">year</span>(bdate),<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
-<span class="kw">crosstabs</span>(~<span class="st"> </span>rpqa$birth.cohort)</code></pre>
+rpqa[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">year_bins</span>(byear)]
+rpqa[byear &lt;<span class="st"> </span><span class="dv">1635</span>, birth.cohort :<span class="er">=</span><span class="st"> &quot;1630-1635&quot;</span>]
+<span class="kw">crosstabs</span>(rpqa$birth.cohort)</code></pre></div>
 <pre><code>## rpqa$birth.cohort
-## (1582,1736] (1736,1761] (1761,1777] (1777,1790] (1790,1799] 
-##       87983       84480       86297       88423       80502</code></pre>
+## 1630-1635 1635-1640 1640-1645 1645-1650 1650-1655 1655-1660 1660-1665 
+##      1348       735       954       921       805       866      1235 
+## 1665-1670 1670-1675 1675-1680 1680-1685 1685-1690 1690-1695 1695-1700 
+##      1705      2527      2651      2694      2835      3457      4488 
+## 1700-1705 1705-1710 1710-1715 1715-1720 1720-1725 1725-1730 1730-1735 
+##      5373      5713      6449      7220      8550     10247     12112 
+## 1735-1740 1740-1745 1745-1750 1750-1755 1755-1760 1760-1765 1765-1770 
+##     12810     14107     15585     18836     20213     22616     26447 
+## 1770-1775 1775-1780 1780-1785 1785-1790 1790-1795 1795-1800      &lt;NA&gt; 
+##     27417     30140     32575     36765     40126     47163     31906</code></pre>
 </div>
 <div id="subset-and-save" class="section level2">
 <h2>Subset and save</h2>
-<pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">recenter_all</span>(rpqa)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">recenter_all</span>(rpqa)
+rpqa =<span class="st"> </span><span class="kw">recenter.pat</span>(rpqa, <span class="dt">what =</span> <span class="st">&quot;paternal.grandpaternalage&quot;</span>, <span class="dt">among_who =</span> <span class="st">&quot;idPaternalGrandparents&quot;</span>)
+rpqa =<span class="st"> </span><span class="kw">recenter.pat</span>(rpqa, <span class="dt">what =</span> <span class="st">&quot;maternal.grandpaternalage&quot;</span>, <span class="dt">among_who =</span> <span class="st">&quot;idMaternalGrandparents&quot;</span>)
+
 rpqa[, any_surviving_children :<span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(children.survivingR &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
 rpqa[, children.wddate :<span class="er">=</span><span class="st"> </span>children.dead1y +<span class="st"> </span>children.surviving1y] 
 rpqa[, maternalage.factor :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>((<span class="dv">10</span>*maternalage), <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">14</span>, <span class="dv">20</span>, <span class="dv">35</span>, <span class="dv">50</span>))]
 rpqa$maternalage.factor =<span class="st"> </span><span class="kw">relevel</span>(rpqa$maternalage.factor, <span class="dt">ref =</span> <span class="st">&quot;(20,35]&quot;</span>)
 
-rpqa.with.paternalage =<span class="st"> </span><span class="kw">subset</span>(rpqa, <span class="dt">subset =</span> !<span class="kw">is.na</span>(paternalage) )
-<span class="co"># rpqa.fm = subset(rpqa.with.paternalage, subset = first.fertile.marriage==TRUE) # rpqa.fm contains only those, where both parents were married for the first time</span>
+<span class="kw">crosstabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(codeLieuNaiss) +<span class="st"> </span>(codeLieuNaiss &lt;<span class="st"> </span><span class="dv">10000</span>), <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>##                     codeLieuNaiss &lt; 10000
+## is.na(codeLieuNaiss)  FALSE   TRUE   &lt;NA&gt;
+##                FALSE  10814 416629      0
+##                TRUE       0      0  32148</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$known_to_be_born_in_quebec =<span class="st"> </span>!<span class="kw">is.na</span>(rpqa$codeLieuNaiss) &amp;<span class="st"> </span>rpqa$codeLieuNaiss &lt;<span class="st"> </span><span class="dv">10000</span>
+<span class="kw">crosstabs</span>(rpqa$known_to_be_born_in_quebec)</code></pre></div>
+<pre><code>## rpqa$known_to_be_born_in_quebec
+##  FALSE   TRUE 
+##  42962 416629</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$known_to_have_died_in_quebec =<span class="st"> </span>!<span class="kw">is.na</span>(rpqa$codeLieuDeces) &amp;<span class="st"> </span>rpqa$codeLieuDeces &lt;<span class="st"> </span><span class="dv">10000</span>
+<span class="kw">crosstabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(rpqa$codeLieuDeces) +<span class="st"> </span><span class="kw">is.na</span>(dyear), <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>##                          is.na(dyear)
+## is.na(rpqa$codeLieuDeces)  FALSE   TRUE
+##                     FALSE 244806    667
+##                     TRUE       8 214110</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$might_have_died_in_quebec =<span class="st"> </span><span class="kw">is.na</span>(rpqa$codeLieuDeces) |<span class="st"> </span>rpqa$codeLieuDeces &lt;<span class="st"> </span><span class="dv">10000</span>
+<span class="kw">crosstabs</span>(~<span class="st"> </span>might_have_died_in_quebec +<span class="st"> </span>known_to_have_died_in_quebec, <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>##                          known_to_have_died_in_quebec
+## might_have_died_in_quebec  FALSE   TRUE
+##                     FALSE     39      0
+##                     TRUE  214118 245434</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(rpqa$might_have_died_in_quebec)</code></pre></div>
+<pre><code>## rpqa$might_have_died_in_quebec
+##  FALSE   TRUE 
+##     39 459552</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$parents_known_to_have_married_in_quebec =<span class="st"> </span>!<span class="kw">is.na</span>(rpqa$codeLieuM.Parents) &amp;<span class="st"> </span>rpqa$codeLieuM.Parents &lt;<span class="st"> </span><span class="dv">10000</span>
+rpqa$parents_might_have_married_in_quebec =<span class="st"> </span><span class="kw">is.na</span>(rpqa$codeLieuM.Parents) |<span class="st"> </span>rpqa$codeLieuM.Parents &lt;<span class="st"> </span><span class="dv">10000</span>
+<span class="kw">crosstabs</span>(~<span class="st"> </span><span class="kw">is.na</span>(codeLieuM.Parents) +<span class="st"> </span>(codeLieuM.Parents &lt;<span class="st"> </span><span class="dv">10000</span>), <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>##                         codeLieuM.Parents &lt; 10000
+## is.na(codeLieuM.Parents)  FALSE   TRUE   &lt;NA&gt;
+##                    FALSE    302 409187      0
+##                    TRUE       0      0  50102</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>parents_known_to_have_married_in_quebec +<span class="st"> </span>might_have_died_in_quebec +<span class="st"> </span>known_to_be_born_in_quebec, <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>## , , known_to_be_born_in_quebec = FALSE
+## 
+##                                        might_have_died_in_quebec
+## parents_known_to_have_married_in_quebec  FALSE   TRUE
+##                                   FALSE     19  34990
+##                                   TRUE       0   7953
+## 
+## , , known_to_be_born_in_quebec = TRUE
+## 
+##                                        might_have_died_in_quebec
+## parents_known_to_have_married_in_quebec  FALSE   TRUE
+##                                   FALSE      8  15387
+##                                   TRUE      12 401222</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>parents_might_have_married_in_quebec +<span class="st"> </span>might_have_died_in_quebec +<span class="st"> </span>known_to_be_born_in_quebec, <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>## , , known_to_be_born_in_quebec = FALSE
+## 
+##                                     might_have_died_in_quebec
+## parents_might_have_married_in_quebec  FALSE   TRUE
+##                                FALSE      0    106
+##                                TRUE      19  42837
+## 
+## , , known_to_be_born_in_quebec = TRUE
+## 
+##                                     might_have_died_in_quebec
+## parents_might_have_married_in_quebec  FALSE   TRUE
+##                                FALSE      0    196
+##                                TRUE      20 416413</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">data.frame</span>(rpqa)
+rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;children_born_in_quebec&#39;</span>,<span class="dt">wt_var =</span> <span class="st">&#39;known_to_be_born_in_quebec&#39;</span>)
+rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;children_died_in_quebec&#39;</span>,<span class="dt">wt_var =</span> <span class="st">&#39;known_to_have_died_in_quebec&#39;</span>)
+rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;children_probably_died_in_quebec&#39;</span>,<span class="dt">wt_var =</span> <span class="st">&#39;might_have_died_in_quebec&#39;</span>)
+rpqa$all_kids_born_and_died_in_quebec =<span class="st"> </span>rpqa$children_born_in_quebec ==<span class="st"> </span>rpqa$children_died_in_quebec &amp;<span class="st"> </span>rpqa$children_born_in_quebec ==<span class="st"> </span>rpqa$children
+rpqa$all_kids_born_and_probably_died_in_quebec =<span class="st"> </span>rpqa$children_born_in_quebec ==<span class="st"> </span>rpqa$children_probably_died_in_quebec &amp;<span class="st"> </span>rpqa$children_born_in_quebec ==<span class="st"> </span>rpqa$children
+<span class="kw">crosstabs</span>(~<span class="st"> </span>all_kids_born_and_died_in_quebec +<span class="st"> </span>all_kids_born_and_probably_died_in_quebec, <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>##                                 all_kids_born_and_probably_died_in_quebec
+## all_kids_born_and_died_in_quebec  FALSE   TRUE
+##                            FALSE  29204  89926
+##                            TRUE       0 340461</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>all_kids_born_and_probably_died_in_quebec +<span class="st"> </span>parents_known_to_have_married_in_quebec, <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>##                                          parents_known_to_have_married_in_quebec
+## all_kids_born_and_probably_died_in_quebec  FALSE   TRUE
+##                                     FALSE  18659  10545
+##                                     TRUE   31745 398642</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(rpqa$all_kids_born_and_died_in_quebec &amp;<span class="st"> </span>rpqa$parents_known_to_have_married_in_quebec)</code></pre></div>
+<pre><code>## rpqa$all_kids_born_and_died_in_quebec &amp; rpqa$parents_known_to_have_married_in_quebec
+##  FALSE   TRUE 
+## 140295 319296</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(rpqa$all_kids_born_and_probably_died_in_quebec &amp;<span class="st"> </span>rpqa$parents_known_to_have_married_in_quebec)</code></pre></div>
+<pre><code>## rpqa$all_kids_born_and_probably_died_in_quebec &amp; rpqa$parents_known_to_have_married_in_quebec
+##  FALSE   TRUE 
+##  60949 398642</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$sibs_born_in_quebec =<span class="st"> </span><span class="kw">ave</span>(rpqa$known_to_be_born_in_quebec, rpqa$idParents, <span class="dt">FUN =</span> function(x) { <span class="kw">sum</span>(x, <span class="dt">na.rm =</span> T) })
+rpqa$sibs_died_in_quebec =<span class="st"> </span><span class="kw">ave</span>(rpqa$might_have_died_in_quebec, rpqa$idParents, <span class="dt">FUN =</span> function(x) { <span class="kw">sum</span>(x, <span class="dt">na.rm =</span> T) })
+<span class="kw">crosstabs</span>(<span class="kw">I</span>(rpqa$sibs_born_in_quebec -<span class="st"> </span>rpqa$sibs_died_in_quebec))</code></pre></div>
+<pre><code>## I(rpqa$sibs_born_in_quebec - rpqa$sibs_died_in_quebec)
+##     -9     -8     -7     -6     -5     -4     -3     -2     -1      0 
+##     12     11     88    245    445   1029   2867  10092  74394 370282 
+##      1 
+##    126</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(rpqa$sibs_born_in_quebec -<span class="st"> </span>rpqa$sibs_died_in_quebec, <span class="dt">binwidth =</span> <span class="dv">1</span>)</code></pre></div>
+<p><img src="0_rpqa_massage_files/figure-html/sbset-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa =<span class="st"> </span><span class="kw">count_and_merge</span>(rpqa, <span class="st">&#39;all_sibs_born_and_died_in_quebec&#39;</span>,<span class="dt">wt_var =</span> <span class="st">&#39;all_kids_born_and_died_in_quebec&#39;</span>)
 
-rpqa<span class="fl">.1</span> =<span class="st"> </span><span class="kw">subset</span>(rpqa.with.paternalage, <span class="dt">subset =</span> <span class="kw">year</span>(bdate) &lt;=<span class="st"> </span><span class="dv">1750</span> &amp;<span class="st"> </span><span class="kw">year</span>(bdate) &gt;=<span class="st"> </span><span class="dv">1670</span>)
-<span class="co"># rpqa.3 = subset(rpqa.1,subset = birth.decade &lt; 1770 )</span>
-(<span class="dt">quintiles =</span> <span class="kw">quantile</span>(<span class="kw">year</span>(rpqa<span class="fl">.1</span>$bdate), <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">by=</span><span class="fl">0.2</span>), <span class="dt">na.rm=</span>T))</code></pre>
-<pre><code>##   0%  20%  40%  60%  80% 100% 
-## 1670 1706 1723 1734 1743 1750</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">quintiles[<span class="dv">1</span>]=quintiles[<span class="dv">1</span>]-<span class="dv">1</span>
-rpqa<span class="fl">.1</span>[, birth.cohort :<span class="er">=</span><span class="st"> </span><span class="kw">cut</span>(<span class="kw">year</span>(bdate),<span class="dt">breaks =</span> quintiles,<span class="dt">dig.lab =</span> <span class="dv">10</span>)]
-<span class="kw">crosstabs</span>(~<span class="st"> </span>rpqa<span class="fl">.1</span>$birth.cohort)</code></pre>
-<pre><code>## rpqa.1$birth.cohort
-## (1669,1706] (1706,1723] (1723,1734] (1734,1743] (1743,1750] 
-##       22343       20806       21276       22035       20639</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using ALL data</span>
-<span class="kw">qplot</span>(rpqa<span class="fl">.1</span>$bdate)</code></pre>
-<pre><code>## stat_bin: binwidth defaulted to range/30. Use &#39;binwidth = x&#39; to adjust this.</code></pre>
-<p><img src="0_rpqa_massage_files/figure-html/sbset-1.png" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save(rpqa,rpqa.1, file=&quot;rpqa.rdata&quot;)</span>
-<span class="kw">save</span>(rpqa,rpqa<span class="fl">.1</span>,<span class="dt">file=</span><span class="st">&quot;rpqa.rdata&quot;</span>)</code></pre>
+<span class="kw">crosstabs</span>(~<span class="st"> </span>all_sibs_born_and_died_in_quebec +<span class="st"> </span>parents_known_to_have_married_in_quebec, <span class="dt">data =</span> rpqa)</code></pre></div>
+<pre><code>##                                 parents_known_to_have_married_in_quebec
+## all_sibs_born_and_died_in_quebec  FALSE   TRUE
+##                               0   29424 308036
+##                               1    9947  10995
+##                               2    2196  10535
+##                               3    1707  10675
+##                               4    1486  10456
+##                               5    1235  10169
+##                               6    1169   9289
+##                               7     913   8413
+##                               8     702   7475
+##                               9     519   6310
+##                               10    394   4895
+##                               11    254   4018
+##                               12    174   2794
+##                               13     81   1878
+##                               14     83   1287
+##                               15     39    847
+##                               16     29    479
+##                               17     21    314
+##                               18     11    151
+##                               19      8     72
+##                               20      6     42
+##                               21      2     27
+##                               22      2     19
+##                               23      1      3
+##                               24      0      3
+##                               25      0      2
+##                               27      1      2
+##                               29      0      1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$probably_complete_records =<span class="st"> </span>rpqa$all_kids_born_and_probably_died_in_quebec &amp;<span class="st"> </span>rpqa$parents_might_have_married_in_quebec
+
+<span class="kw">table</span>(rpqa$probably_complete_records)</code></pre></div>
+<pre><code>## 
+##  FALSE   TRUE 
+##  29493 430098</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpqa$birth_cohort =<span class="st"> </span><span class="kw">factor</span>(rpqa$birth.cohort)
+rpqa$male =<span class="st"> </span><span class="kw">factor</span>(rpqa$male)
+rpqa$last_born =<span class="st"> </span><span class="kw">factor</span>(rpqa$last_born)
+
+rpqa<span class="fl">.1</span> =<span class="st"> </span>rpqa %&gt;%<span class="st"> </span><span class="kw">filter</span>(byear &lt;<span class="st"> </span><span class="dv">1740</span> &amp;<span class="st"> </span>byear &gt;=<span class="st"> </span><span class="dv">1670</span> &amp;<span class="st"> </span>probably_complete_records)
+
+<span class="kw">save</span>(rpqa, rpqa<span class="fl">.1</span>,<span class="dt">file =</span> <span class="st">&quot;rpqa.rdata&quot;</span>)</code></pre></div>
 </div>
 </div>
 

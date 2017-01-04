@@ -12,33 +12,52 @@
 
 <title>Modern Sweden Descriptives</title>
 
-<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
-<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -80,15 +99,14 @@ img {
 <h1>Modern Sweden descriptives</h1>
 <div id="loading-details" class="section level3 accordion">
 <h3>Loading details</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bsub -q fat -W 48:00 -n 1 Rscript -e &quot;setwd(&#39;/usr/users/rarslan/updated_data/&#39;); filebase = &#39;1_swed_descriptives&#39;; knitr::knit(input = paste0(filebase,&#39;.Rmd&#39;), output = paste0(filebase,&#39;.md&#39;));cat(readLines(paste0(filebase,&#39;.md&#39;)), sep = &#39;\n&#39;)&quot;</span>
-
-<span class="kw">library</span>(car); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(lubridate); <span class="kw">library</span>(stringr); <span class="kw">library</span>(reshape2); <span class="kw">library</span>(data.table); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(knitr); <span class="kw">library</span>(formr); <span class="kw">library</span>(pander); <span class="kw">library</span>(grid)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bsub -q fat -W 48:00 -n 1 Rscript -e &quot;setwd(&#39;/usr/users/rarslan/updated_data/&#39;); filebase = &#39;1_swed_descriptives&#39;; knitr::knit(input = paste0(filebase,&#39;.Rmd&#39;), output = paste0(filebase,&#39;.md&#39;));cat(readLines(paste0(filebase,&#39;.md&#39;)), sep = &#39;\n&#39;)&quot;</span>
 
 <span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>) 
 opts_chunk$<span class="kw">set</span>(<span class="dt">render =</span> pander_handler, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="st">&#39;png&#39;</span>,<span class="dt">fig.width=</span><span class="dv">12</span>,<span class="dt">fig.height=</span><span class="fl">7.5</span>)
 <span class="co"># load(&quot;swed.rdata&quot;)</span>
 <span class="kw">load</span>(<span class="st">&quot;swed.rdata&quot;</span>)
 <span class="kw">load</span>(<span class="st">&quot;swed1.rdata&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;swed2.rdata&quot;</span>)
 
 demo_trends =<span class="st"> </span><span class="kw">aggDemoTrends</span>(swed)
 desc_theme =<span class="st"> </span><span class="kw">theme_minimal</span>(<span class="dt">base_size =</span> <span class="dv">24</span>) 
@@ -99,17 +117,15 @@ mymin =<span class="st"> </span><span class="kw">theme_minimal</span>() +<span c
 swed<span class="fl">.1</span>[, paternalage :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>paternalage]; swed[, paternalage :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>paternalage]; swed<span class="fl">.2</span>[, paternalage :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>paternalage];
 swed<span class="fl">.1</span>[, maternalage :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>maternalage]; swed[, maternalage :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>maternalage]; swed<span class="fl">.2</span>[, maternalage :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>maternalage];
 swed<span class="fl">.1</span>[, age_at_1st_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_1st_child]; swed[, age_at_1st_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_1st_child]; swed<span class="fl">.2</span>[, age_at_1st_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_1st_child]
-swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_last_child]; swed[, age_at_last_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_last_child]; swed<span class="fl">.2</span>[, age_at_last_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_last_child]
-<span class="co"># swed[, paternalloss := ifelse(paternalloss, 1,0)];swed.1[, paternalloss := ifelse(paternalloss, 1,0)];swed.2[, paternalloss := ifelse(paternalloss, 1,0)]</span>
-<span class="co"># swed[, maternalloss := ifelse(maternalloss, 1,0)];swed.1[, maternalloss := ifelse(maternalloss, 1,0)];swed.2[, maternalloss := ifelse(maternalloss, 1,0)]</span></code></pre>
+swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_last_child]; swed[, age_at_last_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_last_child]; swed<span class="fl">.2</span>[, age_at_last_child :<span class="er">=</span><span class="st"> </span><span class="dv">10</span> *<span class="st"> </span>age_at_last_child]</code></pre></div>
 </div>
 <div id="variable-descriptives" class="section level2">
 <h2>Variable descriptives</h2>
 <div id="whole-population-n-8201968" class="section level3">
 <h3>Whole population (N = 8201968)</h3>
-<pre class="sourceCode r"><code class="sourceCode r">descriptives =<span class="st"> </span>psych::<span class="kw">describe</span>(swed[, <span class="kw">list</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">descriptives =<span class="st"> </span>psych::<span class="kw">describe</span>(swed[, <span class="kw">list</span>(
     paternalage, maternalage, nr.siblings, dependent_sibs_f5y, age, spouses, children, grandchildren, byear, byear.Father, age_at_1st_child, age_at_last_child  )], <span class="dt">check =</span> F, <span class="dt">fast =</span> F)
-<span class="kw">round</span>(<span class="kw">data.frame</span>(descriptives)[,<span class="dv">2</span>:<span class="dv">12</span>],<span class="dv">2</span>)</code></pre>
+<span class="kw">round</span>(<span class="kw">data.frame</span>(descriptives)[,<span class="dv">2</span>:<span class="dv">12</span>],<span class="dv">2</span>)</code></pre></div>
 <table>
 <colgroup>
 <col width="23%" />
@@ -173,30 +189,30 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <tr class="odd">
 <td align="center"><strong>nr.siblings</strong></td>
 <td align="center">8201968</td>
-<td align="center">1.53</td>
-<td align="center">1.32</td>
+<td align="center">1.52</td>
+<td align="center">1.33</td>
 <td align="center">1</td>
 <td align="center">1.36</td>
 <td align="center">1.48</td>
 <td align="center">0</td>
 <td align="center">17</td>
 <td align="center">17</td>
-<td align="center">1.87</td>
-<td align="center">6.69</td>
+<td align="center">1.86</td>
+<td align="center">6.67</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>dependent_sibs_f5y</strong></td>
 <td align="center">8201968</td>
-<td align="center">0.98</td>
-<td align="center">0.86</td>
+<td align="center">104.2</td>
+<td align="center">1374</td>
 <td align="center">1</td>
-<td align="center">0.89</td>
+<td align="center">0.9</td>
 <td align="center">1.48</td>
 <td align="center">0</td>
-<td align="center">11</td>
-<td align="center">11</td>
-<td align="center">1.16</td>
-<td align="center">2.76</td>
+<td align="center">25899</td>
+<td align="center">25899</td>
+<td align="center">15.08</td>
+<td align="center">239.5</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>age</strong></td>
@@ -312,8 +328,8 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 </tr>
 </tbody>
 </table>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describeBin</span>(swed[, <span class="kw">list</span>(survive1y, surviveR, ever_married, paternalloss, maternalloss)])</code></pre>
-<table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describeBin</span>(swed[, <span class="kw">list</span>(survive1y, surviveR, ever_married)])</code></pre></div>
+<table style="width:53%;">
 <colgroup>
 <col width="26%" />
 <col width="11%" />
@@ -347,26 +363,114 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center">0.51</td>
 <td align="center">0.25</td>
 </tr>
-<tr class="even">
-<td align="center"><strong>paternalloss</strong></td>
-<td align="center">8201968</td>
-<td align="center">0</td>
-<td align="center">0</td>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(<span class="kw">xtabs</span>(~<span class="st"> </span>paternal_loss, swed), <span class="dt">caption =</span> <span class="st">&quot;Paternal loss at age&quot;</span>)</code></pre></div>
+<table>
+<caption>Paternal loss at age</caption>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">later</th>
+<th align="center">[0,1]</th>
+<th align="center">(1,5]</th>
+<th align="center">(5,10]</th>
+<th align="center">(10,15]</th>
+<th align="center">(15,20]</th>
+<th align="center">(20,25]</th>
+<th align="center">(25,30]</th>
+<th align="center">(30,35]</th>
+<th align="center">(35,40]</th>
+<th align="center">(40,45]</th>
+<th align="center">unclear</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td align="center"><strong>maternalloss</strong></td>
-<td align="center">8201968</td>
-<td align="center">0</td>
-<td align="center">0</td>
+<td align="center">1096763</td>
+<td align="center">7248</td>
+<td align="center">19961</td>
+<td align="center">38395</td>
+<td align="center">63816</td>
+<td align="center">108260</td>
+<td align="center">170261</td>
+<td align="center">251155</td>
+<td align="center">328328</td>
+<td align="center">394178</td>
+<td align="center">339366</td>
+<td align="center">5384237</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(<span class="kw">xtabs</span>(~<span class="st"> </span>maternal_loss, swed), <span class="dt">caption =</span> <span class="st">&quot;Maternal loss at age&quot;</span>)</code></pre></div>
+<table>
+<caption>Maternal loss at age</caption>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">later</th>
+<th align="center">[0,1]</th>
+<th align="center">(1,5]</th>
+<th align="center">(5,10]</th>
+<th align="center">(10,15]</th>
+<th align="center">(15,20]</th>
+<th align="center">(20,25]</th>
+<th align="center">(25,30]</th>
+<th align="center">(30,35]</th>
+<th align="center">(35,40]</th>
+<th align="center">(40,45]</th>
+<th align="center">unclear</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1274984</td>
+<td align="center">2151</td>
+<td align="center">7869</td>
+<td align="center">16189</td>
+<td align="center">27191</td>
+<td align="center">45547</td>
+<td align="center">71480</td>
+<td align="center">106952</td>
+<td align="center">149433</td>
+<td align="center">204279</td>
+<td align="center">208744</td>
+<td align="center">6087149</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="included-sample-for-reproductive-outcomes-n-1419282" class="section level3">
 <h3>included sample for reproductive outcomes (N = 1419282)</h3>
-<pre class="sourceCode r"><code class="sourceCode r">descriptives =<span class="st"> </span>psych::<span class="kw">describe</span>(swed<span class="fl">.1</span>[, <span class="kw">list</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">descriptives =<span class="st"> </span>psych::<span class="kw">describe</span>(swed<span class="fl">.1</span>[, <span class="kw">list</span>(
     paternalage, maternalage, nr.siblings, dependent_sibs_f5y, age, spouses, children, grandchildren, byear, byear.Father, age_at_1st_child, age_at_last_child  )], <span class="dt">check =</span> F, <span class="dt">fast =</span> F)
-<span class="kw">round</span>(<span class="kw">data.frame</span>(descriptives)[,<span class="dv">2</span>:<span class="dv">12</span>],<span class="dv">2</span>)</code></pre>
+<span class="kw">round</span>(<span class="kw">data.frame</span>(descriptives)[,<span class="dv">2</span>:<span class="dv">12</span>],<span class="dv">2</span>)</code></pre></div>
 <table>
 <colgroup>
 <col width="23%" />
@@ -431,7 +535,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center"><strong>nr.siblings</strong></td>
 <td align="center">1419282</td>
 <td align="center">1.81</td>
-<td align="center">1.54</td>
+<td align="center">1.55</td>
 <td align="center">1</td>
 <td align="center">1.62</td>
 <td align="center">1.48</td>
@@ -439,21 +543,21 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center">16</td>
 <td align="center">16</td>
 <td align="center">1.63</td>
-<td align="center">4.65</td>
+<td align="center">4.63</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>dependent_sibs_f5y</strong></td>
 <td align="center">1419282</td>
-<td align="center">1.04</td>
-<td align="center">0.97</td>
+<td align="center">68.24</td>
+<td align="center">799.3</td>
 <td align="center">1</td>
-<td align="center">0.92</td>
+<td align="center">0.93</td>
 <td align="center">1.48</td>
 <td align="center">0</td>
-<td align="center">9</td>
-<td align="center">9</td>
-<td align="center">1.18</td>
-<td align="center">2.28</td>
+<td align="center">12490</td>
+<td align="center">12490</td>
+<td align="center">12.3</td>
+<td align="center">154.7</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>age</strong></td>
@@ -569,8 +673,8 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 </tr>
 </tbody>
 </table>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describeBin</span>(swed<span class="fl">.1</span>[, <span class="kw">list</span>(ever_married, paternalloss, maternalloss)])</code></pre>
-<table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describeBin</span>(swed<span class="fl">.1</span>[, <span class="kw">list</span>(ever_married)])</code></pre></div>
+<table style="width:53%;">
 <colgroup>
 <col width="26%" />
 <col width="11%" />
@@ -592,26 +696,114 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center">0.74</td>
 <td align="center">0.19</td>
 </tr>
-<tr class="even">
-<td align="center"><strong>paternalloss</strong></td>
-<td align="center">1419282</td>
-<td align="center">0</td>
-<td align="center">0</td>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(<span class="kw">xtabs</span>(~<span class="st"> </span>paternal_loss, swed<span class="fl">.1</span>), <span class="dt">caption =</span> <span class="st">&quot;Paternal loss at age&quot;</span>)</code></pre></div>
+<table>
+<caption>Paternal loss at age</caption>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">later</th>
+<th align="center">[0,1]</th>
+<th align="center">(1,5]</th>
+<th align="center">(5,10]</th>
+<th align="center">(10,15]</th>
+<th align="center">(15,20]</th>
+<th align="center">(20,25]</th>
+<th align="center">(25,30]</th>
+<th align="center">(30,35]</th>
+<th align="center">(35,40]</th>
+<th align="center">(40,45]</th>
+<th align="center">unclear</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td align="center"><strong>maternalloss</strong></td>
-<td align="center">1419282</td>
-<td align="center">0</td>
-<td align="center">0</td>
+<td align="center">461355</td>
+<td align="center">169</td>
+<td align="center">1499</td>
+<td align="center">7282</td>
+<td align="center">20502</td>
+<td align="center">37218</td>
+<td align="center">57793</td>
+<td align="center">83348</td>
+<td align="center">110665</td>
+<td align="center">140572</td>
+<td align="center">132256</td>
+<td align="center">366623</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(<span class="kw">xtabs</span>(~<span class="st"> </span>maternal_loss, swed<span class="fl">.1</span>), <span class="dt">caption =</span> <span class="st">&quot;Maternal loss at age&quot;</span>)</code></pre></div>
+<table>
+<caption>Maternal loss at age</caption>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">later</th>
+<th align="center">[0,1]</th>
+<th align="center">(1,5]</th>
+<th align="center">(5,10]</th>
+<th align="center">(10,15]</th>
+<th align="center">(15,20]</th>
+<th align="center">(20,25]</th>
+<th align="center">(25,30]</th>
+<th align="center">(30,35]</th>
+<th align="center">(35,40]</th>
+<th align="center">(40,45]</th>
+<th align="center">unclear</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">457633</td>
+<td align="center">127</td>
+<td align="center">685</td>
+<td align="center">3133</td>
+<td align="center">8714</td>
+<td align="center">14968</td>
+<td align="center">22170</td>
+<td align="center">32509</td>
+<td align="center">48389</td>
+<td align="center">72041</td>
+<td align="center">81128</td>
+<td align="center">677785</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="included-sample-for-survival-outcomes-n-3428225" class="section level3">
 <h3>included sample for survival outcomes (N = 3428225)</h3>
-<pre class="sourceCode r"><code class="sourceCode r">descriptives =<span class="st"> </span>psych::<span class="kw">describe</span>(swed<span class="fl">.2</span>[, <span class="kw">list</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">descriptives =<span class="st"> </span>psych::<span class="kw">describe</span>(swed<span class="fl">.2</span>[, <span class="kw">list</span>(
     paternalage, maternalage, nr.siblings, dependent_sibs_f5y, age, byear, byear.Father, age_at_1st_child, age_at_last_child    )], <span class="dt">check =</span> F, <span class="dt">fast =</span> F)
-<span class="kw">round</span>(<span class="kw">data.frame</span>(descriptives)[,<span class="dv">2</span>:<span class="dv">12</span>],<span class="dv">2</span>)</code></pre>
+<span class="kw">round</span>(<span class="kw">data.frame</span>(descriptives)[,<span class="dv">2</span>:<span class="dv">12</span>],<span class="dv">2</span>)</code></pre></div>
 <table>
 <colgroup>
 <col width="23%" />
@@ -684,21 +876,21 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center">17</td>
 <td align="center">17</td>
 <td align="center">1.88</td>
-<td align="center">8.21</td>
+<td align="center">8.18</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>dependent_sibs_f5y</strong></td>
 <td align="center">3428225</td>
-<td align="center">0.99</td>
-<td align="center">0.78</td>
+<td align="center">24.73</td>
+<td align="center">364</td>
 <td align="center">1</td>
-<td align="center">0.93</td>
+<td align="center">0.94</td>
 <td align="center">0</td>
 <td align="center">0</td>
-<td align="center">11</td>
-<td align="center">11</td>
-<td align="center">1</td>
-<td align="center">2.8</td>
+<td align="center">6646</td>
+<td align="center">6646</td>
+<td align="center">15.63</td>
+<td align="center">247.1</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>age</strong></td>
@@ -772,8 +964,8 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 </tr>
 </tbody>
 </table>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describeBin</span>(swed<span class="fl">.2</span>[, <span class="kw">list</span>(survive1y, surviveR, ever_married, paternalloss, maternalloss)])</code></pre>
-<table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">describeBin</span>(swed<span class="fl">.2</span>[, <span class="kw">list</span>(survive1y, surviveR, ever_married)])</code></pre></div>
+<table style="width:53%;">
 <colgroup>
 <col width="26%" />
 <col width="11%" />
@@ -807,39 +999,191 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center">0.21</td>
 <td align="center">0.17</td>
 </tr>
-<tr class="even">
-<td align="center"><strong>paternalloss</strong></td>
-<td align="center">3428225</td>
-<td align="center">0</td>
-<td align="center">0</td>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(<span class="kw">xtabs</span>(~<span class="st"> </span>paternal_loss, swed<span class="fl">.2</span>), <span class="dt">caption =</span> <span class="st">&quot;Paternal loss at age&quot;</span>)</code></pre></div>
+<table>
+<caption>Paternal loss at age</caption>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">later</th>
+<th align="center">[0,1]</th>
+<th align="center">(1,5]</th>
+<th align="center">(5,10]</th>
+<th align="center">(10,15]</th>
+<th align="center">(15,20]</th>
+<th align="center">(20,25]</th>
+<th align="center">(25,30]</th>
+<th align="center">(30,35]</th>
+<th align="center">(35,40]</th>
+<th align="center">(40,45]</th>
+<th align="center">unclear</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td align="center"><strong>maternalloss</strong></td>
-<td align="center">3428225</td>
 <td align="center">0</td>
+<td align="center">4210</td>
+<td align="center">11510</td>
+<td align="center">20127</td>
+<td align="center">27532</td>
+<td align="center">34940</td>
+<td align="center">39891</td>
+<td align="center">42846</td>
+<td align="center">40920</td>
+<td align="center">25991</td>
+<td align="center">1509</td>
+<td align="center">3178749</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(<span class="kw">xtabs</span>(~<span class="st"> </span>maternal_loss, swed<span class="fl">.2</span>), <span class="dt">caption =</span> <span class="st">&quot;Maternal loss at age&quot;</span>)</code></pre></div>
+<table>
+<caption>Maternal loss at age</caption>
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">later</th>
+<th align="center">[0,1]</th>
+<th align="center">(1,5]</th>
+<th align="center">(5,10]</th>
+<th align="center">(10,15]</th>
+<th align="center">(15,20]</th>
+<th align="center">(20,25]</th>
+<th align="center">(25,30]</th>
+<th align="center">(30,35]</th>
+<th align="center">(35,40]</th>
+<th align="center">(40,45]</th>
+<th align="center">unclear</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td align="center">0</td>
+<td align="center">1177</td>
+<td align="center">4473</td>
+<td align="center">8547</td>
+<td align="center">12280</td>
+<td align="center">16071</td>
+<td align="center">19174</td>
+<td align="center">20695</td>
+<td align="center">20517</td>
+<td align="center">13909</td>
+<td align="center">955</td>
+<td align="center">3310427</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="number-of-families-with-varying-numbers-of-siblings-available-for-comparison" class="section level3">
 <h3>Number of families with varying numbers of siblings available for comparison</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(swed[!<span class="kw">duplicated</span>(idParents), ]$nr.siblings)</code></pre>
-<pre><code>## swed[!duplicated(idParents), ]$nr.siblings
-##       0       1       2       3       4       5       6       7       8 
-## 1476804 1686502  672348  192265   59302   22233    9423    4218    1951 
-##       9      10      11      12      13      14      15      16      17 
-##     929     427     218      98      37      15       9       6       1</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(swed<span class="fl">.1</span>[!<span class="kw">duplicated</span>(idParents), ]$nr.siblings, <span class="dt">binwidth =</span> <span class="dv">1</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Number of siblings per family&quot;</span>) +<span class="st"> </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-4-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(swed[!<span class="kw">duplicated</span>(idParents), ]$nr.siblings)</code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">15</th>
+<th align="center">16</th>
+<th align="center">17</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1438193</td>
+<td align="center">1679574</td>
+<td align="center">670639</td>
+<td align="center">191779</td>
+<td align="center">59147</td>
+<td align="center">22172</td>
+<td align="center">9399</td>
+<td align="center">4212</td>
+<td align="center">1949</td>
+<td align="center">928</td>
+<td align="center">426</td>
+<td align="center">218</td>
+<td align="center">98</td>
+<td align="center">37</td>
+<td align="center">15</td>
+<td align="center">9</td>
+<td align="center">6</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(swed<span class="fl">.1</span>[!<span class="kw">duplicated</span>(idParents), ]$nr.siblings, <span class="dt">binwidth =</span> <span class="dv">1</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Number of siblings per family&quot;</span>) +<span class="st"> </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" />
+<p class="caption">plot of chunk unnamed-chunk-4</p>
+</div>
 </div>
 </div>
 <div id="missingness-patterns" class="section level2">
 <h2>Missingness patterns</h2>
 <p>The first table shows the number of missings per variable, the second table, using the indexes from the first, shows missings in which variables tend to occur together. Most variables of interest in this study are derived from these dates and so these patterns can show many cases did not have the data to calculate e.g. paternal loss (those lacking either the father’s death date, the anchor’s birth date or both).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander_escape</span>(<span class="kw">missingness_patterns</span>(swed[, <span class="kw">list</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander_escape</span>(<span class="kw">missingness_patterns</span>(swed[, <span class="kw">list</span>(
     byear, dyear, byear.Father, dyear.Father, byear.Mother, dyear.Mother, education
-    )]))</code></pre>
+    )]))</code></pre></div>
 <pre><code>##  index          col missings
 ##      1        dyear  7849926
 ##      2 dyear.Mother  6084972
@@ -847,16 +1191,14 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 ##      4    education  2111673
 ##      5 byear.Mother    68294
 ##      6 byear.Father    11578</code></pre>
-<table>
+<table style="width:60%;">
 <colgroup>
-<col width="12%" />
-<col width="18%" />
+<col width="31%" />
 <col width="11%" />
 <col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="center"> </th>
 <th align="center">Pattern</th>
 <th align="center">Freq</th>
 <th align="center">Culprit</th>
@@ -864,368 +1206,307 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center"><strong>8</strong></td>
-<td align="center">123___</td>
+<td align="center">1_2_3______</td>
 <td align="center">2959092</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>4</strong></td>
-<td align="center">1234__</td>
+<td align="center">1_2_3_4____</td>
 <td align="center">1935537</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>32</strong></td>
-<td align="center">1_____</td>
+<td align="center">1__________</td>
 <td align="center">1504260</td>
 <td align="center">dyear</td>
 </tr>
 <tr class="even">
-<td align="center"><strong>16</strong></td>
-<td align="center">12____</td>
+<td align="center">1_2________</td>
 <td align="center">966229</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>24</strong></td>
-<td align="center">1_3___</td>
+<td align="center">1___3______</td>
 <td align="center">347415</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>61</strong></td>
-<td align="center">______</td>
+<td align="center">___________</td>
 <td align="center">172918</td>
 <td align="center">_</td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>36</strong></td>
-<td align="center">_234__</td>
+<td align="center">__2_3_4____</td>
 <td align="center">40504</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>48</strong></td>
-<td align="center">_2____</td>
+<td align="center">__2________</td>
 <td align="center">37058</td>
 <td align="center">dyear.Mother</td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>12</strong></td>
-<td align="center">12_4__</td>
+<td align="center">1_2___4____</td>
 <td align="center">32376</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>28</strong></td>
-<td align="center">1__4__</td>
+<td align="center">1_____4____</td>
 <td align="center">26614</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>14</strong></td>
-<td align="center">12__5_</td>
+<td align="center">1_2_____5__</td>
 <td align="center">26592</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>40</strong></td>
-<td align="center">_23___</td>
+<td align="center">__2_3______</td>
 <td align="center">26072</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>54</strong></td>
-<td align="center">__3___</td>
+<td align="center">____3______</td>
 <td align="center">21513</td>
 <td align="center">dyear.Father</td>
 </tr>
 <tr class="even">
-<td align="center"><strong>57</strong></td>
-<td align="center">___4__</td>
+<td align="center">______4____</td>
 <td align="center">19844</td>
 <td align="center">education</td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>44</strong></td>
-<td align="center">_2_4__</td>
+<td align="center">__2___4____</td>
 <td align="center">14825</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>6</strong></td>
-<td align="center">123_5_</td>
+<td align="center">1_2_3___5__</td>
 <td align="center">12523</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>20</strong></td>
-<td align="center">1_34__</td>
+<td align="center">1___3_4____</td>
 <td align="center">12427</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>2</strong></td>
-<td align="center">12345_</td>
+<td align="center">1_2_3_4_5__</td>
 <td align="center">11054</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>42</strong></td>
-<td align="center">_2_45_</td>
+<td align="center">__2___4_5__</td>
 <td align="center">5946</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>51</strong></td>
-<td align="center">__34__</td>
+<td align="center">____3_4____</td>
 <td align="center">5926</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>46</strong></td>
-<td align="center">_2__5_</td>
+<td align="center">__2_____5__</td>
 <td align="center">5228</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>15</strong></td>
-<td align="center">12___6</td>
+<td align="center">1_2_______6</td>
 <td align="center">3018</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>3</strong></td>
-<td align="center">1234_6</td>
+<td align="center">1_2_3_4___6</td>
 <td align="center">1984</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>7</strong></td>
-<td align="center">123__6</td>
+<td align="center">1_2_3_____6</td>
 <td align="center">1982</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>31</strong></td>
-<td align="center">1____6</td>
+<td align="center">1_________6</td>
 <td align="center">1819</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>22</strong></td>
-<td align="center">1_3_5_</td>
+<td align="center">1___3___5__</td>
 <td align="center">1603</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>11</strong></td>
-<td align="center">12_4_6</td>
+<td align="center">1_2___4___6</td>
 <td align="center">1446</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>10</strong></td>
-<td align="center">12_45_</td>
+<td align="center">1_2___4_5__</td>
 <td align="center">1389</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>30</strong></td>
-<td align="center">1___5_</td>
+<td align="center">1_______5__</td>
 <td align="center">1096</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>38</strong></td>
-<td align="center">_23_5_</td>
+<td align="center">__2_3___5__</td>
 <td align="center">785</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>34</strong></td>
-<td align="center">_2345_</td>
+<td align="center">__2_3_4_5__</td>
 <td align="center">715</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>18</strong></td>
-<td align="center">1_345_</td>
+<td align="center">1___3_4_5__</td>
 <td align="center">599</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>23</strong></td>
-<td align="center">1_3__6</td>
+<td align="center">1___3_____6</td>
 <td align="center">290</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>60</strong></td>
-<td align="center">_____6</td>
+<td align="center">__________6</td>
 <td align="center">282</td>
 <td align="center">byear.Father</td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>1</strong></td>
-<td align="center">123456</td>
+<td align="center">1_2_3_4_5_6</td>
 <td align="center">175</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>59</strong></td>
-<td align="center">____5_</td>
+<td align="center">________5__</td>
 <td align="center">150</td>
 <td align="center">byear.Mother</td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>5</strong></td>
-<td align="center">123_56</td>
+<td align="center">1_2_3___5_6</td>
 <td align="center">123</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>13</strong></td>
-<td align="center">12__56</td>
+<td align="center">1_2_____5_6</td>
 <td align="center">94</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>9</strong></td>
-<td align="center">12_456</td>
+<td align="center">1_2___4_5_6</td>
 <td align="center">64</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>47</strong></td>
-<td align="center">_2___6</td>
+<td align="center">__2_______6</td>
 <td align="center">48</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>26</strong></td>
-<td align="center">1__45_</td>
+<td align="center">1_____4_5__</td>
 <td align="center">39</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>27</strong></td>
-<td align="center">1__4_6</td>
+<td align="center">1_____4___6</td>
 <td align="center">38</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>35</strong></td>
-<td align="center">_234_6</td>
+<td align="center">__2_3_4___6</td>
 <td align="center">37</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>43</strong></td>
-<td align="center">_2_4_6</td>
+<td align="center">__2___4___6</td>
 <td align="center">36</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>56</strong></td>
-<td align="center">___4_6</td>
+<td align="center">______4___6</td>
 <td align="center">27</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>55</strong></td>
-<td align="center">___45_</td>
+<td align="center">______4_5__</td>
 <td align="center">24</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>52</strong></td>
-<td align="center">__3_5_</td>
+<td align="center">____3___5__</td>
 <td align="center">23</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>29</strong></td>
-<td align="center">1___56</td>
+<td align="center">1_______5_6</td>
 <td align="center">22</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>53</strong></td>
-<td align="center">__3__6</td>
+<td align="center">____3_____6</td>
 <td align="center">21</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>39</strong></td>
-<td align="center">_23__6</td>
+<td align="center">__2_3_____6</td>
 <td align="center">19</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>19</strong></td>
-<td align="center">1_34_6</td>
+<td align="center">1___3_4___6</td>
 <td align="center">14</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>49</strong></td>
-<td align="center">__345_</td>
+<td align="center">____3_4_5__</td>
 <td align="center">14</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>45</strong></td>
-<td align="center">_2__56</td>
+<td align="center">__2_____5_6</td>
 <td align="center">12</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>25</strong></td>
-<td align="center">1__456</td>
+<td align="center">1_____4_5_6</td>
 <td align="center">7</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>33</strong></td>
-<td align="center">_23456</td>
+<td align="center">__2_3_4_5_6</td>
 <td align="center">4</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>21</strong></td>
-<td align="center">1_3_56</td>
+<td align="center">1___3___5_6</td>
 <td align="center">3</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>41</strong></td>
-<td align="center">_2_456</td>
+<td align="center">__2___4_5_6</td>
 <td align="center">3</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>50</strong></td>
-<td align="center">__34_6</td>
+<td align="center">____3_4___6</td>
 <td align="center">3</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>58</strong></td>
-<td align="center">____56</td>
+<td align="center">________5_6</td>
 <td align="center">3</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><strong>17</strong></td>
-<td align="center">1_3456</td>
+<td align="center">1___3_4_5_6</td>
 <td align="center">2</td>
 <td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>37</strong></td>
-<td align="center">_23_56</td>
+<td align="center">__2_3___5_6</td>
 <td align="center">2</td>
 <td align="center"></td>
 </tr>
@@ -1234,7 +1515,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 </div>
 <div id="reproductive-timing" class="section level2">
 <h2>Reproductive timing</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> demo_trends) +<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> demo_trends) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span> Year, <span class="dt">y =</span> first, <span class="dt">linetype =</span> <span class="st">&quot;first&quot;</span>, <span class="dt">colour =</span> Parent),  <span class="dt">size =</span> <span class="dv">1</span>) +<span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> all, <span class="dt">linetype =</span> <span class="st">&quot;all&quot;</span>, <span class="dt">colour =</span> Parent), <span class="dt">size =</span> <span class="dv">1</span>) +
 <span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span> Year, <span class="dt">y =</span> last, <span class="dt">linetype =</span> <span class="st">&quot;last&quot;</span>, <span class="dt">colour =</span> Parent),<span class="dt">size =</span> <span class="dv">1</span>) +<span class="st"> </span>
@@ -1247,34 +1528,37 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <span class="st">    </span>desc_theme +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
   <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), 
   <span class="dt">legend.box =</span> <span class="st">&quot;horizontal&quot;</span>,
-  <span class="dt">panel.margin =</span> <span class="kw">unit</span>(<span class="dv">2</span>, <span class="st">&quot;lines&quot;</span>))</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-6-1.png" title="" alt="" width="1440px" height="900px" /></p>
+  <span class="dt">panel.margin =</span> <span class="kw">unit</span>(<span class="dv">2</span>, <span class="st">&quot;lines&quot;</span>))</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6" />
+<p class="caption">plot of chunk unnamed-chunk-6</p>
+</div>
 </div>
 <div id="correlations-between-variables" class="section level2">
 <h2>Correlations between variables</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="kw">cor</span>(swed<span class="fl">.1</span>[, <span class="kw">list</span>(
-    paternalage, maternalage, min15.birthorder, nr.siblings, children, grandchildren, byear, byear.Father, age_at_1st_child, age_at_last_child
-    )], <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">2</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="kw">cor</span>(swed<span class="fl">.1</span>[, <span class="kw">list</span>(
+    paternalage, maternalage, birthorder, nr.siblings, children, grandchildren, byear, byear.Father, age_at_1st_child, age_at_last_child
+    )], <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">2</span>)</code></pre></div>
 <table>
 <colgroup>
-<col width="13%" />
+<col width="14%" />
 <col width="8%" />
 <col width="8%" />
-<col width="10%" />
+<col width="7%" />
 <col width="8%" />
 <col width="6%" />
 <col width="9%" />
 <col width="4%" />
 <col width="8%" />
-<col width="10%" />
-<col width="10%" />
+<col width="11%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="center"> </th>
 <th align="center">paternalage</th>
 <th align="center">maternalage</th>
-<th align="center">min15.birthorder</th>
+<th align="center">birthorder</th>
 <th align="center">nr.siblings</th>
 <th align="center">children</th>
 <th align="center">grandchildren</th>
@@ -1289,7 +1573,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center"><strong>paternalage</strong></td>
 <td align="center">1</td>
 <td align="center">0.77</td>
-<td align="center">0.05</td>
+<td align="center">0.43</td>
 <td align="center">0.13</td>
 <td align="center">-0.03</td>
 <td align="center">-0.03</td>
@@ -1302,7 +1586,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center"><strong>maternalage</strong></td>
 <td align="center">0.77</td>
 <td align="center">1</td>
-<td align="center">0.06</td>
+<td align="center">0.45</td>
 <td align="center">0.09</td>
 <td align="center">-0.04</td>
 <td align="center">-0.04</td>
@@ -1312,23 +1596,23 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center">0.04</td>
 </tr>
 <tr class="odd">
-<td align="center"><strong>min15.birthorder</strong></td>
-<td align="center">0.05</td>
-<td align="center">0.06</td>
+<td align="center"><strong>birthorder</strong></td>
+<td align="center">0.43</td>
+<td align="center">0.45</td>
 <td align="center">1</td>
-<td align="center">0.14</td>
-<td align="center">-0.03</td>
+<td align="center">0.7</td>
 <td align="center">0.04</td>
-<td align="center">-0.05</td>
+<td align="center">0.05</td>
+<td align="center">0</td>
+<td align="center">-0.37</td>
 <td align="center">-0.06</td>
-<td align="center">-0.06</td>
-<td align="center">-0.05</td>
+<td align="center">-0.03</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>nr.siblings</strong></td>
 <td align="center">0.13</td>
 <td align="center">0.09</td>
-<td align="center">0.14</td>
+<td align="center">0.7</td>
 <td align="center">1</td>
 <td align="center">0.08</td>
 <td align="center">0.09</td>
@@ -1341,7 +1625,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center"><strong>children</strong></td>
 <td align="center">-0.03</td>
 <td align="center">-0.04</td>
-<td align="center">-0.03</td>
+<td align="center">0.04</td>
 <td align="center">0.08</td>
 <td align="center">1</td>
 <td align="center">0.43</td>
@@ -1354,7 +1638,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center"><strong>grandchildren</strong></td>
 <td align="center">-0.03</td>
 <td align="center">-0.04</td>
-<td align="center">0.04</td>
+<td align="center">0.05</td>
 <td align="center">0.09</td>
 <td align="center">0.43</td>
 <td align="center">1</td>
@@ -1367,7 +1651,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center"><strong>byear</strong></td>
 <td align="center">-0.06</td>
 <td align="center">-0.06</td>
-<td align="center">-0.05</td>
+<td align="center">0</td>
 <td align="center">-0.01</td>
 <td align="center">-0.01</td>
 <td align="center">-0.33</td>
@@ -1380,7 +1664,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center"><strong>byear.Father</strong></td>
 <td align="center">-0.89</td>
 <td align="center">-0.69</td>
-<td align="center">-0.06</td>
+<td align="center">-0.37</td>
 <td align="center">-0.11</td>
 <td align="center">0.02</td>
 <td align="center">-0.12</td>
@@ -1406,7 +1690,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <td align="center"><strong>age_at_last_child</strong></td>
 <td align="center">0.03</td>
 <td align="center">0.04</td>
-<td align="center">-0.05</td>
+<td align="center">-0.03</td>
 <td align="center">-0.03</td>
 <td align="center">0.38</td>
 <td align="center">-0.25</td>
@@ -1417,119 +1701,543 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 </tr>
 </tbody>
 </table>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> paternalage)) +<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> paternalage)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_sdl&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> age_at_1st_child)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-8-1.png" alt="plot of chunk unnamed-chunk-8" />
+<p class="caption">plot of chunk unnamed-chunk-8</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> age_at_1st_child)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-9-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> age_at_last_child)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9" />
+<p class="caption">plot of chunk unnamed-chunk-9</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> age_at_last_child)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-10-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> children)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" />
+<p class="caption">plot of chunk unnamed-chunk-10</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> children)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
 
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-11-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> survive1y)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" />
+<p class="caption">plot of chunk unnamed-chunk-11</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> survive1y)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-12-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> surviveR)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" />
+<p class="caption">plot of chunk unnamed-chunk-12</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> surviveR)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-13-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> children.surviving1y)) +<span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-14-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> children, <span class="dt">y =</span> grandchildren)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" />
+<p class="caption">plot of chunk unnamed-chunk-13</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> children, <span class="dt">y =</span> grandchildren)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">alpha =</span> <span class="kw">I</span>(<span class="fl">0.1</span>)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">poly</span>(x,<span class="dv">3</span>), <span class="dt">colour =</span> <span class="st">&quot;#6e85b0&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-15-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>children +<span class="st"> </span>children.surviving5y, <span class="dt">data =</span> swed<span class="fl">.2</span>)</code></pre>
-<pre><code>##         children.surviving5y
-## children       0       1       2       3       4       5       6       7
-##       0  2521141       0       0       0       0       0       0       0
-##       1   259860   68903       0       0       0       0       0       0
-##       2   163431  123637  141615       0       0       0       0       0
-##       3    11918   29622   46840   32931       0       0       0       0
-##       4      464    2057    6993    7687    4913       0       0       0
-##       5       14     160     626    1588    1436     759       0       0
-##       6        0      10      80     231     380     305     136       0
-##       7        1       0       3      32      82     115      56      26
-##       8        0       0       1       2      18      31      42      12
-##       9        0       0       0       0       3       4      23       6
-##       10       0       0       0       0       0       1       1       7
-##       11       0       0       0       0       0       0       0       1
-##       12       0       0       0       0       0       0       0       0
-##         children.surviving5y
-## children       8       9      12
-##       0        0       0       0
-##       1        0       0       0
-##       2        0       0       0
-##       3        0       0       0
-##       4        0       0       0
-##       5        0       0       0
-##       6        0       0       0
-##       7        0       0       0
-##       8        5       0       0
-##       9        3       0       0
-##       10       5       0       0
-##       11       2       0       0
-##       12       2       3       1</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> children, <span class="dt">y =</span> children.surviving5y)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" />
+<p class="caption">plot of chunk unnamed-chunk-14</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>children +<span class="st"> </span>children.surviving5y, <span class="dt">data =</span> swed<span class="fl">.1</span>)</code></pre></div>
+<table>
+<colgroup>
+<col width="8%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="4%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">15</th>
+<th align="center">16</th>
+<th align="center">17</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>0</strong></td>
+<td align="center">286116</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>1</strong></td>
+<td align="center">2232</td>
+<td align="center">196720</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>2</strong></td>
+<td align="center">553</td>
+<td align="center">3942</td>
+<td align="center">534577</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>3</strong></td>
+<td align="center">33</td>
+<td align="center">439</td>
+<td align="center">8528</td>
+<td align="center">275295</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>4</strong></td>
+<td align="center">4</td>
+<td align="center">39</td>
+<td align="center">580</td>
+<td align="center">5655</td>
+<td align="center">74696</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>5</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">33</td>
+<td align="center">374</td>
+<td align="center">2116</td>
+<td align="center">18419</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>6</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">29</td>
+<td align="center">157</td>
+<td align="center">677</td>
+<td align="center">5049</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>7</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">14</td>
+<td align="center">78</td>
+<td align="center">270</td>
+<td align="center">1508</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>8</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">4</td>
+<td align="center">5</td>
+<td align="center">31</td>
+<td align="center">108</td>
+<td align="center">522</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>9</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">11</td>
+<td align="center">39</td>
+<td align="center">192</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>10</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">8</td>
+<td align="center">23</td>
+<td align="center">99</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>11</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">42</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>12</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">18</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>13</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">4</td>
+<td align="center">5</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>14</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>15</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>16</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>17</strong></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> children, <span class="dt">y =</span> children.surviving5y)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">alpha =</span> <span class="kw">I</span>(<span class="fl">0.1</span>)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">poly</span>(x,<span class="dv">3</span>), <span class="dt">colour =</span> <span class="st">&quot;#6e85b0&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-16-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> children.surviving5y, <span class="dt">y =</span> grandchildren)) +<span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">alpha =</span> <span class="kw">I</span>(<span class="fl">0.1</span>)) +<span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
-<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">poly</span>(x,<span class="dv">3</span>), <span class="dt">colour =</span> <span class="st">&quot;#6e85b0&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-17-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">round</span>(age), <span class="dt">y =</span> children)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15" />
+<p class="caption">plot of chunk unnamed-chunk-15</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">round</span>(age), <span class="dt">y =</span> children)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">alpha =</span> <span class="kw">I</span>(<span class="fl">0.1</span>)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">colour =</span> <span class="st">&quot;#6e85b0&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Age&quot;</span>) +
 <span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Number of children&quot;</span>) +
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-18-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>[children&gt;<span class="dv">0</span>,], <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">round</span>(age), <span class="dt">y =</span> children)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-16-1.png" alt="plot of chunk unnamed-chunk-16" />
+<p class="caption">plot of chunk unnamed-chunk-16</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>[children&gt;<span class="dv">0</span>,], <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">round</span>(age), <span class="dt">y =</span> children)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">alpha =</span> <span class="kw">I</span>(<span class="fl">0.1</span>)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">colour =</span> <span class="st">&quot;#6e85b0&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Age&quot;</span>) +
 <span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Number of children&quot;</span>) +
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-19-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_zero_infl</span>(swed<span class="fl">.1</span>[ spouses &gt;<span class="st"> </span><span class="dv">0</span>, ]$children)</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-20-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> survive1y)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-17-1.png" alt="plot of chunk unnamed-chunk-17" />
+<p class="caption">plot of chunk unnamed-chunk-17</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_zero_infl</span>(swed<span class="fl">.1</span>[ spouses &gt;<span class="st"> </span><span class="dv">0</span>, ]$children)</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-18-1.png" alt="plot of chunk unnamed-chunk-18" />
+<p class="caption">plot of chunk unnamed-chunk-18</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> survive1y)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-21-1.png" title="" alt="" width="1440px" height="900px" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>[spouses &gt;<span class="st"> </span><span class="dv">0</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> children)) +<span class="st"> </span>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-19-1.png" alt="plot of chunk unnamed-chunk-19" />
+<p class="caption">plot of chunk unnamed-chunk-19</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>[spouses &gt;<span class="st"> </span><span class="dv">0</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> children)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
-<span class="st">    </span>desc_theme</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-22-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<span class="st">    </span>desc_theme</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-20-1.png" alt="plot of chunk unnamed-chunk-20" />
+<p class="caption">plot of chunk unnamed-chunk-20</p>
+</div>
 </div>
 <div id="opportunities-for-selection" class="section level2">
 <h2>Opportunities for selection</h2>
-<pre class="sourceCode r"><code class="sourceCode r">swed$any_children =<span class="st"> </span><span class="kw">ifelse</span>(swed$children &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swed$any_children =<span class="st"> </span><span class="kw">ifelse</span>(swed$children &gt;<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 episodes =<span class="st"> </span>swed %&gt;%
 <span class="st">    </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(male) |<span class="st"> </span>!<span class="kw">is.na</span>(survive1y) |<span class="st"> </span>!<span class="kw">is.na</span>(ever_married)) %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">group_by</span>(byear) %&gt;%
@@ -1545,7 +2253,7 @@ episodes =<span class="st"> </span>swed %&gt;%
         ) %&gt;%
 <span class="st">    </span><span class="kw">setDT</span>()
 
-<span class="kw">data.frame</span>(episodes[<span class="kw">order</span>(byear), ])</code></pre>
+<span class="kw">data.frame</span>(episodes[<span class="kw">order</span>(byear), ])</code></pre></div>
 <table>
 <colgroup>
 <col width="4%" />
@@ -1684,7 +2392,7 @@ episodes =<span class="st"> </span>swed %&gt;%
 </tr>
 <tr class="odd">
 <td align="center">1942</td>
-<td align="center">100009</td>
+<td align="center">1e+05</td>
 <td align="center">NA</td>
 <td align="center">NA</td>
 <td align="center">NA</td>
@@ -2432,19 +3140,25 @@ episodes =<span class="st"> </span>swed %&gt;%
 </tr>
 </tbody>
 </table>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(episodes, <span class="dt">file =</span> <span class="st">&quot;coefs/swed_episodes.rdata&quot;</span>)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">episodes.plot =</span> <span class="kw">ggplot</span>(<span class="kw">melt</span>(episodes,<span class="dt">id.vars=</span><span class="kw">c</span>(<span class="st">&#39;byear&#39;</span>), <span class="dt">na.rm =</span> T)) +<span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>byear, <span class="dt">y=</span>value)) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>variable,<span class="dt">scales=</span><span class="st">&#39;free_y&#39;</span>,<span class="dt">ncol =</span> <span class="dv">1</span>)) +<span class="st"> </span>mymin</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/ep.plot-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(episodes, <span class="dt">file =</span> <span class="st">&quot;coefs/swed_episodes.rdata&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">episodes.plot =</span> <span class="kw">ggplot</span>(<span class="kw">melt</span>(episodes,<span class="dt">id.vars=</span><span class="kw">c</span>(<span class="st">&#39;byear&#39;</span>), <span class="dt">na.rm =</span> T)) +<span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>byear, <span class="dt">y=</span>value)) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>variable,<span class="dt">scales=</span><span class="st">&#39;free_y&#39;</span>,<span class="dt">ncol =</span> <span class="dv">1</span>)) +<span class="st"> </span>mymin</code></pre></div>
+<pre><code>## geom_path: Each group consists of only one observation. Do you need to
+## adjust the group aesthetic?</code></pre>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/ep.plot-1.png" alt="plot of chunk ep.plot" />
+<p class="caption">plot of chunk ep.plot</p>
+</div>
 </div>
 <div id="sex-ratio" class="section level2">
 <h2>Sex ratio</h2>
-<pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">sex.ratio =</span> swed %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">sex.ratio =</span> swed %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(male) &amp;<span class="st"> </span>byear &lt;<span class="st"> </span><span class="dv">2000</span>) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">male =</span> <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(male))) %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(byear) %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">sex.ratio =</span> <span class="kw">sum</span>(male)/<span class="kw">length</span>(male)) %&gt;%
 <span class="st">    </span><span class="kw">data.frame</span>()
-)</code></pre>
-<table>
+)</code></pre></div>
+<table style="width:26%;">
 <colgroup>
 <col width="11%" />
 <col width="15%" />
@@ -2730,8 +3444,11 @@ episodes =<span class="st"> </span>swed %&gt;%
 </tr>
 </tbody>
 </table>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">na.omit</span>(sex.ratio)) +<span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>byear, <span class="dt">y=</span>sex.ratio)) +<span class="st"> </span>mymin</code></pre>
-<p><img src="1_swed_descriptives_files/figure-html/unnamed-chunk-24-1.png" title="" alt="" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">na.omit</span>(sex.ratio)) +<span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>byear, <span class="dt">y=</span>sex.ratio)) +<span class="st"> </span>mymin</code></pre></div>
+<div class="figure">
+<img src="/Users/rubenarslan/paternal_age_genealogies/1_swed_descriptives/figure/unnamed-chunk-22-1.png" alt="plot of chunk unnamed-chunk-22" />
+<p class="caption">plot of chunk unnamed-chunk-22</p>
+</div>
 </div>
 </div>
 

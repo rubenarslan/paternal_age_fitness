@@ -12,33 +12,52 @@
 
 <title> Helpers</title>
 
-<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
-<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -87,58 +106,59 @@ img {
 <p>documentation on the functions is interspersed through code comments</p>
 <div id="set-some-options" class="section level5">
 <h5>set some options</h5>
-<pre class="sourceCode r"><code class="sourceCode r">library =<span class="st"> </span>function (...) <span class="kw">suppressMessages</span>(base::<span class="kw">library</span>(...))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library = function (...) suppressMessages(base::library(...))</span>
+<span class="co"># This should always be the default. Google for reason if not clear.</span>
 <span class="kw">options</span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 <span class="kw">options</span>(<span class="dt">digits =</span> <span class="dv">4</span>)
 
-if(!<span class="kw">interactive</span>()) { <span class="co"># I&#39;m tired of data table messing up my rmarkdown. Never want to print this in a live report anyway, I&#39;m using pander for that.</span>
-    <span class="kw">options</span>(<span class="dt">datatable.print.nrows=</span><span class="dv">0</span>)
-}</code></pre>
+<span class="kw">library</span>(rmarkdown); <span class="kw">library</span>(formatR); <span class="kw">library</span>(foreign); <span class="kw">library</span>(Hmisc); <span class="kw">library</span>(car); <span class="kw">library</span>(psych); <span class="kw">library</span>(QuantPsyc); <span class="kw">library</span>(formr); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(lubridate); <span class="kw">library</span>(stringr); <span class="kw">library</span>(stringi); <span class="kw">library</span>(reshape2); <span class="kw">library</span>(plyr); <span class="kw">library</span>(knitr); <span class="kw">library</span>(data.table); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(dtplyr); <span class="kw">library</span>(broom)
+<span class="kw">library</span>(pander)
+
+<span class="co"># I&#39;m tired of data table messing up my rmarkdown. Never want to print this in a live report anyway, I&#39;m using pander for that.</span>
+<span class="kw">options</span>(<span class="dt">datatable.print.nrows=</span><span class="dv">0</span>)</code></pre></div>
 </div>
 <div id="always-use-these-settings" class="section level4">
 <h4>always use these settings</h4>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-analysis_theme =<span class="st"> </span><span class="kw">theme_minimal</span>(<span class="dt">base_size =</span> <span class="dv">30</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">analysis_theme =<span class="st"> </span><span class="kw">theme_minimal</span>(<span class="dt">base_size =</span> <span class="dv">24</span>)
+<span class="kw">theme_set</span>(analysis_theme)</code></pre></div>
 <p>Auto-adjust the table column alignment depending on data type.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pander)
-alignment =<span class="st"> </span>function (...) <span class="kw">UseMethod</span>(<span class="st">&#39;alignment&#39;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alignment =<span class="st"> </span>function (...) <span class="kw">UseMethod</span>(<span class="st">&#39;alignment&#39;</span>)
 alignment.default =<span class="st"> </span>function (...) <span class="st">&#39;left&#39;</span>
 alignment.integer =<span class="st"> </span>function (...) <span class="st">&#39;right&#39;</span>
 alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39;right&#39;</span>
-<span class="kw">panderOptions</span>(<span class="st">&quot;table.split.table&quot;</span>, <span class="ot">Inf</span>)</code></pre>
+<span class="kw">panderOptions</span>(<span class="st">&quot;table.split.table&quot;</span>, <span class="ot">Inf</span>)</code></pre></div>
 </div>
 <div id="two-simple-functions-to-compute-coefficients-of-variation" class="section level4">
 <h4>two simple functions to compute coefficients of variation</h4>
 <div id="binary-vars" class="section level5">
 <h5>binary vars</h5>
-<pre class="sourceCode r"><code class="sourceCode r">cva_bin =<span class="st"> </span>function(x) {  
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cva_bin =<span class="st"> </span>function(x) {
     p =<span class="st"> </span><span class="kw">mean</span>(x,<span class="dt">na.rm=</span>T)
-    <span class="kw">sqrt</span>(p*(<span class="dv">1</span>-p)) /<span class="st"> </span>
+    <span class="kw">sqrt</span>(p*(<span class="dv">1</span>-p)) /
 <span class="st">        </span>p
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="continuous-vars" class="section level5">
 <h5>continuous vars</h5>
-<pre class="sourceCode r"><code class="sourceCode r">cva =<span class="st"> </span>function(x) { 
-    <span class="kw">sd</span>(x, <span class="dt">na.rm =</span> T) /<span class="st"> </span>
-<span class="st">        </span><span class="kw">mean</span>(x, <span class="dt">na.rm =</span> T)  
-}</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cva =<span class="st"> </span>function(x) {
+    <span class="kw">sd</span>(x, <span class="dt">na.rm =</span> T) /
+<span class="st">        </span><span class="kw">mean</span>(x, <span class="dt">na.rm =</span> T)
+}</code></pre></div>
 </div>
 <div id="shorthand-for-centering-predictors" class="section level5">
 <h5>shorthand for centering predictors</h5>
-<pre class="sourceCode r"><code class="sourceCode r">center =<span class="st"> </span>function(x) { <span class="kw">scale</span>(x, <span class="dt">scale =</span> <span class="ot">FALSE</span>) }</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">center =<span class="st"> </span>function(x) { <span class="kw">scale</span>(x, <span class="dt">scale =</span> <span class="ot">FALSE</span>) }</code></pre></div>
 </div>
 <div id="shorthand-for-finding-mode" class="section level5">
 <h5>shorthand for finding mode</h5>
-<pre class="sourceCode r"><code class="sourceCode r">Mode &lt;-<span class="st"> </span>function(x) { <span class="co"># from https://stackoverflow.com/questions/2547402/standard-library-function-in-r-for-finding-the-mode</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Mode &lt;-<span class="st"> </span>function(x) { <span class="co"># from https://stackoverflow.com/questions/2547402/standard-library-function-in-r-for-finding-the-mode</span>
     ux &lt;-<span class="st"> </span><span class="kw">unique</span>(x)
     ux[<span class="kw">which.max</span>(<span class="kw">tabulate</span>(<span class="kw">match</span>(x, ux)))]
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="small-helper-function-to-sample-at-level-2-families-not-individuals" class="section level5">
 <h5>small helper function to sample at level 2 (families, not individuals)</h5>
-<pre class="sourceCode r"><code class="sourceCode r">sample_level2 =<span class="st"> </span>function(data, level2_var, size, <span class="dt">replace =</span> F, <span class="dt">prob =</span> <span class="ot">NULL</span>) {
-    <span class="kw">library</span>(data.table)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample_level2 =<span class="st"> </span>function(data, level2_var, size, <span class="dt">replace =</span> F, <span class="dt">prob =</span> <span class="ot">NULL</span>) {
     if(<span class="kw">is.data.table</span>(data)) {
         some =<span class="st"> </span>data[, level2_var, with =<span class="st"> </span>F][[<span class="dv">1</span>]]
     } else {
@@ -148,52 +168,61 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
     sample_some =<span class="st"> </span><span class="kw">sample</span>(some_u, size, replace, prob)
     take =<span class="st"> </span>some %in%<span class="st"> </span>sample_some
     data[take,]
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="pander-tables-think-the-output-from-missingness_patterns-are-markdown" class="section level5">
 <h5>pander tables think the output from missingness_patterns are markdown</h5>
-<pre class="sourceCode r"><code class="sourceCode r">pander_escape =<span class="st"> </span>function(x, ...) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pander_escape =<span class="st"> </span>function(x, ...) {
     x$Pattern =<span class="st"> </span>stringr::<span class="kw">str_replace_all</span>(x$Pattern,<span class="st">&quot;_&quot;</span>,<span class="st">&quot;</span><span class="ch">\\\\</span><span class="st">_&quot;</span>)
     x
-}</code></pre>
+}</code></pre></div>
 <p>formula.tools got a bit too picky</p>
-<pre class="sourceCode r"><code class="sourceCode r">my_as.character.formula =<span class="st"> </span>function(x)   <span class="kw">Reduce</span>( paste, <span class="kw">deparse</span>(x) )</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_as.character.formula =<span class="st"> </span>function(x)   <span class="kw">Reduce</span>( paste, <span class="kw">deparse</span>(x) )</code></pre></div>
 </div>
 <div id="we-use-this-function-to-automatically-get-nice-tables" class="section level5">
 <h5>we use this function to automatically get nice tables</h5>
-<pre class="sourceCode r"><code class="sourceCode r">pander_handler =<span class="st"> </span>function(x, ...) {
-    if (<span class="kw">isS4</span>(x)) {
-        <span class="kw">show</span>(x)
-    } else if (!<span class="st"> </span><span class="kw">is.null</span>(<span class="kw">getS3method</span>(<span class="st">&#39;pander&#39;</span>,<span class="kw">class</span>(x),<span class="ot">TRUE</span>))) {
-        <span class="kw">pander</span>(x, <span class="dt">row.names =</span> F, ...)
-    } else {
-        <span class="kw">print</span>(x)                                
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pander_handler =<span class="st"> </span>function(x, ...) {
+    anyS3method =<span class="st"> </span>function(x) {
+        classes =<span class="st"> </span><span class="kw">class</span>(x)
+        <span class="kw">any</span>(<span class="kw">sapply</span>(classes, <span class="dt">FUN =</span> function(classes) { !<span class="kw">is.null</span>(<span class="kw">getS3method</span>(<span class="st">&#39;pander&#39;</span>,classes,<span class="ot">TRUE</span>)) } ))
     }
-}</code></pre>
+    if (<span class="st">&quot;knit_asis&quot;</span> %in%<span class="st"> </span><span class="kw">class</span>(x)) {
+        x
+    } else if (<span class="kw">is.data.table</span>(x)) {
+        <span class="st">&quot;&quot;</span>
+        <span class="co"># don&#39;t ever print stupid data tables</span>
+    } else if (<span class="kw">anyS3method</span>(x)) {
+        <span class="kw">pander</span>(x, <span class="dt">row.names =</span> F, ...)
+    } else if (<span class="kw">isS4</span>(x)) {
+        <span class="kw">show</span>(x)
+    } else {
+        <span class="kw">print</span>(x)
+    }
+}</code></pre></div>
 </div>
 <div id="diagnostic-function-for-me-to-compare-number-of-zeros-in-data-to-a-poisson-process-with-similar-amount-of-overdispersion" class="section level5">
 <h5>diagnostic function for me to compare number of zeros in data to a poisson process with similar amount of overdispersion</h5>
-<pre class="sourceCode r"><code class="sourceCode r">plot_zero_infl =<span class="st"> </span>function(variable) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_zero_infl =<span class="st"> </span>function(variable) {
     rpois.od&lt;-function (n, lambda,<span class="dt">d=</span><span class="dv">1</span>) {
         if (d&lt;=<span class="dv">1</span>)
             <span class="kw">rpois</span>(n, lambda)
         else if (d&gt;<span class="dv">1</span>)
             <span class="kw">rnbinom</span>(n, <span class="dt">size=</span>(lambda/(d<span class="dv">-1</span>)), <span class="dt">mu=</span>lambda)
     }
-    
-    if( <span class="kw">var</span>(variable,<span class="dt">na.rm=</span>T) &gt;<span class="st"> </span><span class="kw">mean</span>(variable,<span class="dt">na.rm=</span>T)) { lab =<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;Overdispersed (d=&quot;</span>,<span class="kw">round</span>(<span class="kw">var</span>(variable,<span class="dt">na.rm=</span>T)/<span class="kw">mean</span>(variable,<span class="dt">na.rm=</span>T),<span class="dv">2</span>),<span class="st">&quot;) poisson generated using distribution mean and variance via neg.bin&quot;</span>) 
+
+    if( <span class="kw">var</span>(variable,<span class="dt">na.rm=</span>T) &gt;<span class="st"> </span><span class="kw">mean</span>(variable,<span class="dt">na.rm=</span>T)) { lab =<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;Overdispersed (d=&quot;</span>,<span class="kw">round</span>(<span class="kw">var</span>(variable,<span class="dt">na.rm=</span>T)/<span class="kw">mean</span>(variable,<span class="dt">na.rm=</span>T),<span class="dv">2</span>),<span class="st">&quot;) poisson generated using distribution mean and variance via neg.bin&quot;</span>)
     } else { lab =<span class="st"> &quot;Poisson generated with distribution mean&quot;</span>}
-    
-    <span class="kw">qplot</span>(<span class="kw">rpois.od</span>(<span class="dt">n=</span><span class="kw">NROW</span>(variable),<span class="kw">mean</span>(variable,<span class="dt">na.rm=</span>T), <span class="kw">var</span>(variable,<span class="dt">na.rm=</span>T)/<span class="kw">mean</span>(variable,<span class="dt">na.rm=</span>T)), <span class="dt">binwidth=</span><span class="dv">1</span>, <span class="dt">fill=</span><span class="kw">I</span>(<span class="st">&quot;tomato3&quot;</span>), <span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.5</span>)) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="kw">paste0</span>(<span class="st">&quot;Slate=Real; Tomato=Generated</span><span class="ch">\n</span><span class="st">&quot;</span>,lab)) +<span class="st"> </span>
-<span class="st">        </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x=</span>variable),<span class="dt">fill=</span><span class="st">&quot;darkslategray4&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.5</span>,<span class="dt">binwidth=</span><span class="dv">1</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) +<span class="st"> </span>analysis_theme
-}</code></pre>
+
+    <span class="kw">qplot</span>(<span class="kw">rpois.od</span>(<span class="dt">n=</span><span class="kw">NROW</span>(variable),<span class="kw">mean</span>(variable,<span class="dt">na.rm=</span>T), <span class="kw">var</span>(variable,<span class="dt">na.rm=</span>T)/<span class="kw">mean</span>(variable,<span class="dt">na.rm=</span>T)), <span class="dt">binwidth=</span><span class="dv">1</span>, <span class="dt">fill=</span><span class="kw">I</span>(<span class="st">&quot;tomato3&quot;</span>), <span class="dt">alpha=</span><span class="kw">I</span>(<span class="fl">0.5</span>)) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="kw">paste0</span>(<span class="st">&quot;Slate=Real; Tomato=Generated</span><span class="ch">\n</span><span class="st">&quot;</span>,lab)) +
+<span class="st">        </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">x=</span>variable),<span class="dt">fill=</span><span class="st">&quot;darkslategray4&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.5</span>,<span class="dt">binwidth=</span><span class="dv">1</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)
+}</code></pre></div>
 </div>
 </div>
 <div id="this-function-is-just-a-shorthand-to-quickly-find-the-objects-i-generated" class="section level4">
 <h4>this function is just a shorthand to quickly find the objects I generated</h4>
-<pre class="sourceCode r"><code class="sourceCode r">lstype =<span class="st"> </span>function(<span class="dt">types=</span><span class="kw">c</span>(<span class="st">&#39;lmerMod&#39;</span>,<span class="st">&#39;glmerMod&#39;</span>,<span class="st">&#39;bglmerMod&#39;</span>,<span class="st">&#39;blmerMod&#39;</span>), <span class="dt">envir =</span> <span class="kw">parent.frame</span>(), ...){
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lstype =<span class="st"> </span>function(<span class="dt">types=</span><span class="kw">c</span>(<span class="st">&#39;lmerMod&#39;</span>,<span class="st">&#39;glmerMod&#39;</span>,<span class="st">&#39;bglmerMod&#39;</span>,<span class="st">&#39;blmerMod&#39;</span>), <span class="dt">envir =</span> <span class="kw">parent.frame</span>(), ...){
     inlist&lt;-<span class="kw">ls</span>(<span class="dt">envir =</span> envir, ...)
-    ifexistsgetclass =<span class="st"> </span>function(x, envir) { 
+    ifexistsgetclass =<span class="st"> </span>function(x, envir) {
         if(<span class="kw">exists</span>(x, <span class="dt">envir =</span> envir, <span class="dt">inherits =</span> <span class="ot">FALSE</span>)) {
             bla =<span class="st"> </span><span class="kw">get</span>(x, <span class="dt">envir =</span> envir, <span class="dt">inherits =</span> <span class="ot">FALSE</span>)
             <span class="kw">class</span>(bla)
@@ -207,12 +236,11 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
             <span class="kw">sapply</span>(classlist,function(x){ !!<span class="kw">length</span>(<span class="kw">intersect</span>(x, types) ) }) ## take any who have a class that is in our list
             ])
     } else <span class="kw">character</span>(<span class="dv">0</span>)
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="a-helper-function-to-get-a-data-frame-with-estimates-and-cis" class="section level4">
 <h4>a helper function to get a data frame with estimates and CIs</h4>
-<pre class="sourceCode r"><code class="sourceCode r">fortify_mine =<span class="st"> </span>function(fit,<span class="dt">confint=</span><span class="st">&quot;Wald&quot;</span>, <span class="dt">modelname =</span> <span class="ot">NULL</span>, <span class="dt">mcmclist =</span> <span class="ot">NULL</span>) {
-    <span class="kw">library</span>(stringr)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fortify_mine =<span class="st"> </span>function(fit,<span class="dt">confint=</span><span class="st">&quot;Wald&quot;</span>, <span class="dt">modelname =</span> <span class="ot">NULL</span>, <span class="dt">mcmclist =</span> <span class="ot">NULL</span>) {
     if(<span class="kw">is.null</span>(modelname)) modelname =<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(fit))
     info =<span class="st"> </span><span class="kw">summary</span>(fit)
     link =<span class="st"> &quot;identity&quot;</span>
@@ -260,7 +288,7 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
             conf &lt;-<span class="st"> </span><span class="kw">confint</span>(fit,<span class="dt">method=</span> confint )
         }
         <span class="co"># citation? https://stat.ethz.ch/pipermail/r-sig-mixed-models/2013q4/021197.html</span>
-        conf =<span class="st"> </span><span class="kw">as.data.frame</span>(conf)
+        conf =<span class="st"> </span><span class="kw">na.omit</span>(<span class="kw">as.data.frame</span>(conf))
         conf$Coefficient =<span class="st"> </span><span class="kw">rownames</span>(conf)
         <span class="kw">names</span>(conf) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Lower&#39;</span>,<span class="st">&#39;Upper&#39;</span>,<span class="st">&#39;Coefficient&#39;</span>)
         if(<span class="kw">inherits</span>(fit,<span class="dt">what=</span><span class="st">&#39;merMod&#39;</span>)) {
@@ -299,7 +327,7 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
     {
         <span class="kw">stop</span>(<span class="st">&quot;Unknown object&quot;</span>)
     }
-    
+
     coefs =<span class="st"> </span><span class="kw">within</span>(conf, {
         N =<span class="st"> </span><span class="kw">head</span>(N_obs,<span class="dv">1</span>)
         Families =<span class="st"> </span><span class="kw">head</span>(N_fam,<span class="dv">1</span>)
@@ -318,75 +346,72 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
     <span class="kw">class</span>(coefs) =<span class="st"> </span><span class="kw">c</span>( <span class="kw">class</span>(coefs), <span class="st">&#39;confint.coefs&#39;</span>)
     <span class="kw">class</span>(coefs) =<span class="st"> </span><span class="kw">c</span>( <span class="kw">class</span>(coefs), <span class="kw">paste0</span>(<span class="st">&#39;confint.&#39;</span>,from_class))
     coefs
-}</code></pre>
+}</code></pre></div>
 <div id="plotting-the-output-from-the-above-function" class="section level5">
 <h5>plotting the output from the above function</h5>
-<pre class="sourceCode r"><code class="sourceCode r">plot_fortified_mer =<span class="st"> </span>function(coefs,<span class="dt">ylab =</span> <span class="st">&quot;Effect on outcome&quot;</span>,<span class="dt">suppress_intercept=</span>T,<span class="dt">colour =</span> <span class="st">&quot;&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_fortified_mer =<span class="st"> </span>function(coefs,<span class="dt">ylab =</span> <span class="st">&quot;Effect on outcome&quot;</span>,<span class="dt">suppress_intercept=</span>T,<span class="dt">colour =</span> <span class="st">&quot;&quot;</span>)
 {
-    <span class="kw">library</span>(ggplot2)
     modelname =<span class="st"> </span>coefs$Model[<span class="dv">1</span>]
     <span class="co">#   coefs = fortify.mine(fit, &#39;Wald&#39;, modelname)</span>
     <span class="co">#   info = summary(fit)</span>
     <span class="co">#   list_of_coefs[[ modelname ]] &lt;&lt;- list(coefs, info, fit)</span>
-    
+
     plot_title =<span class="st"> </span><span class="kw">str_c</span>(<span class="kw">paste0</span>(<span class="kw">unique</span>(coefs[,<span class="st">&quot;N&quot;</span>]), <span class="dt">collapse=</span><span class="st">&quot;/&quot;</span>),<span class="st">&#39; individuals in &#39;</span>,<span class="kw">paste0</span>(<span class="kw">unique</span>(coefs[,<span class="st">&quot;Families&quot;</span>]), <span class="dt">collapse=</span><span class="st">&quot;/&quot;</span>), <span class="st">&#39; families&#39;</span>)
-    
+
     if(suppress_intercept) {
         intercept =<span class="st"> </span>coefs[<span class="kw">which</span>(coefs$Coefficient ==<span class="st"> &quot;(Intercept)&quot;</span>),]
         plot_title =<span class="st"> </span><span class="kw">str_c</span>(plot_title,<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Intercept = &quot;</span>,<span class="kw">as.character</span>(<span class="kw">round</span>(intercept[<span class="st">&#39;Estimate&#39;</span>],<span class="dv">2</span>)), <span class="st">&quot;, [&quot;</span>,<span class="kw">as.character</span>(<span class="kw">round</span>(intercept[<span class="st">&quot;Lower&quot;</span>],<span class="dv">2</span>)),<span class="st">&quot;;&quot;</span>,<span class="kw">as.character</span>(<span class="kw">round</span>(intercept[<span class="st">&quot;Upper&quot;</span>],<span class="dv">2</span>)),<span class="st">&quot;]&quot;</span>)
         coefs =<span class="st"> </span>coefs[<span class="kw">which</span>(coefs$Coefficient !=<span class="st"> &quot;(Intercept)&quot;</span>),]
     }
-    
-    if(coefs$Link[<span class="dv">1</span>] %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;logit&quot;</span>,<span class="st">&quot;log&quot;</span>)) { 
+
+    if(coefs$Link[<span class="dv">1</span>] %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;logit&quot;</span>,<span class="st">&quot;log&quot;</span>)) {
         null.point =<span class="st"> </span><span class="dv">1</span>;  scaleY =<span class="st"> </span><span class="kw">scale_y_log10</span>(ylab)
     } else {
-        null.point =<span class="st"> </span><span class="dv">0</span>;  scaleY =<span class="st"> </span><span class="kw">scale_y_continuous</span>(ylab)  
+        null.point =<span class="st"> </span><span class="dv">0</span>;  scaleY =<span class="st"> </span><span class="kw">scale_y_continuous</span>(ylab)
     }
-    
+
     coefs$Coefficient =<span class="st"> </span>car::<span class="kw">Recode</span>(coefs$Coefficient,<span class="st">&quot;&#39;paternalage.diff&#39;=&#39;Paternal age&#39;;&#39;paternalage.mean&#39;=&#39;Paternal age</span><span class="ch">\\</span><span class="st">nfamily average&#39;&quot;</span>)
     coefs$Coefficient =<span class="st"> </span><span class="kw">str_replace</span>(coefs$Coefficient, <span class="st">&quot;paternalage.factor&quot;</span>, <span class="st">&quot;Paternal age &quot;</span>)
     order =<span class="st"> </span><span class="kw">sort</span>(<span class="kw">unique</span>(coefs$Coefficient))
     main =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Paternal age</span><span class="ch">\n</span><span class="st">family average&#39;</span>,<span class="st">&#39;Paternal age&#39;</span>)
     order =<span class="st"> </span><span class="kw">c</span>(<span class="kw">setdiff</span>(order, main), <span class="kw">intersect</span>(main, order))
     coefs$Coefficient =<span class="st"> </span><span class="kw">factor</span>(coefs$Coefficient,<span class="dt">levels =</span> order)
-    
+
     if(colour !=<span class="st"> &quot;&quot;</span>) {
         aesthetics =<span class="st"> </span><span class="kw">aes_string</span>(<span class="dt">x =</span> <span class="st">&quot;Coefficient&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Estimate&quot;</span>, <span class="dt">ymin =</span> <span class="st">&quot;Lower&quot;</span>, <span class="dt">ymax =</span> <span class="st">&quot;Upper&quot;</span>, <span class="dt">colour =</span> colour)
     } else {
         aesthetics =<span class="st"> </span><span class="kw">aes_string</span>(<span class="dt">x =</span> <span class="st">&quot;Coefficient&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Estimate&quot;</span>, <span class="dt">ymin =</span> <span class="st">&quot;Lower&quot;</span>, <span class="dt">ymax =</span> <span class="st">&quot;Upper&quot;</span>)
     }
-    <span class="kw">ggplot</span>(coefs, aesthetics) +<span class="st"> </span>
-<span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="dt">position=</span><span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="fl">0.8</span>), <span class="dt">size =</span> <span class="dv">1</span>) +<span class="st"> </span>
-<span class="st">        </span><span class="kw">coord_flip</span>() +<span class="st"> </span>
+    <span class="kw">ggplot</span>(coefs, aesthetics) +
+<span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="dt">position=</span><span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="fl">0.8</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
+<span class="st">        </span><span class="kw">coord_flip</span>() +
 <span class="st">        </span><span class="kw">ggtitle</span>(plot_title) +
-<span class="st">        </span>scaleY +<span class="st"> </span>
-<span class="st">        </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">round</span>(Estimate,<span class="dv">2</span>)), <span class="dt">vjust =</span> <span class="dv">2</span>, <span class="dt">position=</span><span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="fl">0.8</span>)) +<span class="st"> </span>
-<span class="st">        </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Predictors&quot;</span>) +<span class="st"> </span>
-<span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> null.point, <span class="dt">linetype=</span><span class="st">&#39;dotted&#39;</span>)  +<span class="st"> </span>
+<span class="st">        </span>scaleY +
+<span class="st">        </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label=</span><span class="kw">round</span>(Estimate,<span class="dv">2</span>)), <span class="dt">vjust =</span> <span class="dv">2</span>, <span class="dt">position=</span><span class="kw">position_dodge</span>(<span class="dt">width=</span><span class="fl">0.8</span>)) +
+<span class="st">        </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Predictors&quot;</span>) +
+<span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> null.point, <span class="dt">linetype=</span><span class="st">&#39;dotted&#39;</span>)  +
 <span class="st">        </span>analysis_theme +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid.minor.y =</span> <span class="kw">element_blank</span>(),<span class="dt">panel.grid.major.y =</span><span class="kw">element_blank</span>(),<span class="dt">panel.grid.major.x =</span> <span class="kw">element_line</span>(<span class="dt">colour=</span><span class="st">&quot;#eeeeee&quot;</span>))
-}</code></pre>
+}</code></pre></div>
 </div>
 </div>
 <div id="grand-mean-center-paternal-age-or-anything-and-center-it-within-groups" class="section level4">
 <h4>grand mean center paternal age (or anything) and center it within groups</h4>
-<pre class="sourceCode r"><code class="sourceCode r">recenter.pat =<span class="st"> </span>function(data, <span class="dt">what =</span> <span class="st">&#39;paternalage&#39;</span>, <span class="dt">among_who =</span> <span class="st">&#39;idParents&#39;</span>, <span class="dt">breaks =</span> <span class="st">&#39;c(0 ,25, 30, 35, 40, 45, 50, 55, 90)&#39;</span>) {
-    <span class="kw">library</span>(data.table); <span class="kw">library</span>(stringr); <span class="kw">library</span>(QuantPsyc)
-    <span class="kw">setkeyv</span>(data, among_who)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">recenter.pat =<span class="st"> </span>function(data, <span class="dt">what =</span> <span class="st">&#39;paternalage&#39;</span>, <span class="dt">among_who =</span> <span class="st">&#39;idParents&#39;</span>, <span class="dt">breaks =</span> <span class="st">&#39;c(0 ,25, 30, 35, 40, 45, 50, 55, 90)&#39;</span>) {
     makecenter =<span class="st"> </span><span class="kw">parse</span>(<span class="dt">text=</span> <span class="kw">str_c</span>(what,<span class="st">&#39;_c := meanCenter(&#39;</span>,what,<span class="st">&#39;)&#39;</span>) )
-    makemean =<span class="st"> </span><span class="kw">parse</span>(<span class="dt">text=</span> <span class="kw">str_c</span>(what,<span class="st">&#39;.mean := ave(&#39;</span>,what,<span class="st">&#39;_c,&#39;</span>,among_who,<span class="st">&#39;, FUN= function(x) { mean(x,na.rm=T) })&#39;</span>))
-    makediff =<span class="st"> </span><span class="kw">parse</span>(<span class="dt">text=</span> <span class="kw">str_c</span>(what,<span class="st">&#39;.diff := &#39;</span>,what,<span class="st">&#39;_c -&#39;</span>,what,<span class="st">&#39;.mean&#39;</span>))
+    makemean =<span class="st"> </span><span class="kw">parse</span>(<span class="dt">text=</span> <span class="kw">str_c</span>(what,<span class="st">&#39;.mean := ave(&#39;</span>,what,<span class="st">&#39;,&#39;</span>,among_who,<span class="st">&#39;, FUN= function(x) { mean(x,na.rm=T) })&#39;</span>))
+    makediff =<span class="st"> </span><span class="kw">parse</span>(<span class="dt">text=</span> <span class="kw">str_c</span>(what,<span class="st">&#39;.diff := &#39;</span>,what,<span class="st">&#39; -&#39;</span>,what,<span class="st">&#39;.mean&#39;</span>))
     make_factors =<span class="st"> </span><span class="kw">parse</span>(<span class="dt">text=</span> <span class="kw">str_c</span>(what,<span class="st">&#39;.factor := cut((10*&#39;</span>,what,<span class="st">&#39;),breaks = &#39;</span>,breaks,<span class="st">&#39;, include.lowest = T, right = T)&#39;</span>))
-    
+
     data[, <span class="kw">eval</span>(makecenter)]
     data[, <span class="kw">eval</span>(makemean)]
     data[, <span class="kw">eval</span>(makediff)]
     data[, <span class="kw">eval</span>(make_factors)]
     data
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="count-the-number-of-siblings-who-compete-for-foodattention-in-first-five-years-of-life-and-are-younger-than-10" class="section level4">
 <h4>count the number of siblings who compete for food/attention in first five years of life (and are younger than 10)</h4>
-<pre class="sourceCode r"><code class="sourceCode r">dependent_sibs_f5y =<span class="st"> </span>function(survive1y, byear, dyear) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dependent_sibs_f5y =<span class="st"> </span>function(survive1y, byear, dyear) {
     sibs =<span class="st"> </span><span class="kw">length</span>(byear)
     other_dependent_sibs_f5y =<span class="st"> </span><span class="kw">integer</span>(<span class="dt">length=</span>sibs)
     for(i in <span class="dv">1</span>:sibs) {
@@ -403,10 +428,10 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
         other_dependent_sibs_f5y[i] =<span class="st"> </span>my_sibs
     }
     other_dependent_sibs_f5y
-}</code></pre>
+}</code></pre></div>
 <div id="only-younger-sibs" class="section level5">
 <h5>only younger sibs</h5>
-<pre class="sourceCode r"><code class="sourceCode r">younger_sibs_alive_and_dependent =<span class="st"> </span>function(survive5y, byear, dyear) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">younger_sibs_alive_and_dependent =<span class="st"> </span>function(survive5y, byear, dyear) {
     made5y =<span class="st"> </span><span class="kw">sum</span>(survive5y==<span class="dv">1</span> |<span class="st"> </span><span class="kw">is.na</span>(survive5y)) <span class="co"># number of siblings who turned at least 5</span>
     sibs =<span class="st"> </span><span class="kw">length</span>(survive5y)
     younger_sibs_alive_and_dependent_in_first_5y =<span class="st"> </span><span class="kw">integer</span>(<span class="dt">length=</span>sibs)
@@ -417,20 +442,20 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
         if(my_sibs &gt;<span class="st"> </span><span class="dv">0</span>) {
             sib_births =<span class="st"> </span>byear[ <span class="kw">which</span>(younger_sibs) ]
             sib_deaths =<span class="st"> </span>dyear[ <span class="kw">which</span>(younger_sibs) ]
-            my_sibs =<span class="st"> </span>my_sibs -<span class="st"> </span>
+            my_sibs =<span class="st"> </span>my_sibs -
 <span class="st">                </span><span class="kw">sum</span>(
                     sib_births &gt;<span class="st"> </span>(byear[i] +<span class="st"> </span><span class="dv">5</span>) |<span class="st">  </span><span class="co"># born more than 5y later</span>
 <span class="st">                        </span>(sib_deaths &lt;=<span class="st"> </span>sib_births +<span class="st"> </span><span class="dv">1</span>) <span class="co"># died within less than a year</span>
-                ,<span class="dt">na.rm=</span>T) 
+                ,<span class="dt">na.rm=</span>T)
             younger_sibs_alive_and_dependent_in_first_5y[i] =<span class="st"> </span>my_sibs
         }
     }
     younger_sibs_alive_and_dependent_in_first_5y
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="only-older-sibs" class="section level5">
 <h5>only older sibs</h5>
-<pre class="sourceCode r"><code class="sourceCode r">older_sibs_alive_and_dependent =<span class="st"> </span>function(survive5y, byear, dyear) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">older_sibs_alive_and_dependent =<span class="st"> </span>function(survive5y, byear, dyear) {
     made5y =<span class="st"> </span><span class="kw">sum</span>(survive5y,<span class="dt">na.rm =</span> T) <span class="co"># number of siblings who turned at least 5</span>
     sibs =<span class="st"> </span><span class="kw">length</span>(survive5y)
     older_sibs_alive_and_dependent_in_first_5y =<span class="st"> </span><span class="kw">integer</span>(<span class="dt">length=</span>sibs)
@@ -441,29 +466,28 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
         if(my_sibs &gt;<span class="st"> </span><span class="dv">0</span>) {
             sib_births =<span class="st"> </span>byear[ <span class="kw">which</span>(older_sibs) ]
             sib_deaths =<span class="st"> </span>dyear[ <span class="kw">which</span>(older_sibs) ]
-            my_sibs =<span class="st"> </span>my_sibs -<span class="st"> </span>
+            my_sibs =<span class="st"> </span>my_sibs -
 <span class="st">                </span><span class="kw">sum</span>(
                     sib_births &lt;<span class="st"> </span>(byear[i] -<span class="st"> </span><span class="dv">5</span>) |<span class="st"> </span><span class="co"># others born more than 5y earlier than me  # 10 seconds of 17</span>
 <span class="st">                        </span>(sib_deaths &lt;=<span class="st"> </span>sib_births +<span class="st"> </span><span class="dv">1</span>) |<span class="st"> </span><span class="co"># died within less than a year  # 7 seconds of 17</span>
 <span class="st">                        </span>(sib_deaths &lt;=<span class="st"> </span>byear[i]) <span class="co"># died before my birth</span>
-                ,<span class="dt">na.rm=</span>T) 
+                ,<span class="dt">na.rm=</span>T)
             older_sibs_alive_and_dependent_in_first_5y[i] =<span class="st"> </span>my_sibs
         }
     }
     older_sibs_alive_and_dependent_in_first_5y
-}</code></pre>
+}</code></pre></div>
 </div>
 </div>
 <div id="verify-whether-a-binned-linear-variable-has-a-linear-effect" class="section level4">
 <h4>verify whether a binned linear variable has a linear effect</h4>
 <p>this function takes a coefficient df which contains a cut-up/binned factor predictor and makes a plot to verify the linearity of the predictor, optionally accompanied by an mcmclist and plots the OR for the paternal age factor</p>
-<pre class="sourceCode r"><code class="sourceCode r">mod_coefs_factor =<span class="st"> </span>function(fixefs, <span class="dt">factor_base =</span> <span class="st">&quot;paternalage.factor&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_coefs_factor =<span class="st"> </span>function(fixefs, <span class="dt">factor_base =</span> <span class="st">&quot;paternalage.factor&quot;</span>)
 {
     if(!<span class="kw">inherits</span>(fixefs, <span class="dt">what =</span> <span class="st">&quot;confint.coefs&quot;</span>)) <span class="kw">stop</span>(<span class="st">&quot;Need a confint.coefs object.&quot;</span>)
-    <span class="kw">library</span>(formr); <span class="kw">library</span>(stringr); <span class="kw">library</span>(data.table); 
     fixefs =<span class="st"> </span><span class="kw">as.data.table</span>(fixefs)
     fixefs =<span class="st"> </span>fixefs[ Coefficient %contains%<span class="st"> </span>factor_base, ]
-    
+
     if(<span class="kw">nrow</span>(fixefs) &gt;<span class="st"> </span><span class="dv">0</span>) {
         fixefs[, Trait :<span class="er">=</span><span class="st"> </span><span class="kw">str_match</span>(Coefficient, <span class="st">&quot;(.+):&quot;</span>)[,<span class="dv">2</span>] ]
         escaped_fb =<span class="st"> </span>Hmisc::<span class="kw">escapeRegex</span>(<span class="kw">as.character</span>(factor_base))
@@ -479,15 +503,14 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
         fixefs[<span class="kw">nrow</span>(fixefs), Coefficient :<span class="er">=</span><span class="st"> &quot;14-25&quot;</span>]
         fixefs
     }
-}</code></pre>
+}</code></pre></div>
 <p>plot the factor ORs to see if it’s linear</p>
-<pre class="sourceCode r"><code class="sourceCode r">plot_factor_linearity =<span class="st"> </span>function(fixefs, <span class="dt">factor_base =</span> <span class="st">&quot;paternalage.factor&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_factor_linearity =<span class="st"> </span>function(fixefs, <span class="dt">factor_base =</span> <span class="st">&quot;paternalage.factor&quot;</span>)
 {
     if(!<span class="kw">inherits</span>(fixefs, <span class="dt">what =</span> <span class="st">&quot;confint.coefs&quot;</span>)) <span class="kw">stop</span>(<span class="st">&quot;Need a confint.coefs object.&quot;</span>)
-    <span class="kw">library</span>(formr); <span class="kw">library</span>(stringr); <span class="kw">library</span>(data.table); 
     fixefs =<span class="st"> </span><span class="kw">as.data.table</span>(fixefs)
     fixefs =<span class="st"> </span>fixefs[ Coefficient %contains%<span class="st"> </span>factor_base, ]
-    
+
     if(<span class="kw">nrow</span>(fixefs) &gt;<span class="st"> </span><span class="dv">0</span>) {
         fixefs[, Trait :<span class="er">=</span><span class="st"> </span><span class="kw">str_match</span>(Coefficient, <span class="st">&quot;(.+):&quot;</span>)[,<span class="dv">2</span>] ]
         escaped_fb =<span class="st"> </span>Hmisc::<span class="kw">escapeRegex</span>(<span class="kw">as.character</span>(factor_base))
@@ -498,7 +521,7 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
         reference =<span class="st"> </span><span class="kw">ifelse</span>( fixefs$Link[<span class="dv">1</span>] %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;log&quot;</span>,<span class="st">&quot;logit&quot;</span>), <span class="dv">1</span>, <span class="dv">0</span>)
         just_coefs =<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">data.table</span>( <span class="dt">Lower =</span> reference, <span class="dt">Upper =</span> reference, <span class="dt">Estimate =</span> reference, <span class="dt">Coefficient =</span> <span class="st">&quot;14-25&quot;</span>, <span class="dt">Trait =</span> <span class="kw">unique</span>(fixefs$Trait)[<span class="dv">1</span>]), fixefs[,<span class="kw">list</span>(Lower, Upper, Estimate, Coefficient, Trait)], <span class="dt">use.names =</span> T)
         if(<span class="kw">length</span>(<span class="kw">unique</span>(fixefs$Trait))&gt;<span class="dv">1</span>) just_coefs =<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">data.table</span>(<span class="dt">Lower =</span> reference, <span class="dt">Upper =</span> reference, <span class="dt">Estimate =</span> reference, <span class="dt">Coefficient =</span> <span class="st">&quot;14-25&quot;</span>, <span class="dt">Trait =</span> <span class="kw">unique</span>(fixefs$Trait)[<span class="dv">2</span>]), just_coefs)
-        <span class="kw">library</span>(ggplot2)
+
         just_coefs[<span class="kw">is.na</span>(Trait), Trait :<span class="er">=</span><span class="st"> &quot;&quot;</span>]
         <span class="kw">qplot</span>(<span class="dt">data=</span>just_coefs, <span class="dt">x =</span> Coefficient, <span class="dt">y =</span> Estimate, <span class="dt">geom =</span> <span class="kw">c</span>(<span class="st">&quot;pointrange&quot;</span>,<span class="st">&quot;line&quot;</span>),<span class="dt">ymin =</span> Lower, <span class="dt">ymax =</span> Upper, <span class="dt">group  =</span><span class="dv">1</span> ) +<span class="st"> </span><span class="kw">ggtitle</span>(fixefs$Model[<span class="dv">1</span>]) +<span class="st"> </span>analysis_theme +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +<span class="st"> </span><span class="kw">scale_y_log10</span>(<span class="kw">paste</span>(<span class="st">&quot;Effect on&quot;</span>,fixefs$Outcome[<span class="dv">1</span>]),<span class="dt">breaks=</span><span class="kw">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="fl">0.75</span>,<span class="dv">1</span>)) +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">weight =</span> <span class="kw">ifelse</span>(Upper-Lower !=<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>/(Upper-Lower),<span class="dv">1</span>)) ,<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> F, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Trait)
 <span class="co">#   qplot(data=just_coefs, x = Coefficient, y = Estimate, geom = c(&quot;pointrange&quot;,&quot;line&quot;),ymin = Lower, ymax = Upper, group  =1 ) + ggtitle(fixefs$Model[1]) + analysis_theme + xlab(&quot;Paternal age&quot;) + ylab(paste(&quot;Effect on&quot;,fixefs$Outcome[1])) + geom_smooth(method = &quot;lm&quot;, se = F, lty = &quot;dashed&quot;) + facet_wrap(~ Trait)</span>
@@ -508,7 +531,7 @@ alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39
 make_newdata =<span class="st"> </span>function(pred, olddata) {
     newdata =<span class="st"> </span>pred
     newdata$idParents =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>:<span class="dv">2</span>, <span class="dt">length.out=</span><span class="kw">nrow</span>(newdata))
-    
+
     left =<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(olddata), <span class="kw">names</span>(newdata))
     for(i in <span class="kw">seq_along</span>(left)) {
         barename =<span class="st"> </span><span class="kw">str_match</span>(left[i],<span class="st">&quot;(.+</span><span class="ch">\\</span><span class="st">()?([^()]+)</span><span class="ch">\\</span><span class="st">)?&quot;</span>)[,<span class="dv">3</span>] <span class="co"># bust var out of function term</span>
@@ -518,7 +541,7 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
             newdata[, barename] =<span class="st"> </span><span class="ot">FALSE</span>
         } else if(<span class="kw">is.numeric</span>(olddata[, left[i]])) {
             newdata[, barename] =<span class="st"> </span><span class="kw">median</span>(olddata[, left[i]],<span class="dt">na.rm=</span>T)
-        } else if(<span class="kw">is.factor</span>(olddata[ left[i] ])) {
+        } else if(<span class="kw">is.factor</span>(olddata[, left[i] ])) {
             fact =<span class="st"> </span><span class="kw">unique</span>(olddata[,left[i] ]) ## choose reference for factors
             newdata[, barename] =<span class="st"> </span>fact[fact==<span class="kw">levels</span>(fact)[<span class="dv">1</span>]]
         } else {
@@ -528,306 +551,11 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
     newdata =<span class="st"> </span>newdata[<span class="kw">order</span>(pred[,<span class="dv">1</span>]),]
     <span class="kw">rownames</span>(newdata) =<span class="st"> </span><span class="dv">1</span>:<span class="kw">nrow</span>(newdata)
     newdata
-}</code></pre>
-</div>
-<div id="plot-predictions-on-the-responsedata-scale" class="section level2">
-<h2>plot predictions on the response/data scale</h2>
-<p>to this end we bootstrap predictions for lme4 models<br />and pscl::zeroinfl models<br />and use the new MCMCglmm to draw from the posterior</p>
-<pre class="sourceCode r"><code class="sourceCode r">plot_factor_response =<span class="st"> </span>function(fit, <span class="dt">factor_base =</span> <span class="st">&quot;paternalage.factor&quot;</span>, <span class="dt">mcmcglmm_data =</span> <span class="ot">NULL</span>, <span class="dt">ncpus =</span> parallel::<span class="kw">detectCores</span>(), <span class="dt">bootstrap_replicates =</span> <span class="dv">100</span>)
-{
-    modelname =<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(fit))
-    
-    <span class="kw">library</span>(boot); <span class="kw">library</span>(stringr); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(data.table);<span class="kw">library</span>(MCMCglmm)
-    if(<span class="st">&quot;glm&quot;</span> %in%<span class="st"> </span><span class="kw">class</span>(fit)) {
-        outcome =<span class="st"> </span><span class="kw">as.character</span>(fit$formula[[<span class="dv">2</span>]])
-        pred =<span class="st"> </span><span class="kw">unique</span>(fit$model[,factor_base,<span class="dt">drop=</span>F])
-        newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, fit$model)
-
-        <span class="co"># mstrapped = predict(fit, newdata = newdata, type = &#39;response&#39;, se.fit = T)</span>
-        pred_glm =<span class="st"> </span>function(data, i, fit) {
-            m &lt;-<span class="st"> </span><span class="kw">glm</span>(fit$formula, <span class="dt">data =</span> fit$model[i, ], <span class="dt">start =</span> <span class="kw">round</span>(<span class="kw">coef</span>(fit)))
-            pred =<span class="st"> </span><span class="kw">unique</span>(fit$model[,factor_base,<span class="dt">drop=</span>F])
-            newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, fit$model)
-            yhat &lt;-<span class="st"> </span><span class="kw">predict</span>(m, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">newdata =</span> newdata)
-            yhat
-        }
-        res &lt;-<span class="st"> </span><span class="kw">boot</span>(fit$model, pred_glm,<span class="dt">fit =</span> fit, <span class="dt">R =</span> bootstrap_replicates, <span class="dt">ncpus =</span> ncpus)
-        mstrapped =<span class="st"> </span>res$t
-        <span class="kw">dimnames</span>(mstrapped) =<span class="st"> </span><span class="kw">list</span>(<span class="dt">sample =</span> <span class="dv">1</span>:<span class="kw">nrow</span>(mstrapped),<span class="dt">predictor =</span> newdata[,factor_base])
-        mstrapped =<span class="st"> </span><span class="kw">melt</span>(mstrapped)
-        <span class="kw">names</span>(mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;variable&quot;</span>,factor_base,<span class="st">&quot;value&quot;</span>)
-    }else   if(<span class="st">&quot;zeroinfl&quot;</span> %in%<span class="st"> </span><span class="kw">class</span>(fit)) {
-        outcome =<span class="st"> </span><span class="kw">as.character</span>(fit$formula[[<span class="dv">2</span>]])
-        pred =<span class="st"> </span><span class="kw">unique</span>(fit$model[,factor_base,<span class="dt">drop=</span>F])
-        newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, fit$model)
-        
-        pred_zeroinfl =<span class="st"> </span>function(data, i, fit) {
-            <span class="kw">library</span>(pscl)
-            s_count =<span class="st"> </span><span class="kw">round</span>(<span class="kw">coef</span>(fit, <span class="st">&quot;count&quot;</span>), <span class="dv">3</span>)
-            s_zero =<span class="st"> </span><span class="kw">round</span>(<span class="kw">coef</span>(fit, <span class="st">&quot;zero&quot;</span>), <span class="dv">3</span>)
-            
-            pred =<span class="st"> </span><span class="kw">unique</span>(fit$model[,factor_base,<span class="dt">drop=</span>F])
-            newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, fit$model)
-            
-            m &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(fit$formula, <span class="dt">data =</span> fit$model[i, ], <span class="dt">start =</span> <span class="kw">list</span>(<span class="dt">count =</span> s_count, <span class="dt">zero =</span> s_zero))
-            yhat &lt;-<span class="st"> </span><span class="kw">predict</span>(m, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">newdata =</span> newdata)
-            yhat
-        }
-        pred =<span class="st"> </span><span class="kw">unique</span>(fit$model[,factor_base,<span class="dt">drop=</span>F])
-        res &lt;-<span class="st"> </span><span class="kw">boot</span>(fit$model, pred_zeroinfl,<span class="dt">fit =</span> fit, <span class="dt">R =</span> bootstrap_replicates, <span class="dt">ncpus =</span> ncpus)
-        mstrapped =<span class="st"> </span>res$t
-        <span class="kw">dimnames</span>(mstrapped) =<span class="st"> </span><span class="kw">list</span>(<span class="dt">sample =</span> <span class="dv">1</span>:<span class="kw">nrow</span>(mstrapped),<span class="dt">predictor =</span> newdata[,factor_base])
-        mstrapped =<span class="st"> </span><span class="kw">melt</span>(mstrapped)
-        <span class="kw">names</span>(mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;variable&quot;</span>,factor_base,<span class="st">&quot;value&quot;</span>)
-        mstrapped[,factor_base] =<span class="st"> </span><span class="kw">human_readable_factor</span>(mstrapped[,factor_base])
-    } else if(<span class="st">&quot;glmmPQL&quot;</span> %in%<span class="st"> </span><span class="kw">class</span>(fit)) {
-        <span class="kw">library</span>(MASS)
-        outcome =<span class="st"> </span><span class="kw">names</span>(fit$data)[<span class="dv">1</span>]
-        olddata =<span class="st"> </span>fit$data
-        pred_glmmPQL =<span class="st"> </span>function(data, i, fit) {
-            parents =<span class="st"> </span><span class="kw">unique</span>(fit$data$idParents)
-            parents =<span class="st"> </span>parents[i]
-            m &lt;-<span class="st"> </span><span class="kw">glmmPQL</span>(survive1y ~<span class="st"> </span>birth.cohort +<span class="st"> </span>male +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternalage.factor, <span class="dt">random =</span> ~<span class="dv">1</span>|<span class="st"> </span>idParents, <span class="dt">data =</span> fit$data[fit$data$idParents %in%<span class="st"> </span>parents, ], <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>)
-            pred =<span class="st"> </span><span class="kw">unique</span>(fit$data[,factor_base,<span class="dt">drop=</span>F])
-            newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, fit$data)
-            yhat &lt;-<span class="st"> </span><span class="kw">predict</span>(m, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">newdata =</span> newdata, <span class="dt">level =</span> <span class="dv">0</span>)
-            yhat
-        }
-        pred =<span class="st"> </span><span class="kw">unique</span>(fit$data[,factor_base,<span class="dt">drop=</span>F])
-        res &lt;-<span class="st"> </span><span class="kw">boot</span>(<span class="kw">unique</span>(fit$data$idParents), pred_glmmPQL,<span class="dt">fit =</span> fit, <span class="dt">R =</span> bootstrap_replicates, <span class="dt">ncpus =</span> ncpus)
-        mstrapped =<span class="st"> </span>res$t
-        <span class="kw">dimnames</span>(mstrapped) =<span class="st"> </span><span class="kw">list</span>(<span class="dt">sample =</span> <span class="dv">1</span>:<span class="kw">nrow</span>(mstrapped),<span class="dt">predictor =</span> newdata[,factor_base])
-        mstrapped =<span class="st"> </span><span class="kw">melt</span>(mstrapped)
-        <span class="kw">names</span>(mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;variable&quot;</span>,factor_base,<span class="st">&quot;value&quot;</span>)
-        mstrapped[,factor_base] =<span class="st"> </span><span class="kw">human_readable_factor</span>(mstrapped[,factor_base])
-        
-    } else if(!<span class="kw">is.null</span>(mcmcglmm_data)) {
-        if(<span class="kw">class</span>(fit) !=<span class="st"> &quot;MCMCglmm&quot;</span>) {
-            lookie =<span class="st"> </span>fit[[<span class="dv">1</span>]]
-        } else lookie =<span class="st"> </span>fit
-        outcome =<span class="st"> </span><span class="kw">as.character</span>(lookie$Fixed$formula[[<span class="dv">2</span>]])
-        
-        olddata =<span class="st"> </span><span class="kw">data.frame</span>(mcmcglmm_data)
-        olddata$trait =<span class="st"> </span><span class="ot">NA</span>
-        olddata =<span class="st"> </span><span class="kw">model.frame</span>(lookie$Fixed$formula,olddata,<span class="dt">na.action =</span> na.pass)
-        olddata$trait =<span class="st"> </span><span class="ot">NULL</span>
-        pred =<span class="st"> </span><span class="kw">unique</span>(olddata[,factor_base,<span class="dt">drop=</span>F])
-        
-        newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, olddata)
-        if(outcome %contains%<span class="st"> &quot;children&quot;</span>) {
-            newdata[,outcome] =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">nrow</span>(newdata),<span class="dv">1</span>)
-            newdata[,outcome][<span class="dv">1</span>] =<span class="st"> </span><span class="dv">0</span>
-        } else {
-            newdata[, outcome] =<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="kw">nrow</span>(newdata)))
-        }
-        <span class="co"># newdata= newdata[sample(nrow(newdata),size=100,replace=T),]</span>
-        
-        <span class="kw">library</span>(foreach)
-        <span class="kw">library</span>(doMC)
-        <span class="kw">registerDoMC</span>((ncpus))
-        if(<span class="kw">class</span>(fit) ==<span class="st"> &quot;MCMCglmm&quot;</span>) {
-            fit =<span class="st"> </span><span class="kw">list</span>(lookie)
-        }
-        mstrapped =<span class="st"> </span><span class="kw">foreach</span>(<span class="dt">i =</span> <span class="dv">1</span>:<span class="kw">length</span>(fit), <span class="dt">.combine=</span>rbind) %dopar%<span class="st"> </span>{
-            <span class="kw">predict.MCMCglmm2</span>(fit[[i]], <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>, <span class="dt">newdata =</span> newdata)
-        }
-        <span class="kw">dimnames</span>(mstrapped) =<span class="st"> </span><span class="kw">list</span>(<span class="dt">sample =</span> <span class="dv">1</span>:<span class="kw">nrow</span>(mstrapped),<span class="dt">predictor =</span> newdata[,factor_base])
-        mstrapped =<span class="st"> </span><span class="kw">melt</span>(mstrapped)
-        <span class="kw">names</span>(mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;variable&quot;</span>,factor_base,<span class="st">&quot;value&quot;</span>)
-        mstrapped[,factor_base] =<span class="st"> </span><span class="kw">human_readable_factor</span>(mstrapped[,factor_base])
-    }
-    else {
-        <span class="kw">library</span>(lme4); <span class="kw">library</span>(boot); <span class="kw">library</span>(stringr); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(data.table);
-        outcome =<span class="st"> </span><span class="kw">names</span>(fit@frame)[<span class="dv">1</span>]
-        olddata =<span class="st"> </span>fit@frame[,-<span class="dv">1</span>]
-        olddata$idParents =<span class="st"> </span><span class="ot">NULL</span>
-        olddata$idIndividu =<span class="st"> </span><span class="ot">NULL</span>
-        pred =<span class="st"> </span><span class="kw">unique</span>(olddata[,factor_base,<span class="dt">drop=</span>F])
-        newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, olddata)
-
-        mypred =<span class="st"> </span>function(fit) <span class="kw">predict</span>(fit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">re.form =</span> ~<span class="dv">0</span>, <span class="dt">newdata =</span> newdata)
-        strapped =<span class="st"> </span><span class="kw">bootMer</span>(fit, mypred, <span class="dt">nsim =</span> bootstrap_replicates, <span class="dt">verbose =</span> T, <span class="dt">parallel =</span> <span class="st">&quot;multicore&quot;</span>, <span class="dt">ncpus =</span> ncpus)
-        <span class="kw">library</span>(dplyr)
-        mstrapped =<span class="st"> </span><span class="kw">suppressMessages</span>(<span class="kw">as.data.frame</span>(strapped) %&gt;%<span class="st"> </span><span class="kw">melt</span>()) <span class="co"># to suppress No id variables; using all as measure variables</span>
-        newdata$variable =<span class="st"> </span><span class="kw">rownames</span>(newdata)
-        mstrapped =<span class="st"> </span><span class="kw">merge</span>(mstrapped, newdata[, <span class="kw">c</span>(<span class="st">&quot;variable&quot;</span>, factor_base)], <span class="dt">all =</span> T)
-        mstrapped$variable =<span class="st"> </span><span class="ot">NULL</span>
-        mstrapped[,factor_base] =<span class="st"> </span><span class="kw">human_readable_factor</span>(mstrapped[,factor_base])
-    }
-    <span class="kw">print</span>(  <span class="kw">ggplot</span>(mstrapped,  <span class="kw">aes_string</span>(<span class="dt">x =</span> factor_base, <span class="dt">y =</span> <span class="st">&quot;value&quot;</span>)) +<span class="st"> </span>
-<span class="st">                    </span><span class="kw">geom_violin</span>(<span class="dt">colour =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;#5ea16e&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>)  +<span class="st"> </span>
-<span class="st">                    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_sdl&quot;</span>)+<span class="st"> </span>
-<span class="st">                    </span><span class="kw">ggtitle</span>(modelname) +<span class="st"> </span><span class="kw">scale_y_continuous</span>(outcome) +<span class="st"> </span>
-<span class="st">                    </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">weight =</span> <span class="dv">1</span>/<span class="kw">sd</span>(value, <span class="dt">na.rm =</span> T), <span class="dt">group =</span> <span class="dv">1</span>),<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> F, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>) +
-<span class="st">                    </span>analysis_theme
-    )
-    <span class="kw">class</span>(<span class="dt">x =</span> mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;boot&quot;</span>,<span class="kw">class</span>(<span class="dt">x =</span> mstrapped))
-    <span class="kw">invisible</span>(mstrapped)
-}</code></pre>
-</div>
-<div id="plot-predictions-on-the-responsedata-scale-linear-predictor" class="section level2">
-<h2>plot predictions on the response/data scale (linear predictor)</h2>
-<p>to this end we bootstrap predictions for lme4 models<br />and pscl::zeroinfl models<br />and use the new MCMCglmm to draw from the posterior</p>
-<pre class="sourceCode r"><code class="sourceCode r">compute_and_plot_linear_response =<span class="st"> </span>function(fit, mcmcglmm_data, <span class="dt">ncpus =</span> parallel::<span class="kw">detectCores</span>(), <span class="dt">bootstrap_replicates =</span> <span class="dv">100</span>, <span class="dt">factor_base =</span> <span class="st">&#39;paternalage.diff&#39;</span>)
-{
-    modelname =<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(fit))
-    
-    <span class="kw">library</span>(boot); <span class="kw">library</span>(stringr); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(data.table);<span class="kw">library</span>(MCMCglmm)
-        if(<span class="kw">class</span>(fit) !=<span class="st"> &quot;MCMCglmm&quot;</span>) {
-            lookie =<span class="st"> </span>fit[[<span class="dv">1</span>]]
-        } else lookie =<span class="st"> </span>fit
-        outcome =<span class="st"> </span><span class="kw">as.character</span>(lookie$Fixed$formula[[<span class="dv">2</span>]])
-        
-        olddata =<span class="st"> </span><span class="kw">data.frame</span>(mcmcglmm_data)
-        olddata$trait =<span class="st"> </span><span class="ot">NA</span>
-        olddata =<span class="st"> </span><span class="kw">model.frame</span>(lookie$Fixed$formula,olddata,<span class="dt">na.action =</span> na.pass)
-        olddata$trait =<span class="st"> </span><span class="ot">NULL</span>
-        pred =<span class="st"> </span><span class="kw">unique</span>(<span class="kw">round</span>(olddata[,factor_base,<span class="dt">drop=</span>F],<span class="dv">2</span>))
-        pred =<span class="st"> </span>pred[pred[, factor_base] %in%<span class="st"> </span><span class="kw">c</span>(-<span class="dv">1</span>,-<span class="fl">0.75</span>, -<span class="fl">0.5</span>, -<span class="fl">0.25</span>, <span class="dv">0</span>,<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="fl">0.75</span>, <span class="dv">1</span>), , drop =<span class="st"> </span>F]
-        
-
-    newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, olddata)
-    if(outcome %contains%<span class="st"> &quot;children&quot;</span>) {
-        newdata[,outcome] =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">nrow</span>(newdata),<span class="dv">1</span>)
-        newdata[,outcome][<span class="dv">1</span>] =<span class="st"> </span><span class="dv">0</span>
-    } else {
-        newdata[, outcome] =<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="kw">nrow</span>(newdata)))
-    }
-    if(<span class="kw">length</span>(lookie$Random$nfl) &gt;<span class="st"> </span><span class="dv">2</span>) {
-        newdata$idMaternalGrandparents =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">nrow</span>(newdata), <span class="dv">2</span>)
-        newdata$idPaternalGrandparents =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">nrow</span>(newdata), <span class="dv">2</span>)
-    }
-    <span class="co"># newdata= newdata[sample(nrow(newdata),size=100,replace=T),]</span>
-    
-    <span class="kw">library</span>(foreach)
-    <span class="kw">library</span>(doMC)
-    <span class="kw">registerDoMC</span>((ncpus))
-    if(<span class="kw">class</span>(fit) ==<span class="st"> &quot;MCMCglmm&quot;</span>) {
-        fit =<span class="st"> </span><span class="kw">list</span>(lookie)
-    }
-    mstrapped =<span class="st"> </span><span class="kw">foreach</span>(<span class="dt">i =</span> <span class="dv">1</span>:<span class="kw">length</span>(fit), <span class="dt">.combine=</span>rbind) %dopar%<span class="st"> </span>{
-        <span class="kw">predict.MCMCglmm2</span>(fit[[i]], <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>, <span class="dt">newdata =</span> newdata)
-    }
-    newdata$row =<span class="st"> </span><span class="dv">1</span>:<span class="kw">nrow</span>(newdata)
-    <span class="kw">dim</span>(mstrapped)
-    <span class="kw">dimnames</span>(mstrapped) =<span class="st"> </span><span class="kw">list</span>(<span class="dt">sample =</span> <span class="dv">1</span>:<span class="kw">nrow</span>(mstrapped),<span class="dt">row =</span> newdata$row)
-    mstrapped =<span class="st"> </span><span class="kw">melt</span>(mstrapped)
-    <span class="kw">names</span>(mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;variable&quot;</span>,<span class="st">&quot;row&quot;</span>,<span class="st">&quot;value&quot;</span>)
-    mstrapped =<span class="st"> </span><span class="kw">merge</span>(mstrapped, newdata, <span class="dt">by =</span> <span class="st">&quot;row&quot;</span>)
-    mstrapped$what =<span class="st"> </span>mstrapped$row &gt;<span class="st"> </span><span class="dv">9</span>
-
-    <span class="kw">class</span>(<span class="dt">x =</span> mstrapped) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;boot&quot;</span>,<span class="kw">class</span>(<span class="dt">x =</span> mstrapped))
-    <span class="kw">print</span>(  <span class="kw">ggplot</span>(mstrapped,  <span class="kw">aes_string</span>(<span class="dt">x =</span> factor_base, <span class="dt">y =</span> <span class="st">&quot;value&quot;</span>)) +<span class="st"> </span>
-<span class="st">                    </span><span class="kw">geom_smooth</span>(<span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;#5ea16e&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_sdl&quot;</span>) +<span class="st"> </span>
-<span class="st">                    </span><span class="kw">ggtitle</span>(modelname) +<span class="st"> </span><span class="kw">scale_y_continuous</span>(outcome) +<span class="st"> </span>
-<span class="st">                    </span>analysis_theme
-    )
-    diff_of_5_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==<span class="dv">0</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
-    diff_of_10_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
-    diff_of_15_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
-    diff_of_20_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>] -<span class="st"> </span>mstrapped[mstrapped[, factor_base] ==-<span class="dv">1</span>,<span class="st">&quot;value&quot;</span>]
-    dat =<span class="st"> </span><span class="kw">melt</span>(<span class="kw">cbind</span>(diff_of_5_years,diff_of_10_years, diff_of_15_years, diff_of_20_years))
-    mean.n &lt;-<span class="st"> </span>function(x){
-        <span class="kw">return</span>(<span class="kw">c</span>(<span class="dt">y =</span> <span class="kw">mean</span>(x), <span class="dt">label =</span> <span class="kw">round</span>(<span class="kw">mean</span>(x),<span class="dv">2</span>))) 
-        <span class="co"># experiment with the multiplier to find the perfect position</span>
-    }
-    dat$Var2 =<span class="st"> </span><span class="kw">factor</span>(<span class="kw">as.numeric</span>(<span class="kw">str_replace</span>(<span class="kw">str_replace</span>(<span class="kw">str_replace_all</span>(dat$Var2, <span class="dt">pattern =</span> <span class="st">&quot;_&quot;</span>, <span class="st">&quot; &quot;</span>),<span class="st">&quot;diff of &quot;</span>,<span class="st">&quot;&quot;</span>),<span class="st">&quot; years&quot;</span>,<span class="st">&quot;&quot;</span>) ))
-    <span class="kw">print</span>(
-        <span class="kw">qplot</span>(Var2, value,<span class="dt">data=</span>dat,<span class="dt">geom=</span><span class="st">&#39;blank&#39;</span>)    +<span class="st"> </span>
-<span class="st">            </span><span class="kw">geom_violin</span>(<span class="dt">colour =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;#5ea16e&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>)  +<span class="st"> </span>
-<span class="st">            </span><span class="kw">geom_pointrange</span>(<span class="dt">stat=</span><span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data=</span><span class="st">&#39;mean_sdl&#39;</span>)+<span class="st"> </span>
-<span class="st">            </span><span class="kw">xlab</span>(<span class="st">&quot;Sibling difference in years&quot;</span>) +<span class="st"> </span>
-<span class="st">            </span><span class="kw">ylab</span>(<span class="st">&quot;Expected difference in number of surviving children&quot;</span>) +<span class="st"> </span>
-<span class="st">            </span><span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> mean.n, <span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">fun.y =</span> mean, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">hjust =</span> <span class="fl">1.2</span>)
-    )
-    quotient_10_years =<span class="st"> </span>mstrapped[mstrapped[, factor_base]==<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]/<span class="st"> </span>mstrapped[mstrapped[, factor_base]==-<span class="fl">0.50</span>,<span class="st">&quot;value&quot;</span>]
-    
-    <span class="kw">class</span>(<span class="dt">x =</span> diff_of_10_years) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mcmc&quot;</span>,diff_of_10_years)
-    <span class="kw">class</span>(<span class="dt">x =</span> quotient_10_years) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mcmc&quot;</span>,quotient_10_years)
-    mean_diff =<span class="st"> </span><span class="kw">mean</span>(diff_of_10_years)
-    mean_quot =<span class="st"> </span><span class="kw">mean</span>(quotient_10_years)
-    confi_diff =<span class="st"> </span><span class="kw">HPDinterval</span>(diff_of_10_years)
-    confi_quot =<span class="st"> </span><span class="kw">HPDinterval</span>(quotient_10_years)
-    <span class="kw">data.frame</span>(<span class="st">&quot; &quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;difference (father 10 years older)&quot;</span>, <span class="st">&quot;quotient (father 10 years older)&quot;</span>), 
-                         <span class="dt">mean =</span> <span class="kw">c</span>(<span class="kw">round</span>(mean_diff,<span class="dv">2</span>),<span class="kw">round</span>(mean_quot,<span class="dv">2</span>)),
-                         <span class="dt">lower =</span> <span class="kw">c</span>(<span class="kw">round</span>(confi_diff[<span class="dv">1</span>],<span class="dv">2</span>), <span class="kw">round</span>(confi_quot[<span class="dv">1</span>],<span class="dv">2</span>)),
-                         <span class="dt">upper =</span> <span class="kw">c</span>(<span class="kw">round</span>(confi_diff[<span class="dv">2</span>],<span class="dv">2</span>), <span class="kw">round</span>(confi_quot[<span class="dv">2</span>],<span class="dv">2</span>))
-    )
-}</code></pre>
-<div id="plot-non-bootstrapped-predictions" class="section level5">
-<h5>plot non-bootstrapped predictions</h5>
-<pre class="sourceCode r"><code class="sourceCode r">plot_factor_predicted =<span class="st"> </span>function(fit, <span class="dt">factor_base =</span> <span class="st">&quot;paternalage.factor&quot;</span>, <span class="dt">mcmcglmm_data=</span><span class="ot">NULL</span>) {
-    modelname =<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(fit))
-    
-    <span class="kw">library</span>(lme4); <span class="kw">library</span>(boot); <span class="kw">library</span>(stringr); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(data.table); <span class="kw">library</span>(MCMCglmm)
-    if(!<span class="kw">is.null</span>(mcmcglmm_data)) {
-        if(<span class="kw">class</span>(fit) !=<span class="st"> &quot;MCMCglmm&quot;</span>) {
-            lookie =<span class="st"> </span>fit[[<span class="dv">1</span>]]
-        } else lookie =<span class="st"> </span>fit
-        outcome =<span class="st"> </span><span class="kw">as.character</span>(lookie$Fixed$formula[[<span class="dv">2</span>]])
-        
-        olddata =<span class="st"> </span><span class="kw">data.frame</span>(mcmcglmm_data)
-        olddata$trait =<span class="st"> </span><span class="ot">NA</span>
-        olddata =<span class="st"> </span><span class="kw">model.frame</span>(lookie$Fixed$formula,olddata,<span class="dt">na.action =</span> na.pass)
-        olddata$trait =<span class="st"> </span><span class="ot">NULL</span>
-        pred =<span class="st"> </span><span class="kw">unique</span>(olddata[,factor_base,<span class="dt">drop=</span>F])
-        newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, olddata)
-        
-        newdata[,outcome] =<span class="st"> </span><span class="kw">rpois</span>(<span class="kw">nrow</span>(newdata),<span class="dv">1</span>)
-        newdata[,outcome][<span class="dv">1</span>] =<span class="st"> </span><span class="dv">0</span>
-        
-        prediction =<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">predict.MCMCglmm</span>(lookie, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">newdata =</span> newdata, <span class="dt">interval =</span> <span class="st">&quot;confidence&quot;</span>))
-        newdata[, outcome] =<span class="st"> </span><span class="ot">NULL</span>
-        <span class="kw">names</span>(prediction) =<span class="st"> </span><span class="kw">c</span>(outcome,<span class="st">&quot;plo&quot;</span>,<span class="st">&quot;phi&quot;</span>)
-        newdata =<span class="st"> </span><span class="kw">cbind</span>(newdata, prediction)
-    }
-    else if(<span class="st">&quot;glmmPQL&quot;</span> %in%<span class="st"> </span><span class="kw">class</span>(fit)) {
-        <span class="kw">library</span>(MASS)
-        outcome =<span class="st"> </span><span class="kw">names</span>(fit$data)[<span class="dv">1</span>]
-        olddata =<span class="st"> </span>fit$data
-        pred =<span class="st"> </span><span class="kw">unique</span>(olddata[,factor_base,<span class="dt">drop=</span>F])
-        newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, olddata)
-        newdata[, outcome] =<span class="st"> </span><span class="kw">predict</span>(fit, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>, <span class="dt">level =</span> <span class="dv">0</span>, <span class="dt">newdata =</span> newdata)
-        newdata[, <span class="st">&quot;phi&quot;</span>] =<span class="st"> </span>newdata[, outcome]
-        fit$family$<span class="kw">linkinv</span>(<span class="kw">fixed.effects</span>(fit))
-        newdata[, <span class="st">&quot;plo&quot;</span>] =<span class="st"> </span>newdata[, outcome]
-    }   else {
-        <span class="kw">library</span>(lme4); <span class="kw">library</span>(boot); <span class="kw">library</span>(stringr); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(data.table);
-        outcome =<span class="st"> </span><span class="kw">names</span>(fit@frame)[<span class="dv">1</span>]
-        olddata =<span class="st"> </span>fit@frame[,-<span class="dv">1</span>]
-        olddata$idParents =<span class="st"> </span><span class="ot">NULL</span>
-        olddata$idIndividu =<span class="st"> </span><span class="ot">NULL</span>
-        pred =<span class="st"> </span><span class="kw">unique</span>(olddata[,factor_base,<span class="dt">drop=</span>F])
-        newdata =<span class="st"> </span><span class="kw">make_newdata</span>(pred, olddata)
-        
-        mypred =<span class="st"> </span>function(fit) <span class="kw">predict</span>(fit, <span class="dt">type =</span> <span class="st">&quot;link&quot;</span>, <span class="dt">re.form =</span> ~<span class="dv">0</span>, <span class="dt">newdata =</span> newdata)
-        <span class="kw">library</span>(dplyr)
-        newdata[, outcome] =<span class="st"> </span><span class="kw">mypred</span>(fit)
-        mm &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="kw">terms</span>(fit),newdata)
-        pvar1 &lt;-<span class="st"> </span><span class="kw">diag</span>(mm %*%<span class="st"> </span><span class="kw">tcrossprod</span>(<span class="kw">vcov</span>(fit),mm))
-        tvar1 &lt;-<span class="st"> </span>pvar1+<span class="kw">VarCorr</span>(fit)$idParents[<span class="dv">1</span>]  ## must be adapted for more complex models
-        newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-            newdata
-            , <span class="dt">plo =</span> fit@resp$family$<span class="kw">linkinv</span>(newdata[,outcome] -<span class="st"> </span><span class="dv">2</span>*<span class="kw">sqrt</span>(pvar1))
-            , <span class="dt">phi =</span> fit@resp$family$<span class="kw">linkinv</span>(newdata[,outcome] +<span class="st"> </span><span class="dv">2</span>*<span class="kw">sqrt</span>(pvar1))
-            , <span class="dt">tlo =</span> newdata[,outcome] -<span class="st"> </span><span class="dv">2</span>*<span class="kw">sqrt</span>(tvar1)
-            , <span class="dt">thi =</span> newdata[,outcome] +<span class="st"> </span><span class="dv">2</span>*<span class="kw">sqrt</span>(tvar1)
-        )
-        newdata[, outcome] =<span class="st"> </span>fit@resp$family$<span class="kw">linkinv</span>(newdata[, outcome ])
-    }
-    newdata[, factor_base] =<span class="st"> </span><span class="kw">human_readable_factor</span>(newdata[,factor_base])
-        <span class="kw">print</span>(  <span class="kw">ggplot</span>(newdata,  <span class="kw">aes_string</span>(<span class="dt">x =</span> factor_base, <span class="dt">y =</span> outcome, <span class="dt">ymax =</span> <span class="st">&quot;phi&quot;</span>, <span class="dt">ymin =</span> <span class="st">&quot;plo&quot;</span>)) +<span class="st"> </span>
-<span class="st">                        </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +<span class="st"> </span>
-<span class="st">                        </span><span class="kw">ggtitle</span>(modelname) +<span class="st"> </span>
-<span class="st">                        </span><span class="kw">scale_y_continuous</span>(outcome) +<span class="st"> </span>
-<span class="st">                        </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">weight =</span> <span class="dv">1</span>/(phi-plo), <span class="dt">group =</span> <span class="dv">1</span>),<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> F, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>) +
-<span class="st">                        </span>analysis_theme)
-}</code></pre>
-</div>
+}</code></pre></div>
 <div id="compare-two-models-coefficients" class="section level5">
 <h5>compare two model’s coefficients</h5>
 <p>(input are the result of fortify_mine)</p>
-<pre class="sourceCode r"><code class="sourceCode r">compare_coefs =<span class="st"> </span>function(x, y, <span class="dt">colour =</span> <span class="st">&quot;Model&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">compare_coefs =<span class="st"> </span>function(x, y, <span class="dt">colour =</span> <span class="st">&quot;Model&quot;</span>)
 {
     if(<span class="kw">is</span>(x, <span class="st">&#39;confint.coefs&#39;</span>) &amp;<span class="st"> </span><span class="kw">is</span>(y, <span class="st">&#39;confint.coefs&#39;</span>)) {
         if(<span class="kw">unique</span>(x$Model)==<span class="kw">unique</span>(y$Model)) {
@@ -843,27 +571,25 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
     } else {
         <span class="kw">stop</span>(<span class="st">&quot;Need confint.coefs&quot;</span>)
     }
-}</code></pre>
+}</code></pre></div>
 <p>shorthand for comparing models with few/many controls</p>
-<pre class="sourceCode r"><code class="sourceCode r">compare_controlled_to_uncontrolled =<span class="st"> </span>function(ucon, con) {
-    <span class="kw">library</span>(formr); <span class="kw">library</span>(stringr)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">compare_controlled_to_uncontrolled =<span class="st"> </span>function(ucon, con) {
     ucon$Controls =<span class="st"> &quot;few&quot;</span>
     con$Controls =<span class="st"> &quot;many&quot;</span>
     <span class="kw">compare_coefs</span>(ucon, con, <span class="dt">colour =</span> <span class="st">&quot;Controls&quot;</span>)
-}</code></pre>
+}</code></pre></div>
 <p>shorthand for sample comparison</p>
-<pre class="sourceCode r"><code class="sourceCode r">compare_krmh_to_rpqa =<span class="st"> </span>function(krmh_coefs, rpqa_coefs) {
-    <span class="kw">library</span>(formr); <span class="kw">library</span>(stringr)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">compare_krmh_to_rpqa =<span class="st"> </span>function(krmh_coefs, rpqa_coefs) {
     krmh_coefs$Population =<span class="st"> &quot;Krummhörn&quot;</span>
     rpqa_coefs$Population =<span class="st"> &quot;Québec&quot;</span>
     rpqa_coefs=rpqa_coefs[!rpqa_coefs$Coefficient %contains%<span class="st"> &quot;birth.cohort&quot;</span>, ]
     krmh_coefs=krmh_coefs[!krmh_coefs$Coefficient %contains%<span class="st"> &quot;birth.cohort&quot;</span>, ]
     <span class="kw">compare_coefs</span>(krmh_coefs, rpqa_coefs, <span class="dt">colour =</span> <span class="st">&quot;Population&quot;</span>)
-}</code></pre>
+}</code></pre></div>
 <p>putting in a named list to name the origin of the coefficients</p>
-<pre class="sourceCode r"><code class="sourceCode r">merge_coefs =<span class="st"> </span>function(...) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merge_coefs =<span class="st"> </span>function(...) {
     dots &lt;-<span class="st"> </span><span class="kw">list</span>(...)
-    if(<span class="kw">length</span>(dots) ==<span class="st"> </span><span class="dv">0</span>) <span class="kw">return</span>(<span class="ot">NULL</span>) 
+    if(<span class="kw">length</span>(dots) ==<span class="st"> </span><span class="dv">0</span>) <span class="kw">return</span>(<span class="ot">NULL</span>)
     for(i in <span class="dv">1</span>:<span class="kw">length</span>(dots)) {
         dots[[i]]$Population =<span class="st"> </span><span class="kw">names</span>(dots)[i]
     }
@@ -871,116 +597,67 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
     coefs =<span class="st"> </span><span class="kw">data.table</span>(coefs)
     <span class="kw">class</span>(coefs) =<span class="st"> </span><span class="kw">c</span>( <span class="kw">class</span>(coefs), <span class="st">&#39;confint.coefs&#39;</span>)
     coefs
-}</code></pre>
-</div>
-<div id="post-process-an-mcmcglmm-model" class="section level3">
-<h3>post process an MCMCglmm model</h3>
-<p>gives a bunch of diagnostics including Gelman’s multi-chain convergence, effective sample size, and plots of the chains</p>
-<pre class="sourceCode r"><code class="sourceCode r">post_process_mcmcglmm =<span class="st"> </span>function( model_list ) {
-    <span class="kw">library</span>(coda)
-    <span class="kw">library</span>(MCMCglmm)
-    if(<span class="kw">length</span>( model_list[[<span class="dv">1</span>]]$Residual$nrt )&gt;<span class="dv">1</span>) {
-        model_list =<span class="st"> </span><span class="kw">lapply</span>(model_list,<span class="dt">FUN=</span>function(x) { x$Residual$nrt&lt;-<span class="dv">2</span>;x })
-    }
-    Sol =<span class="st"> </span><span class="kw">mcmc.list</span>(<span class="kw">lapply</span>(model_list,<span class="dt">FUN=</span>function(x) { x$Sol}))
-    VCV =<span class="st"> </span><span class="kw">mcmc.list</span>(<span class="kw">lapply</span>(model_list,<span class="dt">FUN=</span>function(x) { x$VCV}))
-    <span class="kw">print</span>(<span class="kw">gelman.diag</span>(Sol))
-    <span class="kw">tryCatch</span>({<span class="kw">print</span>(<span class="kw">gelman.diag</span>(VCV[,<span class="dv">1</span>:(<span class="kw">ncol</span>(VCV[[<span class="dv">1</span>]])-<span class="dv">1</span>) ] ))}, <span class="dt">error =</span> function(e){<span class="kw">warning</span>(e)})
-    coefs =<span class="st"> </span><span class="kw">fortify_mine</span>(model_list[[<span class="dv">1</span>]], <span class="dt">mcmclist =</span> Sol)
-    <span class="kw">print</span>(<span class="kw">plot_fortified_mer</span>(coefs))
-    <span class="kw">print</span>(<span class="kw">plot_factor_linearity</span>(coefs))
-    <span class="kw">print</span>(<span class="kw">summary</span>(Sol))
-    <span class="kw">summary</span>(model_list[[<span class="dv">1</span>]])
-    <span class="kw">print</span>(<span class="kw">plot</span>(Sol))
-    <span class="kw">print</span>(<span class="kw">plot</span>(VCV))
-    <span class="kw">print</span>(<span class="kw">effectiveSize</span>(Sol))
-    <span class="kw">print</span>(<span class="kw">effectiveSize</span>(VCV))
-    <span class="kw">invisible</span>(coefs)
-}</code></pre>
-<div id="residualise-the-main-predictor-paternalage.diff-and-plot-it-against-the-data" class="section level4">
-<h4>residualise the main predictor, paternalage.diff and plot it against the data</h4>
-<p>plot two smooths, a GAM and a GLM</p>
-<pre class="sourceCode r"><code class="sourceCode r">plot_residuals =<span class="st"> </span>function(fit) {
-    data =<span class="st"> </span>fit@frame
-    family =<span class="st"> </span>fit@call$family
-    
-    formul =<span class="st"> </span><span class="kw">str_split</span>(<span class="kw">my_as.character.formula</span>(fit@call$formula), <span class="st">&quot;~&quot;</span>)[[<span class="dv">1</span>]]
-    formul[<span class="dv">2</span>] =<span class="st"> </span><span class="kw">str_replace</span>(formul[<span class="dv">2</span>], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">+ +paternalage.diff&quot;</span>, <span class="st">&quot;&quot;</span>)
-    formul[<span class="dv">2</span>] =<span class="st"> </span><span class="kw">str_replace</span>(formul[<span class="dv">2</span>], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">+ *</span><span class="ch">\\</span><span class="st">(1 *</span><span class="ch">\\</span><span class="st">| *idIndividu</span><span class="ch">\\</span><span class="st">)&quot;</span>, <span class="st">&quot;&quot;</span>)
-    outcome =<span class="st"> </span><span class="kw">str_trim</span>(formul[<span class="dv">1</span>])
-    in_function =<span class="st"> </span>stringr::<span class="kw">str_match</span>(<span class="kw">names</span>(data), <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">(([a-zA-Z.0-9_]+).*?</span><span class="ch">\\</span><span class="st">))&quot;</span>)[,<span class="dv">3</span>]
-    <span class="kw">names</span>(data)[!<span class="kw">is.na</span>(in_function)] =<span class="st"> </span>in_function[!<span class="kw">is.na</span>(in_function)]
-    data$res =<span class="st"> </span><span class="kw">residuals</span>( <span class="kw">lmer</span>(
-        <span class="kw">as.formula</span>(<span class="kw">paste</span>(<span class="st">&quot;paternalage.diff ~  &quot;</span>,formul[<span class="dv">2</span>])), 
-        <span class="dt">data=</span> data, <span class="dt">na.action =</span> na.exclude ))
-    
-<span class="co">#   aes &lt;- eval(substitute(aes(x, y),</span>
-<span class="co">#       list(x = substitute(x), y = substitute(y))))</span>
-    <span class="kw">ggplot</span>(data,<span class="kw">aes_string</span>(<span class="dt">x=</span> <span class="st">&quot;res&quot;</span>, <span class="dt">y =</span> outcome )) +<span class="st"> </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="dv">1</span>/<span class="dv">10</span>, <span class="dt">colour =</span> <span class="st">&quot;#5ea16e&quot;</span>) +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;gam&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#9e8c61&quot;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">s</span>(x, <span class="dt">bs =</span> <span class="st">&quot;cs&quot;</span>), <span class="dt">fill =</span> <span class="kw">rgb</span>(<span class="dv">158</span>/<span class="dv">255</span>, <span class="dv">140</span>/<span class="dv">255</span>, <span class="dv">97</span>/<span class="dv">255</span>,<span class="fl">0.2</span>)) +<span class="st"> </span>analysis_theme +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age residuals&quot;</span>) +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;glm&#39;</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">family =</span> family)
-}</code></pre>
+}</code></pre></div>
 <p>another comparison plot</p>
-<pre class="sourceCode r"><code class="sourceCode r">factor_plot =<span class="st"> </span>function(coefs) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">factor_plot =<span class="st"> </span>function(coefs) {
     coefs$Population =<span class="st"> </span><span class="kw">factor</span>(coefs$Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;Modern Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
-    <span class="kw">ggplot</span>(coefs, 
+    <span class="kw">ggplot</span>(coefs,
                  <span class="kw">aes</span>(<span class="dt">colour =</span> Population, <span class="dt">x =</span> Coefficient, <span class="dt">y =</span> Estimate, <span class="dt">ymin =</span> Lower, <span class="dt">ymax =</span> Upper,<span class="dt">weight =</span> <span class="kw">ifelse</span>(Upper-Lower !=<span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>/(Upper-Lower),<span class="dv">1</span>), <span class="dt">group =</span> Population)) +
 <span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
 <span class="st">        </span><span class="co">#   geom_line(position = position_dodge(width = 0.4))+</span>
 <span class="st">        </span><span class="kw">geom_smooth</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>),<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> F, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) +
-<span class="st">        </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +<span class="st"> </span>
+<span class="st">        </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +
 <span class="st">        </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set2&quot;</span>) +
 <span class="st">        </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set2&quot;</span>) +
 <span class="st">        </span><span class="kw">scale_y_log10</span>(<span class="dt">breaks =</span> <span class="kw">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>,<span class="fl">0.8</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))+
-<span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) +<span class="st"> </span>
+<span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>) +
 <span class="st">        </span>analysis_theme
-}</code></pre>
+}</code></pre></div>
 <p>another comparison plot</p>
-<pre class="sourceCode r"><code class="sourceCode r">factor_boot_plot =<span class="st"> </span>function(coefs) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">factor_boot_plot =<span class="st"> </span>function(coefs) {
     coefs$Population =<span class="st"> </span><span class="kw">factor</span>(coefs$Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;Modern Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
-    
+
     coefs$Population =<span class="st"> </span><span class="kw">factor</span>(coefs$Population, <span class="kw">c</span>(<span class="st">&quot;Québec&quot;</span>,<span class="st">&quot;Modern Sweden&quot;</span>,<span class="st">&quot;Historical Sweden&quot;</span>,<span class="st">&quot;Krummhörn&quot;</span>))
-    
-    <span class="kw">ggplot</span>(coefs,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> value, <span class="dt">fill =</span> Population)) +<span class="st"> </span>
-<span class="st">        </span><span class="kw">geom_violin</span>(<span class="dt">colour =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">scale =</span> <span class="st">&quot;width&quot;</span>)  +<span class="st"> </span>
-<span class="st">        </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Population),<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_sdl&quot;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>())+<span class="st"> </span>
+
+    <span class="kw">ggplot</span>(coefs,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> value, <span class="dt">fill =</span> Population)) +
+<span class="st">        </span><span class="kw">geom_violin</span>(<span class="dt">colour =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">scale =</span> <span class="st">&quot;width&quot;</span>)  +
+<span class="st">        </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Population),<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_sdl&quot;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>())+
 <span class="st">        </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Population, <span class="dt">weight =</span> <span class="dv">1</span>/<span class="kw">sd</span>(value, <span class="dt">na.rm =</span> T),<span class="dt">group =</span> Population),<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> F, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
-<span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Children of older fathers have lower evolutionary fitness</span><span class="ch">\n</span><span class="st">further controls&quot;</span>) +<span class="st"> </span>
+<span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;Children of older fathers have lower evolutionary fitness</span><span class="ch">\n</span><span class="st">further controls&quot;</span>) +
 <span class="st">        </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set2&quot;</span>) +
 <span class="st">        </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set2&quot;</span>) +
-<span class="st">        </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +<span class="st"> </span>
+<span class="st">        </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +
 <span class="st">        </span>analysis_theme +
 <span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
                     <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))
-}</code></pre>
-</div>
+}</code></pre></div>
 </div>
 </div>
 <div id="count-eggs" class="section level2">
 <h2>count eggs</h2>
 <p>produce a (weighted) count of offspring and merge it back on the individual</p>
-<pre class="sourceCode r"><code class="sourceCode r">count_and_merge =<span class="st"> </span>function(df, what, wt_var) {
-    <span class="kw">library</span>(reshape2); <span class="kw">library</span>(car);    <span class="kw">library</span>(dplyr); <span class="kw">library</span>(data.table)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">count_and_merge =<span class="st"> </span>function(df, what, wt_var) {
     if(!<span class="kw">is.data.table</span>(df)) df =<span class="st"> </span><span class="kw">as.data.table</span>(df)
     <span class="kw">setnames</span>(df, wt_var, <span class="st">&quot;.tmp_wt&quot;</span>)
-    counted.dad =<span class="st"> </span>df %&gt;%<span class="st"> </span>
-<span class="st">        </span><span class="kw">group_by</span>(idPere) %&gt;%<span class="st"> </span>
-<span class="st">        </span><span class="kw">summarise</span>(<span class="dt">.tmp =</span> <span class="kw">sum</span>(.tmp_wt, <span class="dt">na.rm =</span> T)) %&gt;%<span class="st"> </span>
-<span class="st">        </span><span class="kw">rename</span>(<span class="dt">idIndividu =</span> idPere)
-    counted.mom =<span class="st"> </span>df %&gt;%<span class="st"> </span><span class="kw">group_by</span>(idMere) %&gt;%<span class="st"> </span>
-<span class="st">        </span><span class="kw">summarise</span>(<span class="dt">.tmp =</span> <span class="kw">sum</span>(.tmp_wt, <span class="dt">na.rm =</span> T)) %&gt;%<span class="st"> </span>
-<span class="st">        </span><span class="kw">rename</span>(<span class="dt">idIndividu =</span> idMere)
+    counted.dad =<span class="st"> </span>df %&gt;%
+<span class="st">        </span>dplyr::<span class="kw">group_by</span>(idPere) %&gt;%
+<span class="st">        </span>dplyr::<span class="kw">summarise</span>(<span class="dt">.tmp =</span> <span class="kw">sum</span>(.tmp_wt, <span class="dt">na.rm =</span> T)) %&gt;%
+<span class="st">        </span>dplyr::<span class="kw">rename</span>(<span class="dt">idIndividu =</span> idPere)
+    counted.mom =<span class="st"> </span>df %&gt;%<span class="st"> </span>dplyr::<span class="kw">group_by</span>(idMere) %&gt;%
+<span class="st">        </span>dplyr::<span class="kw">summarise</span>(<span class="dt">.tmp =</span> <span class="kw">sum</span>(.tmp_wt, <span class="dt">na.rm =</span> T)) %&gt;%
+<span class="st">        </span>dplyr::<span class="kw">rename</span>(<span class="dt">idIndividu =</span> idMere)
     counted =<span class="st"> </span><span class="kw">rbind</span>(counted.dad,counted.mom)
-    df =<span class="st"> </span><span class="kw">merge</span>(df,counted,<span class="dt">by=</span><span class="st">&#39;idIndividu&#39;</span>,<span class="dt">all.x=</span>T)
+    df =<span class="st"> </span><span class="kw">data.table</span>(<span class="kw">merge</span>(df,counted,<span class="dt">by=</span><span class="st">&#39;idIndividu&#39;</span>,<span class="dt">all.x=</span>T))
     df[<span class="kw">is.na</span>(.tmp), .tmp :<span class="er">=</span><span class="st"> </span><span class="dv">0</span>]
     <span class="kw">setnames</span>(df, <span class="dt">old =</span> <span class="kw">c</span>(<span class="st">&quot;.tmp&quot;</span>,<span class="st">&quot;.tmp_wt&quot;</span>), <span class="dt">new =</span> <span class="kw">c</span>(what,wt_var))
     df
-}</code></pre>
+}</code></pre></div>
 <div id="translate-file-name-into-human-readable-title" class="section level4">
 <h4>translate file name into human readable title</h4>
-<pre class="sourceCode r"><code class="sourceCode r">human_readable_filename =<span class="st"> </span>function(file) {
-    <span class="kw">library</span>(dplyr); <span class="kw">library</span>(stringr);<span class="kw">library</span>(stringi)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">human_readable_filename =<span class="st"> </span>function(file) {
     file %&gt;%
-<span class="st">        </span>basename %&gt;%<span class="st"> </span>
-<span class="st">        </span>tools::<span class="kw">file_path_sans_ext</span>() %&gt;%<span class="st"> </span>
+<span class="st">        </span>basename %&gt;%
+<span class="st">        </span>tools::<span class="kw">file_path_sans_ext</span>() %&gt;%
 <span class="st">        </span><span class="kw">str_sub</span>(<span class="dv">3</span>) %&gt;%
 <span class="st">        </span><span class="kw">str_replace_all</span>(<span class="st">&quot;_+&quot;</span>,<span class="st">&quot; &quot;</span>) %&gt;%
 <span class="st">        </span><span class="kw">str_replace</span>(<span class="st">&quot;peer&quot;</span> ,<span class="st">&quot;Peerage&quot;</span>) %&gt;%
@@ -990,346 +667,28 @@ make_newdata =<span class="st"> </span>function(pred, olddata) {
 <span class="st">        </span><span class="kw">str_replace</span>(<span class="st">&quot;krmh&quot;</span> ,<span class="st">&quot;Krummhörn&quot;</span>) %&gt;%
 <span class="st">        </span><span class="kw">str_replace</span>(<span class="st">&quot;massage&quot;</span> ,<span class="st">&quot;Data Wrangling&quot;</span>) %&gt;%
 <span class="st">        </span><span class="kw">stri_trans_totitle</span>()
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="human-readable-paternal-age-factor" class="section level4">
 <h4>human readable paternal age factor</h4>
-<pre class="sourceCode r"><code class="sourceCode r">human_readable_factor =<span class="st"> </span>function(factor) {
-    <span class="kw">library</span>(dplyr); <span class="kw">library</span>(stringr)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">human_readable_factor =<span class="st"> </span>function(factor) {
     tfactor =<span class="st"> </span><span class="kw">as.character</span>(factor)
     tfactor =<span class="st"> </span><span class="kw">str_match</span>(tfactor,<span class="st">&quot;</span><span class="ch">\\</span><span class="st">(?([0-9.,]+)</span><span class="ch">\\</span><span class="st">]&quot;</span>)[,<span class="dv">2</span>]
-    
-    if(<span class="kw">any</span>(<span class="kw">is.na</span>(tfactor))) { 
+
+    if(<span class="kw">any</span>(<span class="kw">is.na</span>(tfactor))) {
         <span class="kw">return</span>(factor)
     }
     tfactor %&gt;%
 <span class="st">        </span><span class="kw">str_replace</span>(.,<span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>,<span class="dt">replacement=</span><span class="st">&quot;&quot;</span>) %&gt;%
 <span class="st">        </span><span class="kw">str_replace</span>(.,<span class="st">&quot;,&quot;</span>,<span class="dt">replacement=</span><span class="st">&quot;-&quot;</span>) %&gt;%
 <span class="st">        </span><span class="kw">str_replace</span>(.,<span class="st">&quot;0-25&quot;</span>,<span class="dt">replacement=</span><span class="st">&quot;10-25&quot;</span>)
-}</code></pre>
-</div>
-<div id="predict.mcmcglmm2" class="section level4">
-<h4>predict.MCMCglmm2</h4>
-<p>this is a nearly exact copy of the prediction function from MCMCglmm v.2.22 by Jarrod Hadfield, but I changed the last line so it spits out the complete mcmc chain. That way I can aggregate several parallel, converged chains and can use those for my violin/cateye plots</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;predict.MCMCglmm2&quot;</span>&lt;-function(object, <span class="dt">newdata=</span><span class="ot">NULL</span>, <span class="dt">marginal=</span>object$Random$formula, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>, <span class="dt">interval=</span><span class="st">&quot;none&quot;</span>, <span class="dt">level=</span><span class="fl">0.95</span>, <span class="dt">it=</span><span class="ot">NULL</span>, <span class="dt">posterior=</span><span class="st">&quot;all&quot;</span>, <span class="dt">verbose=</span><span class="ot">FALSE</span>, ...){
-    <span class="kw">library</span>(MCMCglmm)
-    <span class="co"># warning(&quot;predict.MCMCglmm is still developmental - be careful&quot;)</span>
-    
-    rm.obs&lt;-<span class="kw">c</span>()
-    
-    if(interval==<span class="st">&quot;prediction&quot;</span>){
-        post.pred&lt;-<span class="kw">t</span>(<span class="kw">simulate</span>(<span class="dt">object=</span>object, <span class="dt">nsim=</span><span class="kw">nrow</span>(object$Sol), <span class="dt">newdata=</span>newdata, <span class="dt">marginal=</span>marginal, <span class="dt">type=</span>type, <span class="dt">it=</span>it, <span class="dt">posterior=</span>posterior, <span class="dt">verbose=</span>verbose))
-        
-    }else{
-        
-        if(type%in%<span class="kw">c</span>(<span class="st">&quot;response&quot;</span>, <span class="st">&quot;terms&quot;</span>)==<span class="ot">FALSE</span>){<span class="kw">stop</span>(<span class="st">&quot;type must be response or terms&quot;</span>)}
-        if(interval%in%<span class="kw">c</span>(<span class="st">&quot;none&quot;</span>, <span class="st">&quot;confidence&quot;</span>, <span class="st">&quot;prediction&quot;</span>)==<span class="ot">FALSE</span>){<span class="kw">stop</span>(<span class="st">&quot;interval must be none, confidence or prediction&quot;</span>)}
-        
-        if(!<span class="kw">is.null</span>(posterior)){
-            if(!posterior%in%<span class="kw">c</span>(<span class="st">&quot;distribution&quot;</span>, <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;mode&quot;</span>, <span class="st">&quot;all&quot;</span>)){
-                <span class="kw">stop</span>(<span class="st">&quot;posterior argument must be either distribution, mean, mode or all&quot;</span>)
-            }
-        }
-        
-        if(!<span class="kw">is.null</span>(marginal)){
-            if(<span class="kw">class</span>(marginal)!=<span class="st">&quot;formula&quot;</span>){<span class="kw">stop</span>(<span class="st">&quot;marginal should be NULL or a formula&quot;</span>)}
-        }
-        
-        if(!<span class="kw">is.null</span>(it)){
-            if(<span class="kw">length</span>(it)&gt;<span class="dv">1</span>){<span class="kw">stop</span>(<span class="st">&quot;it should be an integer&quot;</span>)}
-            if(it&gt;<span class="kw">nrow</span>(object$X) |<span class="st"> </span>it&lt;<span class="dv">1</span>){<span class="kw">stop</span>(<span class="st">&quot;it should be less than or equal to the number of iterations&quot;</span>)}
-        }
-        
-        rcomponents&lt;-MCMCglmm:::<span class="kw">split.direct.sum</span>(<span class="kw">as.character</span>(object$Random$formula)[<span class="dv">2</span>])
-        mcomponents&lt;-MCMCglmm:::<span class="kw">split.direct.sum</span>(<span class="kw">as.character</span>(marginal)[<span class="dv">2</span>])
-        
-        if(<span class="kw">any</span>(mcomponents%in%rcomponents==<span class="ot">FALSE</span>)){<span class="kw">stop</span>(<span class="st">&quot;marginal formula does not correspond to model formula&quot;</span>)}
-        
-        marginalise&lt;-<span class="kw">rep</span>(<span class="kw">as.numeric</span>(rcomponents%in%mcomponents), object$Random$nrt)
-        
-        if(!<span class="kw">is.null</span>(newdata)){
-            <span class="kw">suppressWarnings</span>(object2&lt;-<span class="kw">MCMCglmm</span>(<span class="dt">fixed=</span>object$Fixed$formula, <span class="dt">random=</span>object$Random$formula, <span class="dt">rcov=</span>object$Residual$formula, <span class="dt">family=</span>object$Residual$original.family, <span class="dt">data=</span>newdata, <span class="dt">nitt=</span><span class="dv">1</span>, <span class="dt">thin=</span><span class="dv">1</span>, <span class="dt">burnin=</span><span class="dv">0</span>, <span class="dt">ginverse=</span>object$ginverse, <span class="dt">verbose=</span><span class="ot">FALSE</span>, <span class="dt">pr=</span><span class="kw">any</span>(marginalise==<span class="dv">0</span>)))
-            find.fixed&lt;-<span class="kw">match</span>(<span class="kw">colnames</span>(object2$Sol)[<span class="dv">1</span>:object2$Fixed$nfl], <span class="kw">colnames</span>(object$Sol))
-            find.random&lt;-<span class="kw">match</span>(<span class="kw">colnames</span>(object2$Sol)[-<span class="kw">c</span>(<span class="dv">1</span>:object2$Fixed$nfl)], <span class="kw">colnames</span>(object$Sol))
-            if(<span class="kw">any</span>(<span class="kw">is.na</span>(find.fixed))){<span class="kw">stop</span>(<span class="st">&quot;model for newdata has fixed effects not present in original model&quot;</span>)}
-            if(verbose){
-                if(<span class="kw">any</span>(<span class="kw">is.na</span>(find.random))){
-                    missing.random&lt;-<span class="kw">colnames</span>(object2$Sol)[<span class="kw">which</span>(<span class="kw">is.na</span>(find.random))+object2$Fixed$nfl]
-                    <span class="kw">warning</span>(<span class="kw">paste</span>(<span class="st">&quot;model for newdata has random effects not present in original model:&quot;</span>, <span class="kw">paste</span>(missing.random, <span class="dt">collapse=</span><span class="st">&quot;, &quot;</span>)))
-                }
-                missing.fixed&lt;-<span class="kw">which</span>(!<span class="kw">colnames</span>(object$Sol)[<span class="dv">1</span>:object$Fixed$nfl]%in%<span class="kw">colnames</span>(object2$Sol)[<span class="dv">1</span>:object2$Fixed$nfl])
-                if(<span class="kw">length</span>(missing.fixed)&gt;<span class="dv">0</span>){
-                    missing.fixed&lt;-<span class="kw">colnames</span>(object$Sol)[<span class="dv">1</span>:object$Fixed$nfl][missing.fixed]
-                    <span class="kw">warning</span>(<span class="kw">paste</span>(<span class="st">&quot;original model has fixed effects not present in newdata:&quot;</span>, <span class="kw">paste</span>(missing.fixed, <span class="dt">collapse=</span><span class="st">&quot;, &quot;</span>)))
-                }
-            }
-            object2$Sol&lt;-object$Sol[,<span class="kw">c</span>(find.fixed, find.random)]
-            find.vcv&lt;-<span class="kw">match</span>(<span class="kw">colnames</span>(object2$VCV), <span class="kw">colnames</span>(object$VCV))
-            if(<span class="kw">any</span>(<span class="kw">is.na</span>(find.vcv))){<span class="kw">stop</span>(<span class="st">&quot;model for newdata has (co)variance terms not in original model&quot;</span>)}
-            object2$VCV&lt;-object$VCV[,find.vcv,drop=<span class="ot">FALSE</span>]
-            if(!<span class="kw">is.null</span>(object2$CP)){
-                find.cp&lt;-<span class="kw">match</span>(<span class="kw">colnames</span>(object2$CP), <span class="kw">colnames</span>(object$CP))
-                if(<span class="kw">any</span>(<span class="kw">is.na</span>(find.cp))){<span class="kw">stop</span>(<span class="st">&quot;model for newdata has cutpoints not in original model&quot;</span>)}
-                object2$CP&lt;-object$CP[,find.cp,drop=<span class="ot">FALSE</span>]
-            }
-            object&lt;-object2
-            <span class="kw">rm</span>(object2)
-        }
-        
-        if(posterior==<span class="st">&quot;mean&quot;</span>){
-            object$VCV&lt;-<span class="kw">matrix</span>(<span class="kw">colMeans</span>(object$VCV), <span class="dv">1</span>, <span class="kw">ncol</span>(object$VCV))
-            it&lt;-<span class="dv">1</span>
-        }
-        if(posterior==<span class="st">&quot;mode&quot;</span>){
-            object$VCV&lt;-<span class="kw">matrix</span>(<span class="kw">posterior.mode</span>(object$VCV, ...), <span class="dv">1</span>, <span class="kw">ncol</span>(object$VCV))
-            it&lt;-<span class="dv">1</span>
-        }
-        if(<span class="kw">is.null</span>(it)){
-            if(posterior==<span class="st">&quot;distribution&quot;</span>){
-                it&lt;-<span class="kw">sample</span>(<span class="kw">nrow</span>(object$Sol), <span class="dv">1</span>)
-            }
-            if(posterior==<span class="st">&quot;all&quot;</span>){
-                it&lt;-<span class="dv">1</span>:<span class="kw">nrow</span>(object$Sol)
-            }
-        }
-        object$Sol&lt;-object$Sol[it,,drop=<span class="ot">FALSE</span>]
-        object$VCV&lt;-object$VCV[it,,drop=<span class="ot">FALSE</span>]
-        if(!<span class="kw">is.null</span>(object$Lambda)){
-            object$Lambda&lt;-object$Lambda[it,,drop=<span class="ot">FALSE</span>]
-        }
-        if(!<span class="kw">is.null</span>(object$CP)){
-            object$CP&lt;-object$CP[it,,drop=<span class="ot">FALSE</span>]
-        }
-        
-        if(<span class="kw">any</span>(marginalise==<span class="dv">0</span>) &amp;<span class="st"> </span><span class="kw">dim</span>(object$Sol)[<span class="dv">2</span>]==<span class="kw">dim</span>(object$X)[<span class="dv">2</span>]){
-            <span class="kw">stop</span>(<span class="st">&quot;posterior distribution of random effects not saved: pass pr=TRUE to MCMCglmm&quot;</span>)
-        }
-        if(<span class="kw">any</span>(marginalise==<span class="dv">0</span>) &amp;<span class="st"> </span><span class="kw">is.null</span>(object$Z)){
-            <span class="kw">stop</span>(<span class="st">&quot;random effect design matrix not saved: pass saveZ=TRUE to MCMCglmm&quot;</span>)
-        }
-        
-        if(<span class="kw">is.null</span>(object$X)){
-            <span class="kw">stop</span>(<span class="st">&quot;fixed effect design matrix not saved: pass saveX=TRUE to MCMCglmm&quot;</span>)
-        }
-        
-        if(<span class="kw">is.null</span>(object$Random$nfl)==<span class="ot">FALSE</span>){  <span class="co"># there are random effects</span>
-            st&lt;-<span class="kw">c</span>(<span class="dv">1</span>,<span class="kw">cumsum</span>(object$Random$nrl*object$Random$nfl)+<span class="dv">1</span>)  <span class="co"># starting column for random effects of each component </span>
-            st&lt;-st[-<span class="kw">length</span>(st)]
-            end&lt;-<span class="kw">cumsum</span>(object$Random$nrl*object$Random$nfl)        <span class="co"># ennding column for random effects of each component </span>
-            keep&lt;-<span class="kw">unlist</span>(<span class="kw">mapply</span>(st[<span class="kw">which</span>(marginalise==<span class="dv">0</span>)], end[<span class="kw">which</span>(marginalise==<span class="dv">0</span>)], <span class="dt">FUN=</span><span class="st">&quot;:&quot;</span>))    <span class="co"># random effects to be kept</span>
-        }else{
-            keep&lt;-<span class="ot">NULL</span>
-        }
-        
-        if(!<span class="kw">is.null</span>(newdata) &amp;<span class="st"> </span>!<span class="kw">is.null</span>(object$Random$nfl)){
-            missing.random&lt;-<span class="kw">which</span>(<span class="kw">is.na</span>(object$Sol[<span class="dv">1</span>,]))
-            if(posterior==<span class="st">&quot;mean&quot;</span> |<span class="st"> </span>posterior==<span class="st">&quot;mode&quot;</span>){
-                if(<span class="kw">any</span>(<span class="kw">is.na</span>(object$Sol))){
-                    object$Sol[missing.random]&lt;-<span class="dv">0</span>
-                }
-            }else{
-                dv&lt;-<span class="dv">1</span>:<span class="kw">ncol</span>(object$Sol)
-                cnt&lt;-<span class="dv">0</span>
-                for(j in <span class="dv">1</span>:<span class="kw">length</span>(object$Random$nfl)){
-                    nfl&lt;-object$Random$nfl[j]
-                    nrl&lt;-object$Random$nrl[j]
-                    dv[object$Fixed$nfl+cnt<span class="dv">+1</span>:(nfl*nrl)]&lt;-<span class="kw">rep</span>(<span class="kw">diag</span>(<span class="kw">matrix</span>(<span class="dv">1</span>:(nfl^<span class="dv">2</span>),nfl,nfl)), <span class="dt">each=</span>nrl)
-                    cnt&lt;-cnt+(nfl*nrl)
-                }
-                if(<span class="kw">any</span>(<span class="kw">is.na</span>(object$Sol))){
-                    object$Sol[,missing.random,drop=<span class="ot">FALSE</span>]&lt;-<span class="kw">rnorm</span>(<span class="kw">nrow</span>(object$Sol)*<span class="kw">length</span>(missing.random), <span class="dv">0</span>, <span class="kw">sqrt</span>(object$VCV[,dv[missing.random]]))
-                }
-            }
-        }
-        
-        object$Sol&lt;-object$Sol[,<span class="kw">c</span>(<span class="dv">1</span>:object$Fixed$nfl, object$Fixed$nfl+keep),drop=<span class="ot">FALSE</span>]
-        
-        W&lt;-<span class="kw">cBind</span>(object$X, object$Z)
-        W&lt;-W[,<span class="kw">c</span>(<span class="dv">1</span>:object$Fixed$nfl, object$Fixed$nfl+keep), drop=<span class="ot">FALSE</span>]
-        
-        post.pred&lt;-<span class="kw">t</span>(<span class="kw">apply</span>(object$Sol,<span class="dv">1</span>, function(x){(W%*%x)@x}))
-        
-        if(type==<span class="st">&quot;response&quot;</span>){
-            
-            if(<span class="kw">any</span>(object$family!=<span class="st">&quot;gaussian&quot;</span> &amp;<span class="st"> </span>object$family!=<span class="st">&quot;cengaussian&quot;</span>)){
-                post.var&lt;-<span class="kw">buildV</span>(object, <span class="dt">marginal=</span>marginal, <span class="dt">diag=</span><span class="ot">TRUE</span>, <span class="dt">it=</span><span class="ot">NULL</span>, <span class="dt">posterior=</span><span class="st">&quot;all&quot;</span>, ...)
-            }
-            
-            super.trait&lt;-<span class="dv">1</span>:<span class="kw">length</span>(object$Residual$family)
-            cnt&lt;-<span class="dv">1</span>
-            i&lt;-<span class="dv">1</span>
-            while(i&lt;=<span class="kw">length</span>(super.trait)){
-                if(!<span class="kw">grepl</span>(<span class="st">&quot;hu|zi|za|multinomial&quot;</span>, object$Residual$family[i])){
-                    super.trait[i]&lt;-cnt
-                    i&lt;-i<span class="dv">+1</span>
-                    cnt&lt;-cnt<span class="dv">+1</span>
-                }else{
-                    if(<span class="kw">grepl</span>(<span class="st">&quot;multinomial&quot;</span>, object$Residual$family[i])){
-                        nm&lt;-<span class="kw">as.numeric</span>(<span class="kw">substr</span>(object$Residual$family[i], <span class="dv">12</span>,<span class="kw">nchar</span>(object$Residual$family[i])))-<span class="dv">1</span>
-                        super.trait[i<span class="dv">+1</span>:nm<span class="dv">-1</span>]&lt;-cnt
-                        i&lt;-i+nm
-                        cnt&lt;-cnt<span class="dv">+1</span>
-                    }else{
-                        super.trait[i]&lt;-cnt
-                        super.trait[i<span class="dv">+1</span>]&lt;-cnt
-                        i&lt;-i<span class="dv">+2</span>
-                        cnt&lt;-cnt<span class="dv">+1</span>
-                    }
-                }
-            }
-            
-            normal.evd&lt;-function(mu, v){
-                int.foo&lt;-function(x, mu, v){<span class="kw">exp</span>(-<span class="kw">exp</span>(x))*<span class="kw">dnorm</span>(x, mu, <span class="kw">sqrt</span>(v))}
-                <span class="kw">integrate</span>(int.foo, <span class="kw">qnorm</span>(<span class="fl">0.0001</span>, mu,<span class="kw">sqrt</span>(v)), <span class="kw">qnorm</span>(<span class="fl">0.9999</span>, mu,<span class="kw">sqrt</span>(v)), mu,v)[[<span class="dv">1</span>]]
-            }
-            normal.zt&lt;-function(mu, v){
-                int.foo&lt;-function(x, mu, v){<span class="kw">exp</span>(x)/(<span class="dv">1</span>-<span class="kw">exp</span>(-<span class="kw">exp</span>(x)))*<span class="kw">dnorm</span>(x, mu, <span class="kw">sqrt</span>(v))}
-                <span class="kw">integrate</span>(int.foo, <span class="kw">qnorm</span>(<span class="fl">0.0001</span>, mu,<span class="kw">sqrt</span>(v)), <span class="kw">qnorm</span>(<span class="fl">0.9999</span>, mu,<span class="kw">sqrt</span>(v)), mu,v)[[<span class="dv">1</span>]]
-            }  
-            normal.logistic&lt;-function(mu, v){
-                int.foo&lt;-function(x, mu, v){<span class="kw">plogis</span>(x)*<span class="kw">dnorm</span>(x, mu, <span class="kw">sqrt</span>(v))}
-                <span class="kw">integrate</span>(int.foo, <span class="kw">qnorm</span>(<span class="fl">0.0001</span>, mu,<span class="kw">sqrt</span>(v)), <span class="kw">qnorm</span>(<span class="fl">0.9999</span>, mu,<span class="kw">sqrt</span>(v)), mu,v)[[<span class="dv">1</span>]]
-            } 
-            normal.multilogistic&lt;-function(mu, v){
-                int.foo&lt;-function(x, mu, v, i){(<span class="kw">exp</span>(x[i])/(<span class="dv">1</span>+<span class="kw">sum</span>(<span class="kw">exp</span>(x))))*<span class="kw">prod</span>(<span class="kw">dnorm</span>(x, mu, <span class="kw">sqrt</span>(v)))}
-                res&lt;-<span class="dv">1</span>:<span class="kw">length</span>(mu)
-                for(i in <span class="dv">1</span>:<span class="kw">length</span>(mu)){
-                    res[i]&lt;-cubature::<span class="kw">adaptIntegrate</span>(int.foo, <span class="kw">qnorm</span>(<span class="fl">0.0001</span>, mu,<span class="kw">sqrt</span>(v)), <span class="kw">qnorm</span>(<span class="fl">0.9999</span>, mu,<span class="kw">sqrt</span>(v)), <span class="dt">mu=</span>mu, <span class="dt">v=</span>v, <span class="dt">i=</span>i)[[<span class="dv">1</span>]]
-                }
-                res
-            } 
-            
-            if(!<span class="kw">is.null</span>(object$Lambda)){
-                if(<span class="kw">any</span>(object$family!=<span class="st">&quot;gaussian&quot;</span>)){<span class="kw">stop</span>(<span class="st">&quot;sorry - prediction not yet available for sir models applied to non-Gaussian data&quot;</span>)}
-                <span class="co"># bear in mind that if this is implemented the post.var is quadratic in the structural parameters</span>
-                I&lt;-<span class="kw">Diagonal</span>(<span class="kw">nrow</span>(object$XL))
-                post.pred&lt;-<span class="kw">t</span>(<span class="kw">sapply</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(object$Sol), function(i){<span class="kw">as.vector</span>(<span class="kw">solve</span>(I-object$XL%*%<span class="kw">kronecker</span>(object$Lambda[i,], I), post.pred[i,]))}))
-            }
-            
-            if(<span class="kw">any</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;poisson&quot;</span>,<span class="st">&quot;cenpoisson&quot;</span>))){
-                keep&lt;-<span class="kw">which</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;poisson&quot;</span>,<span class="st">&quot;cenpoisson&quot;</span>))
-                post.pred[,keep]&lt;-<span class="kw">exp</span>(post.pred[,keep]+<span class="fl">0.5</span>*post.var[,keep])
-            }
-            
-            if(<span class="kw">any</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;ztpoisson&quot;</span>))){
-                keep&lt;-<span class="kw">which</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;ztpoisson&quot;</span>))
-                post.pred[,keep]&lt;-<span class="kw">mapply</span>(post.pred[,keep], post.var[,keep], <span class="dt">FUN=</span>function(mu,v){<span class="kw">normal.zt</span>(mu,v)})
-            }
-            
-            if(<span class="kw">any</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;exponential&quot;</span>,<span class="st">&quot;cenexponential&quot;</span>,<span class="st">&quot;geometric&quot;</span>,<span class="st">&quot;cengeometric&quot;</span>))){
-                keep&lt;-<span class="kw">which</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;exponential&quot;</span>,<span class="st">&quot;cenexponential&quot;</span>,<span class="st">&quot;geometric&quot;</span>,<span class="st">&quot;cengeometric&quot;</span>))
-                post.pred[,keep]&lt;-<span class="kw">exp</span>(-post.pred[,keep]+<span class="fl">0.5</span>*post.var[,keep])
-            }
-            
-            if(<span class="kw">any</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;ordinal&quot;</span>))){      
-                
-                nord&lt;-<span class="kw">unique</span>(object$error.term[<span class="kw">which</span>(object$family==<span class="st">&quot;ordinal&quot;</span>)])
-                cp.names&lt;-<span class="kw">substr</span>(<span class="kw">colnames</span>(object$CP), <span class="dv">10</span>, <span class="kw">regexpr</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[1-9]$|</span><span class="ch">\\</span><span class="st">.[1-9][0-9]$&quot;</span>, <span class="kw">colnames</span>(object$CP))-<span class="dv">1</span>)
-                cp.names&lt;-<span class="kw">match</span>(cp.names,<span class="kw">unique</span>(cp.names))
-                
-                for(k in <span class="dv">1</span>:<span class="kw">length</span>(nord)){
-                    
-                    keep&lt;-<span class="kw">which</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;ordinal&quot;</span>) &amp;<span class="st"> </span>object$error.term==nord[k])
-                    CP&lt;-<span class="kw">cbind</span>(-<span class="ot">Inf</span>, <span class="dv">0</span>, object$CP[,<span class="kw">which</span>(cp.names==k), <span class="dt">drop=</span><span class="ot">FALSE</span>], <span class="ot">Inf</span>)
-                    q&lt;-<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="kw">dim</span>(post.pred)[<span class="dv">1</span>], <span class="kw">length</span>(keep))
-                    
-                    for(i in <span class="dv">2</span>:(<span class="kw">dim</span>(CP)[<span class="dv">2</span>]-<span class="dv">1</span>)){
-                        q&lt;-q+(<span class="kw">pnorm</span>(CP[,i<span class="dv">+1</span>]-post.pred[,keep],<span class="dv">0</span>,<span class="kw">sqrt</span>(post.var[,keep]+<span class="dv">1</span>))-<span class="kw">pnorm</span>(CP[,i]-post.pred[,keep],<span class="dv">0</span>,<span class="kw">sqrt</span>(post.var[,keep]+<span class="dv">1</span>)))*(i<span class="dv">-1</span>)
-                    }
-                    
-                    post.pred[,keep]&lt;-q
-                    <span class="kw">rm</span>(q)
-                } 
-            }
-            
-            if(<span class="kw">any</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;threshold&quot;</span>))){      
-                
-                nord&lt;-<span class="kw">unique</span>(object$error.term[<span class="kw">which</span>(object$family==<span class="st">&quot;threshold&quot;</span>)])
-                cp.names&lt;-<span class="kw">substr</span>(<span class="kw">colnames</span>(object$CP), <span class="dv">10</span>, <span class="kw">regexpr</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">.[1-9]$|</span><span class="ch">\\</span><span class="st">.[1-9][0-9]$&quot;</span>, <span class="kw">colnames</span>(object$CP))-<span class="dv">1</span>)
-                cp.names&lt;-<span class="kw">match</span>(cp.names,<span class="kw">unique</span>(cp.names))
-                
-                for(k in <span class="dv">1</span>:<span class="kw">length</span>(nord)){
-                    keep&lt;-<span class="kw">which</span>(object$family%in%<span class="kw">c</span>(<span class="st">&quot;threshold&quot;</span>) &amp;<span class="st"> </span>object$error.term==nord[k])
-                    CP&lt;-<span class="kw">cbind</span>(-<span class="ot">Inf</span>, <span class="dv">0</span>, object$CP[,<span class="kw">which</span>(cp.names==k), <span class="dt">drop=</span><span class="ot">FALSE</span>], <span class="ot">Inf</span>)
-                    q&lt;-<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="kw">dim</span>(post.pred)[<span class="dv">1</span>], <span class="kw">length</span>(keep))
-                    
-                    for(i in <span class="dv">2</span>:(<span class="kw">dim</span>(CP)[<span class="dv">2</span>]-<span class="dv">1</span>)){
-                        q&lt;-q+(<span class="kw">pnorm</span>(CP[,i<span class="dv">+1</span>]-post.pred[,keep],<span class="dv">0</span>,<span class="kw">sqrt</span>(post.var[,keep]))-<span class="kw">pnorm</span>(CP[,i]-post.pred[,keep],<span class="dv">0</span>,<span class="kw">sqrt</span>(post.var[,keep])))*(i<span class="dv">-1</span>)
-                    }
-                    
-                    post.pred[,keep]&lt;-q
-                    <span class="kw">rm</span>(q)
-                } 
-            }
-            
-            for(k in <span class="kw">unique</span>(super.trait)){
-                if(<span class="kw">any</span>(<span class="kw">grepl</span>(<span class="st">&quot;multinomial&quot;</span>, object$Residual$family))){
-                    keep&lt;-<span class="kw">which</span>(object$error.term%in%<span class="kw">which</span>(super.trait==k))
-                    size&lt;-<span class="kw">as.numeric</span>(<span class="kw">substr</span>(object$family[keep], <span class="dv">12</span>, <span class="kw">nchar</span>(object$family[keep])))
-                    for(j in <span class="dv">1</span>:<span class="kw">nrow</span>(post.pred)){
-                        prob&lt;-<span class="kw">matrix</span>(post.pred[j,keep], <span class="kw">length</span>(keep)/<span class="kw">sum</span>(super.trait==k), <span class="kw">sum</span>(super.trait==k))
-                        pvar&lt;-<span class="kw">matrix</span>(post.var[j,keep], <span class="kw">length</span>(keep)/<span class="kw">sum</span>(super.trait==k), <span class="kw">sum</span>(super.trait==k))
-                        post.pred[j,keep]&lt;-<span class="kw">t</span>(<span class="kw">sapply</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(prob), function(x){<span class="kw">normal.multilogistic</span>(prob[x,], pvar[x,])}))*size
-                    }
-                }
-                
-                if(<span class="kw">any</span>(<span class="kw">grepl</span>(<span class="st">&quot;hupoisson&quot;</span>, object$Residual$family))){
-                    keep&lt;-<span class="kw">which</span>(object$error.term%in%<span class="kw">which</span>(super.trait==k))
-                    keep&lt;-keep[-<span class="kw">c</span>(<span class="dv">1</span>:(<span class="kw">length</span>(keep)/<span class="dv">2</span>))]
-                    rm.obs&lt;-<span class="kw">c</span>(rm.obs, keep)
-                    post.pred[,keep]&lt;-<span class="kw">mapply</span>(post.pred[,keep], post.var[,keep], <span class="dt">FUN=</span>function(mu,v){<span class="dv">1</span>-<span class="kw">normal.logistic</span>(mu,v)})
-                    post.pred[,keep-<span class="kw">length</span>(keep)]&lt;-post.pred[,keep]*<span class="kw">mapply</span>(post.pred[,keep-<span class="kw">length</span>(keep)], post.var[,keep-<span class="kw">length</span>(keep)], <span class="dt">FUN=</span>function(mu,v){<span class="kw">normal.zt</span>(mu,v)})
-                }
-                if(<span class="kw">any</span>(<span class="kw">grepl</span>(<span class="st">&quot;zapoisson&quot;</span>, object$Residual$family))){
-                    keep&lt;-<span class="kw">which</span>(object$error.term%in%<span class="kw">which</span>(super.trait==k))
-                    keep&lt;-keep[-<span class="kw">c</span>(<span class="dv">1</span>:(<span class="kw">length</span>(keep)/<span class="dv">2</span>))]
-                    rm.obs&lt;-<span class="kw">c</span>(rm.obs, keep)
-                    post.pred[,keep]&lt;-<span class="dv">1</span>-<span class="kw">mapply</span>(post.pred[,keep], post.var[,keep], <span class="dt">FUN=</span>function(mu,v){<span class="kw">normal.evd</span>(mu,v)})
-                    post.pred[,keep-<span class="kw">length</span>(keep)]&lt;-post.pred[,keep]*<span class="kw">mapply</span>(post.pred[,keep-<span class="kw">length</span>(keep)], post.var[,keep-<span class="kw">length</span>(keep)], <span class="dt">FUN=</span>function(mu,v){<span class="kw">normal.zt</span>(mu,v)})
-                }
-                
-                if(<span class="kw">any</span>(<span class="kw">grepl</span>(<span class="st">&quot;zipoisson&quot;</span>, object$Residual$family[<span class="kw">which</span>(super.trait==k)]))){
-                    keep&lt;-<span class="kw">which</span>(object$error.term%in%<span class="kw">which</span>(super.trait==k))
-                    keep&lt;-keep[-<span class="kw">c</span>(<span class="dv">1</span>:(<span class="kw">length</span>(keep)/<span class="dv">2</span>))]
-                    rm.obs&lt;-<span class="kw">c</span>(rm.obs, keep)
-                    post.pred[,keep]&lt;-<span class="kw">mapply</span>(post.pred[,keep], post.var[,keep], <span class="dt">FUN=</span>function(mu,v){<span class="dv">1</span>-<span class="kw">normal.logistic</span>(mu,v)})
-                    post.pred[,keep-<span class="kw">length</span>(keep)]&lt;-post.pred[,keep]*<span class="kw">exp</span>(post.pred[,keep-<span class="kw">length</span>(keep)]+post.var[,keep-<span class="kw">length</span>(keep)]/<span class="dv">2</span>)
-                }
-                if(<span class="kw">any</span>(<span class="kw">grepl</span>(<span class="st">&quot;zibinomial&quot;</span>, object$Residual$family))){
-                    keep&lt;-<span class="kw">which</span>(object$error.term%in%<span class="kw">which</span>(super.trait==k))
-                    keep&lt;-keep[-<span class="kw">c</span>(<span class="dv">1</span>:(<span class="kw">length</span>(keep)/<span class="dv">2</span>))]
-                    rm.obs&lt;-<span class="kw">c</span>(rm.obs, keep)
-                    post.pred[,keep]&lt;-<span class="kw">mapply</span>(post.pred[,keep], post.var[,keep], <span class="dt">FUN=</span>function(mu,v){<span class="dv">1</span>-<span class="kw">normal.logistic</span>(mu,v)})
-                    post.pred[,keep-<span class="kw">length</span>(keep)]&lt;-post.pred[,keep]*<span class="kw">mapply</span>(post.pred[,keep-<span class="kw">length</span>(keep)], post.var[,keep-<span class="kw">length</span>(keep)], <span class="dt">FUN=</span>function(mu,v){<span class="kw">normal.logistic</span>(mu,v)})
-                }
-            }
-        }
-    }
-    
-    if(<span class="kw">length</span>(rm.obs)&gt;<span class="dv">0</span>){
-        post.pred&lt;-post.pred[,-rm.obs]
-    }
-    
-    if(<span class="kw">is.matrix</span>(post.pred)){
-        pred&lt;-<span class="kw">matrix</span>(<span class="kw">colMeans</span>(post.pred), <span class="kw">dim</span>(post.pred)[<span class="dv">2</span>],<span class="dv">1</span>)
-    }else{
-        pred&lt;-<span class="kw">matrix</span>(post.pred, <span class="kw">length</span>(post.pred),<span class="dv">1</span>)
-    }  
-    <span class="kw">return</span>(post.pred)
-    
-    if(interval!=<span class="st">&quot;none&quot;</span>){
-        pred&lt;-<span class="kw">cbind</span>(pred, coda::<span class="kw">HPDinterval</span>(<span class="kw">mcmc</span>(post.pred), <span class="dt">prob=</span>level))   
-        <span class="kw">colnames</span>(pred)&lt;-<span class="kw">c</span>(<span class="st">&quot;fit&quot;</span>, <span class="st">&quot;lwr&quot;</span>, <span class="st">&quot;upr&quot;</span>)
-    }
-    <span class="kw">rownames</span>(pred)&lt;-<span class="dv">1</span>:<span class="kw">dim</span>(pred)[<span class="dv">1</span>]
 }
 
 describeBin =<span class="st"> </span>function(df) {
-    <span class="kw">library</span>(plyr);<span class="kw">library</span>(dplyr); 
     df2 =<span class="st"> </span><span class="kw">colwise</span>(function(x){ if(<span class="kw">is.factor</span>(x)){ <span class="kw">ifelse</span>(x==<span class="st">&quot;TRUE&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)} else{ x} })(df)
-    df2 %&gt;%<span class="st"> </span>
+    df2 %&gt;%
 <span class="st">        </span><span class="kw">data.frame</span>() %&gt;%
-<span class="st">        </span><span class="kw">melt</span>(.,<span class="dt">id.vars=</span><span class="kw">c</span>()) %&gt;%<span class="st"> </span>
+<span class="st">        </span><span class="kw">melt</span>(.,<span class="dt">id.vars=</span><span class="kw">c</span>()) %&gt;%
 <span class="st">        </span><span class="kw">group_by</span>(variable) %&gt;%
 <span class="st">        </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">sum</span>(!<span class="kw">is.na</span>(value)),
                             <span class="dt">mean =</span> <span class="kw">mean</span>(value, <span class="dt">na.rm=</span>T),
@@ -1357,7 +716,7 @@ aggDemoTrends =<span class="st"> </span>function(df) {
 <span class="st">        </span><span class="kw">data.table</span>()
 }
 
-<span class="co"># </span>
+<span class="co">#</span>
 <span class="co"># colour_values = c(</span>
 <span class="co">#   &quot;Krummhörn&quot; = &quot;#542437&quot;,</span>
 <span class="co">#   &quot;Québec&quot; = &quot;#53777A&quot;,</span>
@@ -1390,8 +749,298 @@ colour_values =<span class="st"> </span><span class="kw">c</span>(
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> &quot;#21523B&quot;</span>
 )
 pop_colour =<span class="st"> </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> colour_values)
-pop_fill =<span class="st"> </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> colour_values)</code></pre>
+pop_fill =<span class="st"> </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> colour_values)</code></pre></div>
 </div>
+</div>
+<div id="bin-years" class="section level2">
+<h2>Bin years</h2>
+<p>simple way to get bins by year</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year_bins =<span class="st"> </span>function(x, <span class="dt">bin =</span> <span class="dv">5</span>) {
+    <span class="kw">ifelse</span>(<span class="kw">is.na</span>(x), <span class="ot">NA_character_</span>,
+        <span class="kw">paste0</span>(plyr::<span class="kw">round_any</span>(x, bin, floor),<span class="st">&quot;-&quot;</span>,plyr::<span class="kw">round_any</span>(x, bin, floor) +<span class="st"> </span>bin)
+    )
+}</code></pre></div>
+</div>
+<div id="compute-effect-of-10-years-of-paternal-age" class="section level2">
+<h2>Compute effect of 10 years of paternal age</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paternal_age_10y_effect =<span class="st"> </span>function(model, <span class="dt">predictor_name =</span> <span class="st">&quot;paternalage&quot;</span>) {
+    nam =<span class="st"> </span><span class="kw">rownames</span>(<span class="kw">fixef</span>(model))
+    pred_name =<span class="st"> </span>nam[nam %contains%<span class="st"> </span>predictor_name &amp;<span class="st"> </span>!<span class="st"> </span>nam %contains%<span class="st"> </span><span class="kw">paste0</span>(predictor_name, <span class="st">&quot;.mean&quot;</span>)]
+    if (<span class="kw">length</span>(pred_name) &gt;<span class="st"> </span><span class="dv">0</span> ) {
+        pred_name =<span class="st"> </span>pred_name[<span class="dv">1</span>]
+        predictor =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="fl">2.5</span>, <span class="fl">3.5</span>))
+        probs =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>, <span class="fl">0.975</span>)
+        if (pred_name %in%<span class="st"> </span><span class="kw">names</span>(model$data)) {
+            <span class="kw">names</span>(predictor) =<span class="st"> </span>pred_name[<span class="dv">1</span>]
+        }
+        <span class="co"># brms:::prepare_conditions</span>
+        newd =<span class="st"> </span><span class="kw">make_newdata</span>(predictor, <span class="dt">olddata =</span> model$data)
+        newd$response =<span class="st"> </span>newd$trait =<span class="st"> </span><span class="ot">NULL</span>
+        fixefs =<span class="st"> </span><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">fixef</span>(model, <span class="dt">estimate =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">probs =</span> probs)[pred_name,]), <span class="dv">2</span>)
+        prediction =<span class="st"> </span><span class="kw">fitted</span>(model, <span class="dt">newdata =</span> newd, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">summary =</span> F)
+        estlow =<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(prediction[,<span class="dv">1</span>], <span class="dt">probs =</span> probs),<span class="dv">2</span>)
+        esthigh =<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(prediction[,<span class="dv">2</span>], <span class="dt">probs =</span> probs),<span class="dv">2</span>)
+        if (model$family$family ==<span class="st"> &quot;bernoulli&quot;</span>) {
+            pct_change =<span class="st"> </span>prediction[,<span class="dv">2</span>] -<span class="st"> </span>prediction[,<span class="dv">1</span>]
+            pct_decrease =<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(pct_change, <span class="dt">probs =</span> probs) *<span class="st"> </span><span class="dv">100</span>,<span class="dv">2</span>)
+        } else {
+            pct_change =<span class="st"> </span>prediction[,<span class="dv">2</span>] /<span class="st"> </span>prediction[,<span class="dv">1</span>] -<span class="st"> </span><span class="dv">1</span>
+            pct_decrease =<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(pct_change, <span class="dt">probs =</span> probs) *<span class="st"> </span><span class="dv">100</span>, <span class="dv">2</span>)
+        }
+        estimates =<span class="st"> </span><span class="kw">data.frame</span>(
+            <span class="dt">effect =</span> <span class="kw">c</span>(<span class="st">&quot;estimate father 25y&quot;</span>, <span class="st">&quot;estimate father 35y&quot;</span>,<span class="st">&quot;percentage change&quot;</span>, <span class="st">&quot;OR/IRR&quot;</span>),
+            <span class="dt">median_estimate =</span> <span class="kw">c</span>(<span class="kw">as.character</span>(estlow[<span class="st">&#39;50%&#39;</span>]),
+                                                    <span class="kw">as.character</span>(esthigh[<span class="st">&#39;50%&#39;</span>]),
+                                                    <span class="kw">as.character</span>(pct_decrease[<span class="st">&#39;50%&#39;</span>]),
+                                                    <span class="kw">as.character</span>(fixefs[<span class="st">&#39;50%&#39;</span>])),
+            <span class="dt">ci_95 =</span> <span class="kw">c</span>(
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,estlow[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,estlow[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,esthigh[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,esthigh[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,pct_decrease[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,pct_decrease[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,fixefs[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,fixefs[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>)
+            ),
+            <span class="dt">ci_80 =</span> <span class="kw">c</span>(
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,estlow[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,estlow[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,esthigh[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,esthigh[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,pct_decrease[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,pct_decrease[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,fixefs[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,fixefs[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>)
+            ))
+        
+        if (model$family$family ==<span class="st"> &quot;hurdle_poisson&quot;</span>) {
+            fixefs2 =<span class="st"> </span><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">fixef</span>(model, <span class="dt">estimate =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">probs =</span> probs)[<span class="kw">paste0</span>(<span class="st">&quot;hu_&quot;</span>,pred_name),]), <span class="dv">2</span>)
+            estimates2 =<span class="st"> </span><span class="kw">data.frame</span>(
+                <span class="dt">effect =</span> <span class="kw">c</span>(<span class="st">&quot;OR hurdle&quot;</span>),
+                <span class="dt">median_estimate =</span> <span class="kw">as.character</span>(fixefs2[<span class="st">&#39;50%&#39;</span>]),
+                <span class="dt">ci_95 =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,fixefs2[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,fixefs2[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>)),
+                <span class="dt">ci_80 =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,fixefs2[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,fixefs2[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>)))
+            estimates =<span class="st"> </span><span class="kw">bind_rows</span>(estimates, estimates2)
+        }
+        estimates
+    } else {
+        <span class="st">&quot; &quot;</span>
+    }
+}</code></pre></div>
+</div>
+<div id="compute-effect-of-30-years-of-paternal-age" class="section level2">
+<h2>Compute effect of 30 years of paternal age</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">effect_of_avg_nr_of_mutations =<span class="st"> </span>function(model, <span class="dt">predictor_name =</span> <span class="st">&quot;paternalage&quot;</span>) {
+    nam =<span class="st"> </span><span class="kw">rownames</span>(<span class="kw">fixef</span>(model))
+    pred_name =<span class="st"> </span>nam[nam %contains%<span class="st"> </span>predictor_name &amp;<span class="st"> </span>!<span class="st"> </span>nam %contains%<span class="st"> </span><span class="kw">paste0</span>(predictor_name, <span class="st">&quot;.mean&quot;</span>)]
+    if (<span class="kw">length</span>(pred_name) &gt;<span class="st"> </span><span class="dv">0</span> ) {
+        pred_name =<span class="st"> </span>pred_name[<span class="dv">1</span>]
+        predictor =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">paternalage =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">3</span>))
+        probs =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>, <span class="fl">0.975</span>)
+        if (pred_name %in%<span class="st"> </span><span class="kw">names</span>(model$data)) {
+            <span class="kw">names</span>(predictor) =<span class="st"> </span>pred_name[<span class="dv">1</span>]
+        }
+        <span class="co"># brms:::prepare_conditions</span>
+        newd =<span class="st"> </span><span class="kw">make_newdata</span>(predictor, <span class="dt">olddata =</span> model$data)
+        newd$response =<span class="st"> </span>newd$trait =<span class="st"> </span><span class="ot">NULL</span>
+        fixefs =<span class="st"> </span><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">fixef</span>(model, <span class="dt">estimate =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">probs =</span> probs)[pred_name,]), <span class="dv">2</span>)
+        prediction =<span class="st"> </span><span class="kw">fitted</span>(model, <span class="dt">newdata =</span> newd, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">summary =</span> F)
+        estlow =<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(prediction[,<span class="dv">1</span>], <span class="dt">probs =</span> probs),<span class="dv">2</span>)
+        esthigh =<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(prediction[,<span class="dv">2</span>], <span class="dt">probs =</span> probs),<span class="dv">2</span>)
+        if (model$family$family ==<span class="st"> &quot;bernoulli&quot;</span>) {
+            pct_change =<span class="st"> </span>(prediction[,<span class="dv">2</span>] -<span class="st"> </span>prediction[,<span class="dv">1</span>])
+            pct_decrease =<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(pct_change, <span class="dt">probs =</span> probs) *<span class="st"> </span><span class="dv">100</span>,<span class="dv">2</span>)
+        } else {
+            pct_change =<span class="st"> </span>(prediction[,<span class="dv">2</span>] /<span class="st"> </span>prediction[,<span class="dv">1</span>] -<span class="st"> </span><span class="dv">1</span>)
+            pct_decrease =<span class="st"> </span><span class="kw">round</span>(<span class="kw">quantile</span>(pct_change, <span class="dt">probs =</span> probs) *<span class="st"> </span><span class="dv">100</span>, <span class="dv">2</span>)
+        }
+        estimates =<span class="st"> </span><span class="kw">data.frame</span>(
+            <span class="dt">effect =</span> <span class="kw">c</span>(<span class="st">&quot;estimate at 0 mutations&quot;</span>, <span class="st">&quot;estimate at 60 mutations&quot;</span>,<span class="st">&quot;percentage change&quot;</span>, <span class="st">&quot;OR/IRR&quot;</span>),
+            <span class="dt">median_estimate =</span> <span class="kw">c</span>(<span class="kw">as.character</span>(estlow[<span class="st">&#39;50%&#39;</span>]),
+                                                    <span class="kw">as.character</span>(esthigh[<span class="st">&#39;50%&#39;</span>]),
+                                                    <span class="kw">as.character</span>(pct_decrease[<span class="st">&#39;50%&#39;</span>]),
+                                                    <span class="kw">as.character</span>(fixefs[<span class="st">&#39;50%&#39;</span>])),
+            <span class="dt">ci_95 =</span> <span class="kw">c</span>(
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,estlow[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,estlow[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,esthigh[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,esthigh[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,pct_decrease[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,pct_decrease[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,fixefs[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,fixefs[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>)
+            ),
+            <span class="dt">ci_80 =</span> <span class="kw">c</span>(
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,estlow[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,estlow[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,esthigh[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,esthigh[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,pct_decrease[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,pct_decrease[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>),
+                <span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,fixefs[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,fixefs[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>)
+            ))
+        
+        if (model$family$family ==<span class="st"> &quot;hurdle_poisson&quot;</span>) {
+            fixefs2 =<span class="st"> </span><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">fixef</span>(model, <span class="dt">estimate =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">probs =</span> probs)[<span class="kw">paste0</span>(<span class="st">&quot;hu_&quot;</span>,pred_name),]), <span class="dv">2</span>)
+            estimates2 =<span class="st"> </span><span class="kw">data.frame</span>(
+                <span class="dt">effect =</span> <span class="kw">c</span>(<span class="st">&quot;OR hurdle&quot;</span>),
+                <span class="dt">median_estimate =</span> <span class="kw">as.character</span>(fixefs2[<span class="st">&#39;50%&#39;</span>]),
+                <span class="dt">ci_95 =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,fixefs2[<span class="st">&#39;2.5%&#39;</span>],<span class="st">&#39;;&#39;</span>,fixefs2[<span class="st">&#39;97.5%&#39;</span>],<span class="st">&#39;]&#39;</span>)),
+                <span class="dt">ci_80 =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&#39;[&#39;</span>,fixefs2[<span class="st">&#39;10%&#39;</span>],<span class="st">&#39;;&#39;</span>,fixefs2[<span class="st">&#39;90%&#39;</span>],<span class="st">&#39;]&#39;</span>)))
+            estimates =<span class="st"> </span><span class="kw">bind_rows</span>(estimates, estimates2)
+        }
+        estimates
+    } else {
+        <span class="st">&quot; &quot;</span>
+    }
+}</code></pre></div>
+</div>
+<div id="the-rendering-function-for-rmds-and-md" class="section level2">
+<h2>the rendering function for Rmds and md</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">    render_web =<span class="st"> </span>function(file, <span class="dt">auto_tab =</span> T, <span class="dt">include_top =</span> <span class="st">&quot;library/general_header.html&quot;</span>, <span class="dt">output_dir =</span> <span class="st">&quot;../paternal_age_fitness/&quot;</span>) {
+    title =<span class="st"> </span><span class="kw">human_readable_filename</span>(file)
+    pops =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;krmh&quot;</span>,<span class="st">&quot;ddb&quot;</span>,<span class="st">&quot;rpqa&quot;</span>,<span class="st">&quot;swed&quot;</span>)
+    pops =<span class="st"> </span>pops[file %contains%<span class="st"> </span>pops]
+
+    if(<span class="kw">length</span>(pops) ==<span class="st"> </span><span class="dv">1</span>) include_top =<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;library/&quot;</span>,pops,<span class="st">&quot;_header.html&quot;</span>)
+    pandoc_args =<span class="st"> </span><span class="kw">list</span>(<span class="kw">paste0</span>(<span class="st">&quot;--metadata=title:</span><span class="ch">\&quot;</span><span class="st">&quot;</span>,title,<span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">&quot;</span>))
+    if(auto_tab) pandoc_args[[<span class="dv">2</span>]] =<span class="st"> &quot;--metadata=autotab:1&quot;</span>
+    output_format =<span class="st"> </span><span class="kw">html_document</span>(
+        <span class="dt">self_contained =</span> <span class="ot">FALSE</span>,
+        <span class="dt">template =</span>  <span class="st">&quot;../paternal_age_fitness/library/website_theme.html&quot;</span>,
+        <span class="dt">lib_dir =</span> <span class="kw">paste0</span>(output_dir, <span class="st">&quot;library/&quot;</span>),
+        <span class="dt">mathjax =</span> <span class="ot">NULL</span>,
+        <span class="dt">keep_md =</span> <span class="ot">TRUE</span>,
+        <span class="dt">includes =</span> <span class="kw">includes</span>(<span class="dt">before_body =</span> include_top),
+        <span class="dt">pandoc_args =</span> pandoc_args,
+        <span class="dt">theme =</span> <span class="st">&quot;paper&quot;</span>
+    )
+    output_format$knitr$opts_chunk$error =<span class="st"> </span><span class="ot">TRUE</span>
+
+    <span class="kw">render</span>(<span class="dt">input =</span> file,
+                 <span class="dt">output_format =</span> output_format,
+                 <span class="dt">envir =</span> <span class="kw">new.env</span>(),
+                 <span class="dt">output_dir =</span> output_dir
+    )
+}</code></pre></div>
+</div>
+<div id="plot-two-credibility-levels-for-brms-marginal-effect-plots" class="section level2">
+<h2>Plot two credibility levels for brms marginal effect plots</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot.brmsMarginalEffects_shades &lt;-<span class="st"> </span>function(x, y, <span class="dt">ncol =</span> <span class="ot">NULL</span>, <span class="dt">points =</span> <span class="ot">FALSE</span>,
+                                                                         <span class="dt">rug =</span> <span class="ot">FALSE</span>, <span class="dt">theme =</span> ggplot2::<span class="kw">theme</span>(),
+                                                                         <span class="dt">ask =</span> <span class="ot">TRUE</span>, <span class="dt">do_plot =</span> <span class="ot">TRUE</span>, ...) {
+    for(i in <span class="kw">seq_along</span>(x)) {
+        old_attr =<span class="st"> </span><span class="kw">attributes</span>(x[[i]])
+        x[[i]] =<span class="st"> </span>x[[i]] %&gt;%<span class="st"> </span>dplyr::<span class="kw">bind_cols</span>(y[[i]]  %&gt;%<span class="st"> </span>dplyr::<span class="kw">select</span>(lowerCI, upperCI) %&gt;%<span class="st"> </span>dplyr::<span class="kw">rename</span>(<span class="dt">lowerCI80 =</span> lowerCI, <span class="dt">upperCI80 =</span> upperCI))
+        new_col_names =<span class="st"> </span><span class="kw">attributes</span>(x[[i]])$names
+        <span class="kw">attributes</span>(x[[i]]) =<span class="st"> </span>old_attr
+        <span class="kw">attributes</span>(x[[i]])$names =<span class="st"> </span>new_col_names
+    }
+    if(<span class="st">&quot;paternalage&quot;</span> %in%<span class="st"> </span><span class="kw">names</span>(x)) {
+        order_x =<span class="st"> </span><span class="kw">names</span>(x)
+        order_x =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;paternalage&quot;</span>, order_x[order_x !=<span class="st"> &quot;paternalage&quot;</span>])
+        x =<span class="st"> </span>x[order_x]
+    }
+
+    <span class="co"># Compute marginal effects plots using ggplot2</span>
+    <span class="co"># Returns:</span>
+    <span class="co">#   A list of ggplot objects</span>
+    if (do_plot) {
+        default_ask &lt;-<span class="st"> </span><span class="kw">devAskNewPage</span>()
+        <span class="kw">on.exit</span>(<span class="kw">devAskNewPage</span>(default_ask))
+        <span class="kw">devAskNewPage</span>(<span class="dt">ask =</span> <span class="ot">FALSE</span>)
+    }
+    plots &lt;-<span class="st"> </span><span class="kw">setNames</span>(<span class="kw">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="kw">length</span>(x)), <span class="kw">names</span>(x))
+    for (i in <span class="kw">seq_along</span>(x)) {
+        response &lt;-<span class="st"> </span><span class="kw">attributes</span>(x[[i]])$response
+        effects &lt;-<span class="st"> </span><span class="kw">attributes</span>(x[[i]])$effects
+        plots[[i]] &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> x[[i]]) +
+<span class="st">            </span><span class="kw">aes_string</span>(<span class="dt">x =</span> effects, <span class="dt">y =</span> <span class="st">&quot;Estimate&quot;</span>, <span class="dt">ymin =</span> <span class="st">&quot;lowerCI&quot;</span>,
+                                 <span class="dt">ymax =</span> <span class="st">&quot;upperCI&quot;</span>) +<span class="st"> </span><span class="kw">ylab</span>(response) +<span class="st"> </span>theme
+        nCond &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(x[[i]]$MargCond))
+        if (nCond &gt;<span class="st"> </span><span class="dv">1</span>) {
+            <span class="co"># one plot per row of marginal_data</span>
+            if (<span class="kw">is.null</span>(ncol)) ncol &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">floor</span>(<span class="kw">sqrt</span>(nCond)), <span class="dv">3</span>)
+            plots[[i]] &lt;-<span class="st"> </span>plots[[i]] +
+<span class="st">                </span><span class="kw">facet_wrap</span>(<span class="st">&quot;MargCond&quot;</span>, <span class="dt">ncol =</span> ncol)
+        }
+        if (<span class="kw">length</span>(effects) ==<span class="st"> </span><span class="dv">2</span>) {
+            <span class="co"># differentiate by colour in case of interaction effects</span>
+            plots[[i]] &lt;-<span class="st"> </span>plots[[i]] +
+<span class="st">                </span><span class="kw">aes_string</span>(<span class="dt">colour =</span> effects[<span class="dv">2</span>], <span class="dt">fill =</span> effects[<span class="dv">2</span>])
+        }
+        if (<span class="kw">is.numeric</span>(x[[i]][, effects[<span class="dv">1</span>]])) {
+            <span class="co"># smooth plots for numeric predictors</span>
+            plots[[i]] &lt;-<span class="st"> </span>plots[[i]] +
+<span class="st">                </span><span class="kw">geom_ribbon</span>(<span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">color =</span> <span class="ot">NA</span>) +
+<span class="st">                </span><span class="kw">geom_ribbon</span>(<span class="kw">aes_string</span>(<span class="dt">ymin =</span> <span class="st">&quot;lowerCI80&quot;</span>, <span class="dt">ymax =</span> <span class="st">&quot;upperCI80&quot;</span>), <span class="dt">alpha =</span> <span class="fl">0.2</span>, <span class="dt">color =</span> <span class="ot">NA</span>) +
+<span class="st">                </span><span class="kw">geom_line</span>()
+            if (rug) {
+                plots[[i]] &lt;-<span class="st"> </span>plots[[i]] +
+<span class="st">                    </span><span class="kw">geom_rug</span>(<span class="kw">aes_string</span>(<span class="dt">x =</span> effects[<span class="dv">1</span>]), <span class="dt">sides =</span> <span class="st">&quot;b&quot;</span>,
+                                     <span class="dt">data =</span> <span class="kw">attr</span>(x[[i]], <span class="st">&quot;points&quot;</span>), <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>)
+            }
+        } else {
+            <span class="co"># points and errorbars for factors</span>
+            plots[[i]] &lt;-<span class="st"> </span>plots[[i]] +
+<span class="st">                </span><span class="kw">geom_linerange</span>(<span class="kw">aes_string</span>(<span class="dt">ymin =</span> <span class="st">&quot;lowerCI80&quot;</span>, <span class="dt">ymax =</span> <span class="st">&quot;upperCI80&quot;</span>), <span class="dt">size =</span> <span class="fl">1.7</span>,
+                                             <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>)) +
+<span class="st">                </span><span class="kw">geom_linerange</span>(<span class="kw">aes_string</span>(<span class="dt">ymin =</span> <span class="st">&quot;lowerCI&quot;</span>, <span class="dt">ymax =</span> <span class="st">&quot;upperCI&quot;</span>), <span class="dt">size =</span> <span class="fl">0.7</span>,
+                                             <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>)) +
+<span class="st">                </span><span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>),
+                                     <span class="dt">size =</span> <span class="dv">4</span> /<span class="st"> </span>nCond^<span class="fl">0.25</span>)
+        }
+        if (points) {
+            <span class="co"># show the data as points in the plot</span>
+            plots[[i]] &lt;-<span class="st"> </span>plots[[i]] +
+<span class="st">                </span><span class="kw">geom_point</span>(<span class="kw">aes_string</span>(<span class="dt">x =</span> effects[<span class="dv">1</span>], <span class="dt">y =</span> <span class="st">&quot;.RESP&quot;</span>), <span class="dt">shape =</span> <span class="dv">1</span>,
+                                     <span class="dt">size =</span> <span class="dv">4</span> /<span class="st"> </span>nCond^<span class="fl">0.25</span>, <span class="dt">data =</span> <span class="kw">attr</span>(x[[i]], <span class="st">&quot;points&quot;</span>),
+                                     <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>)
+        }
+        if (do_plot) {
+            <span class="kw">plot</span>(plots[[i]])
+            if (i ==<span class="st"> </span><span class="dv">1</span>) <span class="kw">devAskNewPage</span>(<span class="dt">ask =</span> ask)
+        }
+    }
+    <span class="kw">invisible</span>(plots)
+}</code></pre></div>
+</div>
+<div id="get-the-path-to-the-model-file-fitted-on-the-cluster" class="section level2">
+<h2>Get the path to the model-file fitted on the cluster</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_coefficient_path =<span class="st"> </span>function(file, population) {
+    <span class="kw">paste0</span>(<span class="st">&quot;coefs/&quot;</span>, population, <span class="st">&quot;/&quot;</span>, file, <span class="st">&quot;.rds&quot;</span>)
+} </code></pre></div>
+</div>
+<div id="echo-knit-child-documents-as-asis_output" class="section level2">
+<h2>Echo knit child documents as asis_output</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">asis_knit_child =<span class="st"> </span>function(file) {
+    <span class="kw">asis_output</span>(<span class="kw">knit_child</span>(file, <span class="dt">quiet =</span> T))
+}</code></pre></div>
+</div>
+<div id="summarise-a-brms-model-using-a-knitr-child-document" class="section level2">
+<h2>Summarise a brms model using a knitr-child document</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summarise_model =<span class="st"> </span>function() {
+    <span class="kw">asis_knit_child</span>(<span class="st">&#39;0__model_summary.Rmd&#39;</span>)
+}</code></pre></div>
+</div>
+<div id="get-effect-of-10y-paternal-age-increase-as-pctage-change" class="section level2">
+<h2>get effect of 10y paternal age increase as pctage change</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_10y_effect =<span class="st"> </span>function(model_name, population) {
+    <span class="kw">paternal_age_10y_effect</span>(<span class="kw">readRDS</span>(<span class="kw">get_coefficient_path</span>(model_name, population)))[<span class="dv">3</span>,]
+}</code></pre></div>
+</div>
+<div id="comparison-plot" class="section level2">
+<h2>Comparison plot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">comp_plot =<span class="st"> </span>function(model_name) {
+    <span class="kw">bind_rows</span>(
+        <span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> </span><span class="kw">get_10y_effect</span>(model_name, <span class="st">&quot;krmh&quot;</span>),
+        <span class="st">&quot;Québec&quot;</span> =<span class="st"> </span><span class="kw">get_10y_effect</span>(model_name, <span class="st">&quot;rpqa&quot;</span>),
+        <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_10y_effect</span>(model_name, <span class="st">&quot;swed&quot;</span>),
+        <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_10y_effect</span>(model_name, <span class="st">&quot;ddb&quot;</span>),
+        <span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
+    ) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(
+        <span class="dt">median_estimate =</span> <span class="kw">as.numeric</span>(median_estimate),
+        <span class="dt">lower95 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_match</span>(ci_95, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>]),
+        <span class="dt">upper95 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_match</span>(ci_95, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>]),
+        <span class="dt">lower80 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_match</span>(ci_80, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>]),
+        <span class="dt">upper80 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_match</span>(ci_80, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
+    ) -&gt;<span class="st"> </span>ests
+    <span class="kw">print</span>(  <span class="kw">ggplot</span>(ests, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(Population), <span class="dt">y =</span> median_estimate, <span class="dt">ymin =</span> lower95, <span class="dt">ymax =</span> upper95)) +<span class="st"> </span>
+<span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">        </span><span class="kw">geom_linerange</span>(<span class="dt">size =</span> <span class="fl">0.7</span>) +
+<span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> lower80, <span class="dt">ymax =</span> upper80), <span class="dt">size =</span> <span class="fl">1.7</span>) +
+<span class="st">        </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Population&quot;</span>) +
+<span class="st">        </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Paternal age effect within family&quot;</span>) +
+<span class="st">        </span><span class="kw">coord_flip</span>()
+    )
+    ests %&gt;%<span class="st"> </span><span class="kw">select</span>(Population, median_estimate, ci_95, ci_80)
+}</code></pre></div>
 </div>
 </div>
 

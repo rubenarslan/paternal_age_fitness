@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Compare Selective Episodes</title>
+
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div id="comparing-paternal-age-effects-in-our-selective-episode-models" class="section level1 tab-content">
+<h1>Comparing paternal age effects in our selective episode models</h1>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>), <span class="dt">fig.width=</span><span class="fl">17.8</span>,<span class="dt">fig.height =</span> <span class="fl">17.8</span>*<span class="fl">0.625</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
+ 
+get_paternalage_effect =<span class="st"> </span>function(model, population, <span class="dt">var =</span> <span class="st">&quot;paternalage&quot;</span>) {
+    brms::<span class="kw">marginal_effects</span>(<span class="kw">readRDS</span>(<span class="kw">get_coefficient_path</span>(model, population)), var)
+}</code></pre></div>
+</div>
+<div id="e1_survive1y" class="section level2 tab-content">
+<h2><em>e1</em>: Survival to first year</h2>
+<p>Here, we predict the probability that the anchor survives the first year of life. All children born to this father are compared, if their death date is known or their survival can be inferred (from later marriage or children).</p>
+<div id="marginal-effect-plot" class="section level3">
+<h3>Marginal effect plot</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">episode =<span class="st"> &quot;e1_survive1y&quot;</span>
+e1 =<span class="st"> </span><span class="kw">bind_rows</span>(
+    <span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;krmh&quot;</span>),
+    <span class="st">&quot;Québec&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;rpqa&quot;</span>),
+    <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;swed&quot;</span>),
+    <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;ddb&quot;</span>),
+<span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
+) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+
+e1_plot =<span class="st"> </span><span class="kw">ggplot</span>(e1,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episode - e1&quot;</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Probability of survival to first year&quot;</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))  +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Paternal age&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>)) +<span class="st"> </span>
+<span class="st">    </span>analysis_theme +
+<span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
+e1_plot</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-109-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="effect-size-comparison" class="section level3">
+<h3>Effect size comparison</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(episode)</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-110-1.png" width="1440px" height="900px" /></p>
+<pre><code>##            Population median_estimate         ci_95         ci_80
+## 1           Krummhörn           -2.15 [-5.35;-0.21] [-4.03;-0.82]
+## 2              Québec           -1.03 [-1.51;-0.67] [-1.32;-0.78]
+## 3 20th-century Sweden           -0.05 [-0.06;-0.03] [-0.06;-0.03]
+## 4   Historical Sweden           -1.82 [-3.14;-1.08] [-2.63;-1.28]</code></pre>
+</div>
+</div>
+<div id="e2_surviveR" class="section level2 tab-content">
+<h2><em>e2</em>: Probability of surviving the first 15 years of life</h2>
+<p>Here, we predict the probability that the anchor survives the first fifteen of life. All children born to this father who lived at least one year are compared, if their death date is known or their survival can be inferred (from later marriage or children).</p>
+<div id="marginal-effect-plot-1" class="section level3">
+<h3>Marginal effect plot</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">episode =<span class="st"> &quot;e2_surviveR&quot;</span>
+e2 =<span class="st"> </span><span class="kw">bind_rows</span>(
+    <span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;krmh&quot;</span>),
+    <span class="st">&quot;Québec&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;rpqa&quot;</span>),
+    <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;swed&quot;</span>),
+    <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;ddb&quot;</span>),
+<span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
+) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+
+e2_plot =<span class="st"> </span><span class="kw">ggplot</span>(e2,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episode - e2&quot;</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Probability of surviving to age 15&quot;</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))  +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Paternal age&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>)) +<span class="st"> </span>
+<span class="st">    </span>analysis_theme +
+<span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
+e2_plot</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-111-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="effect-size-comparison-1" class="section level3">
+<h3>Effect size comparison</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(episode)</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-112-1.png" width="1440px" height="900px" /></p>
+<pre><code>##            Population median_estimate        ci_95        ci_80
+## 1           Krummhörn            0.06 [-2.69;2.73] [-1.73;1.75]
+## 2              Québec            0.09 [-0.17;0.36] [-0.07;0.26]
+## 3 20th-century Sweden            0.00 [-0.02;0.01] [-0.01;0.01]
+## 4   Historical Sweden           -0.16 [-0.68;0.27] [-0.47;0.12]</code></pre>
+</div>
+</div>
+<div id="e3_ever_married" class="section level2 tab-content">
+<h2><em>e3</em>: Probability of ever marrying</h2>
+<p>Here, we predict the probability that the anchor ever marries. All anchors who reached reproductive age (15) are included.</p>
+<div id="marginal-effect-plot-2" class="section level3">
+<h3>Marginal effect plot</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">episode =<span class="st"> &quot;e3_ever_married&quot;</span>
+e3 =<span class="st"> </span><span class="kw">bind_rows</span>(
+    <span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;krmh&quot;</span>),
+    <span class="st">&quot;Québec&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;rpqa&quot;</span>),
+    <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;swed&quot;</span>),
+    <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;ddb&quot;</span>),
+<span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
+) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+
+e3_plot =<span class="st"> </span><span class="kw">ggplot</span>(e3,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episode - e3&quot;</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Probability of ever marrying&quot;</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))  +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Paternal age&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>)) +<span class="st"> </span>
+<span class="st">    </span>analysis_theme +
+<span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
+e3_plot</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-113-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="effect-size-comparison-2" class="section level3">
+<h3>Effect size comparison</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(episode)</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-114-1.png" width="1440px" height="900px" /></p>
+<pre><code>##            Population median_estimate         ci_95          ci_80
+## 1           Krummhörn           -5.19 [-14.79;2.01] [-11.08;-0.37]
+## 2              Québec           -0.02  [-0.83;0.74]   [-0.55;0.46]
+## 3 20th-century Sweden            0.84   [0.63;1.04]     [0.7;0.97]
+## 4   Historical Sweden            7.94  [4.47;12.38]   [5.48;10.83]</code></pre>
+</div>
+</div>
+<div id="e4_children" class="section level2 tab-content">
+<h2><em>e4</em>: Number of children</h2>
+<p>Here, we predict the number of children that the anchor had. To separate this effect from previous selective episodes, we include only ever-married anchors and control for their number of spouses (interacted with sex, because men tend to have more additional children from further spouses).</p>
+<div id="marginal-effect-plot-3" class="section level3">
+<h3>Marginal effect plot</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">episode =<span class="st"> &quot;e4_children&quot;</span>
+e4 =<span class="st"> </span><span class="kw">bind_rows</span>(
+    <span class="st">&quot;Krummhörn&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;krmh&quot;</span>),
+    <span class="st">&quot;Québec&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;rpqa&quot;</span>),
+    <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;swed&quot;</span>),
+    <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;ddb&quot;</span>),
+<span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
+) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+
+e4_plot =<span class="st"> </span><span class="kw">ggplot</span>(e4,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Selective episode - e4&quot;</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Probability of surviving to age 15&quot;</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="ot">NA</span>))  +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Paternal age&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>)) +<span class="st"> </span>
+<span class="st">    </span>analysis_theme +
+<span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),
+                <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
+e4_plot</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-115-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="effect-size-comparison-3" class="section level3">
+<h3>Effect size comparison</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(episode)</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-116-1.png" width="1440px" height="900px" /></p>
+<pre><code>##            Population median_estimate         ci_95         ci_80
+## 1           Krummhörn           15.62  [3.92;29.31]  [7.67;24.68]
+## 2              Québec            0.94  [-1.32;3.23]   [-0.5;2.47]
+## 3 20th-century Sweden           -3.69 [-4.54;-2.84] [-4.23;-3.13]
+## 4   Historical Sweden           -5.36 [-8.92;-1.59] [-7.71;-2.96]</code></pre>
+</div>
+</div>
+<div id="all-episodes" class="section level2">
+<h2>All episodes</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filenames =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;m3_children_linear.rds&quot;</span>,<span class="st">&quot;m3_children_linear.rds&quot;</span>,<span class="st">&quot;m3_children_linear.rds&quot;</span>,<span class="st">&quot;m3_children_linear.rds&quot;</span>, 
+        <span class="kw">list.files</span>(<span class="st">&quot;coefs&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">&quot;^e._.+rds$&quot;</span>, <span class="dt">recursive =</span> T))
+paths =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;coefs/krmh/m3_children_linear.rds&quot;</span>, 
+                    <span class="st">&quot;coefs/rpqa/m3_children_linear.rds&quot;</span>, 
+                    <span class="st">&quot;coefs/ddb/m3_children_linear.rds&quot;</span>, 
+                    <span class="st">&quot;coefs/swed/m3_children_linear.rds&quot;</span>, 
+                    <span class="kw">list.files</span>(<span class="st">&quot;coefs&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">&quot;^e._.+rds$&quot;</span>, <span class="dt">recursive =</span> T))
+
+i=<span class="dv">1</span>
+effect_estimates =<span class="st"> </span><span class="kw">data.frame</span>()
+models =<span class="st"> </span><span class="kw">list</span>()
+for (i in <span class="kw">seq_along</span>(paths)) {
+    filename =<span class="st"> </span>filenames[i]
+    model =<span class="st"> </span><span class="kw">readRDS</span>(paths[i])
+    if (<span class="kw">class</span>(model) ==<span class="st"> &quot;brmsfit&quot;</span>) {
+        models[[filename]] =<span class="st"> </span>model
+        chg =<span class="st"> </span><span class="kw">paternal_age_10y_effect</span>(model)[<span class="dv">3</span>,]
+        chg$model =<span class="st"> </span>filename
+        chg$population =<span class="st"> </span><span class="kw">str_match</span>(paths[i], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">w+/(</span><span class="ch">\\</span><span class="st">w+)/&quot;</span>)[,<span class="dv">2</span>]
+        effect_estimates =<span class="st"> </span><span class="kw">rbind</span>(chg, effect_estimates)
+    }
+}
+effect_estimates$median_estimate =<span class="st"> </span><span class="kw">as.numeric</span>(effect_estimates$median_estimate)
+effect_estimates =<span class="st"> </span>effect_estimates %&gt;%<span class="st"> </span><span class="kw">arrange</span>(episode)</code></pre></div>
+<pre><code>## Error: incorrect size (1), expecting : 21</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">effect_estimates$episode =<span class="st"> </span><span class="kw">str_match</span>(effect_estimates$model, <span class="st">&quot;([em]</span><span class="ch">\\</span><span class="st">d)_&quot;</span>)[,<span class="dv">2</span>]
+effect_estimates$lower95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
+effect_estimates$upper95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
+effect_estimates$lower80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
+effect_estimates$upper80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
+
+pops =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;krmh&quot;</span>=<span class="st">&#39;Krummhörn&#39;</span>, <span class="st">&quot;rpqa&quot;</span> =<span class="st"> &#39;Québec&#39;</span>, <span class="st">&quot;ddb&quot;</span> =<span class="st"> &#39;Historical Sweden&#39;</span>, <span class="st">&quot;swed&quot;</span> =<span class="st"> &#39;20th-century Sweden&#39;</span>)
+eps =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;m3&quot;</span>=<span class="st">&#39;0. Number of children (all)&#39;</span>, <span class="st">&quot;e1&quot;</span> =<span class="st"> &#39;1. Infant survival&#39;</span>, <span class="st">&quot;e2&quot;</span> =<span class="st"> &#39;2. Survival to 15&#39;</span>, <span class="st">&quot;e3&quot;</span> =<span class="st"> &#39;3. Ever married&#39;</span>, <span class="st">&quot;e4&quot;</span> =<span class="st"> &quot;4. Number of children&quot;</span>)
+effect_estimates$Population =<span class="st"> </span>pops[effect_estimates$population]
+effect_estimates$Population =<span class="st"> </span><span class="kw">factor</span>(effect_estimates$Population, <span class="dt">levels =</span> pops)
+effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(eps[effect_estimates$episode])
+effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(effect_estimates$episode, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">levels</span>(effect_estimates$episode)))
+
+episode_comparison =<span class="st"> </span><span class="kw">ggplot</span>(effect_estimates %&gt;%<span class="st"> </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(episode)), <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(episode), <span class="dt">y =</span> median_estimate, <span class="dt">ymin =</span> lower95, <span class="dt">ymax =</span> upper95, <span class="dt">color =</span> Population)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> lower80, <span class="dt">ymax =</span> upper80), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>)) +
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) +
+<span class="st">    </span>pop_colour +
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Paternal age effect within family&quot;</span>) +
+<span class="st">    </span><span class="kw">coord_flip</span>()    +<span class="st"> </span>
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+    <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))
+episode_comparison</code></pre></div>
+<p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-117-1.png" width="1440px" height="900px" /></p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

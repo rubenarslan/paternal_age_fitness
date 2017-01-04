@@ -12,33 +12,52 @@
 
 <title> Make</title>
 
-<script src="library/jquery-1.11.0/jquery.min.js"></script>
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="library/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet" />
-<script src="library/bootstrap-3.3.1/js/bootstrap.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/html5shiv.min.js"></script>
-<script src="library/bootstrap-3.3.1/shim/respond.min.js"></script>
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -84,63 +103,39 @@ img {
 
 <div id="make" class="section level1">
 <h1>Make</h1>
-<p>load rmarkdown and knitr</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rmarkdown); <span class="kw">library</span>(knitr); <span class="kw">library</span>(formr)</code></pre>
 <p>load helpers</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)</code></pre>
-<p>the rendering function for Rmds and md</p>
-<pre class="sourceCode r"><code class="sourceCode r">render_web =<span class="st"> </span>function(file, <span class="dt">auto_tab =</span> T, <span class="dt">include_top =</span> <span class="st">&quot;library/general_header.html&quot;</span>) { 
-    <span class="kw">library</span>(stringr); <span class="kw">library</span>(rmarkdown); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(stringi)
-    file %&gt;%<span class="st"> </span>
-<span class="st">        </span><span class="kw">human_readable_filename</span>() -&gt;<span class="st"> </span>
-<span class="st">        </span>title
-    pops =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;krmh&quot;</span>,<span class="st">&quot;ddb&quot;</span>,<span class="st">&quot;rpqa&quot;</span>,<span class="st">&quot;swed&quot;</span>)
-    pops =<span class="st"> </span>pops[file %contains%<span class="st"> </span>pops]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
 
-    if(<span class="kw">length</span>(pops) ==<span class="st"> </span><span class="dv">1</span>) include_top =<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;library/&quot;</span>,pops,<span class="st">&quot;_header.html&quot;</span>)
-    pandoc_args =<span class="st"> </span><span class="kw">list</span>(<span class="kw">paste0</span>(<span class="st">&quot;--metadata=title:</span><span class="ch">\&quot;</span><span class="st">&quot;</span>,title,<span class="st">&quot;</span><span class="ch">\&quot;</span><span class="st">&quot;</span>))
-    if(auto_tab) pandoc_args[[<span class="dv">2</span>]] =<span class="st"> &quot;--metadata=autotab:1&quot;</span>
-    output_format =<span class="st"> </span><span class="kw">html_document</span>(
-        <span class="dt">self_contained =</span> F,
-        <span class="dt">template =</span> <span class="st">&quot;../paternal_age_genealogies_pages/library/website_theme.html&quot;</span>,
-        <span class="dt">lib_dir=</span><span class="st">&quot;../paternal_age_genealogies_pages/library/&quot;</span>,
-        <span class="dt">mathjax =</span> <span class="ot">NULL</span>,
-        <span class="dt">keep_md =</span> T,
-        <span class="dt">includes =</span> <span class="kw">includes</span>(<span class="dt">before_body =</span> include_top),
-        <span class="dt">pandoc_args =</span> pandoc_args
-    )
-    output_format$knitr$opts_chunk$error =<span class="st"> </span><span class="ot">TRUE</span>
-    
-    <span class="kw">render</span>(<span class="dt">input =</span> file, 
-        <span class="dt">output_format =</span> output_format, 
-        <span class="dt">envir =</span> <span class="kw">new.env</span>(), 
-        <span class="dt">output_dir =</span> <span class="st">&quot;../paternal_age_genealogies_pages/&quot;</span>
-    )
-}</code></pre>
+<span class="kw">render_web</span>(<span class="st">&quot;index.Rmd&quot;</span>, <span class="dt">include_top =</span> <span class="ot">NULL</span>)</code></pre></div>
 <div id="spin-all-r-scripts" class="section level3">
 <h3>spin all R scripts</h3>
 <p>since all R scripts are either source files or meant for the cluster we just want to document R scripts</p>
-<pre class="sourceCode r"><code class="sourceCode r">just_document =<span class="st"> </span>all_Rs =<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.R$&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">just_document =<span class="st"> </span>all_Rs =<span class="st"> </span><span class="kw">c</span>(<span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.R$&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>), <span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;cluster&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.R$&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>))
 for(i in <span class="kw">seq_along</span>(all_Rs)) {
-    just_document[i] =<span class="st"> </span><span class="kw">spin</span>(all_Rs[i],<span class="dt">knit=</span>F,<span class="dt">envir =</span> <span class="kw">new.env</span>(), <span class="dt">format =</span> <span class="st">&quot;Rmd&quot;</span>)
-}</code></pre>
+    just_document[i] =<span class="st"> </span><span class="kw">spin</span>(all_Rs[i],<span class="dt">knit=</span><span class="ot">FALSE</span>,<span class="dt">envir =</span> <span class="kw">new.env</span>(), <span class="dt">format =</span> <span class="st">&quot;Rmd&quot;</span>, )
+}</code></pre></div>
 <p>after spinning into Rmds, render them, but don’t evaluate code</p>
-<pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">eval=</span>F, <span class="dt">cache=</span>F)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">eval=</span><span class="ot">FALSE</span>, <span class="dt">cache=</span><span class="ot">FALSE</span>)
 for(i in <span class="kw">seq_along</span>(just_document)) {
+    if (<span class="kw">dirname</span>(just_document[i]) ==<span class="st"> &quot;cluster&quot;</span>) {
+        <span class="kw">file.rename</span>(just_document[i], <span class="kw">basename</span>(just_document[i]))
+        just_document[i] =<span class="st"> </span><span class="kw">basename</span>(just_document[i])
+    }
     <span class="kw">render_web</span>(just_document[i], <span class="dt">auto_tab =</span> <span class="ot">FALSE</span>)
-}</code></pre>
+}</code></pre></div>
 <p>remove the temporary Rmd files left over from spinning</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unlink</span>(just_document)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unlink</span>(just_document)</code></pre></div>
 <p>now render the md files. these are usually from scripts I had to run on the cluster for memory reasons</p>
-<pre class="sourceCode r"><code class="sourceCode r">all_mds =<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.md$&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">all_mds =<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.md$&quot;</span>)
 for(i in <span class="kw">seq_along</span>(all_mds)) {
     <span class="kw">render_web</span>(all_mds[i])
-}</code></pre>
+}</code></pre></div>
 <p>all other scripts should be evaluated</p>
-<pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">eval=</span>T, <span class="dt">cache =</span> T)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">eval=</span><span class="ot">TRUE</span>, <span class="dt">cache =</span> <span class="ot">TRUE</span>)
 
 <span class="kw">library</span>(stringr)
 done =<span class="st"> </span><span class="kw">str_sub</span>(all_mds,<span class="dv">1</span>, -<span class="dv">4</span>)
+
 all_rmds =<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;.Rmd$&quot;</span>)
 todo =<span class="st"> </span><span class="kw">str_sub</span>(all_rmds, <span class="dv">1</span>, -<span class="dv">5</span>)
 rmds_left =<span class="st"> </span>all_rmds[ !todo %in%<span class="st"> </span>done ]
@@ -150,7 +145,17 @@ for(i in <span class="kw">seq_along</span>(rmds_left)) {
     <span class="kw">render_web</span>(rmds_left[i])
 }
 
-<span class="kw">render_web</span>(<span class="st">&quot;index.Rmd&quot;</span>, <span class="dt">include_top =</span> <span class="ot">NULL</span>)</code></pre>
+<span class="kw">render_web</span>(<span class="st">&quot;2_krmh_selective_episodes.Rmd&quot;</span>)
+<span class="kw">render_web</span>(<span class="st">&quot;2_krmh_main_models.Rmd&quot;</span>)
+
+<span class="kw">render_web</span>(<span class="st">&quot;2_rpqa_selective_episodes.Rmd&quot;</span>)
+<span class="kw">render_web</span>(<span class="st">&quot;2_rpqa_main_models.Rmd&quot;</span>)
+
+<span class="kw">render_web</span>(<span class="st">&quot;2_ddb_selective_episodes.Rmd&quot;</span>)
+<span class="kw">render_web</span>(<span class="st">&quot;2_ddb_main_models.Rmd&quot;</span>)
+
+<span class="kw">render_web</span>(<span class="st">&quot;2_swed_selective_episodes.Rmd&quot;</span>)
+<span class="kw">render_web</span>(<span class="st">&quot;2_swed_main_models.Rmd&quot;</span>)</code></pre></div>
 </div>
 </div>
 

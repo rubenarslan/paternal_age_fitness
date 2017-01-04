@@ -76,7 +76,7 @@ $(document).ready(function() {
 	$("pre.sourceCode.r").each(function(i, $details ) {
 		$details = $($details);
 		
-		if($details.height() > 40) {
+		if($details.height() > 10) {
 	
 			if(typeof $details.attr('id') == "undefined") {
 				$details.attr('id', "rcode_chunk_"+i);
@@ -106,14 +106,20 @@ $(document).ready(function() {
 	});
 	$(".tab-content").each(function(i, $tab_parent ) {
 		$tab_parent = $($tab_parent);
+		var low_level;
+		if($tab_parent.hasClass("level1")) low_level = 2;
+		else if($tab_parent.hasClass("level2")) low_level = 3;
+		else if($tab_parent.hasClass("level3")) low_level = 4;
+		else if($tab_parent.hasClass("level4")) low_level = 5;
+		else if($tab_parent.hasClass("level5")) low_level = 6;
 
-		$tab_parent.find(".section.level2").addClass("tab-pane");
+		$tab_parent.find(".section.level" + low_level).addClass("tab-pane");
 		var ids = [];
 		var texts = [];
         var active = null;
-		$tab_parent.find('.section.level2').each(function(i, elm) {
+		$tab_parent.find('.section.level' + low_level).each(function(i, elm) {
 			ids.push($(elm).attr("id"))
-			texts.push($($(elm).find("h2")[0]).text());
+			texts.push($($(elm).find("h" + low_level)[0]).text());
 			if($(elm).hasClass("active")) {
 				active = i;
 			}
@@ -123,11 +129,11 @@ $(document).ready(function() {
 			for(var i = 0; i < ids.length; i++) {
 				nav_tabs.append($('<li role="presentation"><a href="#' + ids[i] + '" role="tab" data-toggle="tab">'+texts[i]+'</a></li>'));
 			}
-			$($tab_parent.find(".section.level2")[active]).addClass("active");
+			$($tab_parent.find(".section.level" + low_level)[active]).addClass("active");
 			$(nav_tabs.find("li")[active]).addClass("active");
 			
-		if($(".js_auto_tabs").length == 0) {
-			nav_tabs.insertBefore($tab_parent.find('.section.level2')[0]);
+		if($tab_parent.find(".js_auto_tabs").length == 0) {
+			nav_tabs.insertBefore($tab_parent.find('.section.level' + low_level)[0]);
 		}
 	});
 	

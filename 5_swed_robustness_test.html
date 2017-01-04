@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Modern Sweden Robustness Test</title>
+
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div style="width:100%;height:200px;background-image:url('library/header/swed.jpg');background-size:cover;"></div>
+<div class="container-fluid main-container"><div class="row"><div class="col-md-4"><a href="index.html"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div></div></div>
+
+<div class="container-fluid main-container">
+
+
+<div id="th-century-sweden-robustness-analyses" class="section level1 tab-content">
+<h1>20th century Sweden robustness analyses</h1>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">TRUE</span>, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">20</span>,<span class="dt">fig.height=</span><span class="fl">12.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>,<span class="dt">cache.extra=</span><span class="kw">file.info</span>(<span class="st">&#39;swed1.rdata&#39;</span>)[, <span class="st">&#39;mtime&#39;</span>])
+
+make_path =<span class="st"> </span>function(file) {
+    <span class="kw">get_coefficient_path</span>(file, <span class="st">&quot;swed&quot;</span>)
+} 
+<span class="co"># options for each chunk calling knit_child</span>
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">message =</span> <span class="ot">FALSE</span>, <span class="dt">echo =</span> <span class="ot">FALSE</span>)</code></pre></div>
+</div>
+<div id="analysis-description" class="section level2">
+<h2>Analysis description</h2>
+<div id="data-subset" class="section level3">
+<h3>Data subset</h3>
+<p>The <code>swed_subset_children.1</code> dataset is based on the full dataset of all participants where paternal age is known and birth years are from 1947 to 1959. The subset contains 88707 randomly drawn participants from 56679 families.</p>
+</div>
+<div id="model-description" class="section level3">
+<h3>Model description</h3>
+<p>All of the following models are the same as our main model m3, except for the noted changes to test robustness.</p>
+</div>
+</div>
+<div id="r1-relaxed-exclusion-criteria" class="section level2 tab-content">
+<h2><em>r1</em>: Relaxed exclusion criteria</h2>
+<p>For the four historical populations, we imposed quite stringent exclusion criteria to ensure sufficient data quality for our intended analysis. As this was not necessary for the modern Swedish data, there are no exclusion criteria to relax.</p>
+</div>
+<div id="r2-fewer-covariates" class="section level2 tab-content">
+<h2><em>r2</em>: Fewer covariates</h2>
+<p>Adding covariates increases the complexity of the model and makes it harder to interpret. We chose to adjust for many potential confounds because we are interested in causal isolation of the paternal age effect. Here we show what happens when only birth cohort and anchor sex are adjusted for.</p>
+<div id="model-summary" class="section level3 tab-content">
+<h3>Model summary</h3>
+<div id="full-summary" class="section level4">
+<h4>Full summary</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_summary =<span class="st"> </span><span class="kw">summary</span>(model, <span class="dt">use_cache =</span> <span class="ot">FALSE</span>)
+<span class="kw">print</span>(model_summary)</code></pre></div>
+<pre><code>##  Family: poisson (log) 
+## Formula: children ~ paternalage.diff + birth_cohort + male + paternalage.mean + (1 | idParents) 
+##    Data: model_data (Number of observations: 88707) 
+## Samples: 6 chains, each with iter = 800; warmup = 300; thin = 1; 
+##          total post-warmup samples = 3000
+##    WAIC: Not computed
+##  
+## Group-Level Effects: 
+## ~idParents (Number of levels: 56679) 
+##               Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sd(Intercept)     0.01      0.01        0     0.03        247 1.01
+## 
+## Population-Level Effects: 
+##                       Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## Intercept                 0.65      0.01     0.64     0.66       3000    1
+## paternalage.diff         -0.04      0.01    -0.05    -0.02       3000    1
+## birth_cohort1950M1955     0.00      0.01    -0.01     0.01       3000    1
+## birth_cohort1955M1960    -0.01      0.01    -0.03     0.00       3000    1
+## male1                    -0.06      0.00    -0.07    -0.05       3000    1
+## paternalage.mean         -0.03      0.00    -0.04    -0.02       3000    1
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
+## is a crude measure of effective sample size, and Rhat is the potential 
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div id="table-of-fixed-effects" class="section level4">
+<h4>Table of fixed effects</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fixed_eff =<span class="st"> </span><span class="kw">data.frame</span>(model_summary$fixed, <span class="dt">check.names =</span> F)
+fixed_eff$Est.Error =<span class="st"> </span>fixed_eff$Eff.Sample =<span class="st"> </span>fixed_eff$Rhat =<span class="st"> </span><span class="ot">NULL</span>
+fixed_eff$OR =<span class="st"> </span><span class="kw">exp</span>(fixed_eff$Estimate)
+fixed_eff$OR_low =<span class="st"> </span><span class="kw">exp</span>(fixed_eff$<span class="st">`</span><span class="dt">l-95% CI</span><span class="st">`</span>)
+fixed_eff$OR_high =<span class="st"> </span><span class="kw">exp</span>(fixed_eff$<span class="st">`</span><span class="dt">u-95% CI</span><span class="st">`</span>)
+pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
+<table>
+<colgroup>
+<col width="32%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+<col width="8%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Estimate</th>
+<th align="center">l-95% CI</th>
+<th align="center">u-95% CI</th>
+<th align="center">OR</th>
+<th align="center">OR_low</th>
+<th align="center">OR_high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Intercept</strong></td>
+<td align="center">0.6519</td>
+<td align="center">0.6413</td>
+<td align="center">0.6623</td>
+<td align="center">1.919</td>
+<td align="center">1.899</td>
+<td align="center">1.939</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>paternalage.diff</strong></td>
+<td align="center">-0.03644</td>
+<td align="center">-0.05117</td>
+<td align="center">-0.02178</td>
+<td align="center">0.9642</td>
+<td align="center">0.9501</td>
+<td align="center">0.9785</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>birth_cohort1950M1955</strong></td>
+<td align="center">-0.0003772</td>
+<td align="center">-0.01225</td>
+<td align="center">0.01163</td>
+<td align="center">0.9996</td>
+<td align="center">0.9878</td>
+<td align="center">1.012</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>birth_cohort1955M1960</strong></td>
+<td align="center">-0.013</td>
+<td align="center">-0.02548</td>
+<td align="center">-7.683e-05</td>
+<td align="center">0.9871</td>
+<td align="center">0.9748</td>
+<td align="center">0.9999</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>male1</strong></td>
+<td align="center">-0.05733</td>
+<td align="center">-0.06702</td>
+<td align="center">-0.04722</td>
+<td align="center">0.9443</td>
+<td align="center">0.9352</td>
+<td align="center">0.9539</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>paternalage.mean</strong></td>
+<td align="center">-0.03028</td>
+<td align="center">-0.03846</td>
+<td align="center">-0.02188</td>
+<td align="center">0.9702</td>
+<td align="center">0.9623</td>
+<td align="center">0.9784</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="paternal-age-effect" class="section level3">
+<h3>Paternal age effect</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pander::<span class="kw">pander</span>(<span class="kw">paternal_age_10y_effect</span>(model))</code></pre></div>
+<table>
+<colgroup>
+<col width="40%" />
+<col width="24%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">effect</th>
+<th align="center">median_estimate</th>
+<th align="center">ci_95</th>
+<th align="center">ci_80</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">estimate father -5y</td>
+<td align="center">1.96</td>
+<td align="center">[1.93;1.98]</td>
+<td align="center">[1.94;1.97]</td>
+</tr>
+<tr class="even">
+<td align="center">estimate father +5y</td>
+<td align="center">1.89</td>
+<td align="center">[1.86;1.91]</td>
+<td align="center">[1.87;1.9]</td>
+</tr>
+<tr class="odd">
+<td align="center">percentage change</td>
+<td align="center">-3.6</td>
+<td align="center">[-5;-2.2]</td>
+<td align="center">[-4.5;-2.6]</td>
+</tr>
+<tr class="even">
+<td align="center">absolute change for reference individual</td>
+<td align="center">-0.07</td>
+<td align="center">[-0.1;-0.04]</td>
+<td align="center">[-0.09;-0.05]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="marginal-effect-plots" class="section level3">
+<h3>Marginal effect plots</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot.brmsMarginalEffects_shades</span>(
+    <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
+    <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
+    <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-8-1.png" width="1440px" height="900px" /><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-8-2.png" width="1440px" height="900px" /><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-8-3.png" width="1440px" height="900px" /><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-8-4.png" width="1440px" height="900px" /></p>
+</div>
+<div id="coefficient-plot" class="section level3">
+<h3>Coefficient plot</h3>
+<p>Coefficient estimates (95% and 80% credibility).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-9-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-9-2.png" width="1440px" height="900px" /></p>
+</div>
+<div id="diagnostics" class="section level3 tab-content">
+<h3>Diagnostics</h3>
+<p>These plots were made to diagnose misfit and nonconvergence.</p>
+<div id="posterior-predictive-checks" class="section level4">
+<h4>Posterior predictive checks</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-10-1.png" width="1440px" height="900px" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-10-2.png" width="1440px" height="900px" /></p>
+</div>
+<div id="rhat" class="section level4">
+<h4>Rhat</h4>
+<p>Did the 6 chains converge?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-11-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="effective-sample-size-by-average-sample-size" class="section level4">
+<h4>Effective sample size by average sample size</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-12-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="monte-carlo-se" class="section level4">
+<h4>Monte Carlo SE</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-13-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="trace-plots" class="section level4">
+<h4>Trace plots</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if(<span class="kw">any</span>( <span class="kw">summary</span>(model)$fixed[,<span class="st">&quot;Rhat&quot;</span>] &gt;<span class="st"> </span><span class="fl">1.1</span>)) { <span class="co"># only do traceplots if not converged</span>
+    <span class="kw">plot</span>(model, <span class="dt">N =</span> <span class="dv">3</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)
+}</code></pre></div>
+</div>
+<div id="further-plots" class="section level4">
+<h4>Further plots</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
+<p><img src="5_swed_robustness_test_files/figure-html/unnamed-chunk-15-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="file-name" class="section level4">
+<h4>File name</h4>
+<p>coefs/swed/r2_few_controls.rds</p>
+</div>
+<div id="cluster-script" class="section level4">
+<h4>Cluster script</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<span class="kw">basename</span>(model_filename), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.rds&quot;</span>,<span class="st">&quot;.html&quot;</span>)
+<span class="kw">cat</span>(<span class="st">&quot;[Cluster script](&quot;</span> , clusterscript, <span class="st">&quot;)&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<p><a href="r2_few_controls.html">Cluster script</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">results =</span> <span class="st">&quot;asis&quot;</span>, <span class="dt">echo =</span> <span class="ot">FALSE</span>)</code></pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>St Covs</title>
+
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(dplyr)
+
+<span class="kw">load</span>(<span class="st">&#39;ddb.rdata&#39;</span>)
+<span class="co"># qplot(ddb.1$nr.siblings, ddb.1$birthorder, geom = &quot;jitter&quot;)</span>
+ddb<span class="fl">.1</span> %&gt;%<span class="st"> </span><span class="kw">arrange</span>(idParents, byear) -&gt;<span class="st"> </span>ddb<span class="fl">.1</span>
+ddb<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">transform</span>(ddb<span class="fl">.1</span>, <span class="dt">birthorder =</span> <span class="kw">ave</span>(<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ddb<span class="fl">.1</span>)), ddb<span class="fl">.1</span>$idParents, <span class="dt">FUN =</span> seq_along))
+ddb<span class="fl">.1</span>$older_siblings =<span class="st"> </span><span class="kw">factor</span>(<span class="kw">ifelse</span>((ddb<span class="fl">.1</span>$birthorder -<span class="st"> </span><span class="dv">1</span>) &gt;<span class="st"> </span><span class="dv">9</span>,<span class="st">&quot;10+&quot;</span>, ddb<span class="fl">.1</span>$birthorder -<span class="st"> </span><span class="dv">1</span>))
+ddb<span class="fl">.1</span>$birthorder.mean =<span class="st"> </span><span class="kw">ave</span>(ddb<span class="fl">.1</span>$birthorder, ddb<span class="fl">.1</span>$idParents, <span class="dt">FUN =</span> function(x) {<span class="kw">mean</span>(x, <span class="dt">na.rm=</span>T)})
+ddb<span class="fl">.1</span>$birthorder.diff =<span class="st"> </span>ddb<span class="fl">.1</span>$birthorder -<span class="st"> </span>ddb<span class="fl">.1</span>$birthorder.mean
+
+<span class="kw">cor.test</span>(ddb<span class="fl">.1</span>$birthorder.mean, ddb<span class="fl">.1</span>$nr.siblings)
+<span class="kw">cor.test</span>(ddb<span class="fl">.1</span>$birthorder, ddb<span class="fl">.1</span>$nr.siblings)
+<span class="kw">cor.test</span>(ddb<span class="fl">.1</span>$birthorder.diff, ddb<span class="fl">.1</span>$paternalage.diff)
+<span class="kw">cor.test</span>(ddb<span class="fl">.1</span>$birthorder, ddb<span class="fl">.1</span>$paternalage.diff)
+
+<span class="kw">library</span>(lme4)
+
+m1 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m1)
+m2 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>birthorder +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m2)
+m3 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>birthorder +<span class="st"> </span>nr.siblings +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m3)
+m4 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>nr.siblings +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m4)
+m5 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>birthorder.diff +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m5)
+m6 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>birthorder.diff +<span class="st"> </span>birthorder.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m6)
+m7 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>birthorder +<span class="st"> </span>birthorder.mean +<span class="st"> </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m7)
+m8 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>paternalage.mean +<span class="st">  </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m8)
+ddb<span class="fl">.1</span>$byear.mean =<span class="st"> </span><span class="kw">ave</span>(ddb<span class="fl">.1</span>$byear, ddb<span class="fl">.1</span>$idParents, <span class="dt">FUN =</span> function(x) {<span class="kw">mean</span>(x, <span class="dt">na.rm=</span>T)})
+ddb<span class="fl">.1</span>$maternal_loss.mean =<span class="st"> </span><span class="kw">ave</span>(ddb<span class="fl">.1</span>$maternal_loss_age, ddb<span class="fl">.1</span>$idParents, <span class="dt">FUN =</span> function(x) {<span class="kw">mean</span>(x, <span class="dt">na.rm=</span>T)})
+m8_1 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>paternalage.mean +<span class="st">  </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m8_1)
+m8_2 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>byear.mean +<span class="st"> </span>birth_cohort +<span class="st"> </span>paternalage.mean +<span class="st">  </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m8_2)
+m8_3 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>maternal_loss +<span class="st"> </span>paternalage.mean +<span class="st">  </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m8_3)
+m8_4 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>maternal_loss.mean +<span class="st"> </span>maternal_loss +<span class="st"> </span>paternalage.mean +<span class="st">  </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m8_4)
+m8_5 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>maternal_loss.mean +<span class="st"> </span>maternal_loss_age +<span class="st"> </span>paternalage.mean +<span class="st">  </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m8_5)
+ddb<span class="fl">.1</span>$maternal_loss_age.diff =<span class="st"> </span>ddb<span class="fl">.1</span>$maternal_loss_age -<span class="st"> </span>ddb<span class="fl">.1</span>$maternal_loss.mean
+m8_6 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>maternal_loss.mean +<span class="st"> </span>maternal_loss_age.diff +<span class="st"> </span>paternalage.mean +<span class="st">  </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m8_6)
+m8_7 =<span class="st"> </span><span class="kw">lmer</span>(children.surviving5y ~<span class="st"> </span>maternal_loss.mean +<span class="st"> </span>maternal_loss +<span class="st"> </span>paternalage.mean +<span class="st">  </span>paternalage.diff +<span class="st"> </span>(<span class="dv">1</span>|idParents), <span class="dt">data =</span> ddb<span class="fl">.1</span> %&gt;%<span class="st"> </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(maternal_loss_age))); <span class="kw">summary</span>(m8_7)
+
+<span class="kw">library</span>(lfe)
+m9 =<span class="st"> </span><span class="kw">felm</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>birthorder +<span class="st"> </span>paternalage.diff |<span class="st"> </span>idParents, <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m9)
+m10 =<span class="st"> </span><span class="kw">felm</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>paternalage.diff |<span class="st"> </span>idParents, <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m10)
+m10 =<span class="st"> </span><span class="kw">felm</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternalage.mean +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>birthorder.diff +<span class="st"> </span>paternalage.diff |<span class="st"> </span>idParents, <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m10)
+m11 =<span class="st"> </span><span class="kw">felm</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>birthorder.diff +<span class="st"> </span>paternalage_c |<span class="st"> </span>idParents, <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m11)
+
+m11 =<span class="st"> </span><span class="kw">felm</span>(children.surviving5y ~<span class="st"> </span>birth_cohort +<span class="st"> </span>male +<span class="st"> </span>maternalage.factor +<span class="st"> </span>paternal_loss +<span class="st"> </span>maternal_loss +<span class="st"> </span>paternalage_c |<span class="st"> </span>idParents, <span class="dt">data =</span> ddb<span class="fl">.1</span>); <span class="kw">summary</span>(m11)
+
+
+<span class="kw">library</span>(effects)
+<span class="kw">plot</span>(<span class="kw">allEffects</span>(mx))</code></pre></div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

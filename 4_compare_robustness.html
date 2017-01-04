@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Compare Robustness</title>
+
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div id="population-comparison-using-mcmcglmm" class="section level1 tab-content">
+<h1>Population comparison using MCMCglmm</h1>
+<div id="loading-details" class="section level3 accordion">
+<h3>Loading details</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
+<span class="kw">library</span>(brms)
+
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">TRUE</span>, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>),<span class="dt">fig.width=</span><span class="dv">20</span>,<span class="dt">fig.height=</span><span class="fl">12.5</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)</code></pre></div>
+</div>
+<div id="analysis-description" class="section level2">
+<h2>Analysis description</h2>
+<p>Here we show the effect size estimates for paternal age in different robustness analyses.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paths =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;coefs/krmh/m3_children_linear.rds&quot;</span>, 
+                    <span class="st">&quot;coefs/rpqa/m3_children_linear.rds&quot;</span>, 
+                    <span class="st">&quot;coefs/ddb/m3_children_linear.rds&quot;</span>, 
+                    <span class="st">&quot;coefs/swed/m3_children_linear.rds&quot;</span>, 
+                    <span class="kw">list.files</span>(<span class="st">&quot;coefs&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">&quot;^r.+rds$&quot;</span>, <span class="dt">recursive =</span> T))
+filenames =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;/r0&quot;</span>,<span class="st">&quot;/r0&quot;</span>,<span class="st">&quot;/r0&quot;</span>,<span class="st">&quot;/r0&quot;</span>, 
+        <span class="kw">list.files</span>(<span class="st">&quot;coefs&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">&quot;^r.+rds$&quot;</span>, <span class="dt">recursive =</span> T))
+
+i=<span class="dv">1</span>
+effect_estimates =<span class="st"> </span><span class="kw">data.frame</span>()
+models =<span class="st"> </span><span class="kw">list</span>()
+for (i in <span class="kw">seq_along</span>(paths)) {
+    filename =<span class="st"> </span>filenames[i]
+    model =<span class="st"> </span><span class="kw">readRDS</span>(paths[i])
+    if (<span class="kw">class</span>(model) ==<span class="st"> &quot;brmsfit&quot;</span>) {
+        models[[filename]] =<span class="st"> </span>model
+        chg =<span class="st"> </span><span class="kw">paternal_age_10y_effect</span>(model)[<span class="dv">3</span>,]
+        chg$model =<span class="st"> </span>filename
+        chg$robustness_analysis =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(filename, <span class="st">&quot;/r(</span><span class="ch">\\</span><span class="st">d+)&quot;</span>)[,<span class="dv">2</span>])
+        chg$population =<span class="st"> </span><span class="kw">str_match</span>(paths[i], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">w+/(</span><span class="ch">\\</span><span class="st">w+)/&quot;</span>)[,<span class="dv">2</span>]
+        effect_estimates =<span class="st"> </span><span class="kw">rbind</span>(chg, effect_estimates)
+    }
+}
+effect_estimates$median_estimate =<span class="st"> </span><span class="kw">as.numeric</span>(effect_estimates$median_estimate)
+effect_estimates =<span class="st"> </span>effect_estimates %&gt;%<span class="st"> </span><span class="kw">arrange</span>(robustness_analysis)
+pops =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;krmh&quot;</span>, <span class="st">&quot;rpqa&quot;</span>, <span class="st">&quot;ddb&quot;</span>, <span class="st">&quot;swed&quot;</span>)
+effect_estimates$upper95 =<span class="st"> </span>effect_estimates$lower95 =<span class="st"> </span><span class="ot">NA</span>
+for(i in <span class="kw">seq_along</span>(pops)) {
+    pop =<span class="st"> </span>pops[i]
+    effs =<span class="st"> </span>effect_estimates[effect_estimates$population ==<span class="st"> </span>pop, ]
+    effs$lower95 =<span class="st"> </span>effs$median_estimate[<span class="dv">1</span>]
+    effs$upper95 =<span class="st"> </span>effs$median_estimate
+    effs$lower95[<span class="dv">1</span>] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effs$ci_95[<span class="dv">1</span>], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
+    effs$upper95[<span class="dv">1</span>] =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effs$ci_95[<span class="dv">1</span>], <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
+    effect_estimates[effect_estimates$population ==<span class="st"> </span>pop, ] =<span class="st"> </span>effs
+}
+pops =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;krmh&quot;</span>=<span class="st">&#39;Krummhörn&#39;</span>, <span class="st">&quot;rpqa&quot;</span> =<span class="st"> &#39;Québec&#39;</span>, <span class="st">&quot;ddb&quot;</span> =<span class="st"> &#39;Historical Sweden&#39;</span>, <span class="st">&quot;swed&quot;</span> =<span class="st"> &#39;Modern Sweden&#39;</span>)
+effect_estimates$population =<span class="st"> </span>pops[effect_estimates$population]</code></pre></div>
+</div>
+<div id="comparison-graph" class="section level2 active">
+<h2>Comparison graph</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(effect_estimates, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(robustness_analysis), <span class="dt">y =</span> median_estimate, <span class="dt">ymin =</span> lower95, <span class="dt">ymax =</span> upper95)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="kw">aes</span>(<span class="dt">yintercept =</span> <span class="kw">ifelse</span>(robustness_analysis ==<span class="st"> </span><span class="dv">0</span>, median_estimate, <span class="ot">NA</span>)), <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">    </span><span class="kw">geom_linerange</span>(<span class="kw">aes</span>(<span class="dt">linetype =</span> robustness_analysis ==<span class="st"> </span><span class="dv">0</span>)) +
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span>  <span class="kw">ifelse</span>(robustness_analysis ==<span class="st"> </span><span class="dv">0</span>, <span class="ot">NA</span>, robustness_analysis), <span class="dt">group =</span> effect), <span class="dt">vjust =</span> -<span class="fl">0.3</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_linetype_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;FALSE&quot;</span> =<span class="st"> &#39;dashed&#39;</span>, <span class="st">&quot;TRUE&quot;</span> =<span class="st"> &#39;solid&#39;</span>), <span class="dt">guide =</span> F) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>population, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) +
+<span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;&quot;</span>) +
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Paternal age effect within family&quot;</span>) +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>()) +
+<span class="st">    </span><span class="kw">coord_flip</span>()</code></pre></div>
+<pre><code>## Warning: Removed 46 rows containing missing values (geom_hline).</code></pre>
+<pre><code>## Warning: Removed 4 rows containing missing values (geom_text).</code></pre>
+<p><img src="4_compare_robustness_files/figure-html/unnamed-chunk-2-1.png" width="1440px" height="900px" /></p>
+</div>
+<div id="comparison-table" class="section level2">
+<h2>Comparison table</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">effect_estimates =<span class="st"> </span>effect_estimates %&gt;%<span class="st"> </span><span class="kw">mutate</span>(
+    <span class="dt">model =</span> <span class="kw">recode</span>(model, <span class="st">&quot;/r0&quot;</span> =<span class="st"> &quot;m3_main_model&quot;</span>),
+    <span class="dt">model =</span> <span class="kw">str_replace</span>(model, <span class="st">&quot;coefs/&quot;</span>, <span class="st">&quot;&quot;</span>),
+    <span class="dt">model =</span> <span class="kw">str_replace</span>(model, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.rds&quot;</span>, <span class="st">&quot;&quot;</span>),
+    
+    <span class="dt">model =</span> <span class="kw">paste0</span>(<span class="st">&quot;&lt;a href=&#39;&quot;</span>,<span class="kw">str_match</span>(model, <span class="st">&quot;([a-z]+)/([a-z]+)&quot;</span>)[,<span class="dv">2</span>],<span class="st">&quot;_robustness.html#&quot;</span>,<span class="kw">str_match</span>(model, <span class="st">&quot;([a-z]+)/([a-z]+)&quot;</span>)[,<span class="dv">3</span>],<span class="st">&quot;&#39;&gt;&quot;</span>,model,<span class="st">&quot;&lt;/a&gt;&quot;</span>)
+)
+effect_estimates$model =<span class="st"> </span><span class="kw">recode</span>(effect_estimates$model, <span class="st">&quot;/r0&quot;</span> =<span class="st"> &quot;m3_main_model&quot;</span>)
+<span class="kw">pander</span>(effect_estimates %&gt;%<span class="st"> </span><span class="kw">select</span>(model, median_estimate, ci_95))</code></pre></div>
+<table>
+<colgroup>
+<col width="71%" />
+<col width="16%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">model</th>
+<th align="center">median_estimate</th>
+<th align="center">ci_95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><a
+href='NA_robustness.html#NA'>m3_main_model</a></td>
+<td align="center">-5.1</td>
+<td align="center">[-5.9;-4.4]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='NA_robustness.html#NA'>m3_main_model</a></td>
+<td align="center">-24.4</td>
+<td align="center">[-30.6;-18.3]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='NA_robustness.html#NA'>m3_main_model</a></td>
+<td align="center">-3.3</td>
+<td align="center">[-6.8;0.2]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='NA_robustness.html#NA'>m3_main_model</a></td>
+<td align="center">-9.6</td>
+<td align="center">[-30;13.7]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r1_relaxed_exclusion_criteria</a></td>
+<td align="center">-2.1</td>
+<td align="center">[-5.2;0.4]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r1_relaxed_exclusion_criteria</a></td>
+<td align="center">-9.8</td>
+<td align="center">[-26.8;6.2]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r1_relaxed_exclusion_criteria</a></td>
+<td align="center">-24.1</td>
+<td align="center">[-30;-17.7]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r2_add_random_slope</a></td>
+<td align="center">-4.3</td>
+<td align="center">[-7.5;-1.2]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r2_add_random_slope</a></td>
+<td align="center">-6.1</td>
+<td align="center">[-9.8;-2.3]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r2_add_random_slope</a></td>
+<td align="center">-11.4</td>
+<td align="center">[-32.6;9.8]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r2_add_random_slope</a></td>
+<td align="center">-27.1</td>
+<td align="center">[-33.7;-21]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r3_birth_order_continuous</a></td>
+<td align="center">-2.7</td>
+<td align="center">[-5.8;0.4]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r3_birth_order_continuous</a></td>
+<td align="center">-2.1</td>
+<td align="center">[-7.5;2.9]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r3_birth_order_continuous</a></td>
+<td align="center">-28.7</td>
+<td align="center">[-48.3;-5.7]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r3_birth_order_continuous</a></td>
+<td align="center">-23.4</td>
+<td align="center">[-30.3;-16.6]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r4_control_dependent_sibs</a></td>
+<td align="center">-5.2</td>
+<td align="center">[-8.3;-2.1]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r4_control_dependent_sibs</a></td>
+<td align="center">-6.7</td>
+<td align="center">[-10.5;-3.1]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r4_control_dependent_sibs</a></td>
+<td align="center">-17.8</td>
+<td align="center">[-38;4]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r4_control_dependent_sibs</a></td>
+<td align="center">-31.8</td>
+<td align="center">[-38.3;-25.5]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r5_less_parental_loss_control</a></td>
+<td align="center">-4.4</td>
+<td align="center">[-7.4;-1.5]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r5_less_parental_loss_control</a></td>
+<td align="center">-8.2</td>
+<td align="center">[-11.9;-4.6]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r5_less_parental_loss_control</a></td>
+<td align="center">-19.4</td>
+<td align="center">[-38.8;1.5]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r5_less_parental_loss_control</a></td>
+<td align="center">-38.4</td>
+<td align="center">[-43.7;-32.9]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r6_few_controls</a></td>
+<td align="center">-3.6</td>
+<td align="center">[-5;-2.2]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r6_few_controls</a></td>
+<td align="center">-6.3</td>
+<td align="center">[-7.6;-5]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r6_few_controls</a></td>
+<td align="center">-16.6</td>
+<td align="center">[-24.8;-9.4]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r6_few_controls</a></td>
+<td align="center">-31.2</td>
+<td align="center">[-34.4;-28]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r7_no_birth_order_control</a></td>
+<td align="center">-4.7</td>
+<td align="center">[-6.3;-3.1]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r7_no_birth_order_control</a></td>
+<td align="center">0.2</td>
+<td align="center">[-1.8;2.1]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r7_no_birth_order_control</a></td>
+<td align="center">1</td>
+<td align="center">[-9.1;12]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r7_no_birth_order_control</a></td>
+<td align="center">-16.6</td>
+<td align="center">[-20.2;-13]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r8_control_paternal_afb</a></td>
+<td align="center">-3.6</td>
+<td align="center">[-6.7;-0.8]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r8_control_paternal_afb</a></td>
+<td align="center">-2.3</td>
+<td align="center">[-5.7;1]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r8_control_paternal_afb</a></td>
+<td align="center">-8.3</td>
+<td align="center">[-29;11.6]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r8_control_paternal_afb</a></td>
+<td align="center">-24.7</td>
+<td align="center">[-30.9;-18.7]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r9_separate_random_effects_for_parents</a></td>
+<td align="center">-4.3</td>
+<td align="center">[-7.3;-1.2]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r9_separate_random_effects_for_parents</a></td>
+<td align="center">-3</td>
+<td align="center">[-6.5;0.5]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r9_separate_random_effects_for_parents</a></td>
+<td align="center">-8.8</td>
+<td align="center">[-30.1;11.7]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r9_separate_random_effects_for_parents</a></td>
+<td align="center">-24.4</td>
+<td align="center">[-30.5;-18.3]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r10_restrict_to_skelleftea</a></td>
+<td align="center">-25.7</td>
+<td align="center">[-37.1;-14.7]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r11_region_moderator_parish_ranef</a></td>
+<td align="center">-18.3</td>
+<td align="center">[-25.3;-12.1]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r12_sex_moderation</a></td>
+<td align="center">-5.6</td>
+<td align="center">[-8.8;-2.3]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r12_sex_moderation</a></td>
+<td align="center">-4</td>
+<td align="center">[-7.7;-0.4]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r12_sex_moderation</a></td>
+<td align="center">-10.9</td>
+<td align="center">[-30.9;10.2]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r12_sex_moderation</a></td>
+<td align="center">-24.3</td>
+<td align="center">[-30.6;-17.7]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r13_continuous_byear_adjustment</a></td>
+<td align="center">-4.6</td>
+<td align="center">[-7.5;-1.5]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='rpqa_robustness.html#r'>rpqa/r13_continuous_byear_adjustment</a></td>
+<td align="center">-9.5</td>
+<td align="center">[-13.5;-5.3]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='krmh_robustness.html#r'>krmh/r13_continuous_byear_adjustment</a></td>
+<td align="center">-8.7</td>
+<td align="center">[-24.8;9.5]</td>
+</tr>
+<tr class="odd">
+<td align="center"><a
+href='ddb_robustness.html#r'>ddb/r13_continuous_byear_adjustment</a></td>
+<td align="center">-22</td>
+<td align="center">[-27;-17]</td>
+</tr>
+<tr class="even">
+<td align="center"><a
+href='swed_robustness.html#r'>swed/r14_simulate_downs</a></td>
+<td align="center">-4.1</td>
+<td align="center">[-7;-0.8]</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>
