@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title> Robustness Checks</title>
+
+<script src="library/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="library/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="library/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="library/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="library/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img { 
+  max-width:100%; 
+  height: auto; 
+}
+</style>
+
+
+
+</head>
+
+<body>
+<div class="container-fluid main-container">
+	<div class="row">
+	<div class="col-md-2" style="border-top:solid #E2A674 20px"></div>
+	<div class="col-md-2 rpqa" style="border-top:solid #9F3B2B 20px"></div>
+	<div class="col-md-4" style="background:black;text-align:center"><a href="index.html" style="color:white"><i class="glyphicon glyphicon-th-list"></i> Back to index</a></div>
+	<div class="col-md-2 hist_sweden" style="border-top:solid #21523B 20px"></div>
+	<div class="col-md-2 mod_sweden" style="border-top:solid #8A846C 20px"></div>
+	</div>
+</div>
+
+<div class="container-fluid main-container">
+
+
+<div id="model-description" class="section level3">
+<h3>Model description</h3>
+<p>All of the following models are the same as our main model m3, except for the noted changes to test robustness.</p>
+</div>
+<div id="r1_relaxed_exclusion_criteria" class="section level2 tab-content">
+<h2><em>r1</em>: Relaxed exclusion criteria</h2>
+<p>For the four historical populations, we imposed quite stringent exclusion criteria to ensure sufficient data quality for our intended analysis. This was not necessary for the modern Swedish data, because there were no exclusion criteria to relax.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r1_relaxed_exclusion_criteria&quot;</span>)
+if (<span class="kw">file.exists</span>(model_filename)) {
+    <span class="kw">cat</span>(<span class="kw">summarise_model</span>())
+    r1 =<span class="st"> </span>model
+}</code></pre></div>
+</div>
+<div id="r2_few_controls" class="section level2 tab-content">
+<h2><em>r2</em>: Fewer covariates</h2>
+<p>Adding covariates increases the complexity of the model and makes it harder to interpret. We chose to adjust for many potential confounds because we are interested in causal isolation of the paternal age effect. Here we show what happens when only birth cohort and average paternal age in the family are adjusted for.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r2_few_controls&quot;</span>)
+<span class="kw">summarise_model</span>()
+r2 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r3_birth_order_continuous" class="section level2 tab-content">
+<h2><em>r3</em>: Continuous birth order control</h2>
+<p>We chose to control for birth order/number of older siblings as a categorical variable, lumping all those who had more than 5 in the category 5+. Because a continuous covariate is also plausible, we tested this alternative model as well.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r3_birth_order_continuous&quot;</span>)
+<span class="kw">summarise_model</span>()
+r3 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r4_control_dependent_sibs" class="section level2 tab-content">
+<h2><em>r4</em>: Control number of dependent siblings</h2>
+<p>Birth order is usually used as a proxy variable for parental investment, the assumption being that older siblings require parental attention. However, there are are reasons to doubt this, as fully-grown siblings probably do not compete for the same resources. To compute a clearer proxy variable of competing siblings, we computed and adjusted for the number of siblings who were alive and younger than five at the time of birth of the anchor child.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r4_control_dependent_sibs&quot;</span>)
+<span class="kw">summarise_model</span>()
+r4 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r5_birth_order_interact_siblings" class="section level2 tab-content">
+<h2><em>r5</em>: Birth order interacted with number of siblings</h2>
+<p>Plausibly, being first-born has a different effect, when one is an only child as opposed to having two siblings, etc. Here, we allow for such an interaction effect.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r5_birth_order_interact_siblings&quot;</span>)
+<span class="kw">summarise_model</span>()
+r5 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r6_no_birth_order_control" class="section level2 tab-content">
+<h2><em>r6</em>: No birth order control</h2>
+<p>Paternal age and birth order are highly collinear with each other and with maternal age. Therefore, the choice to include this predictor widens standard errors for each predictor and may be disputed. Here we show what happens when we simply omit the birth order control.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r6_no_birth_order_control&quot;</span>)
+<span class="kw">summarise_model</span>()
+r6 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r7_less_parental_loss_control" class="section level2 tab-content">
+<h2><em>r7</em>: Less control for parental loss</h2>
+<p>We adjusted for parental loss very stringently, including covariates for parental loss up to age 45. Here we show what happens, when we only control for parental loss in the first, and the first five years of life.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r7_less_parental_loss_control&quot;</span>)
+<span class="kw">summarise_model</span>()
+r7 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r8_adjust_for_first_born_adult" class="section level2 tab-content">
+<h2><em>r8</em>: Adjust for being first-/last-born adult son</h2>
+<p>Inheritance is linked to birth order and being male in several of the historical populations. Here, we adjust for the anchor being the first or last born adult son in a family. This implies that we control for our outcome to a certain extent, as “adult sons” cannot have died before adulthood, but a paternal age effect on mortality could still be detected for siblings other than the first- and last-born adults.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r8_adjust_for_first_born_adult&quot;</span>)
+<span class="kw">summarise_model</span>()
+r8 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r9_continuous_byear_adjustment" class="section level2 tab-content">
+<h2><em>r9</em>: Continuous birth year adjustment</h2>
+<p>In our main model, we control for birth cohort in 5-year-bins (lumping small bins). We chose to do so, because nonlinear and even sharply spiking effects of birth cohort are plausible (due to e.g. epidemics). This decision may be disputed, as it summarises 5-year-bins. Here, we instead allow for a thin-splate spline on the continuous birth year variable. This allows for smooth nonlinear (but not spiking) birth cohort effects.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r9_continuous_byear_adjustment&quot;</span>)
+<span class="kw">summarise_model</span>()
+r9 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r10_add_random_slope" class="section level2 tab-content">
+<h2><em>r10</em>: Group-level slope added</h2>
+<p>Paternal age effects may vary between different families. Although we did not explore between-family moderators of paternal age effects in our study, we tested whether modelling an additional group-level slope for paternal age differences within the family, would change the results by allowing for shrinkage and to examine the amount of inter-family differences to be explained for potential future moderator analysis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r10_add_random_slope&quot;</span>)
+<span class="kw">summarise_model</span>()
+r10 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r11_separate_random_effects_for_parents" class="section level2 tab-content">
+<h2><em>r11</em>: Separate group-level effects for each parent</h2>
+<p>Most anchors in our sample are full biological siblings and especially in the historical populations, divorce and remarriage was rare. Therefore, we chose to include only one group-level effect, for the parent couple (i.e. one group-level effect per father-mother-dyad). Including one intercept per parent is potentially a better way to adjust for genetic propensities inherited from either parent and allows estimating this propensity also from half-siblings, while half-sibling relationships were ignored in our main models. This comes at the cost of modelling complexity.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r11_separate_random_effects_for_parents&quot;</span>)
+<span class="kw">summarise_model</span>()
+r11 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r12_sex_moderation" class="section level2 tab-content">
+<h2><em>r12</em>: Sex moderation</h2>
+<p>It need not be the case that paternal age has the same effect on male and female children. For example, male children inherit only the small Y chromosome from the father, but female children inherit the larger X chromosome, so that paternal age predicts X-chromosomal de novo mutations in females but not in males (Francioli et al., 2016). At the same time, the autism literature suggests that males are less robust to heritable and de novo autism risk variants and that these effects are not simply due to having only one X chromosome (Werling &amp; Geschwind, 2015). Here we let a dummy variable for being male moderate the paternal age effect.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r12_sex_moderation&quot;</span>)
+<span class="kw">summarise_model</span>()
+r12 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r13_control_paternal_afb" class="section level2 tab-content">
+<h2><em>r13</em>: Control paternal age at first birth</h2>
+<p>We already control for the average paternal age at which the children in a family were born. The mean is a more complete summary of the reproductive timing of the father than the age at first birth. However, far more literature has examined age at first birth and it has the advantage of never being censored (although we of course try to rule out censoring by choosing appropriate subsets). Therefore, we added age at first birth as a covariate in this model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r13_control_paternal_afb&quot;</span>)
+<span class="kw">summarise_model</span>()
+r13 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r14_compare_lfe" class="section level2 tab-content">
+<h2><em>r14</em>: Compare lfe</h2>
+<p>Most of the previous literature has not used multilevel modelling, but linear group fixed effects (essentially dummy variables on the many thousands of families in the model). We believe our multilevel modelling approach has the advantage of allowing us to examine the effect of including predictors at the level of the family in the same model.</p>
+<p>This allows us to<br />
+a) appropriately model a zero-inflated outcome such as number of children including those who died young (we’re not aware of a linear group fixed effect approach that handles hurdle or zero-inflated models)<br />
+b) examine group-level slopes for paternal age and potentially to examine moderators at the level of the family (though we did not do this)<br />
+c) explicitly model confounders at the level of the family (e.g. number of siblings).</p>
+<p>Nevertheless, the prevalence of this approach in the literature mandates that we show how our approach compares. We fit this model using the R package “<a href="https://cran.r-project.org/web/packages/lfe/">lfe</a>” and the function felm. All covariates that were not estimable in principle were removed (i.e. number of siblings, paternalage.mean).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lfe)
+r14 =<span class="st"> </span><span class="kw">readRDS</span>(<span class="kw">make_path</span>(<span class="st">&quot;r14_compare_lfe&quot;</span>))
+<span class="kw">summary</span>(r14)</code></pre></div>
+</div>
+<div id="r15_region_moderator_parish_ranef" class="section level2 tab-content">
+<h2><em>r15</em>: Using a moderator by region, group-level effects by parish</h2>
+<p>In this model we attempted allow for regional variation in paternal age effects and attempted to better control residual variation. Our approach was two-fold: to moderate paternal age by region and to add a random effect for the church parish in which the individual was born. However, for the modern Swedish data, we had no geographic data and no regional information, so this model was not fit.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r15_region_moderator_parish_ranef&quot;</span>)
+if(<span class="kw">file.exists</span>(model_filename)) {
+    <span class="kw">cat</span>(<span class="kw">summarise_model</span>())
+    r15 =<span class="st"> </span>model
+}</code></pre></div>
+</div>
+<div id="r16_restrict_to_skelleftea" class="section level2 tab-content">
+<h2><em>r16</em>: Restrict to Skellefteå</h2>
+<p>Only in the DDB (historical Swedish data), parishes in some of the regions were still unlinked. This means that individuals could occur in more than one parish and not be linked. However, the region of Skellefteå was fully linked. Here, we test what happens when we restrict our dataset to Skellefteå.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r16_restrict_to_skelleftea&quot;</span>)
+if(<span class="kw">file.exists</span>(model_filename)) {
+    <span class="kw">cat</span>(<span class="kw">summarise_model</span>())
+    r16 =<span class="st"> </span>model
+}</code></pre></div>
+</div>
+<div id="r17_simulate_downs" class="section level2 tab-content">
+<h2><em>r17</em>: Simulating Down syndrome cases</h2>
+<ol style="list-style-type: decimal">
+<li>We assume that 4 in 1000 births are children with Down syndrome (four times the actual rate).</li>
+<li>We randomly excluded 33% of all children who had a mother older than 40 and had no children (many times the actual rate at that age).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r17_simulate_downs&quot;</span>)
+<span class="kw">summarise_model</span>()
+r17 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r18_hurdle_poisson" class="section level2 tab-content">
+<h2><em>r18</em>: Reversing hurdle_poisson and poisson</h2>
+<p>To make models computationally feasible and because early mortality was negligible, we fit the very large modern Swedish dataset with a <code>poisson()</code> family distribution. All historical datasets had high early mortality, so we thought a <code>hurdle_poisson()</code> was more appropriate. Here, we show what happens when we reverse this. The <code>hurdle_poisson()</code> model can be fit to the modern Swedish data here, because we only use a subset.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r18_hurdle_poisson&quot;</span>)
+<span class="kw">summarise_model</span>()
+r18 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r19_normal_distribution" class="section level2 tab-content">
+<h2><em>r19</em>: Normal distribution</h2>
+<p>Previous analysts sometimes decided to use the normal distribution to predict (potentially zero-inflated) count data. Here, we refit our models using a normal distribution for the outcome. We show that estimates for the paternal age effect can be estimated to have a substantially different magnitude, because of this, but did not change direction.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r19_normal_distribution&quot;</span>)
+<span class="kw">summarise_model</span>()
+r19 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r20_no_maternalage_control" class="section level2 tab-content">
+<h2><em>r20</em>: No adjustment for maternal age</h2>
+<p>In this model, we test what happens when we do not adjust for maternal age, because it is highly collinear with paternal age.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r20_no_maternalage_control&quot;</span>)
+<span class="kw">summarise_model</span>()
+r20 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r21_continuous_maternalage" class="section level2 tab-content">
+<h2><em>r21</em>: Continuous adjustment for maternal age</h2>
+<p>In this model, we adjust for maternal age using a continuous variable instead of three bins. This does not allow for nonlinear effects, but also does not aggregate the predictor. We cannot compare full siblings, test the effects of maternal and paternal age and adjust for average maternal and paternal age in the family (because the predictors are redundant), so that it is not perfectly possible to disentangle the contribution of maternal and paternal age and compare full siblings.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r21_continuous_maternalage&quot;</span>)
+<span class="kw">summarise_model</span>()
+r21 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r22_relaxed_exclusion_censoring" class="section level2 tab-content">
+<h2><em>r22</em>: Relaxed exclusion and censoring criteria</h2>
+<p>Like <em>r1</em>, but we use a 30-years-later cutoff year for our birth cohorts, relaxing our censoring requirements.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r22_relaxed_exclusion_censoring&quot;</span>)
+if(<span class="kw">file.exists</span>(model_filename)) {
+    <span class="kw">cat</span>(<span class="kw">summarise_model</span>())
+    r22 =<span class="st"> </span>model
+}</code></pre></div>
+</div>
+<div id="r23_student_cauchy_priors" class="section level2 tab-content">
+<h2><em>r23</em>: Student’s t and half-Cauchy priors</h2>
+<p>To demonstrate the robustness of our prior choice we use Student’s t priors (fatter tails than normal priors) for our population-level effects and a half-Cauchy prior for our group-level effect for the family.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r23_student_cauchy_priors&quot;</span>)
+<span class="kw">summarise_model</span>()
+r23 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r24_uniform_priors" class="section level2 tab-content">
+<h2><em>r24</em>: Improper flat priors</h2>
+<p>To demonstrate the robustness of our prior choice we use improper flat priors. These priors should make the model’s results comparable to a frequentist maximum likelihood approach.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r24_uniform_priors&quot;</span>)
+<span class="kw">summarise_model</span>()
+r24 =<span class="st"> </span>model</code></pre></div>
+</div>
+<div id="r25_migration_status" class="section level2 tab-content">
+<h2><em>r25</em>: Adjust for migration status</h2>
+<p>In the three historical populations, records were kept in the parish. Although records were linked between parishes in all populations, except three out of four provinces in historical Sweden, migration might sometimes lead to censoring of records. Adjusting for migration may however constitute a partial adjustment for the outcome, as lower offspring fitness might make them more likely to migrate. Hence, we show the results of doing so as a robustness analysis. In all analyses, we adjusted for a “migrated”-dummy variable. Migration was differently defined depending on the population. In Québec, we had flags denoting immigrants and emigrants. Few immigrants were included in our analyses anyway, as we needed parental information for our analyses. Emigrants were people who left Québec. In historical Sweden, migration was logged as migration from the parish of birth. In the Krummhörn, we set migrated to true, when the parish of death/burial differed from the parish of birth/baptism.<br />
+No migration information was available in 20th-century Sweden, but records there weren’t kept in parishes, so this should not pose a problem.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_filename =<span class="st"> </span><span class="kw">make_path</span>(<span class="st">&quot;r25_migration_status&quot;</span>)
+if(<span class="kw">file.exists</span>(model_filename)) {
+    <span class="kw">cat</span>(<span class="kw">summarise_model</span>())
+    r25 =<span class="st"> </span>model
+}</code></pre></div>
+</div>
+<div id="robustness-check-comparison" class="section level2">
+<h2>Robustness check comparison</h2>
+<p>Here we show the effect of paternal age for each episode.</p>
+<div id="legend" class="section level3">
+<h3>Legend</h3>
+<p>In reference to <em>m3</em>, the main reported model, the robustness models were implemented as follows: <em>r1</em> relaxed exclusion criteria (not in 20th-century Sweden), <em>r2</em> had only birth cohort as a covariate, <em>r3</em> adjusted for birth order as a continuous variable, <em>r4</em> adjusted for number of dependent siblings instead of birth order, <em>r5</em> interacted birth order with number of siblings, <em>r6</em> did not adjust for birth order, <em>r7</em> adjusted only for parental loss in the first 5 years, <em>r8</em> adjusted for being the first-/last-born adult son, <em>r9</em> adjusted for a continuous nonlinear thin-splate spline for birth year instead of 5-year bins, <em>r10</em> added a group-level slope for paternal age, <em>r11</em> included separate group-level effects for each parent instead of one per marriage, <em>r12</em> added a moderation by anchor sex, <em>r13</em> adjusted for paternal age at first birth, <em>r14</em> compared a model with linear group fixed effects, <em>r15</em> added a moderator by region and group-level effects by church parish (not in 20th-century Sweden), <em>r16</em> was restricted to Skellefteå (only in historical Sweden), <em>r17</em> simulated Down syndrome cases, <em>r18</em> reversed hurdle Poisson and Poisson distribution for the respective populations, <em>r19</em> used a normal distribution, <em>r20</em> did not adjust for maternal age, <em>r21</em> adjusted for maternal age as a continuous variable, <em>r22</em> relaxed exclusion criteria and included 30 more years of birth cohorts, allowing for more potential censoring, <em>r23</em> used Student’s t distributions for population-level priors and half-Cauchy priors for the family variance component, <em>r24</em> used noninformative priors, which should lead to results comparable with maximum likelihood, <em>r25</em> controlled for migration status (not in 20th-century Sweden).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">max_r =<span class="st"> </span><span class="dv">25</span>
+<span class="kw">rm</span>(model)
+m3 =<span class="st"> </span><span class="kw">readRDS</span>(<span class="kw">make_path</span>(<span class="st">&quot;m3_children_linear&quot;</span>))
+rob_checks =<span class="st"> </span><span class="kw">lstype</span>(<span class="st">&quot;brmsfit&quot;</span>)
+robustness =<span class="st"> </span><span class="kw">data.frame</span>()
+for (i in <span class="kw">seq_along</span>(rob_checks)) {
+    chk =<span class="st"> </span><span class="kw">paternal_age_10y_effect</span>(<span class="kw">get</span>(rob_checks[i]))[<span class="dv">3</span>,]
+    chk$model =<span class="st"> </span>rob_checks[i]
+    chk$robustness_analysis =<span class="st"> </span><span class="kw">str_match</span>(rob_checks[i], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">b([rm]</span><span class="ch">\\</span><span class="st">d+)&quot;</span>)[,<span class="dv">2</span>]
+    robustness =<span class="st"> </span><span class="kw">bind_rows</span>(robustness, chk)
+}
+robustness =<span class="st"> </span>robustness %&gt;%<span class="st"> </span><span class="kw">mutate</span>( 
+    <span class="dt">median_estimate =</span> <span class="kw">as.numeric</span>(median_estimate),
+    <span class="dt">lower95 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_match</span>(ci_95, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>]),
+    <span class="dt">upper95 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_match</span>(ci_95, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
+)
+
+<span class="kw">ggplot</span>(robustness %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">robustness_analysis =</span> <span class="kw">factor</span>(robustness_analysis,<span class="dt">levels =</span>  <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;r&quot;</span>, max_r:<span class="dv">1</span>), <span class="st">&quot;m3&quot;</span>) ) ), <span class="kw">aes</span>(<span class="dt">x =</span> robustness_analysis, <span class="dt">y =</span> median_estimate, <span class="dt">ymin =</span> lower95, <span class="dt">ymax =</span> upper95)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>() +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> robustness_analysis, <span class="dt">group =</span> effect), <span class="dt">vjust =</span> -<span class="fl">0.8</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Robustness analysis&quot;</span>) +
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage change in outcome by paternal age&quot;</span>) +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>()) +
+<span class="st">    </span><span class="kw">coord_flip</span>()
+
+<span class="kw">saveRDS</span>(robustness, <span class="dt">file =</span> <span class="kw">make_path</span>(<span class="st">&quot;robustness&quot;</span>))</code></pre></div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>
