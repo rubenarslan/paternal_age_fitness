@@ -1463,15 +1463,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-32-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-34-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-33-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-34-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -1479,25 +1479,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-34-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-35-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-34-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-35-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-35-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-36-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-36-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-37-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-37-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-38-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots" class="section level4">
 <h4>Trace plots</h4>
@@ -1508,7 +1508,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-39-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-40-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name" class="section level4">
 <h4>File name</h4>
@@ -2158,15 +2158,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-45-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-45-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-45-3.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-46-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-46-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-46-3.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-1" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-46-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-47-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-46-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-47-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-1" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -2174,25 +2174,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-1" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-47-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-48-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-47-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-48-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-1" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-48-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-49-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-1" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-49-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-50-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-1" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-50-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-51-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-1" class="section level4">
 <h4>Trace plots</h4>
@@ -2203,7 +2203,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-1" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-52-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-53-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-1" class="section level4">
 <h4>File name</h4>
@@ -3425,15 +3425,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-58-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-2" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-60-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-59-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-60-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-2" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -3441,25 +3441,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-2" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-60-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-61-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-60-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-61-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-2" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-61-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-62-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-2" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-62-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-63-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-2" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-63-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-64-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-2" class="section level4">
 <h4>Trace plots</h4>
@@ -3470,7 +3470,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-2" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-65-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-66-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-2" class="section level4">
 <h4>File name</h4>
@@ -4670,15 +4670,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-71-9.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-9.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-3" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-73-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-72-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-73-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-3" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -4686,25 +4686,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-3" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-73-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-74-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-73-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-74-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-3" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-74-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-75-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-3" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-75-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-76-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-3" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-76-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-77-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-3" class="section level4">
 <h4>Trace plots</h4>
@@ -4715,7 +4715,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-3" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-78-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-79-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-3" class="section level4">
 <h4>File name</h4>
@@ -6135,15 +6135,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-84-11.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-11.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-4" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-86-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-85-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-86-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-4" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -6151,25 +6151,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-4" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-86-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-87-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-86-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-87-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-4" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-87-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-88-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-4" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-88-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-89-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-4" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-89-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-90-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-4" class="section level4">
 <h4>Trace plots</h4>
@@ -6180,7 +6180,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-4" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-91-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-92-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-4" class="section level4">
 <h4>File name</h4>
@@ -7358,15 +7358,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-97-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-97-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-97-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-97-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-97-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-97-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-97-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-97-8.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-8.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-5" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-99-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-98-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-99-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-5" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -7374,25 +7374,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-5" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-99-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-100-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-99-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-100-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-5" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-100-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-101-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-5" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-101-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-102-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-5" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-102-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-103-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-5" class="section level4">
 <h4>Trace plots</h4>
@@ -7403,7 +7403,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-5" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-104-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-105-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-5" class="section level4">
 <h4>File name</h4>
@@ -8361,15 +8361,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-110-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-6" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-112-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-111-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-112-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-6" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -8377,25 +8377,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-6" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-112-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-113-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-112-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-113-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-6" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-113-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-114-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-6" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-114-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-115-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-6" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-115-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-116-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-6" class="section level4">
 <h4>Trace plots</h4>
@@ -8406,7 +8406,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-6" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-117-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-118-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-6" class="section level4">
 <h4>File name</h4>
@@ -9760,15 +9760,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-11.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-123-12.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-11.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-12.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-7" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-125-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-124-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-125-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-7" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -9776,25 +9776,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-7" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-125-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-126-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-125-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-126-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-7" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-126-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-127-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-7" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-127-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-128-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-7" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-128-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-129-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-7" class="section level4">
 <h4>Trace plots</h4>
@@ -9805,7 +9805,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-7" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-130-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-131-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-7" class="section level4">
 <h4>File name</h4>
@@ -10704,15 +10704,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-136-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-8" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-138-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-137-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-138-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-8" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -10720,25 +10720,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-8" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-138-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-139-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-138-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-139-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-8" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-139-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-140-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-8" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-140-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-141-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-8" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-141-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-142-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-8" class="section level4">
 <h4>Trace plots</h4>
@@ -10749,7 +10749,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-8" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-143-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-144-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-8" class="section level4">
 <h4>File name</h4>
@@ -12115,15 +12115,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-149-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-9" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-151-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-150-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-151-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-9" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -12131,25 +12131,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-9" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-151-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-152-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-151-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-152-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-9" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-152-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-153-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-9" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-153-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-154-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-9" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-154-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-155-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-9" class="section level4">
 <h4>Trace plots</h4>
@@ -12160,7 +12160,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-9" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-156-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-157-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-9" class="section level4">
 <h4>File name</h4>
@@ -13475,15 +13475,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-162-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-10" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-164-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-163-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-164-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-10" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -13491,25 +13491,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-10" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-164-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-165-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-164-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-165-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-10" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-165-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-166-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-10" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-166-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-167-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-10" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-167-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-168-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-10" class="section level4">
 <h4>Trace plots</h4>
@@ -13520,7 +13520,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-10" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-169-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-170-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-10" class="section level4">
 <h4>File name</h4>
@@ -14852,15 +14852,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-175-11.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-11.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-11" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-177-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-176-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-177-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-11" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -14868,25 +14868,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-11" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-177-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-178-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-177-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-178-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-11" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-178-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-179-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-11" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-179-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-180-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-11" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-180-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-181-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-11" class="section level4">
 <h4>Trace plots</h4>
@@ -14897,7 +14897,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-11" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-182-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-183-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-11" class="section level4">
 <h4>File name</h4>
@@ -16229,15 +16229,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-188-11.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-11.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-12" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-190-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-189-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-190-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-12" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -16245,25 +16245,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-12" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-190-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-191-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-190-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-191-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-12" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-191-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-192-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-12" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-192-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-193-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-12" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-193-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-194-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-12" class="section level4">
 <h4>Trace plots</h4>
@@ -16274,7 +16274,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-12" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-195-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-196-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-12" class="section level4">
 <h4>File name</h4>
@@ -17798,15 +17798,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-11.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-201-12.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-11.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-12.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-13" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-203-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-202-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-203-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-13" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -17814,25 +17814,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-13" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-203-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-204-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-203-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-204-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-13" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-204-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-205-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-13" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-205-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-206-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-13" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-206-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-207-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-13" class="section level4">
 <h4>Trace plots</h4>
@@ -17843,7 +17843,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-13" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-208-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-209-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-13" class="section level4">
 <h4>File name</h4>
@@ -18867,15 +18867,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-214-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-14" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-216-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-215-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-216-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-14" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -18883,25 +18883,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-14" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-216-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-217-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-216-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-217-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-14" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-217-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-218-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-14" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-218-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-219-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-14" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-219-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-220-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-14" class="section level4">
 <h4>Trace plots</h4>
@@ -18912,7 +18912,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-14" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-221-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-222-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-14" class="section level4">
 <h4>File name</h4>
@@ -20225,15 +20225,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-227-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-15" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-229-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-228-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-229-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-15" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -20241,25 +20241,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-15" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-229-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-230-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-229-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-230-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-15" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-230-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-231-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-15" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-231-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-232-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-15" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-232-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-233-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-15" class="section level4">
 <h4>Trace plots</h4>
@@ -20270,7 +20270,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-15" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-234-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-235-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-15" class="section level4">
 <h4>File name</h4>
@@ -20987,15 +20987,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-240-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-16" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-242-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-241-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-242-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-16" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -21003,25 +21003,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-16" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-242-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-243-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-242-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-243-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-16" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-243-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-244-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-16" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-244-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-245-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-16" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-245-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-246-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-16" class="section level4">
 <h4>Trace plots</h4>
@@ -21032,7 +21032,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-16" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-247-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-248-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-16" class="section level4">
 <h4>File name</h4>
@@ -21754,15 +21754,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-253-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-17" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-255-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-254-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-255-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-17" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -21770,25 +21770,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-17" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-255-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-256-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-255-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-256-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-17" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-256-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-257-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-17" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-257-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-258-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-17" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-258-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-259-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-17" class="section level4">
 <h4>Trace plots</h4>
@@ -21799,7 +21799,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-17" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-260-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-261-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-17" class="section level4">
 <h4>File name</h4>
@@ -23065,15 +23065,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-266-9.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-9.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-18" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-268-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-267-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-268-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-18" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -23081,25 +23081,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-18" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-268-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-269-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-268-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-269-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-18" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-269-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-270-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-18" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-270-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-271-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-18" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-271-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-272-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-18" class="section level4">
 <h4>Trace plots</h4>
@@ -23110,7 +23110,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-18" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-273-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-274-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-18" class="section level4">
 <h4>File name</h4>
@@ -24398,15 +24398,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-279-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-19" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-281-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-280-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-281-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-19" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -24414,25 +24414,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-19" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-281-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-282-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-281-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-282-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-19" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-282-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-283-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-19" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-283-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-284-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-19" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-284-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-285-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-19" class="section level4">
 <h4>Trace plots</h4>
@@ -24443,7 +24443,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-19" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-286-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-287-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-19" class="section level4">
 <h4>File name</h4>
@@ -25929,15 +25929,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-292-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-20" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-294-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-293-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-294-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-20" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -25945,25 +25945,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-20" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-294-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-295-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-294-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-295-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-20" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-295-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-296-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-20" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-296-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-297-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-20" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-297-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-298-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-20" class="section level4">
 <h4>Trace plots</h4>
@@ -25974,7 +25974,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-20" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-299-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-300-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-20" class="section level4">
 <h4>File name</h4>
@@ -27284,15 +27284,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-305-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-21" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-307-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-306-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-307-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-21" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -27300,25 +27300,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-21" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-307-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-308-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-307-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-308-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-21" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-308-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-309-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-21" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-309-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-310-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-21" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-310-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-311-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-21" class="section level4">
 <h4>Trace plots</h4>
@@ -27329,7 +27329,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-21" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-312-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-313-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-21" class="section level4">
 <h4>File name</h4>
@@ -28637,15 +28637,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-318-10.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-10.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-22" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-320-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-319-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-320-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-22" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -28653,25 +28653,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-22" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-320-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-321-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-320-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-321-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-22" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-321-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-322-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-22" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-322-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-323-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-22" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-323-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-324-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-22" class="section level4">
 <h4>Trace plots</h4>
@@ -28682,7 +28682,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-22" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-325-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-326-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-22" class="section level4">
 <h4>File name</h4>
@@ -30015,15 +30015,15 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-331-11.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-1.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-2.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-3.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-4.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-5.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-6.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-7.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-8.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-9.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-10.png" width="1440px" height="900px" /><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-11.png" width="1440px" height="900px" /></p>
 </div>
 <div id="coefficient-plot-23" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Coefficient estimates (95% and 80% credibility).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_intervals</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-333-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-332-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-333-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="diagnostics-23" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -30031,25 +30031,25 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-23" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-333-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-334-1.png" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-333-2.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-334-2.png" width="1440px" height="900px" /></p>
 </div>
 <div id="rhat-23" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-334-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-335-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="effective-sample-size-by-average-sample-size-23" class="section level4">
 <h4>Effective sample size by average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-335-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-336-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="monte-carlo-se-23" class="section level4">
 <h4>Monte Carlo SE</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-336-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-337-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="trace-plots-23" class="section level4">
 <h4>Trace plots</h4>
@@ -30060,7 +30060,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="further-plots-23" class="section level4">
 <h4>Further plots</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-338-1.png" width="1440px" height="900px" /></p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-339-1.png" width="1440px" height="900px" /></p>
 </div>
 <div id="file-name-23" class="section level4">
 <h4>File name</h4>
@@ -30075,13 +30075,18 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 </div>
 </div>
 </div>
+<div id="r26_separate_parental_age_contributions" class="section level2 tab-content">
+<h2><em>r26</em>: Separate parental age contributions</h2>
+<p>In this model, we adjust for maternal age using a continuous variable. We also adjust for a dummy variable for teenage motherhood, to account for the nonlinearity of the maternal age effect. Moreover, we use separate random intercepts for mothers and fathers and adjust for the mother’s mean age at birth and the father’s mean age at birth. This model only converges in the 20th-century Sweden data, because there are sufficient numbers of divorces and remarriages and enough data to separate the parents’ contributions.</p>
+</div>
 <div id="robustness-check-comparison" class="section level2">
 <h2>Robustness check comparison</h2>
 <p>Here we show the effect of paternal age for each episode.</p>
 <div id="legend" class="section level3">
 <h3>Legend</h3>
-<p>In reference to <em>m3</em>, the main reported model, the robustness models were implemented as follows: <em>r1</em> relaxed exclusion criteria (not in 20th-century Sweden), <em>r2</em> had only birth cohort as a covariate, <em>r3</em> adjusted for birth order as a continuous variable, <em>r4</em> adjusted for number of dependent siblings instead of birth order, <em>r5</em> interacted birth order with number of siblings, <em>r6</em> did not adjust for birth order, <em>r7</em> adjusted only for parental loss in the first 5 years, <em>r8</em> adjusted for being the first-/last-born adult son, <em>r9</em> adjusted for a continuous nonlinear thin-splate spline for birth year instead of 5-year bins, <em>r10</em> added a group-level slope for paternal age, <em>r11</em> included separate group-level effects for each parent instead of one per marriage, <em>r12</em> added a moderation by anchor sex, <em>r13</em> adjusted for paternal age at first birth, <em>r14</em> compared a model with linear group fixed effects, <em>r15</em> added a moderator by region and group-level effects by church parish (not in 20th-century Sweden), <em>r16</em> was restricted to Skellefteå (only in historical Sweden), <em>r17</em> simulated Down syndrome cases, <em>r18</em> reversed hurdle Poisson and Poisson distribution for the respective populations, <em>r19</em> used a normal distribution, <em>r20</em> did not adjust for maternal age, <em>r21</em> adjusted for maternal age as a continuous variable, <em>r22</em> relaxed exclusion criteria and included 30 more years of birth cohorts, allowing for more potential censoring, <em>r23</em> used Student’s t distributions for population-level priors and half-Cauchy priors for the family variance component, <em>r24</em> used noninformative priors, which should lead to results comparable with maximum likelihood, <em>r25</em> controlled for migration status (not in 20th-century Sweden).</p>
-<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-27-1.png" width="1440px" height="900px" /></p>
+<p>In reference to <em>m3</em>, the main reported model, the robustness models were implemented as follows: <em>r1</em> relaxed exclusion criteria (not in 20th-century Sweden), <em>r2</em> had only birth cohort as a covariate, <em>r3</em> adjusted for birth order as a continuous variable, <em>r4</em> adjusted for number of dependent siblings instead of birth order, <em>r5</em> interacted birth order with number of siblings, <em>r6</em> did not adjust for birth order, <em>r7</em> adjusted only for parental loss in the first 5 years, <em>r8</em> adjusted for being the first-/last-born adult son, <em>r9</em> adjusted for a continuous nonlinear thin-splate spline for birth year instead of 5-year bins, <em>r10</em> added a group-level slope for paternal age, <em>r11</em> included separate group-level effects for each parent instead of one per marriage, <em>r12</em> added a moderation by anchor sex, <em>r13</em> adjusted for paternal age at first birth, <em>r14</em> compared a model with linear group fixed effects, <em>r15</em> added a moderator by region and group-level effects by church parish (not in 20th-century Sweden), <em>r16</em> was restricted to Skellefteå (only in historical Sweden), <em>r17</em> simulated Down syndrome cases, <em>r18</em> reversed hurdle Poisson and Poisson distribution for the respective populations, <em>r19</em> used a normal distribution, <em>r20</em> did not adjust for maternal age, <em>r21</em> adjusted for maternal age as a continuous variable, <em>r22</em> relaxed exclusion criteria and included 30 more years of birth cohorts, allowing for more potential censoring, <em>r23</em> used Student’s t distributions for population-level priors and half-Cauchy priors for the family variance component, <em>r24</em> used noninformative priors, which should lead to results comparable with maximum likelihood, <em>r25</em> controlled for migration status (not in 20th-century Sweden), <em>r26</em> separate parental age contributions (only in 20th-century Sweden).</p>
+<p>Points show median estimates, the lines show 80% and 95% credibility intervals respectively.</p>
+<p><img src="5_ddb_robustness_files/figure-html/unnamed-chunk-28-1.png" width="1440px" height="900px" /></p>
 </div>
 </div>
 </div>
