@@ -13,6 +13,14 @@
 			var selector = hash ? 'a[href="' + hash + '"]' : 'li.active > a';
 			if($(selector, context).data('toggle') === "tab") {
 				$(selector, context).tab('show');
+				var $tab = $(hash);
+					$tab.parents('.section.tab-content').each(function(i, elm) {
+						var link = $('a[href="#' + $(elm).attr('id') + '"]');
+						if(link.data('toggle') === "tab") {
+							link.tab("show");
+						}
+					});
+
 			} else if($(selector, context).data('toggle') === "collapse") {
 				var collapsible = hash;
 				$(collapsible, context).collapse("show");
