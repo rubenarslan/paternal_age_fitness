@@ -137,7 +137,7 @@ if (dataset ==<span class="st"> &quot;swed_subset_children&quot;</span>) {
 model =<span class="st"> </span><span class="kw">brm</span>(    model_formula,
                          <span class="dt">prior =</span> model_prior, 
                          <span class="dt">family =</span> model_family, <span class="dt">data =</span> model_data, 
-                         <span class="dt">chains =</span> <span class="dv">6</span>, <span class="dt">iter =</span> <span class="dv">3500</span>, <span class="dt">warmup =</span> <span class="dv">1500</span>, <span class="dt">cores =</span> <span class="dv">6</span>,<span class="dt">thin =</span> <span class="dv">5</span>, <span class="dt">ranef =</span> <span class="ot">FALSE</span>)
+                         <span class="dt">chains =</span> <span class="dv">6</span>, <span class="dt">iter =</span> <span class="dv">5000</span>, <span class="dt">warmup =</span> <span class="dv">2000</span>, <span class="dt">cores =</span> <span class="dv">6</span>, <span class="dt">ranef =</span> <span class="ot">FALSE</span>, <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">adapt_delta =</span> <span class="fl">0.99</span>))
 
 
 <span class="kw">summary</span>(model)

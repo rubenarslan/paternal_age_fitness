@@ -143,19 +143,7 @@ rmds_left =<span class="st"> </span>all_rmds[ !todo %in%<span class="st"> </span
 rmds_left =<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;^2[^e]+_main_.+.Rmd$&quot;</span>)
 for(i in <span class="kw">seq_along</span>(rmds_left)) {
     <span class="kw">render_web</span>(rmds_left[i])
-}
-
-<span class="kw">render_web</span>(<span class="st">&quot;2_krmh_selective_episodes.Rmd&quot;</span>)
-<span class="kw">render_web</span>(<span class="st">&quot;2_krmh_main_models.Rmd&quot;</span>)
-
-<span class="kw">render_web</span>(<span class="st">&quot;2_rpqa_selective_episodes.Rmd&quot;</span>)
-<span class="kw">render_web</span>(<span class="st">&quot;2_rpqa_main_models.Rmd&quot;</span>)
-
-<span class="kw">render_web</span>(<span class="st">&quot;2_ddb_selective_episodes.Rmd&quot;</span>)
-<span class="kw">render_web</span>(<span class="st">&quot;2_ddb_main_models.Rmd&quot;</span>)
-
-<span class="kw">render_web</span>(<span class="st">&quot;2_swed_selective_episodes.Rmd&quot;</span>)
-<span class="kw">render_web</span>(<span class="st">&quot;2_swed_main_models.Rmd&quot;</span>)</code></pre></div>
+}</code></pre></div>
 </div>
 </div>
 
