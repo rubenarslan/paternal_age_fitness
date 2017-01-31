@@ -1,66 +1,60 @@
 {
-    "title": "Paternal age and offspring fitness: Online supplementary website https://rubenarslan.github.io/paternal_age_fitness/", 
-    "metadata": {
-        "description": "<p>Paternal age effects on offspring fitness in four populations - online supplementary website - see <a href=\"https://rubenarslan.github.io/paternal_age_fitness\">https://rubenarslan.github.io/paternal_age_fitness</a> for browsable site.</p>", 
-        "license": "other-open", 
-        "title": "Paternal age and offspring fitness: online supplementary website", 
-        "grants": [
-            {
-                "id": "336475"
-            }
-        ], 
-        "upload_type": "software", 
-        "publication_date": "2016-02-12", 
-        "creators": [
-            {
-                "affiliation": "Georg August University Göttingen", 
-                "name": "Arslan, Ruben C."
-            }, 
-            {
-                "affiliation": "Max Planck Institute for Demographic Research", 
-                "name": "Willführ, Kai P."
-            }, 
-            {
-                "affiliation": "University of Oxford", 
-                "name": "Frans, Emma"
-            }, 
-            {
-                "affiliation": "VU University", 
-                "name": "Verweij, Karin J. H."
-            }, 
-            {
-                "affiliation": "Max Planck Institute for Demographic Research", 
-                "name": "Myrskylä, Mikko"
-            }, 
-            {
-                "affiliation": "University of Gießen", 
-                "name": "Voland, Eckart"
-            }, 
-            {
-                "affiliation": "Karolinska Institutet", 
-                "name": "Almqvist, Catarina"
-            }, 
-            {
-                "affiliation": "University of Queensland", 
-                "name": "Zietsch, Brendan"
-            }, 
-            {
-                "affiliation": "Georg August University G\u00f6ttingen", 
-                "name": "Penke, Lars"
-            }
-        ], 
-        "access_right": "open", 
-        "related_identifiers": [
-            {
-                "scheme": "url", 
-                "identifier": "https://github.com/rubenarslan/paternal_age_fitness/tree/v2.0.1", 
-                "relation": "isSupplementTo"
-            }, 
-            {
-                "scheme": "url", 
-                "identifier": "https://rubenarslan.github.io/paternal_age_fitness/", 
-                "relation": "isIdenticalTo"
-            }
-        ]
-    }
+    "title": "Paternal age and offspring fitness: online supplementary website", 
+    "grants": [
+        {
+            "id": "336475"
+        }
+    ], 
+    "upload_type": "software", 
+    "creators": [
+        {
+            "affiliation": "Georg August University Göttingen", 
+            "name": "Arslan, Ruben C."
+        }, 
+        {
+            "affiliation": "Max Planck Institute for Demographic Research", 
+            "name": "Willführ, Kai P."
+        }, 
+        {
+            "affiliation": "University of Oxford", 
+            "name": "Frans, Emma"
+        }, 
+        {
+            "affiliation": "VU University", 
+            "name": "Verweij, Karin J. H."
+        }, 
+        {
+            "affiliation": "Max Planck Institute for Demographic Research", 
+            "name": "Myrskylä, Mikko"
+        }, 
+        {
+            "affiliation": "University of Gießen", 
+            "name": "Voland, Eckart"
+        }, 
+        {
+            "affiliation": "Karolinska Institutet", 
+            "name": "Almqvist, Catarina"
+        }, 
+        {
+            "affiliation": "University of Queensland", 
+            "name": "Zietsch, Brendan"
+        }, 
+        {
+            "affiliation": "Georg August University G\u00f6ttingen", 
+            "name": "Penke, Lars"
+        }
+    ], 
+    "access_right": "open", 
+    "related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/rubenarslan/paternal_age_fitness/tree/v2.0.1", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "url", 
+            "identifier": "https://rubenarslan.github.io/paternal_age_fitness/", 
+            "relation": "isIdenticalTo"
+        }
+    ]
 }
