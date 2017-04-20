@@ -947,8 +947,8 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_summary =<span class="st"> </span><span class="kw">summary</span>(model, <span class="dt">use_cache =</span> <span class="ot">FALSE</span>, <span class="dt">priors =</span> <span class="ot">TRUE</span>)
 <span class="kw">print</span>(model_summary)</code></pre></div>
 <pre><code>##  Family: poisson (log) 
-## Formula: children ~ paternalage + birth_cohort + male + maternalage.factor + paternalage.mean + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born + (1 | idParents) 
-##    Data: model_data (Number of observations: 127284) 
+## Formula: structure(list(formula = children ~ paternalage + birth_cohort + male + maternalage.factor + paternalage.mean + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born + (1 | idParents), pforms = list(), nl = FALSE, family = structure(list( family = &quot;poisson&quot;, link = &quot;log&quot;), .Names = c(&quot;family&quot;, &quot;link&quot; ), class = c(&quot;brmsfamily&quot;, &quot;family&quot;)), response = NULL, old_mv = FALSE), .Names = c(&quot;formula&quot;, &quot;pforms&quot;, &quot;nl&quot;, &quot;family&quot;, &quot;response&quot;, &quot;old_mv&quot;), class = &quot;brmsformula&quot;) 
+##    Data: model_data (Number of observations: 1408177) 
 ## Samples: 6 chains, each with iter = 1000; warmup = 500; thin = 1; 
 ##          total post-warmup samples = 3000
 ##    WAIC: Not computed
@@ -958,45 +958,45 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 ## sd ~ student_t(3, 0, 5)
 ## 
 ## Group-Level Effects: 
-## ~idParents (Number of levels: 80000) 
+## ~idParents (Number of levels: 884975) 
 ##               Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
-## sd(Intercept)     0.01      0.01        0     0.03        374 1.01
+## sd(Intercept)        0         0        0     0.01        206 1.02
 ## 
 ## Population-Level Effects: 
 ##                        Estimate Est.Error l-95% CI u-95% CI Eff.Sample
-## Intercept                  0.75      0.02     0.72     0.78       3000
-## paternalage               -0.02      0.01    -0.04     0.01       3000
-## birth_cohort1950M1955      0.00      0.01    -0.02     0.01       3000
-## birth_cohort1955M1960      0.00      0.01    -0.01     0.01       3000
-## male1                     -0.07      0.00    -0.07    -0.06       3000
-## maternalage.factor1420     0.06      0.01     0.05     0.08       3000
-## maternalage.factor3561    -0.01      0.01    -0.03     0.00       3000
-## paternalage.mean          -0.03      0.01    -0.06     0.00       3000
-## paternal_loss01            0.09      0.22    -0.37     0.50       3000
-## paternal_loss15           -0.02      0.06    -0.13     0.09       3000
-## paternal_loss510          -0.06      0.03    -0.11     0.00       3000
-## paternal_loss1015         -0.02      0.02    -0.06     0.02       3000
-## paternal_loss1520          0.00      0.01    -0.02     0.03       3000
-## paternal_loss2025         -0.01      0.01    -0.03     0.02       3000
-## paternal_loss2530         -0.01      0.01    -0.03     0.01       3000
-## paternal_loss3035         -0.01      0.01    -0.02     0.01       3000
-## paternal_loss3540         -0.01      0.01    -0.02     0.01       3000
-## paternal_loss4045         -0.01      0.01    -0.03     0.00       3000
-## paternal_lossunclear      -0.06      0.01    -0.07    -0.05       3000
-## maternal_loss01           -0.27      0.20    -0.68     0.11       3000
-## maternal_loss15           -0.07      0.09    -0.26     0.10       3000
-## maternal_loss510           0.01      0.04    -0.08     0.09       3000
-## maternal_loss1015         -0.02      0.03    -0.07     0.04       3000
-## maternal_loss1520         -0.01      0.02    -0.05     0.03       3000
-## maternal_loss2025          0.02      0.02    -0.01     0.06       3000
-## maternal_loss2530          0.00      0.01    -0.03     0.03       3000
-## maternal_loss3035          0.00      0.01    -0.02     0.02       3000
-## maternal_loss3540          0.00      0.01    -0.02     0.02       3000
-## maternal_loss4045          0.00      0.01    -0.02     0.01       3000
-## maternal_lossunclear      -0.02      0.01    -0.03    -0.01       3000
-## older_siblings            -0.01      0.00    -0.02     0.00       3000
-## nr.siblings                0.04      0.00     0.04     0.05       3000
-## last_born1                 0.01      0.00     0.00     0.02       3000
+## Intercept                  0.75      0.00     0.74     0.76       3000
+## paternalage               -0.02      0.00    -0.03    -0.01       3000
+## birth_cohort1950M1955      0.00      0.00     0.00     0.00       3000
+## birth_cohort1955M1960      0.00      0.00     0.00     0.01       3000
+## male1                     -0.06      0.00    -0.07    -0.06       3000
+## maternalage.factor1420     0.05      0.00     0.05     0.05       3000
+## maternalage.factor3561    -0.01      0.00    -0.01     0.00       3000
+## paternalage.mean          -0.03      0.00    -0.03    -0.02       3000
+## paternal_loss01            0.11      0.05     0.01     0.21       3000
+## paternal_loss15            0.03      0.02    -0.01     0.07       3000
+## paternal_loss510          -0.02      0.01    -0.04     0.00       3000
+## paternal_loss1015         -0.01      0.01    -0.02     0.00       3000
+## paternal_loss1520          0.00      0.00     0.00     0.01       3000
+## paternal_loss2025          0.00      0.00    -0.01     0.00       3000
+## paternal_loss2530          0.00      0.00     0.00     0.01       3000
+## paternal_loss3035          0.00      0.00    -0.01     0.00       3000
+## paternal_loss3540          0.00      0.00    -0.01     0.00       3000
+## paternal_loss4045         -0.01      0.00    -0.01     0.00       3000
+## paternal_lossunclear      -0.06      0.00    -0.06    -0.05       3000
+## maternal_loss01           -0.20      0.07    -0.34    -0.06       3000
+## maternal_loss15           -0.06      0.03    -0.12    -0.01       3000
+## maternal_loss510          -0.01      0.01    -0.04     0.02       3000
+## maternal_loss1015         -0.01      0.01    -0.02     0.01       3000
+## maternal_loss1520         -0.01      0.01    -0.02     0.01       3000
+## maternal_loss2025          0.01      0.01     0.00     0.02       3000
+## maternal_loss2530          0.00      0.00     0.00     0.01       3000
+## maternal_loss3035          0.00      0.00     0.00     0.01       3000
+## maternal_loss3540         -0.01      0.00    -0.01     0.00       3000
+## maternal_loss4045          0.00      0.00    -0.01     0.00       3000
+## maternal_lossunclear      -0.02      0.00    -0.02    -0.02       3000
+## older_siblings            -0.01      0.00    -0.01    -0.01       3000
+## nr.siblings                0.04      0.00     0.04     0.04       3000
+## last_born1                 0.01      0.00     0.01     0.01       3000
 ##                        Rhat
 ## Intercept                 1
 ## paternalage               1
@@ -1068,300 +1068,300 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <tbody>
 <tr class="odd">
 <td align="center"><strong>Intercept</strong></td>
-<td align="center">0.7497</td>
-<td align="center">0.7204</td>
-<td align="center">0.7784</td>
-<td align="center">2.116</td>
-<td align="center">2.055</td>
-<td align="center">2.178</td>
+<td align="center">0.7527</td>
+<td align="center">0.7438</td>
+<td align="center">0.7617</td>
+<td align="center">2.123</td>
+<td align="center">2.104</td>
+<td align="center">2.142</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>paternalage</strong></td>
-<td align="center">-0.01523</td>
-<td align="center">-0.04237</td>
-<td align="center">0.01145</td>
-<td align="center">0.9849</td>
-<td align="center">0.9585</td>
-<td align="center">1.012</td>
+<td align="center">-0.02106</td>
+<td align="center">-0.0291</td>
+<td align="center">-0.013</td>
+<td align="center">0.9792</td>
+<td align="center">0.9713</td>
+<td align="center">0.9871</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>birth_cohort1950M1955</strong></td>
-<td align="center">-0.004968</td>
-<td align="center">-0.0155</td>
-<td align="center">0.005371</td>
-<td align="center">0.995</td>
-<td align="center">0.9846</td>
-<td align="center">1.005</td>
+<td align="center">0.0008174</td>
+<td align="center">-0.002398</td>
+<td align="center">0.004051</td>
+<td align="center">1.001</td>
+<td align="center">0.9976</td>
+<td align="center">1.004</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>birth_cohort1955M1960</strong></td>
-<td align="center">-0.002242</td>
-<td align="center">-0.01308</td>
-<td align="center">0.009085</td>
-<td align="center">0.9978</td>
-<td align="center">0.987</td>
-<td align="center">1.009</td>
+<td align="center">0.001798</td>
+<td align="center">-0.001539</td>
+<td align="center">0.005172</td>
+<td align="center">1.002</td>
+<td align="center">0.9985</td>
+<td align="center">1.005</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>male1</strong></td>
-<td align="center">-0.06557</td>
-<td align="center">-0.07344</td>
-<td align="center">-0.05762</td>
-<td align="center">0.9365</td>
-<td align="center">0.9292</td>
-<td align="center">0.944</td>
+<td align="center">-0.06357</td>
+<td align="center">-0.06611</td>
+<td align="center">-0.06106</td>
+<td align="center">0.9384</td>
+<td align="center">0.936</td>
+<td align="center">0.9408</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>maternalage.factor1420</strong></td>
-<td align="center">0.06224</td>
-<td align="center">0.04694</td>
-<td align="center">0.07703</td>
-<td align="center">1.064</td>
-<td align="center">1.048</td>
-<td align="center">1.08</td>
+<td align="center">0.05057</td>
+<td align="center">0.04636</td>
+<td align="center">0.05485</td>
+<td align="center">1.052</td>
+<td align="center">1.047</td>
+<td align="center">1.056</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>maternalage.factor3561</strong></td>
-<td align="center">-0.01241</td>
-<td align="center">-0.02742</td>
-<td align="center">0.002077</td>
-<td align="center">0.9877</td>
-<td align="center">0.973</td>
-<td align="center">1.002</td>
+<td align="center">-0.006503</td>
+<td align="center">-0.01082</td>
+<td align="center">-0.002253</td>
+<td align="center">0.9935</td>
+<td align="center">0.9892</td>
+<td align="center">0.9977</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>paternalage.mean</strong></td>
-<td align="center">-0.03029</td>
-<td align="center">-0.05717</td>
-<td align="center">-0.003662</td>
-<td align="center">0.9702</td>
-<td align="center">0.9444</td>
-<td align="center">0.9963</td>
+<td align="center">-0.02553</td>
+<td align="center">-0.03372</td>
+<td align="center">-0.01738</td>
+<td align="center">0.9748</td>
+<td align="center">0.9668</td>
+<td align="center">0.9828</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>paternal_loss01</strong></td>
-<td align="center">0.08951</td>
-<td align="center">-0.3686</td>
-<td align="center">0.498</td>
-<td align="center">1.094</td>
-<td align="center">0.6917</td>
-<td align="center">1.645</td>
+<td align="center">0.1129</td>
+<td align="center">0.009591</td>
+<td align="center">0.2124</td>
+<td align="center">1.12</td>
+<td align="center">1.01</td>
+<td align="center">1.237</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>paternal_loss15</strong></td>
-<td align="center">-0.01991</td>
-<td align="center">-0.1316</td>
-<td align="center">0.09099</td>
-<td align="center">0.9803</td>
-<td align="center">0.8767</td>
-<td align="center">1.095</td>
+<td align="center">0.02866</td>
+<td align="center">-0.009163</td>
+<td align="center">0.06517</td>
+<td align="center">1.029</td>
+<td align="center">0.9909</td>
+<td align="center">1.067</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>paternal_loss510</strong></td>
-<td align="center">-0.05551</td>
-<td align="center">-0.1112</td>
-<td align="center">0.001182</td>
-<td align="center">0.946</td>
-<td align="center">0.8947</td>
-<td align="center">1.001</td>
+<td align="center">-0.01908</td>
+<td align="center">-0.03588</td>
+<td align="center">-0.001903</td>
+<td align="center">0.9811</td>
+<td align="center">0.9648</td>
+<td align="center">0.9981</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>paternal_loss1015</strong></td>
-<td align="center">-0.01932</td>
-<td align="center">-0.05572</td>
-<td align="center">0.01628</td>
-<td align="center">0.9809</td>
-<td align="center">0.9458</td>
-<td align="center">1.016</td>
+<td align="center">-0.005453</td>
+<td align="center">-0.01551</td>
+<td align="center">0.00448</td>
+<td align="center">0.9946</td>
+<td align="center">0.9846</td>
+<td align="center">1.004</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>paternal_loss1520</strong></td>
-<td align="center">0.002987</td>
-<td align="center">-0.02291</td>
-<td align="center">0.02795</td>
-<td align="center">1.003</td>
-<td align="center">0.9773</td>
-<td align="center">1.028</td>
+<td align="center">0.003568</td>
+<td align="center">-0.004663</td>
+<td align="center">0.01117</td>
+<td align="center">1.004</td>
+<td align="center">0.9953</td>
+<td align="center">1.011</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>paternal_loss2025</strong></td>
-<td align="center">-0.005337</td>
-<td align="center">-0.02709</td>
-<td align="center">0.01651</td>
-<td align="center">0.9947</td>
-<td align="center">0.9733</td>
-<td align="center">1.017</td>
+<td align="center">-0.002701</td>
+<td align="center">-0.009233</td>
+<td align="center">0.003885</td>
+<td align="center">0.9973</td>
+<td align="center">0.9908</td>
+<td align="center">1.004</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>paternal_loss2530</strong></td>
-<td align="center">-0.01428</td>
-<td align="center">-0.03329</td>
-<td align="center">0.005239</td>
-<td align="center">0.9858</td>
-<td align="center">0.9673</td>
-<td align="center">1.005</td>
+<td align="center">0.00238</td>
+<td align="center">-0.002967</td>
+<td align="center">0.007782</td>
+<td align="center">1.002</td>
+<td align="center">0.997</td>
+<td align="center">1.008</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>paternal_loss3035</strong></td>
-<td align="center">-0.005473</td>
-<td align="center">-0.02205</td>
-<td align="center">0.0107</td>
-<td align="center">0.9945</td>
-<td align="center">0.9782</td>
-<td align="center">1.011</td>
+<td align="center">-0.0003753</td>
+<td align="center">-0.005312</td>
+<td align="center">0.004449</td>
+<td align="center">0.9996</td>
+<td align="center">0.9947</td>
+<td align="center">1.004</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>paternal_loss3540</strong></td>
-<td align="center">-0.005765</td>
-<td align="center">-0.02071</td>
-<td align="center">0.009108</td>
-<td align="center">0.9943</td>
-<td align="center">0.9795</td>
-<td align="center">1.009</td>
+<td align="center">-0.004353</td>
+<td align="center">-0.008689</td>
+<td align="center">7.52e-06</td>
+<td align="center">0.9957</td>
+<td align="center">0.9913</td>
+<td align="center">1</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>paternal_loss4045</strong></td>
-<td align="center">-0.01399</td>
-<td align="center">-0.02927</td>
-<td align="center">0.002088</td>
-<td align="center">0.9861</td>
-<td align="center">0.9712</td>
-<td align="center">1.002</td>
+<td align="center">-0.00865</td>
+<td align="center">-0.01327</td>
+<td align="center">-0.004035</td>
+<td align="center">0.9914</td>
+<td align="center">0.9868</td>
+<td align="center">0.996</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>paternal_lossunclear</strong></td>
-<td align="center">-0.05678</td>
-<td align="center">-0.0678</td>
-<td align="center">-0.04583</td>
-<td align="center">0.9448</td>
-<td align="center">0.9345</td>
-<td align="center">0.9552</td>
+<td align="center">-0.05645</td>
+<td align="center">-0.05987</td>
+<td align="center">-0.05302</td>
+<td align="center">0.9451</td>
+<td align="center">0.9419</td>
+<td align="center">0.9484</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>maternal_loss01</strong></td>
-<td align="center">-0.2663</td>
-<td align="center">-0.6831</td>
-<td align="center">0.106</td>
-<td align="center">0.7662</td>
-<td align="center">0.505</td>
-<td align="center">1.112</td>
+<td align="center">-0.1995</td>
+<td align="center">-0.3373</td>
+<td align="center">-0.06162</td>
+<td align="center">0.8192</td>
+<td align="center">0.7137</td>
+<td align="center">0.9402</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>maternal_loss15</strong></td>
-<td align="center">-0.07207</td>
-<td align="center">-0.2628</td>
-<td align="center">0.104</td>
-<td align="center">0.9305</td>
-<td align="center">0.7689</td>
-<td align="center">1.11</td>
+<td align="center">-0.05933</td>
+<td align="center">-0.1174</td>
+<td align="center">-0.005524</td>
+<td align="center">0.9424</td>
+<td align="center">0.8892</td>
+<td align="center">0.9945</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>maternal_loss510</strong></td>
-<td align="center">0.007313</td>
-<td align="center">-0.0794</td>
-<td align="center">0.08949</td>
-<td align="center">1.007</td>
-<td align="center">0.9237</td>
-<td align="center">1.094</td>
+<td align="center">-0.01115</td>
+<td align="center">-0.03795</td>
+<td align="center">0.01534</td>
+<td align="center">0.9889</td>
+<td align="center">0.9628</td>
+<td align="center">1.015</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>maternal_loss1015</strong></td>
-<td align="center">-0.01764</td>
-<td align="center">-0.07414</td>
-<td align="center">0.03771</td>
-<td align="center">0.9825</td>
-<td align="center">0.9285</td>
-<td align="center">1.038</td>
+<td align="center">-0.006748</td>
+<td align="center">-0.02232</td>
+<td align="center">0.008781</td>
+<td align="center">0.9933</td>
+<td align="center">0.9779</td>
+<td align="center">1.009</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>maternal_loss1520</strong></td>
-<td align="center">-0.009035</td>
-<td align="center">-0.04861</td>
-<td align="center">0.03115</td>
-<td align="center">0.991</td>
-<td align="center">0.9526</td>
-<td align="center">1.032</td>
+<td align="center">-0.005885</td>
+<td align="center">-0.01756</td>
+<td align="center">0.005971</td>
+<td align="center">0.9941</td>
+<td align="center">0.9826</td>
+<td align="center">1.006</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>maternal_loss2025</strong></td>
-<td align="center">0.02411</td>
-<td align="center">-0.009799</td>
-<td align="center">0.05744</td>
-<td align="center">1.024</td>
-<td align="center">0.9902</td>
-<td align="center">1.059</td>
+<td align="center">0.007479</td>
+<td align="center">-0.002177</td>
+<td align="center">0.01745</td>
+<td align="center">1.008</td>
+<td align="center">0.9978</td>
+<td align="center">1.018</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>maternal_loss2530</strong></td>
-<td align="center">-0.0006485</td>
-<td align="center">-0.0278</td>
-<td align="center">0.02634</td>
-<td align="center">0.9994</td>
-<td align="center">0.9726</td>
-<td align="center">1.027</td>
+<td align="center">0.004454</td>
+<td align="center">-0.003801</td>
+<td align="center">0.01259</td>
+<td align="center">1.004</td>
+<td align="center">0.9962</td>
+<td align="center">1.013</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>maternal_loss3035</strong></td>
-<td align="center">-0.0002084</td>
-<td align="center">-0.02333</td>
-<td align="center">0.02406</td>
-<td align="center">0.9998</td>
-<td align="center">0.9769</td>
-<td align="center">1.024</td>
+<td align="center">0.004431</td>
+<td align="center">-0.002599</td>
+<td align="center">0.01164</td>
+<td align="center">1.004</td>
+<td align="center">0.9974</td>
+<td align="center">1.012</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>maternal_loss3540</strong></td>
-<td align="center">0.003587</td>
-<td align="center">-0.01599</td>
-<td align="center">0.02247</td>
-<td align="center">1.004</td>
-<td align="center">0.9841</td>
-<td align="center">1.023</td>
+<td align="center">-0.005058</td>
+<td align="center">-0.01119</td>
+<td align="center">0.0008263</td>
+<td align="center">0.995</td>
+<td align="center">0.9889</td>
+<td align="center">1.001</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>maternal_loss4045</strong></td>
-<td align="center">-0.004782</td>
-<td align="center">-0.02322</td>
-<td align="center">0.01404</td>
-<td align="center">0.9952</td>
-<td align="center">0.977</td>
-<td align="center">1.014</td>
+<td align="center">-0.001365</td>
+<td align="center">-0.006806</td>
+<td align="center">0.004421</td>
+<td align="center">0.9986</td>
+<td align="center">0.9932</td>
+<td align="center">1.004</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>maternal_lossunclear</strong></td>
-<td align="center">-0.01889</td>
-<td align="center">-0.02916</td>
-<td align="center">-0.008827</td>
-<td align="center">0.9813</td>
-<td align="center">0.9713</td>
-<td align="center">0.9912</td>
+<td align="center">-0.02074</td>
+<td align="center">-0.0238</td>
+<td align="center">-0.01767</td>
+<td align="center">0.9795</td>
+<td align="center">0.9765</td>
+<td align="center">0.9825</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>older_siblings</strong></td>
-<td align="center">-0.008642</td>
-<td align="center">-0.01807</td>
-<td align="center">0.0007213</td>
-<td align="center">0.9914</td>
-<td align="center">0.9821</td>
-<td align="center">1.001</td>
+<td align="center">-0.01014</td>
+<td align="center">-0.01302</td>
+<td align="center">-0.007324</td>
+<td align="center">0.9899</td>
+<td align="center">0.9871</td>
+<td align="center">0.9927</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>nr.siblings</strong></td>
-<td align="center">0.04358</td>
-<td align="center">0.0381</td>
-<td align="center">0.04915</td>
-<td align="center">1.045</td>
-<td align="center">1.039</td>
-<td align="center">1.05</td>
+<td align="center">0.0418</td>
+<td align="center">0.04016</td>
+<td align="center">0.04351</td>
+<td align="center">1.043</td>
+<td align="center">1.041</td>
+<td align="center">1.044</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>last_born1</strong></td>
-<td align="center">0.01101</td>
-<td align="center">0.002086</td>
-<td align="center">0.02022</td>
+<td align="center">0.0113</td>
+<td align="center">0.008729</td>
+<td align="center">0.01385</td>
 <td align="center">1.011</td>
-<td align="center">1.002</td>
-<td align="center">1.02</td>
+<td align="center">1.009</td>
+<td align="center">1.014</td>
 </tr>
 </tbody>
 </table>
@@ -1370,48 +1370,8 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="paternal-age-effect-2" class="section level3">
 <h3>Paternal age effect</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pander::<span class="kw">pander</span>(<span class="kw">paternal_age_10y_effect</span>(model))</code></pre></div>
-<table style="width:89%;">
-<colgroup>
-<col width="27%" />
-<col width="25%" />
-<col width="18%" />
-<col width="18%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">effect</th>
-<th align="center">median_estimate</th>
-<th align="center">ci_95</th>
-<th align="center">ci_80</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">estimate father 25y</td>
-<td align="center">1.9</td>
-<td align="center">[1.86;1.95]</td>
-<td align="center">[1.88;1.93]</td>
-</tr>
-<tr class="even">
-<td align="center">estimate father 35y</td>
-<td align="center">1.88</td>
-<td align="center">[1.85;1.9]</td>
-<td align="center">[1.86;1.89]</td>
-</tr>
-<tr class="odd">
-<td align="center">percentage change</td>
-<td align="center">-1.51</td>
-<td align="center">[-4.15;1.15]</td>
-<td align="center">[-3.24;0.2]</td>
-</tr>
-<tr class="even">
-<td align="center">OR/IRR</td>
-<td align="center">0.98</td>
-<td align="center">[0.96;1.01]</td>
-<td align="center">[0.97;1]</td>
-</tr>
-</tbody>
-</table>
+<pre><code>## Error: Group-level effects for each level of group &#39;idParents&#39; not found. Please set ranef = TRUE when calling brm.</code></pre>
+<pre><code>## Error in if (tail(stdout, 1) == &quot;&quot;) {: argument is of length zero</code></pre>
 </div>
 <div id="marginal-effect-plots-2" class="section level3">
 <h3>Marginal effect plots</h3>
@@ -1419,7 +1379,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-1.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-2.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-3.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-4.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-5.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-6.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-7.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-8.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-9.png" width="1440px" height="900px" /><img src="5_swed_robustness_files/figure-html/unnamed-chunk-59-10.png" width="1440px" height="900px" /></p>
+<pre><code>## Error: Group-level effects for each level of group &#39;idParents&#39; not found. Please set ranef = TRUE when calling brm.</code></pre>
 </div>
 <div id="coefficient-plot-2" class="section level3">
 <h3>Coefficient plot</h3>
@@ -1435,9 +1395,9 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="posterior-predictive-checks-2" class="section level4">
 <h4>Posterior predictive checks</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="5_swed_robustness_files/figure-html/unnamed-chunk-61-1.png" width="1440px" height="900px" /></p>
+<pre><code>## Error: Group-level effects for each level of group &#39;idParents&#39; not found. Please set ranef = TRUE when calling brm.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="5_swed_robustness_files/figure-html/unnamed-chunk-61-2.png" width="1440px" height="900px" /></p>
+<pre><code>## Error: Group-level effects for each level of group &#39;idParents&#39; not found. Please set ranef = TRUE when calling brm.</code></pre>
 </div>
 <div id="rhat-2" class="section level4">
 <h4>Rhat</h4>
@@ -12214,6 +12174,7 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 <div id="legend" class="section level3">
 <h3>Legend</h3>
 <p>In reference to <em>m3</em>, the main reported model, the robustness models were implemented as follows: <em>r1</em> relaxed exclusion criteria (not in 20th-century Sweden), <em>r2</em> had only birth cohort as a covariate, <em>r3</em> adjusted for birth order as a continuous variable, <em>r4</em> adjusted for number of dependent siblings instead of birth order, <em>r5</em> interacted birth order with number of siblings, <em>r6</em> did not adjust for birth order, <em>r7</em> adjusted only for parental loss in the first 5 years, <em>r8</em> adjusted for being the first-/last-born adult son, <em>r9</em> adjusted for a continuous nonlinear thin-splate spline for birth year instead of 5-year bins, <em>r10</em> added a group-level slope for paternal age, <em>r11</em> included separate group-level effects for each parent instead of one per marriage, <em>r12</em> added a moderation by anchor sex, <em>r13</em> adjusted for paternal age at first birth, <em>r14</em> compared a model with linear group fixed effects, <em>r15</em> added a moderator by region and group-level effects by church parish (not in 20th-century Sweden), <em>r16</em> was restricted to Skellefteå (only in historical Sweden), <em>r17</em> simulated Down syndrome cases, <em>r18</em> reversed hurdle Poisson and Poisson distribution for the respective populations, <em>r19</em> used a normal distribution, <em>r20</em> did not adjust for maternal age, <em>r21</em> adjusted for maternal age as a continuous variable, <em>r22</em> relaxed exclusion criteria and included 30 more years of birth cohorts, allowing for more potential censoring, <em>r23</em> used Student’s t distributions for population-level priors and half-Cauchy priors for the family variance component, <em>r24</em> used noninformative priors, which should lead to results comparable with maximum likelihood, <em>r25</em> controlled for migration status (not in 20th-century Sweden), <em>r26</em> separate parental age contributions (only in 20th-century Sweden).</p>
+<p>Points show median estimates, the lines show 80% and 95% credibility intervals respectively.</p>
 <p><img src="5_swed_robustness_files/figure-html/unnamed-chunk-28-1.png" width="1440px" height="900px" /></p>
 </div>
 </div>
