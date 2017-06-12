@@ -134,7 +134,7 @@ e1_plot =<span class="st"> </span><span class="kw">ggplot</span>(e1,  <span clas
 <span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Paternal age&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>)) +<span class="st"> </span>
 <span class="st">    </span>analysis_theme +
 <span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),
                 <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
 e1_plot</code></pre></div>
 <p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-1-1.png" width="1440px" height="900px" /></p>
@@ -171,7 +171,7 @@ e2_plot =<span class="st"> </span><span class="kw">ggplot</span>(e2,  <span clas
 <span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Paternal age&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>)) +<span class="st"> </span>
 <span class="st">    </span>analysis_theme +
 <span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),
                 <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
 e2_plot</code></pre></div>
 <p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-3-1.png" width="1440px" height="900px" /></p>
@@ -208,7 +208,7 @@ e3_plot =<span class="st"> </span><span class="kw">ggplot</span>(e3,  <span clas
 <span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Paternal age&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>)) +<span class="st"> </span>
 <span class="st">    </span>analysis_theme +
 <span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),
                 <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
 e3_plot</code></pre></div>
 <p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-5-1.png" width="1440px" height="900px" /></p>
@@ -245,7 +245,7 @@ e4_plot =<span class="st"> </span><span class="kw">ggplot</span>(e4,  <span clas
 <span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Paternal age&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>,<span class="dv">60</span>,<span class="dv">70</span>)) +<span class="st"> </span>
 <span class="st">    </span>analysis_theme +
 <span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.6</span>),
                 <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
 e4_plot</code></pre></div>
 <p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-7-1.png" width="1440px" height="900px" /></p>
@@ -286,19 +286,19 @@ for (i in <span class="kw">seq_along</span>(paths)) {
     }
 }
 effect_estimates$median_estimate =<span class="st"> </span><span class="kw">as.numeric</span>(effect_estimates$median_estimate)
-effect_estimates =<span class="st"> </span>effect_estimates %&gt;%<span class="st"> </span><span class="kw">arrange</span>(episode)</code>
 effect_estimates$episode =<span class="st"> </span><span class="kw">str_match</span>(effect_estimates$model, <span class="st">&quot;([em]</span><span class="ch">\\</span><span class="st">d)_&quot;</span>)[,<span class="dv">2</span>]
+eps =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;m3&quot;</span>=<span class="st">&#39;0. Number of children</span><span class="ch">\n</span><span class="st">(all)&#39;</span>, <span class="st">&quot;e1&quot;</span> =<span class="st"> &#39;1. Infant survival&#39;</span>, <span class="st">&quot;e2&quot;</span> =<span class="st"> &#39;2. Survival to 15&#39;</span>, <span class="st">&quot;e3&quot;</span> =<span class="st"> &#39;3. Ever married&#39;</span>, <span class="st">&quot;e4&quot;</span> =<span class="st"> &quot;4. Number of children</span><span class="ch">\n</span><span class="st">(conditional on ever marrying)&quot;</span>)
+effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(eps[effect_estimates$episode])
+effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(effect_estimates$episode, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">levels</span>(effect_estimates$episode)))
+effect_estimates =<span class="st"> </span>effect_estimates %&gt;%<span class="st"> </span><span class="kw">arrange</span>(episode)
 effect_estimates$lower95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
 effect_estimates$upper95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
 effect_estimates$lower80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
 effect_estimates$upper80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
 
 pops =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;krmh&quot;</span>=<span class="st">&#39;Krummhörn&#39;</span>, <span class="st">&quot;rpqa&quot;</span> =<span class="st"> &#39;Québec&#39;</span>, <span class="st">&quot;ddb&quot;</span> =<span class="st"> &#39;Historical Sweden&#39;</span>, <span class="st">&quot;swed&quot;</span> =<span class="st"> &#39;20th-century Sweden&#39;</span>)
-eps =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;m3&quot;</span>=<span class="st">&#39;0. Number of children</span><span class="ch">\n</span><span class="st">(all)&#39;</span>, <span class="st">&quot;e1&quot;</span> =<span class="st"> &#39;1. Infant survival&#39;</span>, <span class="st">&quot;e2&quot;</span> =<span class="st"> &#39;2. Survival to 15&#39;</span>, <span class="st">&quot;e3&quot;</span> =<span class="st"> &#39;3. Ever married&#39;</span>, <span class="st">&quot;e4&quot;</span> =<span class="st"> &quot;4. Number of children</span><span class="ch">\n</span><span class="st">(conditional on ever marrying)&quot;</span>)
 effect_estimates$Population =<span class="st"> </span>pops[effect_estimates$population]
 effect_estimates$Population =<span class="st"> </span><span class="kw">factor</span>(effect_estimates$Population, <span class="dt">levels =</span> pops)
-effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(eps[effect_estimates$episode])
-effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(effect_estimates$episode, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">levels</span>(effect_estimates$episode)))
 
 episode_comparison =<span class="st"> </span><span class="kw">ggplot</span>(effect_estimates %&gt;%<span class="st"> </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(episode)), <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(episode), <span class="dt">y =</span> median_estimate, <span class="dt">ymin =</span> lower95, <span class="dt">ymax =</span> upper95, <span class="dt">color =</span> Population)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>)) +
