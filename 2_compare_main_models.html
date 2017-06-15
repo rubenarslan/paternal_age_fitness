@@ -107,14 +107,11 @@ img {
 <div id="loading-details" class="section level3 accordion">
 <h3>Loading details</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
-opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>), <span class="dt">fig.width=</span><span class="fl">17.8</span>,<span class="dt">fig.height =</span> <span class="fl">17.8</span>*<span class="fl">0.625</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
- 
-get_paternalage_effect =<span class="st"> </span>function(model, population, <span class="dt">var =</span> <span class="st">&quot;paternalage&quot;</span>) {
-    brms::<span class="kw">marginal_effects</span>(<span class="kw">readRDS</span>(<span class="kw">get_coefficient_path</span>(model, population)), var)
-}</code></pre></div>
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>), <span class="dt">fig.width=</span><span class="fl">17.8</span>,<span class="dt">fig.height =</span> <span class="fl">17.8</span>*<span class="fl">0.625</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)</code></pre></div>
 </div>
 <div id="raw-zero-order-association" class="section level2">
 <h2>Raw zero-order association</h2>
+<p>Here, we simply plot the raw-zero order association between paternal age and anchor’s number of children, allowing for nonlinearity by fitting a generalized additive model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&#39;krmh.rdata&#39;</span>)
 <span class="kw">load</span>(<span class="st">&#39;swed1.rdata&#39;</span>)
 <span class="kw">load</span>(<span class="st">&#39;ddb.rdata&#39;</span>)
@@ -156,7 +153,7 @@ m1 =<span class="st"> </span><span class="kw">bind_rows</span>(
     <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(model_name, <span class="st">&quot;swed&quot;</span>),
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(model_name, <span class="st">&quot;ddb&quot;</span>),
 <span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
-) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+)
 
 m1_plot =<span class="st"> </span><span class="kw">ggplot</span>(m1,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
@@ -180,8 +177,8 @@ m1_plot</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(model_name)</code></pre></div>
 <p><img src="2_compare_main_models_files/figure-html/unnamed-chunk-3-1.png" width="1440px" height="900px" /></p>
 <pre><code>##            Population median_estimate         ci_95         ci_80
-## 1           Krummhörn           -4.87  [-9.82;0.17] [-8.12;-1.57]
-## 2              Québec           -1.57 [-2.51;-0.59]  [-2.17;-0.9]
+## 1           Krummhörn           -4.87 [-9.82; 0.17] [-8.12;-1.57]
+## 2              Québec           -1.57 [-2.51;-0.59] [-2.17;-0.90]
 ## 3 20th-century Sweden           -4.60 [-4.83;-4.36] [-4.75;-4.44]
 ## 4   Historical Sweden            2.37   [0.69;4.08]   [1.27;3.49]</code></pre>
 </div>
@@ -197,7 +194,7 @@ m3 =<span class="st"> </span><span class="kw">bind_rows</span>(
     <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(model_name, <span class="st">&quot;swed&quot;</span>),
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(model_name, <span class="st">&quot;ddb&quot;</span>),
 <span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
-) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+)
 
 m3_plot =<span class="st"> </span><span class="kw">ggplot</span>(m3,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
@@ -220,11 +217,11 @@ m3_plot</code></pre></div>
 <h3>Effect size comparison</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(model_name)</code></pre></div>
 <p><img src="2_compare_main_models_files/figure-html/unnamed-chunk-5-1.png" width="1440px" height="900px" /></p>
-<pre><code>##            Population median_estimate          ci_95          ci_80
-## 1           Krummhörn           -8.41 [-24.83;12.03]   [-19.5;3.89]
-## 2              Québec           -3.00   [-6.08;0.24]   [-4.97;-0.9]
-## 3 20th-century Sweden           -3.41  [-5.88;-0.91]  [-5.03;-1.73]
-## 4   Historical Sweden           -7.29  [-13.4;-1.07] [-11.15;-3.33]</code></pre>
+<pre><code>##            Population median_estimate           ci_95           ci_80
+## 1           Krummhörn           -8.41 [-24.83; 12.03] [-19.50;  3.89]
+## 2              Québec           -3.00   [-6.08; 0.24]   [-4.97;-0.90]
+## 3 20th-century Sweden           -5.15   [-5.94;-4.36]   [-5.67;-4.63]
+## 4   Historical Sweden           -7.29 [-13.40; -1.07] [-11.15; -3.33]</code></pre>
 </div>
 </div>
 <div id="m4_children_nonlinear" class="section level2 tab-content">
@@ -239,7 +236,7 @@ m4 =<span class="st"> </span><span class="kw">bind_rows</span>(
     <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(model_name, <span class="st">&quot;swed&quot;</span>),
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(model_name, <span class="st">&quot;ddb&quot;</span>),
 <span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
-) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+)
 
 m4_plot =<span class="st"> </span><span class="kw">ggplot</span>(m4,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
@@ -257,16 +254,31 @@ m4_plot =<span class="st"> </span><span class="kw">ggplot</span>(m4,  <span clas
 m4_plot</code></pre></div>
 <p><img src="2_compare_main_models_files/figure-html/unnamed-chunk-6-1.png" width="1440px" height="900px" /></p>
 </div>
+<div id="alternative-plot" class="section level3">
+<h3>Alternative plot</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m4_plot2 =<span class="st"> </span><span class="kw">ggplot</span>(m4,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Population, <span class="dt">weight =</span> <span class="dv">1</span>/Est.Error, <span class="dt">group =</span> Population),<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> F, <span class="dt">lty =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>(), <span class="dt">alpha =</span> <span class="fl">0.1</span>) +
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;The reproductive success of older fathers&#39; children - m4&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Number of anchor&#39;s children&quot;</span>, <span class="dt">breaks =</span> scales::<span class="kw">pretty_breaks</span>(<span class="dt">min.n =</span> <span class="dv">2</span>, <span class="dt">n=</span> <span class="dv">3</span>))  +<span class="st"> </span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Paternal age&quot;</span>) +<span class="st"> </span>
+<span class="st">    </span>analysis_theme +
+<span class="st">    </span>pop_colour +<span class="st"> </span>pop_fill +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(-<span class="dv">1</span>,<span class="dv">0</span>),<span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>Population, <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">scales =</span> <span class="st">&#39;free_y&#39;</span>)
+m4_plot2</code></pre></div>
+<p><img src="2_compare_main_models_files/figure-html/unnamed-chunk-7-1.png" width="1440px" height="900px" /></p>
+</div>
 <div id="effect-size-comparison-2" class="section level3">
 <h3>Effect size comparison</h3>
 <p>Compares children of 25 year-old fathers with those of 35-year-old fathers.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(model_name)</code></pre></div>
-<p><img src="2_compare_main_models_files/figure-html/unnamed-chunk-7-1.png" width="1440px" height="900px" /></p>
-<pre><code>##            Population median_estimate          ci_95          ci_80
-## 1           Krummhörn          -14.50 [-47.21;29.59]  [-36.58;9.03]
-## 2              Québec           -4.67  [-14.36;8.45]  [-11.01;2.87]
-## 3 20th-century Sweden           -6.88  [-7.71;-6.05]  [-7.43;-6.35]
-## 4   Historical Sweden          -13.95   [-35.52;5.5] [-26.86;-2.12]</code></pre>
+<p><img src="2_compare_main_models_files/figure-html/unnamed-chunk-8-1.png" width="1440px" height="900px" /></p>
+<pre><code>##            Population median_estimate           ci_95           ci_80
+## 1           Krummhörn           -6.74 [-25.17; 14.85] [-19.34;  6.80]
+## 2              Québec           -7.98 [-11.85; -4.12] [-10.49; -5.23]
+## 3 20th-century Sweden           -6.88   [-7.62;-6.03]   [-7.40;-6.32]
+## 4   Historical Sweden           -4.43 [-11.65;  2.93] [ -9.10;  0.47]</code></pre>
 </div>
 </div>
 </div>

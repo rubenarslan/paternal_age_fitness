@@ -107,11 +107,7 @@ img {
 <div id="loading-details" class="section level3 accordion">
 <h3>Loading details</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;0__helpers.R&quot;</span>)
-opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>), <span class="dt">fig.width=</span><span class="fl">17.8</span>,<span class="dt">fig.height =</span> <span class="fl">17.8</span>*<span class="fl">0.625</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)
- 
-get_paternalage_effect =<span class="st"> </span>function(model, population, <span class="dt">var =</span> <span class="st">&quot;paternalage&quot;</span>) {
-    brms::<span class="kw">marginal_effects</span>(<span class="kw">readRDS</span>(<span class="kw">get_coefficient_path</span>(model, population)), var)
-}</code></pre></div>
+opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">cache=</span>F,<span class="dt">cache.lazy=</span>F,<span class="dt">tidy=</span><span class="ot">FALSE</span>,<span class="dt">autodep=</span><span class="ot">TRUE</span>,<span class="dt">dev=</span><span class="kw">c</span>(<span class="st">&#39;png&#39;</span>,<span class="st">&#39;pdf&#39;</span>), <span class="dt">fig.width=</span><span class="fl">17.8</span>,<span class="dt">fig.height =</span> <span class="fl">17.8</span>*<span class="fl">0.625</span>,<span class="dt">out.width=</span><span class="st">&#39;1440px&#39;</span>,<span class="dt">out.height=</span><span class="st">&#39;900px&#39;</span>)</code></pre></div>
 </div>
 <div id="e1_survive1y" class="section level2 tab-content">
 <h2><em>e1</em>: Survival to first year</h2>
@@ -125,7 +121,7 @@ e1 =<span class="st"> </span><span class="kw">bind_rows</span>(
     <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;swed&quot;</span>),
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;ddb&quot;</span>),
 <span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
-) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+)
 
 e1_plot =<span class="st"> </span><span class="kw">ggplot</span>(e1,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
@@ -162,7 +158,7 @@ e2 =<span class="st"> </span><span class="kw">bind_rows</span>(
     <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;swed&quot;</span>),
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;ddb&quot;</span>),
 <span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
-) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+)
 
 e2_plot =<span class="st"> </span><span class="kw">ggplot</span>(e2,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
@@ -180,11 +176,11 @@ e2_plot</code></pre></div>
 <h3>Effect size comparison</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(episode)</code></pre></div>
 <p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-4-1.png" width="1440px" height="900px" /></p>
-<pre><code>##            Population median_estimate        ci_95        ci_80
-## 1           Krummhörn            0.06 [-2.69;2.73] [-1.73;1.75]
-## 2              Québec            0.09 [-0.17;0.36] [-0.07;0.26]
-## 3 20th-century Sweden            0.03     [0;0.06]  [0.01;0.05]
-## 4   Historical Sweden           -0.16 [-0.68;0.27] [-0.47;0.12]</code></pre>
+<pre><code>##            Population median_estimate         ci_95         ci_80
+## 1           Krummhörn            0.06 [-2.69; 2.73] [-1.73; 1.75]
+## 2              Québec            0.09 [-0.17; 0.36] [-0.07; 0.26]
+## 3 20th-century Sweden            0.03   [0.00;0.06]   [0.01;0.05]
+## 4   Historical Sweden           -0.16 [-0.68; 0.27] [-0.47; 0.12]</code></pre>
 </div>
 </div>
 <div id="e3_ever_married" class="section level2 tab-content">
@@ -199,7 +195,7 @@ e3 =<span class="st"> </span><span class="kw">bind_rows</span>(
     <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;swed&quot;</span>),
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;ddb&quot;</span>),
 <span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
-) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+)
 
 e3_plot =<span class="st"> </span><span class="kw">ggplot</span>(e3,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
@@ -217,11 +213,11 @@ e3_plot</code></pre></div>
 <h3>Effect size comparison</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(episode)</code></pre></div>
 <p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-6-1.png" width="1440px" height="900px" /></p>
-<pre><code>##            Population median_estimate         ci_95          ci_80
-## 1           Krummhörn           -5.19 [-14.79;2.01] [-11.08;-0.37]
-## 2              Québec           -0.02  [-0.83;0.74]   [-0.55;0.46]
-## 3 20th-century Sweden            0.82   [0.63;1.01]    [0.69;0.95]
-## 4   Historical Sweden            7.94  [4.47;12.38]   [5.48;10.83]</code></pre>
+<pre><code>##            Population median_estimate           ci_95           ci_80
+## 1           Krummhörn           -5.19 [-14.79;  2.01] [-11.08; -0.37]
+## 2              Québec           -0.02   [-0.83; 0.74]   [-0.55; 0.46]
+## 3 20th-century Sweden            0.82     [0.63;1.01]     [0.69;0.95]
+## 4   Historical Sweden            7.94   [ 4.47;12.38]   [ 5.48;10.83]</code></pre>
 </div>
 </div>
 <div id="e4_children" class="section level2 tab-content">
@@ -236,7 +232,7 @@ e4 =<span class="st"> </span><span class="kw">bind_rows</span>(
     <span class="st">&quot;20th-century Sweden&quot;</span> =<span class="st">  </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;swed&quot;</span>),
     <span class="st">&quot;Historical Sweden&quot;</span> =<span class="st"> </span><span class="kw">get_paternalage_effect</span>(episode, <span class="st">&quot;ddb&quot;</span>),
 <span class="dt">.id =</span> <span class="st">&quot;Population&quot;</span>
-) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Population =</span> <span class="kw">str_sub</span>(Population,<span class="dv">1</span>, -<span class="dv">13</span>))
+)
 
 e4_plot =<span class="st"> </span><span class="kw">ggplot</span>(e4,  <span class="kw">aes</span>(<span class="dt">x =</span> paternalage*<span class="dv">10</span>, <span class="dt">y =</span> Estimate, <span class="dt">colour =</span> Population, <span class="dt">fill =</span> Population, <span class="dt">ymin =</span> lowerCI, <span class="dt">ymax =</span> upperCI)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">stat =</span> <span class="st">&#39;identity&#39;</span>, <span class="dt">position =</span> <span class="kw">position_identity</span>()) +
@@ -255,17 +251,15 @@ e4_plot</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comp_plot</span>(episode)</code></pre></div>
 <p><img src="3_compare_selective_episodes_files/figure-html/unnamed-chunk-8-1.png" width="1440px" height="900px" /></p>
 <pre><code>##            Population median_estimate         ci_95         ci_80
-## 1           Krummhörn           15.62  [3.92;29.31]  [7.67;24.68]
-## 2              Québec            0.94  [-1.32;3.23]   [-0.5;2.47]
+## 1           Krummhörn           15.62 [ 3.92;29.31] [ 7.67;24.68]
+## 2              Québec            0.94 [-1.32; 3.23] [-0.50; 2.47]
 ## 3 20th-century Sweden           -3.82 [-4.64;-2.98] [-4.38;-3.28]
 ## 4   Historical Sweden           -5.36 [-8.92;-1.59] [-7.71;-2.96]</code></pre>
 </div>
 </div>
 <div id="all-episodes" class="section level2">
 <h2>All episodes</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filenames =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;m3_children_linear.rds&quot;</span>,<span class="st">&quot;m3_children_linear.rds&quot;</span>,<span class="st">&quot;m3_children_linear.rds&quot;</span>,<span class="st">&quot;m3_children_linear.rds&quot;</span>, 
-        <span class="kw">list.files</span>(<span class="st">&quot;coefs&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">&quot;^e._.+rds$&quot;</span>, <span class="dt">recursive =</span> T))
-paths =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;coefs/krmh/m3_children_linear.rds&quot;</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paths =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;coefs/krmh/m3_children_linear.rds&quot;</span>, 
                     <span class="st">&quot;coefs/rpqa/m3_children_linear.rds&quot;</span>, 
                     <span class="st">&quot;coefs/ddb/m3_children_linear.rds&quot;</span>, 
                     <span class="st">&quot;coefs/swed/m3_children_linear.rds&quot;</span>, 
@@ -273,12 +267,10 @@ paths =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot
 
 i=<span class="dv">1</span>
 effect_estimates =<span class="st"> </span><span class="kw">data.frame</span>()
-models =<span class="st"> </span><span class="kw">list</span>()
 for (i in <span class="kw">seq_along</span>(paths)) {
-    filename =<span class="st"> </span>filenames[i]
+    filename =<span class="st"> </span>paths[i]
     model =<span class="st"> </span><span class="kw">readRDS</span>(paths[i])
     if (<span class="kw">class</span>(model) ==<span class="st"> &quot;brmsfit&quot;</span>) {
-        models[[filename]] =<span class="st"> </span>model
         chg =<span class="st"> </span><span class="kw">paternal_age_10y_effect</span>(model)[<span class="dv">3</span>,]
         chg$model =<span class="st"> </span>filename
         chg$population =<span class="st"> </span><span class="kw">str_match</span>(paths[i], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">w+/(</span><span class="ch">\\</span><span class="st">w+)/&quot;</span>)[,<span class="dv">2</span>]
@@ -291,10 +283,10 @@ eps =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;m
 effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(eps[effect_estimates$episode])
 effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(effect_estimates$episode, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">levels</span>(effect_estimates$episode)))
 effect_estimates =<span class="st"> </span>effect_estimates %&gt;%<span class="st"> </span><span class="kw">arrange</span>(episode)
-effect_estimates$lower95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
-effect_estimates$upper95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
-effect_estimates$lower80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
-effect_estimates$upper80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;;(-?[0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
+effect_estimates$lower95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[ *(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
+effect_estimates$upper95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;; *([-0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
+effect_estimates$lower80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[ *(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
+effect_estimates$upper80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;; *([-0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
 
 pops =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;krmh&quot;</span>=<span class="st">&#39;Krummhörn&#39;</span>, <span class="st">&quot;rpqa&quot;</span> =<span class="st"> &#39;Québec&#39;</span>, <span class="st">&quot;ddb&quot;</span> =<span class="st"> &#39;Historical Sweden&#39;</span>, <span class="st">&quot;swed&quot;</span> =<span class="st"> &#39;20th-century Sweden&#39;</span>)
 effect_estimates$Population =<span class="st"> </span>pops[effect_estimates$population]
@@ -306,7 +298,7 @@ episode_comparison =<span class="st"> </span><span class="kw">ggplot</span>(effe
 <span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) +
 <span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) +
 <span class="st">    </span>pop_colour +
-<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Paternal age effect&quot;</span>) +
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Effect of 10 years of paternal age (in % change)&quot;</span>) +
 <span class="st">    </span><span class="kw">coord_flip</span>()    +<span class="st"> </span>
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
     <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))

@@ -338,9 +338,9 @@ img {
 <div id="authors-acknowledgements" class="section level4 tab-content">
 <h4>Authors &amp; Acknowledgements</h4>
 <p>Corresponding author: <a href="mailto:ruben.arslan@gmail.com">Ruben C. Arslan</a>, Georg August University Göttingen<br />
-Kai P. Willführ, Emma M. Frans, Karin J. H. Verweij, Mikko Myrskylä, Eckart Voland, Catarina Almqvist, Brendan Zietsch, &amp; Lars Penke</p>
+Kai P. Willführ, Emma M. Frans, Karin J. H. Verweij, Paul-Christian Bürkner, Mikko Myrskylä, Eckart Voland, Catarina Almqvist, Brendan Zietsch, &amp; Lars Penke</p>
 <p>This supplementary website has been archived on Zenodo.org <a href="https://zenodo.org/badge/latestdoi/18913/rubenarslan/paternal_age_fitness"><img src="https://zenodo.org/badge/18913/rubenarslan/paternal_age_fitness.svg" alt="DOI" /></a>.</p>
-<p>RCA thanks <a href="https://www.uni-muenster.de/PsyIFP/AEHolling/personen/buerkner.html">Paul-Christian Bürkner</a>, author of brms, <a href="http://jarrod.bio.ed.ac.uk/jarrod.html">Jarrod Hadfield</a>, author of MCMCglmm, and <a href="http://ms.mcmaster.ca/~bolker/">Ben Bolker</a>, co-author of lme4, for their statistical packages and advice in using them. RCA thanks Holger Sennhenn-Reulen for statistical advice.</p>
+<p>RCA thanks Holger Sennhenn-Reulen, <a href="http://jarrod.bio.ed.ac.uk/jarrod.html">Jarrod Hadfield</a>, author of MCMCglmm, and <a href="http://ms.mcmaster.ca/~bolker/">Ben Bolker</a>, co-author of lme4, for their statistical advice.</p>
 <div id="license" class="section level5">
 <h5>License</h5>
 <p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
@@ -376,11 +376,8 @@ Kai P. Willführ, Emma M. Frans, Karin J. H. Verweij, Mikko Myrskylä, Eckart Vo
 <h5>Package bibliography</h5>
 <div id="session-info-with-package-versions" class="section level6 accordion">
 <h6>Session info (with package versions)</h6>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(brms, <span class="dt">warn.conflicts =</span> F, <span class="dt">quietly =</span> T)</code></pre></div>
-<pre><code>## Loading &#39;brms&#39; package (version 1.6.1). Useful instructions 
-## can be found by typing help(&#39;brms&#39;). A more detailed introduction 
-## to the package is available through vignette(&#39;brms_overview&#39;).</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bayesplot, <span class="dt">warn.conflicts =</span> F, <span class="dt">quietly =</span> T)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(brms, <span class="dt">warn.conflicts =</span> F, <span class="dt">quietly =</span> T)
+<span class="kw">library</span>(bayesplot, <span class="dt">warn.conflicts =</span> F, <span class="dt">quietly =</span> T)</code></pre></div>
 <pre><code>## This is bayesplot version 1.2.0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.3.2 (2016-10-31)
@@ -394,9 +391,9 @@ Kai P. Willführ, Emma M. Frans, Karin J. H. Verweij, Mikko Myrskylä, Eckart Vo
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] bayesplot_1.2.0  brms_1.6.1       Rcpp_0.12.9      pander_0.6.0    
+##  [1] bayesplot_1.2.0  brms_1.7.0       Rcpp_0.12.9      pander_0.6.0    
 ##  [5] broom_0.4.1.9000 dtplyr_0.0.1     dplyr_0.5.0      data.table_1.9.6
-##  [9] knitr_1.15.1     plyr_1.8.4       reshape2_1.4.2   stringi_1.1.2   
+##  [9] knitr_1.16       plyr_1.8.4       reshape2_1.4.2   stringi_1.1.2   
 ## [13] stringr_1.1.0    lubridate_1.6.0  formr_0.4.2      QuantPsyc_1.5   
 ## [17] MASS_7.3-45      boot_1.3-18      psych_1.6.9      car_2.1-3       
 ## [21] Hmisc_4.0-0      ggplot2_2.2.1    Formula_1.2-1    survival_2.40-1 
@@ -409,17 +406,18 @@ Kai P. Willführ, Emma M. Frans, Karin J. H. Verweij, Mikko Myrskylä, Eckart Vo
 ## [10] MatrixModels_0.4-1   stats4_3.3.2         coda_0.19-1         
 ## [13] evaluate_0.10        lazyeval_0.2.0       minqa_1.2.4         
 ## [16] SparseM_1.74         nloptr_1.0.4         rpart_4.1-10        
-## [19] Matrix_1.2-7.1       splines_3.3.2        lme4_1.1-12         
-## [22] loo_1.1.0            munsell_0.4.3        rstan_2.15.1        
-## [25] mnormt_1.5-5         mgcv_1.8-16          rstantools_1.2.0    
-## [28] htmltools_0.3.5      nnet_7.3-12          tibble_1.2          
-## [31] gridExtra_2.2.1      htmlTable_1.7        matrixStats_0.51.0  
-## [34] grid_3.3.2           nlme_3.1-128         gtable_0.2.0        
-## [37] DBI_0.5-1            magrittr_1.5         StanHeaders_2.15.0-1
-## [40] scales_0.4.1         latticeExtra_0.6-28  RColorBrewer_1.1-2  
-## [43] tools_3.3.2          abind_1.4-5          parallel_3.3.2      
-## [46] pbkrtest_0.4-6       yaml_2.1.14          inline_0.3.14       
-## [49] colorspace_1.3-2     cluster_2.0.5        quantreg_5.29</code></pre>
+## [19] Matrix_1.2-7.1       labeling_0.3         splines_3.3.2       
+## [22] lme4_1.1-12          loo_1.1.0            munsell_0.4.3       
+## [25] rstan_2.15.1         mnormt_1.5-5         mgcv_1.8-16         
+## [28] rstantools_1.2.0     htmltools_0.3.5      nnet_7.3-12         
+## [31] tibble_1.2           gridExtra_2.2.1      htmlTable_1.7       
+## [34] matrixStats_0.51.0   grid_3.3.2           nlme_3.1-128        
+## [37] gtable_0.2.0         DBI_0.5-1            magrittr_1.5        
+## [40] StanHeaders_2.15.0-1 scales_0.4.1         latticeExtra_0.6-28 
+## [43] RColorBrewer_1.1-2   tools_3.3.2          abind_1.4-5         
+## [46] parallel_3.3.2       pbkrtest_0.4-6       yaml_2.1.14         
+## [49] inline_0.3.14        colorspace_1.3-2     cluster_2.0.5       
+## [52] quantreg_5.29</code></pre>
 </div>
 <div id="references" class="section level6 unnumbered">
 <h6>References</h6>

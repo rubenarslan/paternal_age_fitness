@@ -140,13 +140,13 @@ opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span cla
 <h4>Full summary</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_summary =<span class="st"> </span><span class="kw">summary</span>(model, <span class="dt">use_cache =</span> <span class="ot">FALSE</span>, <span class="dt">priors =</span> <span class="ot">TRUE</span>)
 <span class="kw">print</span>(model_summary)</code></pre></div>
-<pre><code>##  Family: hurdle_poisson (log) 
+<pre><code>##  Family: hurdle_poisson(log) 
 ## Formula: children ~ paternalage + birth_cohort + male + maternalage.factor + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born 
 ##          hu ~ paternalage + birth_cohort + male + maternalage.factor + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born
 ##    Data: model_data (Number of observations: 9447) 
 ## Samples: 6 chains, each with iter = 800; warmup = 300; thin = 1; 
 ##          total post-warmup samples = 3000
-##    WAIC: Not computed
+##     ICs: LOO = Not computed; WAIC = Not computed
 ##  
 ## Priors: 
 ## b ~ normal(0,5)
@@ -945,12 +945,12 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="paternal-age-effect" class="section level3">
 <h3>Paternal age effect</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pander::<span class="kw">pander</span>(<span class="kw">paternal_age_10y_effect</span>(model))</code></pre></div>
-<table style="width:89%;">
+<table style="width:92%;">
 <colgroup>
 <col width="27%" />
 <col width="25%" />
-<col width="18%" />
-<col width="18%" />
+<col width="19%" />
+<col width="19%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -964,7 +964,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <tr class="odd">
 <td align="center">estimate father 25y</td>
 <td align="center">2.36</td>
-<td align="center">[2.07;2.7]</td>
+<td align="center">[2.07;2.70]</td>
 <td align="center">[2.16;2.57]</td>
 </tr>
 <tr class="even">
@@ -976,12 +976,12 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <tr class="odd">
 <td align="center">percentage change</td>
 <td align="center">-4.87</td>
-<td align="center">[-9.82;0.17]</td>
+<td align="center">[-9.82; 0.17]</td>
 <td align="center">[-8.12;-1.57]</td>
 </tr>
 <tr class="even">
 <td align="center">OR/IRR</td>
-<td align="center">1</td>
+<td align="center">1.00</td>
 <td align="center">[0.97;1.03]</td>
 <td align="center">[0.98;1.02]</td>
 </tr>
@@ -1001,13 +1001,13 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-1.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-2.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-3.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-4.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-5.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-6.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-7.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-8.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-11-9.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-1.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-2.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-3.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-4.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-5.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-6.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-7.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-8.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-9.png" /></p>
 </div>
 <div id="coefficient-plot" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Here, we plotted the 95% posterior densities for the unexponentiated model coefficients (<code>b_</code>). The darkly shaded area represents the 50% credibility interval, the dark line represent the posterior mean estimate.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>, <span class="dt">point_est =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">prob =</span> <span class="fl">0.50</span>, <span class="dt">prob_outer =</span> <span class="fl">0.95</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior densities with means and 50% intervals&quot;</span>) +<span class="st"> </span>analysis_theme +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>), <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>()) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Coefficient size&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-12-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-13-1.png" /></p>
 </div>
 <div id="diagnostics" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -1016,25 +1016,19 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Posterior predictive checks</h4>
 <p>In posterior predictive checks, we test whether we can approximately reproduce the real data distribution from our model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-13-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-14-1.png" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-13-2.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-14-2.png" /></p>
 </div>
 <div id="rhat" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-14-1.png" /></p>
-</div>
-<div id="effective-sample-size-by-average-sample-size" class="section level4">
-<h4>Effective sample size by average sample size</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
 <p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-15-1.png" /></p>
 </div>
-<div id="monte-carlo-se" class="section level4">
-<h4>Monte Carlo SE</h4>
-<p>The Monte Carlo standard error should only be a small fraction of the posterior standard deviation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
+<div id="effective-sample-size-over-average-sample-size" class="section level4">
+<h4>Effective sample size over average sample size</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;neff_hist&#39;</span>)</code></pre></div>
 <p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-16-1.png" /></p>
 </div>
 <div id="trace-plots" class="section level4">
@@ -1044,14 +1038,9 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="kw">plot</span>(model, <span class="dt">N =</span> <span class="dv">3</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)
 }</code></pre></div>
 </div>
-<div id="further-plots" class="section level4">
-<h4>Further plots</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-18-1.png" /></p>
-</div>
 <div id="filecluster-script-name" class="section level4">
 <h4>File/cluster script name</h4>
-<p>This model was stored in the file: coefs/krmh/m1_children_linear_noranef.rds</p>
+<p>This model was stored in the file: coefs/krmh/m1_children_linear_noranef.rds.</p>
 <p>Click the following link to see the script used to generate this model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">echo =</span> <span class="ot">FALSE</span>)
 clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<span class="kw">basename</span>(model_filename), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.rds&quot;</span>,<span class="st">&quot;.html&quot;</span>)
@@ -1069,13 +1058,13 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 <h4>Full summary</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_summary =<span class="st"> </span><span class="kw">summary</span>(model, <span class="dt">use_cache =</span> <span class="ot">FALSE</span>, <span class="dt">priors =</span> <span class="ot">TRUE</span>)
 <span class="kw">print</span>(model_summary)</code></pre></div>
-<pre><code>##  Family: hurdle_poisson (log) 
+<pre><code>##  Family: hurdle_poisson(log) 
 ## Formula: children ~ birth_cohort + male + maternalage.factor + paternalage.mean + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born + (1 | idParents) 
 ##          hu ~ birth_cohort + male + maternalage.factor + paternalage.mean + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born + (1 | idParents)
 ##    Data: model_data (Number of observations: 9447) 
 ## Samples: 6 chains, each with iter = 1500; warmup = 1000; thin = 1; 
 ##          total post-warmup samples = 3000
-##    WAIC: Not computed
+##     ICs: LOO = Not computed; WAIC = Not computed
 ##  
 ## Priors: 
 ## b ~ normal(0,5)
@@ -1890,13 +1879,13 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-1.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-2.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-3.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-4.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-5.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-6.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-7.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-8.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-9.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-1.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-2.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-3.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-4.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-5.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-6.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-7.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-8.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-23-9.png" /></p>
 </div>
 <div id="coefficient-plot-1" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Here, we plotted the 95% posterior densities for the unexponentiated model coefficients (<code>b_</code>). The darkly shaded area represents the 50% credibility interval, the dark line represent the posterior mean estimate.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>, <span class="dt">point_est =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">prob =</span> <span class="fl">0.50</span>, <span class="dt">prob_outer =</span> <span class="fl">0.95</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior densities with means and 50% intervals&quot;</span>) +<span class="st"> </span>analysis_theme +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>), <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>()) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Coefficient size&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-25-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-24-1.png" /></p>
 </div>
 <div id="diagnostics-1" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -1905,26 +1894,20 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Posterior predictive checks</h4>
 <p>In posterior predictive checks, we test whether we can approximately reproduce the real data distribution from our model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-26-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-25-1.png" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-26-2.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-25-2.png" /></p>
 </div>
 <div id="rhat-1" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-26-1.png" /></p>
+</div>
+<div id="effective-sample-size-over-average-sample-size-1" class="section level4">
+<h4>Effective sample size over average sample size</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;neff_hist&#39;</span>)</code></pre></div>
 <p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-27-1.png" /></p>
-</div>
-<div id="effective-sample-size-by-average-sample-size-1" class="section level4">
-<h4>Effective sample size by average sample size</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-28-1.png" /></p>
-</div>
-<div id="monte-carlo-se-1" class="section level4">
-<h4>Monte Carlo SE</h4>
-<p>The Monte Carlo standard error should only be a small fraction of the posterior standard deviation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-29-1.png" /></p>
 </div>
 <div id="trace-plots-1" class="section level4">
 <h4>Trace plots</h4>
@@ -1933,14 +1916,9 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="kw">plot</span>(model, <span class="dt">N =</span> <span class="dv">3</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)
 }</code></pre></div>
 </div>
-<div id="further-plots-1" class="section level4">
-<h4>Further plots</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-31-1.png" /></p>
-</div>
 <div id="filecluster-script-name-1" class="section level4">
 <h4>File/cluster script name</h4>
-<p>This model was stored in the file: coefs/krmh/m2_children_linear_no_diff.rds</p>
+<p>This model was stored in the file: coefs/krmh/m2_children_linear_no_diff.rds.</p>
 <p>Click the following link to see the script used to generate this model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">echo =</span> <span class="ot">FALSE</span>)
 clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<span class="kw">basename</span>(model_filename), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.rds&quot;</span>,<span class="st">&quot;.html&quot;</span>)
@@ -1958,13 +1936,13 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 <h4>Full summary</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_summary =<span class="st"> </span><span class="kw">summary</span>(model, <span class="dt">use_cache =</span> <span class="ot">FALSE</span>, <span class="dt">priors =</span> <span class="ot">TRUE</span>)
 <span class="kw">print</span>(model_summary)</code></pre></div>
-<pre><code>##  Family: hurdle_poisson (log) 
+<pre><code>##  Family: hurdle_poisson(log) 
 ## Formula: children ~ paternalage + birth_cohort + male + maternalage.factor + paternalage.mean + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born + (1 | idParents) 
 ##          hu ~ paternalage + birth_cohort + male + maternalage.factor + paternalage.mean + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born + (1 | idParents)
 ##    Data: model_data (Number of observations: 9447) 
 ## Samples: 6 chains, each with iter = 800; warmup = 300; thin = 1; 
 ##          total post-warmup samples = 3000
-##    WAIC: Not computed
+##     ICs: LOO = Not computed; WAIC = Not computed
 ##  
 ## Priors: 
 ## b ~ normal(0,5)
@@ -2787,12 +2765,12 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="paternal-age-effect-2" class="section level3">
 <h3>Paternal age effect</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pander::<span class="kw">pander</span>(<span class="kw">paternal_age_10y_effect</span>(model))</code></pre></div>
-<table style="width:90%;">
+<table style="width:97%;">
 <colgroup>
 <col width="27%" />
 <col width="25%" />
-<col width="20%" />
-<col width="16%" />
+<col width="22%" />
+<col width="22%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2806,30 +2784,30 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <tr class="odd">
 <td align="center">estimate father 25y</td>
 <td align="center">2.28</td>
-<td align="center">[1.9;2.69]</td>
+<td align="center">[1.90;2.69]</td>
 <td align="center">[2.04;2.53]</td>
 </tr>
 <tr class="even">
 <td align="center">estimate father 35y</td>
 <td align="center">2.08</td>
 <td align="center">[1.65;2.59]</td>
-<td align="center">[1.79;2.4]</td>
+<td align="center">[1.79;2.40]</td>
 </tr>
 <tr class="odd">
 <td align="center">percentage change</td>
 <td align="center">-8.41</td>
-<td align="center">[-24.83;12.03]</td>
-<td align="center">[-19.5;3.89]</td>
+<td align="center">[-24.83; 12.03]</td>
+<td align="center">[-19.50; 3.89]</td>
 </tr>
 <tr class="even">
 <td align="center">OR/IRR</td>
 <td align="center">1.07</td>
 <td align="center">[0.97;1.19]</td>
-<td align="center">[1;1.14]</td>
+<td align="center">[1.00;1.14]</td>
 </tr>
 <tr class="odd">
 <td align="center">OR hurdle</td>
-<td align="center">1.3</td>
+<td align="center">1.30</td>
 <td align="center">[0.99;1.69]</td>
 <td align="center">[1.08;1.55]</td>
 </tr>
@@ -2843,13 +2821,13 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-1.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-2.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-3.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-4.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-5.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-6.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-7.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-8.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-9.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-10.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-1.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-2.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-3.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-4.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-5.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-6.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-7.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-8.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-9.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-34-10.png" /></p>
 </div>
 <div id="coefficient-plot-2" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Here, we plotted the 95% posterior densities for the unexponentiated model coefficients (<code>b_</code>). The darkly shaded area represents the 50% credibility interval, the dark line represent the posterior mean estimate.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>, <span class="dt">point_est =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">prob =</span> <span class="fl">0.50</span>, <span class="dt">prob_outer =</span> <span class="fl">0.95</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior densities with means and 50% intervals&quot;</span>) +<span class="st"> </span>analysis_theme +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>), <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>()) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Coefficient size&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-38-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-35-1.png" /></p>
 </div>
 <div id="diagnostics-2" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -2858,26 +2836,20 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Posterior predictive checks</h4>
 <p>In posterior predictive checks, we test whether we can approximately reproduce the real data distribution from our model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-39-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-36-1.png" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-39-2.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-36-2.png" /></p>
 </div>
 <div id="rhat-2" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-40-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-37-1.png" /></p>
 </div>
-<div id="effective-sample-size-by-average-sample-size-2" class="section level4">
-<h4>Effective sample size by average sample size</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-41-1.png" /></p>
-</div>
-<div id="monte-carlo-se-2" class="section level4">
-<h4>Monte Carlo SE</h4>
-<p>The Monte Carlo standard error should only be a small fraction of the posterior standard deviation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-42-1.png" /></p>
+<div id="effective-sample-size-over-average-sample-size-2" class="section level4">
+<h4>Effective sample size over average sample size</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;neff_hist&#39;</span>)</code></pre></div>
+<pre><code>## Error in factor(x, labels = names(sort(x))): invalid &#39;labels&#39;; length 4471 should be 1 or 4470</code></pre>
 </div>
 <div id="trace-plots-2" class="section level4">
 <h4>Trace plots</h4>
@@ -2886,14 +2858,9 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="kw">plot</span>(model, <span class="dt">N =</span> <span class="dv">3</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)
 }</code></pre></div>
 </div>
-<div id="further-plots-2" class="section level4">
-<h4>Further plots</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-44-1.png" /></p>
-</div>
 <div id="filecluster-script-name-2" class="section level4">
 <h4>File/cluster script name</h4>
-<p>This model was stored in the file: coefs/krmh/m3_children_linear.rds</p>
+<p>This model was stored in the file: coefs/krmh/m3_children_linear.rds.</p>
 <p>Click the following link to see the script used to generate this model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">echo =</span> <span class="ot">FALSE</span>)
 clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<span class="kw">basename</span>(model_filename), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.rds&quot;</span>,<span class="st">&quot;.html&quot;</span>)
@@ -2909,15 +2876,17 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 <h3>Model summary</h3>
 <div id="full-summary-3" class="section level4">
 <h4>Full summary</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_summary =<span class="st"> </span><span class="kw">summary</span>(model, <span class="dt">use_cache =</span> <span class="ot">FALSE</span>, <span class="dt">priors =</span> <span class="ot">TRUE</span>)
-<span class="kw">print</span>(model_summary)</code></pre></div>
-<pre><code>##  Family: hurdle_poisson (log) 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_summary =<span class="st"> </span><span class="kw">summary</span>(model, <span class="dt">use_cache =</span> <span class="ot">FALSE</span>, <span class="dt">priors =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help.
+## See http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(model_summary)</code></pre></div>
+<pre><code>##  Family: hurdle_poisson(log) 
 ## Formula: children ~ s(paternalage) + birth_cohort + male + maternalage.factor + paternalage.mean + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born + (1 | idParents) 
 ##          hu ~ s(paternalage) + birth_cohort + male + maternalage.factor + paternalage.mean + paternal_loss + maternal_loss + older_siblings + nr.siblings + last_born + (1 | idParents)
 ##    Data: model_data (Number of observations: 9447) 
 ## Samples: 6 chains, each with iter = 800; warmup = 300; thin = 1; 
 ##          total post-warmup samples = 3000
-##    WAIC: Not computed
+##     ICs: LOO = Not computed; WAIC = Not computed
 ##  
 ## Priors: 
 ## b ~ normal(0,5)
@@ -2927,7 +2896,7 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 ## sd_hu ~ student_t(3, 0, 10)
 ## sds_hu ~ student_t(3, 0, 10)
 ## 
-## Spline Effects: 
+## Smooth Terms: 
 ##                        Estimate Est.Error l-95% CI u-95% CI Eff.Sample
 ## sds(spaternalage_1)        0.26      0.25     0.01     0.93       1276
 ## sds(hu_spaternalage_1)     0.65      0.63     0.02     2.32       1201
@@ -3750,12 +3719,12 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="paternal-age-effect-3" class="section level3">
 <h3>Paternal age effect</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pander::<span class="kw">pander</span>(<span class="kw">paternal_age_10y_effect</span>(model))</code></pre></div>
-<table style="width:90%;">
+<table style="width:97%;">
 <colgroup>
 <col width="27%" />
 <col width="25%" />
-<col width="20%" />
-<col width="16%" />
+<col width="22%" />
+<col width="22%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3769,30 +3738,30 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <tr class="odd">
 <td align="center">estimate father 25y</td>
 <td align="center">2.26</td>
-<td align="center">[1.9;2.64]</td>
+<td align="center">[1.90;2.64]</td>
 <td align="center">[2.01;2.51]</td>
 </tr>
 <tr class="even">
 <td align="center">estimate father 35y</td>
-<td align="center">2.1</td>
-<td align="center">[1.66;2.6]</td>
-<td align="center">[1.8;2.42]</td>
+<td align="center">2.10</td>
+<td align="center">[1.66;2.60]</td>
+<td align="center">[1.80;2.42]</td>
 </tr>
 <tr class="odd">
 <td align="center">percentage change</td>
 <td align="center">-6.74</td>
-<td align="center">[-25.17;14.85]</td>
-<td align="center">[-19.34;6.8]</td>
+<td align="center">[-25.17; 14.85]</td>
+<td align="center">[-19.34; 6.80]</td>
 </tr>
 <tr class="even">
 <td align="center">OR/IRR</td>
 <td align="center">1.03</td>
 <td align="center">[0.88;1.14]</td>
-<td align="center">[0.94;1.1]</td>
+<td align="center">[0.94;1.10]</td>
 </tr>
 <tr class="odd">
 <td align="center">OR hurdle</td>
-<td align="center">1.2</td>
+<td align="center">1.20</td>
 <td align="center">[0.87;1.66]</td>
 <td align="center">[0.99;1.45]</td>
 </tr>
@@ -3806,13 +3775,13 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="dt">x =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)),
     <span class="dt">y =</span> <span class="kw">marginal_effects</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">probs =</span> <span class="kw">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)), 
     <span class="dt">ask =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-1.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-2.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-3.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-4.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-5.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-6.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-7.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-8.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-9.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-50-10.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-1.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-2.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-3.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-4.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-5.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-6.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-7.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-8.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-9.png" /><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-45-10.png" /></p>
 </div>
 <div id="coefficient-plot-3" class="section level3">
 <h3>Coefficient plot</h3>
 <p>Here, we plotted the 95% posterior densities for the unexponentiated model coefficients (<code>b_</code>). The darkly shaded area represents the 50% credibility interval, the dark line represent the posterior mean estimate.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mcmc_areas</span>(<span class="kw">as.matrix</span>(model$fit), <span class="dt">regex_pars =</span> <span class="st">&quot;b_[^I]&quot;</span>, <span class="dt">point_est =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">prob =</span> <span class="fl">0.50</span>, <span class="dt">prob_outer =</span> <span class="fl">0.95</span>) +<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior densities with means and 50% intervals&quot;</span>) +<span class="st"> </span>analysis_theme +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>), <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>()) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Coefficient size&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-51-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-46-1.png" /></p>
 </div>
 <div id="diagnostics-3" class="section level3 tab-content">
 <h3>Diagnostics</h3>
@@ -3821,26 +3790,20 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <h4>Posterior predictive checks</h4>
 <p>In posterior predictive checks, we test whether we can approximately reproduce the real data distribution from our model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;dens_overlay&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-52-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-47-1.png" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brms::<span class="kw">pp_check</span>(model, <span class="dt">re_formula =</span> <span class="ot">NA</span>, <span class="dt">type =</span> <span class="st">&quot;hist&quot;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-52-2.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-47-2.png" /></p>
 </div>
 <div id="rhat-3" class="section level4">
 <h4>Rhat</h4>
 <p>Did the 6 chains converge?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b_[^I]&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;rhat&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-53-1.png" /></p>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-48-1.png" /></p>
 </div>
-<div id="effective-sample-size-by-average-sample-size-3" class="section level4">
-<h4>Effective sample size by average sample size</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;ess&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-54-1.png" /></p>
-</div>
-<div id="monte-carlo-se-3" class="section level4">
-<h4>Monte Carlo SE</h4>
-<p>The Monte Carlo standard error should only be a small fraction of the posterior standard deviation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;mcse&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-55-1.png" /></p>
+<div id="effective-sample-size-over-average-sample-size-3" class="section level4">
+<h4>Effective sample size over average sample size</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;neff_hist&#39;</span>)</code></pre></div>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-49-1.png" /></p>
 </div>
 <div id="trace-plots-3" class="section level4">
 <h4>Trace plots</h4>
@@ -3849,14 +3812,9 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
     <span class="kw">plot</span>(model, <span class="dt">N =</span> <span class="dv">3</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)
 }</code></pre></div>
 </div>
-<div id="further-plots-3" class="section level4">
-<h4>Further plots</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;diag&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-57-1.png" /></p>
-</div>
 <div id="filecluster-script-name-3" class="section level4">
 <h4>File/cluster script name</h4>
-<p>This model was stored in the file: coefs/krmh/m4_children_nonlinear.rds</p>
+<p>This model was stored in the file: coefs/krmh/m4_children_nonlinear.rds.</p>
 <p>Click the following link to see the script used to generate this model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opts_chunk$<span class="kw">set</span>(<span class="dt">echo =</span> <span class="ot">FALSE</span>)
 clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<span class="kw">basename</span>(model_filename), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.rds&quot;</span>,<span class="st">&quot;.html&quot;</span>)
@@ -3867,14 +3825,145 @@ clusterscript =<span class="st"> </span><span class="kw">str_replace</span>(<spa
 </div>
 <div id="model-comparison" class="section level2">
 <h2>Model comparison</h2>
-<p>We compare the four models using an approximative leave-one-out cross-validation information criterion as implemented in <code>brms</code> and <code>loo</code> and the Watanabe-Akaike information criterion.</p>
-<pre><code>## Error in .local(x, y, ...): Cholmod error &#39;X and/or Y have wrong dimensions&#39; at file ../MatrixOps/cholmod_sdmult.c, line 90</code></pre>
-<pre><code>## Error in print(model_comparison): object &#39;model_comparison&#39; not found</code></pre>
-<pre><code>## Error in plot(model_comparison$m1): object &#39;model_comparison&#39; not found</code></pre>
-<pre><code>## Error in plot(model_comparison$m2): object &#39;model_comparison&#39; not found</code></pre>
-<pre><code>## Error in plot(model_comparison$m3): object &#39;model_comparison&#39; not found</code></pre>
-<pre><code>## Error in plot(model_comparison$m4): object &#39;model_comparison&#39; not found</code></pre>
-<pre><code>## Error in .local(x, y, ...): Cholmod error &#39;X and/or Y have wrong dimensions&#39; at file ../MatrixOps/cholmod_sdmult.c, line 90</code></pre>
+<p>We compare the four models using an approximate leave-one-out cross-validation information criterion as implemented in <code>brms</code> and <code>loo</code> and the Watanabe-Akaike information criterion.</p>
+<div id="approximate-leave-one-out-loo-cross-validation" class="section level3">
+<h3>Approximate leave-one-out (LOO) cross-validation</h3>
+<table style="width:38%;">
+<colgroup>
+<col width="19%" />
+<col width="11%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">LOOIC</th>
+<th align="center">SE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>m1</strong></td>
+<td align="center">30344</td>
+<td align="center">288.3</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m2</strong></td>
+<td align="center">30240</td>
+<td align="center">285</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>m3</strong></td>
+<td align="center">30237</td>
+<td align="center">285.1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m4</strong></td>
+<td align="center">30243</td>
+<td align="center">285.1</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>m1 - m2</strong></td>
+<td align="center">104.1</td>
+<td align="center">40.85</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m1 - m3</strong></td>
+<td align="center">107.1</td>
+<td align="center">40.81</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>m1 - m4</strong></td>
+<td align="center">101.2</td>
+<td align="center">40.9</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m2 - m3</strong></td>
+<td align="center">3.03</td>
+<td align="center">5.65</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>m2 - m4</strong></td>
+<td align="center">-2.88</td>
+<td align="center">6.18</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m3 - m4</strong></td>
+<td align="center">-5.91</td>
+<td align="center">3.86</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="watanabe-akaike-information-criterion" class="section level3">
+<h3>Watanabe-Akaike information criterion</h3>
+<table style="width:39%;">
+<colgroup>
+<col width="19%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">WAIC</th>
+<th align="center">SE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>m1</strong></td>
+<td align="center">30344</td>
+<td align="center">288.3</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m2</strong></td>
+<td align="center">30201</td>
+<td align="center">284.2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>m3</strong></td>
+<td align="center">30198</td>
+<td align="center">284.2</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m4</strong></td>
+<td align="center">30204</td>
+<td align="center">284.2</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>m1 - m2</strong></td>
+<td align="center">143.2</td>
+<td align="center">41.13</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m1 - m3</strong></td>
+<td align="center">145.9</td>
+<td align="center">41.11</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>m1 - m4</strong></td>
+<td align="center">140.3</td>
+<td align="center">41.21</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m2 - m3</strong></td>
+<td align="center">2.72</td>
+<td align="center">5.32</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>m2 - m4</strong></td>
+<td align="center">-2.85</td>
+<td align="center">5.86</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>m3 - m4</strong></td>
+<td align="center">-5.57</td>
+<td align="center">3.47</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 

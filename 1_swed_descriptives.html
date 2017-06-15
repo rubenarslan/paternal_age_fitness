@@ -1172,10 +1172,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 </tbody>
 </table>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(swed<span class="fl">.1</span>[!<span class="kw">duplicated</span>(idParents), ]$nr.siblings, <span class="dt">binwidth =</span> <span class="dv">1</span>) +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Number of siblings per family&quot;</span>) +<span class="st"> </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" />
-<p class="caption">plot of chunk unnamed-chunk-4</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" /></p>
 </div>
 </div>
 <div id="missingness-patterns" class="section level2">
@@ -1529,10 +1526,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
   <span class="dt">legend.justification =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), 
   <span class="dt">legend.box =</span> <span class="st">&quot;horizontal&quot;</span>,
   <span class="dt">panel.margin =</span> <span class="kw">unit</span>(<span class="dv">2</span>, <span class="st">&quot;lines&quot;</span>))</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6" />
-<p class="caption">plot of chunk unnamed-chunk-6</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6" /></p>
 </div>
 <div id="correlations-between-variables" class="section level2">
 <h2>Correlations between variables</h2>
@@ -1705,58 +1699,37 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_sdl&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-8-1.png" alt="plot of chunk unnamed-chunk-8" />
-<p class="caption">plot of chunk unnamed-chunk-8</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-8-1.png" alt="plot of chunk unnamed-chunk-8" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> age_at_1st_child)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9" />
-<p class="caption">plot of chunk unnamed-chunk-9</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> age_at_last_child)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" />
-<p class="caption">plot of chunk unnamed-chunk-10</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> children)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +<span class="st"> </span>
 
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" />
-<p class="caption">plot of chunk unnamed-chunk-11</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> survive1y)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" />
-<p class="caption">plot of chunk unnamed-chunk-12</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed, <span class="kw">aes</span>(<span class="dt">x =</span> byear, <span class="dt">y =</span> surviveR)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" />
-<p class="caption">plot of chunk unnamed-chunk-13</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> children, <span class="dt">y =</span> grandchildren)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">alpha =</span> <span class="kw">I</span>(<span class="fl">0.1</span>)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">poly</span>(x,<span class="dv">3</span>), <span class="dt">colour =</span> <span class="st">&quot;#6e85b0&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" />
-<p class="caption">plot of chunk unnamed-chunk-14</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crosstabs</span>(~<span class="st"> </span>children +<span class="st"> </span>children.surviving5y, <span class="dt">data =</span> swed<span class="fl">.1</span>)</code></pre></div>
 <table>
 <colgroup>
@@ -2189,10 +2162,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;median_hilow&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
 <span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">poly</span>(x,<span class="dv">3</span>), <span class="dt">colour =</span> <span class="st">&quot;#6e85b0&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15" />
-<p class="caption">plot of chunk unnamed-chunk-15</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">round</span>(age), <span class="dt">y =</span> children)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">alpha =</span> <span class="kw">I</span>(<span class="fl">0.1</span>)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
@@ -2200,10 +2170,7 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Age&quot;</span>) +
 <span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Number of children&quot;</span>) +
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-16-1.png" alt="plot of chunk unnamed-chunk-16" />
-<p class="caption">plot of chunk unnamed-chunk-16</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-16-1.png" alt="plot of chunk unnamed-chunk-16" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>[children&gt;<span class="dv">0</span>,], <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">round</span>(age), <span class="dt">y =</span> children)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>, <span class="dt">alpha =</span> <span class="kw">I</span>(<span class="fl">0.1</span>)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#6c92b2&quot;</span>) +
@@ -2211,29 +2178,17 @@ swed<span class="fl">.1</span>[, age_at_last_child :<span class="er">=</span><sp
 <span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Age&quot;</span>) +
 <span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Number of children&quot;</span>) +
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-17-1.png" alt="plot of chunk unnamed-chunk-17" />
-<p class="caption">plot of chunk unnamed-chunk-17</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-17-1.png" alt="plot of chunk unnamed-chunk-17" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_zero_infl</span>(swed<span class="fl">.1</span>[ spouses &gt;<span class="st"> </span><span class="dv">0</span>, ]$children)</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-18-1.png" alt="plot of chunk unnamed-chunk-18" />
-<p class="caption">plot of chunk unnamed-chunk-18</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-18-1.png" alt="plot of chunk unnamed-chunk-18" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.2</span>, <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> survive1y)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-19-1.png" alt="plot of chunk unnamed-chunk-19" />
-<p class="caption">plot of chunk unnamed-chunk-19</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-19-1.png" alt="plot of chunk unnamed-chunk-19" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>swed<span class="fl">.1</span>[spouses &gt;<span class="st"> </span><span class="dv">0</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> paternalage.factor, <span class="dt">y =</span> children)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&quot;summary&quot;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#aec05d&quot;</span>) +<span class="st"> </span>
 <span class="st">    </span>desc_theme</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-20-1.png" alt="plot of chunk unnamed-chunk-20" />
-<p class="caption">plot of chunk unnamed-chunk-20</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-20-1.png" alt="plot of chunk unnamed-chunk-20" /></p>
 </div>
 <div id="opportunities-for-selection" class="section level2">
 <h2>Opportunities for selection</h2>
@@ -3144,10 +3099,7 @@ episodes =<span class="st"> </span>swed %&gt;%
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">episodes.plot =</span> <span class="kw">ggplot</span>(<span class="kw">melt</span>(episodes,<span class="dt">id.vars=</span><span class="kw">c</span>(<span class="st">&#39;byear&#39;</span>), <span class="dt">na.rm =</span> T)) +<span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>byear, <span class="dt">y=</span>value)) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>variable,<span class="dt">scales=</span><span class="st">&#39;free_y&#39;</span>,<span class="dt">ncol =</span> <span class="dv">1</span>)) +<span class="st"> </span>mymin</code></pre></div>
 <pre><code>## geom_path: Each group consists of only one observation. Do you need to
 ## adjust the group aesthetic?</code></pre>
-<div class="figure">
-<img src="1_swed_descriptives/figure/ep.plot-1.png" alt="plot of chunk ep.plot" />
-<p class="caption">plot of chunk ep.plot</p>
-</div>
+<p><img src="1_swed_descriptives/figure/ep.plot-1.png" alt="plot of chunk ep.plot" /></p>
 </div>
 <div id="sex-ratio" class="section level2">
 <h2>Sex ratio</h2>
@@ -3445,10 +3397,7 @@ episodes =<span class="st"> </span>swed %&gt;%
 </tbody>
 </table>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">na.omit</span>(sex.ratio)) +<span class="st"> </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>byear, <span class="dt">y=</span>sex.ratio)) +<span class="st"> </span>mymin</code></pre></div>
-<div class="figure">
-<img src="1_swed_descriptives/figure/unnamed-chunk-22-1.png" alt="plot of chunk unnamed-chunk-22" />
-<p class="caption">plot of chunk unnamed-chunk-22</p>
-</div>
+<p><img src="1_swed_descriptives/figure/unnamed-chunk-22-1.png" alt="plot of chunk unnamed-chunk-22" /></p>
 </div>
 </div>
 
