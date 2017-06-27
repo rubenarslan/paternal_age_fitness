@@ -123,11 +123,15 @@ opts_chunk$<span class="kw">set</span>(<span class="dt">warning=</span><span cla
 </div>
 <div id="covariates" class="section level4">
 <h4>Covariates</h4>
-<p>In our main models we adjust for average paternal age in the family, birth cohort (birth years in five equally large bins), for male sex, for age at paternal and maternal loss (0-1, 2-5, 6-10, …, 41-45, 45+, unknown), for maternal age (bins of 14-20, 20-35 and 35-50), for the number of siblings, for the number of older siblings (0-5, 5+) and for being last born.</p>
+<p>We adjusted for average paternal age within families to isolate the effect of paternal age differences between siblings. We further adjusted for birth cohort in five-year groupings (small groupings at the edge of the range were lumped) to account for secular changes in mortality and fertility, as well as residual censoring. We adjusted for parental deaths in the first 45 years of life to remove effects related to orphanhood and parental senescence (in categories of 0-1, 2-5, 6-10, …, 45+, unknown) for both parents separately. Parental loss at 45+ served as the reference category. We adjusted for maternal age (up to 20, 21-34, 35+), which we binned to reduce multicollinearity with paternal age and to capture nonlinear effects. A maternal age of 21-34 served as the reference category. We also adjusted for number of siblings continuously, number of older siblings (0-5, 5+), and being born last. Being first-born served as the reference category.</p>
 </div>
 <div id="model-stratification" class="section level4">
 <h4>Model stratification</h4>
 <p>We added random intercepts for each family (father-mother dyad). We then controlled for the average paternal age in the family. Hence, the paternal age effects in the plot are split into those between families and those within families or between siblings. We are interested in the effect of paternal age between siblings, as this effect cannot be explained by e.g. genetic propensities of the father to reproduce late.</p>
+</div>
+<div id="priors" class="section level4">
+<h4>Priors</h4>
+<p>We used weakly informative priors that are documented in each model summary.</p>
 </div>
 </div>
 </div>
@@ -1907,7 +1911,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="effective-sample-size-over-average-sample-size-1" class="section level4">
 <h4>Effective sample size over average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;neff_hist&#39;</span>)</code></pre></div>
-<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-27-1.png" /></p>
+<pre><code>## Error in factor(x, labels = names(sort(x))): invalid &#39;labels&#39;; length 4469 should be 1 or 4468</code></pre>
 </div>
 <div id="trace-plots-1" class="section level4">
 <h4>Trace plots</h4>
@@ -2849,7 +2853,7 @@ pander::<span class="kw">pander</span>(fixed_eff)</code></pre></div>
 <div id="effective-sample-size-over-average-sample-size-2" class="section level4">
 <h4>Effective sample size over average sample size</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">stanplot</span>(model, <span class="dt">pars =</span> <span class="st">&quot;^b&quot;</span>, <span class="dt">type =</span> <span class="st">&#39;neff_hist&#39;</span>)</code></pre></div>
-<pre><code>## Error in factor(x, labels = names(sort(x))): invalid &#39;labels&#39;; length 4471 should be 1 or 4470</code></pre>
+<p><img src="2_krmh_main_models_files/figure-html/unnamed-chunk-38-1.png" /></p>
 </div>
 <div id="trace-plots-2" class="section level4">
 <h4>Trace plots</h4>

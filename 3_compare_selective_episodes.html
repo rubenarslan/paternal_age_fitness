@@ -277,16 +277,23 @@ for (i in <span class="kw">seq_along</span>(paths)) {
         effect_estimates =<span class="st"> </span><span class="kw">rbind</span>(chg, effect_estimates)
     }
 }
-effect_estimates$median_estimate =<span class="st"> </span><span class="kw">as.numeric</span>(effect_estimates$median_estimate)
+
 effect_estimates$episode =<span class="st"> </span><span class="kw">str_match</span>(effect_estimates$model, <span class="st">&quot;([em]</span><span class="ch">\\</span><span class="st">d)_&quot;</span>)[,<span class="dv">2</span>]
-eps =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;m3&quot;</span>=<span class="st">&#39;0. Number of children</span><span class="ch">\n</span><span class="st">(all)&#39;</span>, <span class="st">&quot;e1&quot;</span> =<span class="st"> &#39;1. Infant survival&#39;</span>, <span class="st">&quot;e2&quot;</span> =<span class="st"> &#39;2. Survival to 15&#39;</span>, <span class="st">&quot;e3&quot;</span> =<span class="st"> &#39;3. Ever married&#39;</span>, <span class="st">&quot;e4&quot;</span> =<span class="st"> &quot;4. Number of children</span><span class="ch">\n</span><span class="st">(conditional on ever marrying)&quot;</span>)
-effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(eps[effect_estimates$episode])
-effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(effect_estimates$episode, <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">levels</span>(effect_estimates$episode)))
-effect_estimates =<span class="st"> </span>effect_estimates %&gt;%<span class="st"> </span><span class="kw">arrange</span>(episode)
-effect_estimates$lower95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[ *(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
-effect_estimates$upper95 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_95, <span class="st">&quot;; *([-0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
-effect_estimates$lower80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">[ *(-?[0-9.]+);&quot;</span>)[,<span class="dv">2</span>])
-effect_estimates$upper80 =<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_match</span>(effect_estimates$ci_80, <span class="st">&quot;; *([-0-9.]+)]&quot;</span>)[,<span class="dv">2</span>])
+eps =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;m3&quot;</span> =<span class="st"> &#39;m3. Number of children</span><span class="ch">\n</span><span class="st">(all)&#39;</span>, 
+                <span class="st">&quot;e1&quot;</span> =<span class="st"> &#39;e1. Infant survival</span><span class="ch">\n</span><span class="st">(all)&#39;</span>, 
+                <span class="st">&quot;e2&quot;</span> =<span class="st"> &#39;e2. Survival to 15</span><span class="ch">\n</span><span class="st">(conditional on e1)&#39;</span>, 
+                <span class="st">&quot;e3&quot;</span> =<span class="st"> &#39;e3. Ever married</span><span class="ch">\n</span><span class="st">(conditional on e2)&#39;</span>, 
+                <span class="st">&quot;e4&quot;</span> =<span class="st"> &quot;e4. Number of children</span><span class="ch">\n</span><span class="st">(conditional on e3)&quot;</span>)
+effect_estimates$episode =<span class="st"> </span><span class="kw">factor</span>(eps[effect_estimates$episode], <span class="dt">levels =</span> <span class="kw">rev</span>(eps))
+
+effect_estimates =<span class="st"> </span>effect_estimates %&gt;%<span class="st"> </span><span class="kw">arrange</span>(episode) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">median_estimate =</span> <span class="kw">as.numeric</span>(median_estimate),
+        <span class="dt">lower95 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_split_fixed</span>(<span class="kw">str_sub</span>(ci_95, <span class="dv">2</span>, -<span class="dv">2</span>), <span class="dt">pattern =</span> <span class="st">&#39;;&#39;</span>, <span class="dv">2</span>)[,<span class="dv">1</span>]),
+        <span class="dt">upper95 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_split_fixed</span>(<span class="kw">str_sub</span>(ci_95, <span class="dv">2</span>, -<span class="dv">2</span>), <span class="dt">pattern =</span> <span class="st">&#39;;&#39;</span>, <span class="dv">2</span>)[,<span class="dv">2</span>]),
+        <span class="dt">lower80 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_split_fixed</span>(<span class="kw">str_sub</span>(ci_80, <span class="dv">2</span>, -<span class="dv">2</span>), <span class="dt">pattern =</span> <span class="st">&#39;;&#39;</span>, <span class="dv">2</span>)[,<span class="dv">1</span>]),
+        <span class="dt">upper80 =</span> <span class="kw">as.numeric</span>(<span class="kw">str_split_fixed</span>(<span class="kw">str_sub</span>(ci_80, <span class="dv">2</span>, -<span class="dv">2</span>), <span class="dt">pattern =</span> <span class="st">&#39;;&#39;</span>, <span class="dv">2</span>)[,<span class="dv">2</span>])
+    ) -&gt;<span class="st"> </span>effect_estimates
 
 pops =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;krmh&quot;</span>=<span class="st">&#39;Krummhörn&#39;</span>, <span class="st">&quot;rpqa&quot;</span> =<span class="st"> &#39;Québec&#39;</span>, <span class="st">&quot;ddb&quot;</span> =<span class="st"> &#39;Historical Sweden&#39;</span>, <span class="st">&quot;swed&quot;</span> =<span class="st"> &#39;20th-century Sweden&#39;</span>)
 effect_estimates$Population =<span class="st"> </span>pops[effect_estimates$population]
@@ -296,7 +303,7 @@ episode_comparison =<span class="st"> </span><span class="kw">ggplot</span>(effe
 <span class="st">    </span><span class="kw">geom_linerange</span>(<span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>)) +
 <span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> lower80, <span class="dt">ymax =</span> upper80), <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.4</span>)) +
 <span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) +
-<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) +
+<span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;&quot;</span>) +
 <span class="st">    </span>pop_colour +
 <span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Effect of 10 years of paternal age (in % change)&quot;</span>) +
 <span class="st">    </span><span class="kw">coord_flip</span>()    +<span class="st"> </span>
