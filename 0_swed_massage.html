@@ -969,7 +969,7 @@ swed &lt;-<span class="st"> </span><span class="kw">transform</span>(swed, <span
 <span class="kw">qplot</span>(swed$birthorder)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 60935 rows containing non-finite values (stat_bin).</code></pre>
-<p><img src="/Volumes/jet/paternal_age_genealogies/figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="1440px" height="900px" /></p>
+<p><img src="figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swed$younger_siblings =<span class="st"> </span>swed$siblings +<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>swed$birthorder</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swed =<span class="st"> </span>swed %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(idParents) %&gt;%
@@ -1013,7 +1013,7 @@ swed[ , first_sib_byear :<span class="er">=</span><span class="st"> </span><span
 swed[ , last_sib_byear :<span class="er">=</span><span class="st"> </span><span class="kw">ave</span>( byear, idParents, <span class="dt">FUN =</span> function(x)<span class="kw">max</span>(x,<span class="dt">na.rm=</span>T))  ]
 swed[, birth_span :<span class="er">=</span><span class="st"> </span>last_sib_byear -<span class="st"> </span>first_sib_byear]
 <span class="kw">hist</span>(swed$birth_span,<span class="dt">breaks =</span> <span class="dv">0</span>:<span class="dv">35</span>)</code></pre></div>
-<p><img src="/Volumes/jet/paternal_age_genealogies/figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" width="1440px" height="900px" /></p>
+<p><img src="figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" width="1440px" height="900px" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swed.mp =<span class="st"> </span>swed[!<span class="kw">is.na</span>(paternalage), ]
 swed<span class="fl">.1</span> =<span class="st"> </span>swed.mp[byear &gt;=<span class="st"> </span><span class="dv">1962-15</span>  &amp;<span class="st"> </span>byear &lt;=<span class="st"> </span><span class="dv">2009-50</span>, ]
 
